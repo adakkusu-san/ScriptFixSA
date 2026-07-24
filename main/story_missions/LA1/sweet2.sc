@@ -365,23 +365,11 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS	big_smoke_car
 					smoke_car_blip_removed = 0
 				ENDIF
 			ENDIF
-		ELSE
-			PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			GOTO mission_sweet2_failed
 		ENDIF
-	ELSE
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
 	ENDIF
 
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD	big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_car_checkup
+	GOSUB sweet2_smoke_checkup
 
 ENDWHILE
 
@@ -589,12 +577,6 @@ CLOSE_SEQUENCE_TASK smoke_sweet2_seq_2
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -607,12 +589,6 @@ CLOSE_SEQUENCE_TASK smoke_sweet2_seq_2
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-		
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 
 IF NOT IS_CHAR_DEAD	big_smoke
@@ -621,6 +597,8 @@ IF NOT IS_CHAR_DEAD	big_smoke
 	PERFORM_SEQUENCE_TASK big_smoke smoke_sweet2_seq_2
 	CLEAR_SEQUENCE_TASK	smoke_sweet2_seq_2
 ENDIF
+
+GOSUB sweet2_smoke_checkup
 
 refresh_char_weapon = 0
 
@@ -716,20 +694,9 @@ refresh_char_weapon = 0
 			ENDIF
 		ENDIF
 
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CAR_DEAD big_smoke_car
-			PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			GOTO mission_sweet2_failed
-		ENDIF
+		GOSUB sweet2_smoke_checkup
+		GOSUB sweet2_emmet_checkup
+		GOSUB sweet2_car_checkup
 
 	ENDWHILE
 
@@ -747,17 +714,6 @@ refresh_char_weapon = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -770,23 +726,15 @@ refresh_char_weapon = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-		
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-		
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 	IF NOT IS_CHAR_DEAD	emmet
 		CLEAR_CHAR_TASKS emmet
 		CLEAR_PRINTS
 		STOP_CHAR_FACIAL_TALK emmet
 	ENDIF
+
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_emmet_checkup
 
 	SET_PLAYER_CONTROL player1 OFF
 	CLEAR_WANTED_LEVEL player1
@@ -969,12 +917,6 @@ refresh_char_weapon = 0
 				IF Return_Progress = 3
 					WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 						WAIT 0
-
-						IF IS_CHAR_DEAD	big_smoke
-							PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-							GOTO mission_sweet2_failed
-						ENDIF
-
 					ENDWHILE
 
 					PLAY_MISSION_AUDIO 2
@@ -990,12 +932,6 @@ refresh_char_weapon = 0
 					ENDIF
 					WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 						WAIT 0
-						
-						IF IS_CHAR_DEAD	big_smoke
-							PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-							GOTO mission_sweet2_failed
-						ENDIF
-
 					ENDWHILE
 					IF NOT IS_CHAR_DEAD	big_smoke
 						CLEAR_PRINTS
@@ -1059,20 +995,9 @@ refresh_char_weapon = 0
 			tag_index = 0
 		ENDIF
 		
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CAR_DEAD big_smoke_car
-			PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			GOTO mission_sweet2_failed
-		ENDIF
+		GOSUB sweet2_smoke_checkup
+		GOSUB sweet2_emmet_checkup
+		GOSUB sweet2_car_checkup
 
 	ENDWHILE
 
@@ -1082,17 +1007,6 @@ refresh_char_weapon = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -1105,17 +1019,6 @@ refresh_char_weapon = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-		
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-		
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 	IF NOT IS_CHAR_DEAD	emmet
 		CLEAR_CHAR_TASKS emmet
@@ -1123,6 +1026,8 @@ refresh_char_weapon = 0
 		STOP_CHAR_FACIAL_TALK emmet
 	ENDIF
 
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_emmet_checkup
 
 	SET_PLAYER_CONTROL player1 OFF
 	CLEAR_WANTED_LEVEL player1
@@ -1326,12 +1231,6 @@ refresh_char_weapon = 0
 					IF played_smoke_samples = 0
 						WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 							WAIT 0
-
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 
 						PLAY_MISSION_AUDIO 1
@@ -1347,12 +1246,6 @@ refresh_char_weapon = 0
 
 						WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 							WAIT 0
-							
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 						
 
@@ -1374,12 +1267,6 @@ refresh_char_weapon = 0
 					IF played_smoke_samples = 1
 						WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 							WAIT 0
-
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 
 						PLAY_MISSION_AUDIO 2
@@ -1395,12 +1282,6 @@ refresh_char_weapon = 0
 
 						WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 							WAIT 0
-							
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 						
 
@@ -1429,12 +1310,6 @@ refresh_char_weapon = 0
 					IF played_smoke_samples = 2
 						WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 							WAIT 0
-
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 
 						PLAY_MISSION_AUDIO 1
@@ -1450,12 +1325,6 @@ refresh_char_weapon = 0
 
 						WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 							WAIT 0
-							
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 						
 						IF NOT IS_CHAR_DEAD	big_smoke
@@ -1475,12 +1344,6 @@ refresh_char_weapon = 0
 					IF played_smoke_samples = 3
 						WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 							WAIT 0
-
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 
 						PLAY_MISSION_AUDIO 2
@@ -1496,12 +1359,6 @@ refresh_char_weapon = 0
 
 						WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 							WAIT 0
-							
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 						LOAD_MISSION_AUDIO 2 SOUND_SWE3_ZZ	//Oh, man, check out ‘Special Agent Big Smoke’
 
@@ -1527,12 +1384,6 @@ refresh_char_weapon = 0
 					IF played_smoke_samples = 4
 						WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 							WAIT 0
-
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 
 						PLAY_MISSION_AUDIO 1
@@ -1548,12 +1399,6 @@ refresh_char_weapon = 0
 
 						WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 							WAIT 0
-							
-							IF IS_CHAR_DEAD	big_smoke
-								PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-								GOTO mission_sweet2_failed
-							ENDIF
-
 						ENDWHILE
 						
 						IF NOT IS_CHAR_DEAD	big_smoke
@@ -1566,12 +1411,6 @@ refresh_char_weapon = 0
 					//CJ's LINE
 					WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 						WAIT 0
-
-						IF IS_CHAR_DEAD	big_smoke
-							PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-							GOTO mission_sweet2_failed
-						ENDIF
-
 					ENDWHILE
 
 					PLAY_MISSION_AUDIO 2
@@ -1579,12 +1418,6 @@ refresh_char_weapon = 0
 
 					WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 						WAIT 0
-						
-						IF IS_CHAR_DEAD	big_smoke
-							PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-							GOTO mission_sweet2_failed
-						ENDIF
-
 					ENDWHILE
 
 					PRINT_NOW ( SWE2_I ) 10000 1 // Try Shooting the bottles while crouching
@@ -1653,20 +1486,9 @@ refresh_char_weapon = 0
 			tag_index = 0
 		ENDIF
 		
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CAR_DEAD big_smoke_car
-			PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			GOTO mission_sweet2_failed
-		ENDIF
+		GOSUB sweet2_smoke_checkup
+		GOSUB sweet2_emmet_checkup
+		GOSUB sweet2_car_checkup
 					
 	ENDWHILE
 
@@ -1674,17 +1496,6 @@ refresh_char_weapon = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -1697,17 +1508,6 @@ refresh_char_weapon = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-		
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-		
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
 	ENDWHILE
 	IF NOT IS_CHAR_DEAD	emmet
 		CLEAR_CHAR_TASKS emmet
@@ -1825,20 +1625,9 @@ refresh_char_weapon = 0
 			ENDIF
 		ENDIF
 
-		IF IS_CHAR_DEAD	big_smoke
-			PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CHAR_DEAD	emmet
-			PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-			GOTO mission_sweet2_failed
-		ENDIF
-
-		IF IS_CAR_DEAD big_smoke_car
-			PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			GOTO mission_sweet2_failed
-		ENDIF
+		GOSUB sweet2_smoke_checkup
+		GOSUB sweet2_emmet_checkup
+		GOSUB sweet2_car_checkup
 
 	ENDWHILE
 
@@ -1933,18 +1722,9 @@ WHILE NOT sweet2_index = 1
 			ENDIF
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -1961,26 +1741,9 @@ WHILE NOT sweet2_index = 2
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD big_smoke
-				//START_CHAR_FACIAL_TALK big_smoke 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -1988,89 +1751,35 @@ IF NOT IS_CHAR_DEAD big_smoke
 	STOP_CHAR_FACIAL_TALK big_smoke
 ENDIF
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 3
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD emmet
-				//START_CHAR_FACIAL_TALK emmet 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 4
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD big_smoke
-				//START_CHAR_FACIAL_TALK big_smoke 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 5
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD big_smoke
-				//START_CHAR_FACIAL_TALK big_smoke 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -2082,31 +1791,13 @@ IF NOT IS_CHAR_DEAD	big_smoke
 	//TASK_WALK_ALONGSIDE_CHAR scplayer big_smoke
 ENDIF
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 6
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD big_smoke
-				//START_CHAR_FACIAL_TALK big_smoke 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -2120,94 +1811,39 @@ SET_CHAR_HEADING scplayer 180.0
 CLEAR_CHAR_TASKS scplayer
 TASK_GO_STRAIGHT_TO_COORD scplayer 2452.6416 -1998.2188 12.5540 PEDMOVE_WALK 20000
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 7
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD emmet
-				//START_CHAR_FACIAL_TALK emmet 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
 SET_FIXED_CAMERA_POSITION 2453.5879 -1992.3597 14.7070 0.0 0.0 0.0
 POINT_CAMERA_AT_POINT 2453.5383 -1991.4121 14.3914 JUMP_CUT
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 8
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD emmet
-				//START_CHAR_FACIAL_TALK emmet 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 9
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF sweet2_cutscene_flag = 0
-		IF sweet2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD emmet
-				//START_CHAR_FACIAL_TALK emmet 20000
-				sweet2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
-sweet2_cutscene_flag = 0
 WHILE NOT sweet2_index = 10
 	WAIT 0
 
@@ -2221,18 +1857,9 @@ WHILE NOT sweet2_index = 10
 			ENDIF
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -2240,18 +1867,9 @@ WHILE NOT sweet2_index = 11
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -2277,18 +1895,9 @@ WHILE NOT sweet2_index = 12
 	WAIT 0
 
 	GOSUB load_and_play_audio_sweet2
-	IF IS_CHAR_DEAD	emmet
-		PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_emmet_checkup
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -2298,14 +1907,8 @@ IF NOT IS_CHAR_DEAD	big_smoke
 		OR NOT IS_CHAR_SITTING_IN_CAR big_smoke	big_smoke_car
 			WAIT 0
 
-			IF IS_CHAR_DEAD big_smoke
-				PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-				GOTO mission_sweet2_failed
-			ENDIF			
-			IF IS_CAR_DEAD big_smoke_car
-				PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-				GOTO mission_sweet2_failed
-			ENDIF
+			GOSUB sweet2_smoke_checkup
+			GOSUB sweet2_car_checkup
 
 		ENDWHILE
 	ENDIF
@@ -2317,14 +1920,8 @@ POINT_CAMERA_AT_POINT 2456.2307 -2000.0271 14.9470 JUMP_CUT
 WHILE NOT sweet2_index = 13
 	WAIT 0
 
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF			
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 	GOSUB load_and_play_audio_sweet2
 
@@ -2333,14 +1930,8 @@ ENDWHILE
 WHILE NOT sweet2_index = 14
 	WAIT 0
 
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF			
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 	GOSUB load_and_play_audio_sweet2
 
@@ -2525,23 +2116,11 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS	big_smoke_car
 					smoke_car_blip_removed = 0
 				ENDIF
 			ENDIF
-		ELSE
-			PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			GOTO mission_sweet2_failed
 		ENDIF
-	ELSE
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
 	ENDIF
 	
-	IF IS_CAR_DEAD big_smoke_car
-		PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-		GOTO mission_sweet2_failed
-	ENDIF
-	IF IS_CHAR_DEAD	big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
+	GOSUB sweet2_smoke_checkup
+	GOSUB sweet2_car_checkup
 
 ENDWHILE
 
@@ -2606,12 +2185,6 @@ LOAD_MISSION_AUDIO 3 SOUND_MOBRING
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-	
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 1
@@ -2620,12 +2193,6 @@ GOSUB start_talking_sweet2
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-	
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-
 ENDWHILE
 
 IF NOT IS_CHAR_DEAD	big_smoke
@@ -2635,12 +2202,6 @@ GOSUB stop_talking_sweet2
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 	WAIT 0
-
-	IF IS_CHAR_DEAD big_smoke
-		PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-		GOTO mission_sweet2_failed
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 2
@@ -2935,9 +2496,25 @@ stop_chars_look_at_targets:
 RETURN
 
 
-sweet2_death_check:
+sweet2_car_checkup:
+IF IS_CAR_DEAD big_smoke_car
+	PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
+	GOTO mission_sweet2_failed
+ENDIF
+RETURN
 
+sweet2_smoke_checkup:
+IF IS_CHAR_DEAD	big_smoke
+	PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
+	GOTO mission_sweet2_failed
+ENDIF
+RETURN
 
+sweet2_emmet_checkup:
+IF IS_CHAR_DEAD	emmet
+	PRINT_NOW (SWE2_K) 10000 1 //~r~Emmet is dead! 
+	GOTO mission_sweet2_failed
+ENDIF
 RETURN
 
 
@@ -2985,27 +2562,27 @@ RETURN
 
 get_back_in_the_car_sweet2:
 	
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 get_in_counter_sweet2
 
 	CLEAR_MISSION_AUDIO 2
-	IF get_in_counter_sweet2 = 0
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AA //Get in
-	ENDIF
-
-	IF get_in_counter_sweet2 = 1
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AB //In the ride!
-	ENDIF
-
-	IF get_in_counter_sweet2 = 2
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AC //Get in the car!
-	ENDIF
-
-	IF get_in_counter_sweet2 = 3   
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AD //Come on, playa, get in!
-	ENDIF
-
-	IF get_in_counter_sweet2 = 4   
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AE //Come on, wise man, get in the car!
-	ENDIF
+	SWITCH get_in_counter_sweet2
+	CASE 0
+		audio_sound_file = SOUND_SMOX_AA //Get in
+	BREAK
+	CASE 1
+		audio_sound_file = SOUND_SMOX_AB //In the ride!
+	BREAK
+	CASE 2
+		audio_sound_file = SOUND_SMOX_AC //Get in the car!
+	BREAK
+	CASE 3
+		audio_sound_file = SOUND_SMOX_AD //Come on, playa, get in!
+	BREAK
+	CASE 4
+		audio_sound_file = SOUND_SMOX_AE //Come on, wise man, get in the car!
+	BREAK
+	ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 
 	STOP_CHAR_FACIAL_TALK scplayer
@@ -3013,59 +2590,32 @@ get_back_in_the_car_sweet2:
 	CLEAR_MISSION_AUDIO 1
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
-		IF IS_CAR_DEAD big_smoke_car
-			//PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			//GOTO mission_sweet2_failed
-			RETURN
-		ENDIF
-		IF IS_CHAR_DEAD	big_smoke
-			//PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			//GOTO mission_sweet2_failed
-			RETURN
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2 
 	  	
-	IF get_in_counter_sweet2 = 0
-		PRINT_NOW ( SMOX_AA ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet2 = 1
-		PRINT_NOW ( SMOX_AB ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet2 = 2
-		PRINT_NOW ( SMOX_AC ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet2 = 3
-		PRINT_NOW ( SMOX_AD ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet2 = 4
-		PRINT_NOW ( SMOX_AE ) 3000 1 
-	ENDIF
+	SWITCH get_in_counter_sweet2
+	CASE 0
+		$audio_string = &SMOX_AA
+	BREAK
+	CASE 1
+		$audio_string = &SMOX_AB
+	BREAK
+	CASE 2
+		$audio_string = &SMOX_AC
+	BREAK
+	CASE 3
+		$audio_string = &SMOX_AD
+	BREAK
+	CASE 4
+		$audio_string = &SMOX_AE
+	BREAK
+	ENDSWITCH
+	PRINT_NOW ( $audio_string ) 3000 1
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-
-		IF IS_CAR_DEAD big_smoke_car
-			//PRINT_NOW (SWE2_C) 10000 1 //~r~Trashed smokes ride!
-			//GOTO mission_sweet2_failed
-			RETURN
-		ENDIF
-		IF IS_CHAR_DEAD	big_smoke
-			//PRINT_NOW (SWE2_B) 10000 1 //~r~Smoke is dead! 
-			//GOTO mission_sweet2_failed
-			RETURN
-		ENDIF
-
 	ENDWHILE
-
-	get_in_counter_sweet2 ++
-
-	IF get_in_counter_sweet2 > 4
-		get_in_counter_sweet2 = 0
-	ENDIF
 
 RETURN
 

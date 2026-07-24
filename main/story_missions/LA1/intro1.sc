@@ -1087,11 +1087,6 @@ REQUEST_ANIMATION MISC
 blob_flag = 1
 TIMERA = 0
 			
-IF IS_CHAR_DEAD	bmx_gang[2]
-	PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
-	GOTO mission_intro1_failed	
-ENDIF
-
 switch_traffic_back_on = 0
 
 killed_the_baller_cunts = 0
@@ -1298,22 +1293,6 @@ OR NOT LOCATE_CHAR_ANY_MEANS_3D bmx_gang[2] 1644.7734 -1051.3339 22.8984 10.0 12
 
 
 	// ***************************************************************************************************************
-
-
-	IF IS_CHAR_DEAD bmx_gang[0]
-		PRINT_NOW (INT2_F1) 10000 1 //~r~Smoke is dead!
-		GOTO mission_intro1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD bmx_gang[1]
-		PRINT_NOW (INT2_F3) 10000 1 //~r~Ryder is dead!
-		GOTO mission_intro1_failed
-	ENDIF
-	
-	IF IS_CHAR_DEAD bmx_gang[2]
-		PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
-		GOTO mission_intro1_failed
-	ENDIF
 
 ENDWHILE
 
@@ -1606,10 +1585,6 @@ IF IS_CAR_DEAD players_bmx
 	GOTO mission_intro1_failed	
 ENDIF
 
-IF IS_CHAR_DEAD bmx_gang[1]
-	GOTO mission_intro1_failed	
-ENDIF
-
 IF NOT IS_CAR_DEAD players_bmx
 	IF IS_CHAR_IN_CAR scplayer players_bmx
 		blob_flag = 1
@@ -1788,7 +1763,8 @@ OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer bmx_gang[1] 60.0 60.0 20.0 FALSE
 
 	ENDIF
 
-	IF set_up_smokes_audio = 0
+	SWITCH set_up_smokes_audio
+	CASE 0
 		IF TIMERA > 1500
 			IF NOT IS_CHAR_DEAD bmx_gang[1]
 				IF NOT IS_CAR_DEAD bmx_bikes[1]
@@ -1804,8 +1780,8 @@ OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer bmx_gang[1] 60.0 60.0 20.0 FALSE
 		IF intro1_index > 1
 			set_up_smokes_audio = 1
 		ENDIF
-	ELSE
-		IF set_up_smokes_audio = 1
+	BREAK
+	CASE 1
 			intro1_index = 0
 			intro1_audio_is_playing = 0
 			intro1_cutscene_flag = 0
@@ -1814,8 +1790,8 @@ OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer bmx_gang[1] 60.0 60.0 20.0 FALSE
 			GOSUB intro1_chat_switch
 			TIMERA = 0
 			set_up_smokes_audio = 2
-		ENDIF
-		IF set_up_smokes_audio = 2
+		BREAK
+		CASE 2
 			IF TIMERA > 1500
 				IF NOT IS_CHAR_DEAD bmx_gang[0]
 					IF NOT IS_CAR_DEAD bmx_bikes[0]
@@ -1831,25 +1807,8 @@ OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer bmx_gang[1] 60.0 60.0 20.0 FALSE
 			IF intro1_index > 2
 				set_up_smokes_audio = 3
 			ENDIF
-		ENDIF
-	ENDIF
-
-	IF IS_CHAR_DEAD bmx_gang[0]
-		PRINT_NOW (INT2_F1) 10000 1 //~r~Smoke is dead!
-		GOTO mission_intro1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD bmx_gang[1]
-		PRINT_NOW (INT2_F3) 10000 1 //~r~Ryder is dead!
-		GOTO mission_intro1_failed
-	ENDIF
-	
-	IF flag_the_drive_by_car_is_dead = 1
-		IF IS_CHAR_DEAD bmx_gang[2]
-			PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
-			GOTO mission_intro1_failed
-		ENDIF
-	ENDIF
+		BREAK
+	ENDSWITCH
 
 ENDWHILE
 
@@ -2529,10 +2488,29 @@ mission_cleanup_intro1:
 
 RETURN
 
-
-
+bmx_checkup:
+IF IS_CHAR_DEAD bmx_gang[0]
+	PRINT_NOW (INT2_F1) 10000 1 //~r~Smoke is dead!
+	failed_mission = 1
+ENDIF
+IF IS_CHAR_DEAD bmx_gang[1]
+	PRINT_NOW (INT2_F3) 10000 1 //~r~Ryder is dead!
+	failed_mission = 1
+ENDIF
+IF NOT switch_traffic_back_on = 2
+	IF IS_CHAR_DEAD bmx_gang[2]
+		PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
+		failed_mission = 1
+	ENDIF
+ENDIF
+IF failed_mission = 1
+	GOTO mission_intro1_failed
+ENDIF
+RETURN
 
 bmx_gang_death_check:
+
+GOSUB bmx_checkup
 
 	IF NOT IS_CAR_DEAD players_bmx
 		IF IS_CHAR_IN_CAR scplayer players_bmx
@@ -2663,15 +2641,9 @@ bmx_gang_death_check:
 				intro_blip2_flag_on_bike = 0
 			ENDIF
 		ENDIF
-	ELSE
-		PRINT_NOW (INT2_F4) 10000 1 //Your BMX is trashed!
-		failed_mission = 1	
 	ENDIF
 
-	IF IS_CHAR_DEAD bmx_gang[0]
-		PRINT_NOW (INT2_F1) 10000 1 //~r~Smoke is dead!
-		failed_mission = 1
-	ELSE
+	IF NOT IS_CHAR_DEAD bmx_gang[0]
 		IF bmx_rider_on_bike1 = 0
 			IF NOT IS_CHAR_DEAD bmx_gang[0]
 				IF NOT IS_CAR_DEAD bmx_bikes[0]
@@ -2686,10 +2658,7 @@ bmx_gang_death_check:
 		ENDIF
 	ENDIF
 
-	IF IS_CHAR_DEAD bmx_gang[1]
-		PRINT_NOW (INT2_F3) 10000 1 //~r~Ryder is dead!
-		failed_mission = 1
-	ELSE
+	IF NOT IS_CHAR_DEAD bmx_gang[1]
 		IF bmx_rider_on_bike3 = 0
 			IF NOT IS_CHAR_DEAD bmx_gang[1]
 				IF NOT IS_CAR_DEAD bmx_bikes[1]
@@ -2705,10 +2674,7 @@ bmx_gang_death_check:
 	ENDIF
 	
 	IF NOT switch_traffic_back_on = 2
-		IF IS_CHAR_DEAD bmx_gang[2]
-			PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
-			failed_mission = 1
-		ELSE
+		IF NOT IS_CHAR_DEAD bmx_gang[2]
 			IF bmx_rider_on_bike2 = 0
 				IF NOT IS_CHAR_DEAD bmx_gang[2]
 					IF NOT IS_CAR_DEAD bmx_bikes[2]
@@ -2814,37 +2780,45 @@ RETURN
 
 get_back_in_bike_group:
 						  
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 get_in_counter_intro1
+
 	CLEAR_MISSION_AUDIO 2
 	IF switch_traffic_back_on = 1
 		IF play_catch_up_audio = 1 //SWEET
-			IF get_in_counter_intro1 = 0		   
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EA //Move it, CJ, move it!
-			ENDIF
-			IF get_in_counter_intro1 = 1
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EB //Keep up, CJ!
-			ENDIF
-			IF get_in_counter_intro1 = 2
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EC //C’mon, CJ, pedal like a motherfucker!
-			ENDIF
-			IF get_in_counter_intro1 = 3   
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_DB //Move it, CJ, not far to the Grove!
-			ENDIF
+			SWITCH get_in_counter_intro1
+			CASE 0
+				audio_sound_file = SOUND_INT1_EA //Move it, CJ, move it!
+			BREAK
+			CASE 1
+				audio_sound_file = SOUND_INT1_EB //Keep up, CJ!
+			BREAK
+			CASE 2
+				audio_sound_file = SOUND_INT1_EC //C’mon, CJ, pedal like a motherfucker!
+			BREAK
+			CASE 3
+				audio_sound_file = SOUND_INT1_DB //Move it, CJ, not far to the Grove!
+			BREAK
+			ENDSWITCH
+			LOAD_MISSION_AUDIO 2 audio_sound_file
 		ENDIF
 	ENDIF
 	IF switch_traffic_back_on = 2
 		IF play_catch_up_audio = 1 //RYDER
-			IF get_in_counter_intro1 = 0
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EH //Move it, CJ - you’re embarrassing us, nigga!
-			ENDIF
-			IF get_in_counter_intro1 = 1
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EG //What’s the matter, fool? You tired?
-			ENDIF
-			IF get_in_counter_intro1 = 2
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EI //keep up, motherfucker!
-			ENDIF
-			IF get_in_counter_intro1 = 3
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_FG //Typical, CJ! Leaving the homies behind, huh?
-			ENDIF 
+			SWITCH get_in_counter_intro1
+			CASE 0
+				audio_sound_file = SOUND_INT1_EH //Move it, CJ - you’re embarrassing us, nigga!
+			BREAK
+			CASE 1
+				audio_sound_file = SOUND_INT1_EG //What’s the matter, fool? You tired?
+			BREAK
+			CASE 2
+				audio_sound_file = SOUND_INT1_EI //keep up, motherfucker!
+			BREAK
+			CASE 3
+				audio_sound_file = SOUND_INT1_FG //Typical, CJ! Leaving the homies behind, huh?
+			BREAK
+			ENDSWITCH
+			LOAD_MISSION_AUDIO 2 audio_sound_file
 		ENDIF
 	ENDIF
 	
@@ -2858,43 +2832,44 @@ get_back_in_bike_group:
 	PLAY_MISSION_AUDIO 2 
 	IF switch_traffic_back_on = 1
 		IF play_catch_up_audio = 1 //SWEET  	
-			IF get_in_counter_intro1 = 0	 
-				PRINT_NOW ( INT1_EA ) 3000 1 //Move it, CJ, move it!
-			ENDIF								
-			IF get_in_counter_intro1 = 1	
-				PRINT_NOW ( INT1_EB ) 3000 1 //Keep up, CJ!
-			ENDIF							   	 
-			IF get_in_counter_intro1 = 2	
-				PRINT_NOW ( INT1_EC ) 3000 1 //C’mon, CJ, pedal like a motherfucker!
-			ENDIF						 	   
-			IF get_in_counter_intro1 = 3	
-				PRINT_NOW ( INT1_BD ) 3000 1 //Move it, CJ, not far to the Grove!
-			ENDIF						   
+			SWITCH get_in_counter_intro1
+			CASE 0
+				$audio_string = &INT1_EA //Move it, CJ, move it!
+			BREAK
+			CASE 1
+				$audio_string = &INT1_EB //Keep up, CJ!
+			BREAK
+			CASE 2
+				$audio_string = &INT1_EC //C’mon, CJ, pedal like a motherfucker!
+			BREAK
+			CASE 3
+				$audio_string = &INT1_BD //Move it, CJ, not far to the Grove!
+			BREAK
+			ENDSWITCH
+			PRINT_NOW ( $audio_string ) 3000 1
 		ENDIF
 	ENDIF
 	IF switch_traffic_back_on = 2
 		IF play_catch_up_audio = 1 //RYDER
-			IF get_in_counter_intro1 = 0  
-				PRINT_NOW ( INT1_EH ) 3000 1 //Move it, CJ - you’re embarrassing us, nigga!	
-			ENDIF
-			IF get_in_counter_intro1 = 1	 
-				PRINT_NOW ( INT1_EG ) 3000 1 //What’s the matter, fool? You tired?
-			ENDIF							 						   	 
-			IF get_in_counter_intro1 = 2	
-				PRINT_NOW ( INT1_EI ) 3000 1 //I said keep up, motherfucker!
-			ENDIF
-			IF get_in_counter_intro1 = 3
-				PRINT_NOW ( INT1_FG ) 3000 1 //Typical, CJ! Leaving the homies behind, huh?
-			ENDIF 	   
+			SWITCH get_in_counter_intro1
+			CASE 0
+				$audio_string = &INT1_EH //Move it, CJ - you’re embarrassing us, nigga!	
+			BREAK
+			CASE 1
+				$audio_string = &INT1_EG //What’s the matter, fool? You tired?
+			BREAK
+			CASE 2
+				$audio_string = &INT1_EI //I said keep up, motherfucker!
+			BREAK
+			CASE 3
+				$audio_string = &INT1_FG //Typical, CJ! Leaving the homies behind, huh?
+			BREAK
+			ENDSWITCH
+			PRINT_NOW ( $audio_string ) 3000 1
 		ENDIF
 	ENDIF
 
 	GOSUB finish_any_audio
-
-	get_in_counter_intro1 ++
-	IF get_in_counter_intro1 > 3
-		get_in_counter_intro1 = 0
-	ENDIF
 
 	TIMERA = 0
 
@@ -2903,21 +2878,26 @@ RETURN
 
 get_back_in_bike_group_smoke:
 						  
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 get_in_counter_intro1_2
+
 	CLEAR_MISSION_AUDIO 2
 	IF switch_traffic_back_on = 2
 		IF play_catch_up_audio_smoke = 1 //SMOKE
-			IF get_in_counter_intro1_2 = 0
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EJ //What’s matter, CJ?  Can’t keep up with the fat man?
-			ENDIF
-			IF get_in_counter_intro1_2 = 1
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_ED //C’mon man, you gotta keep up!
-			ENDIF
-			IF get_in_counter_intro1_2 = 2
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EE //Keep up, CJ!
-			ENDIF
-			IF get_in_counter_intro1_2 = 3
-				LOAD_MISSION_AUDIO 2 SOUND_INT1_EF //Don’t lose us, CJ!
-			ENDIF
+			SWITCH get_in_counter_intro1
+			CASE 0
+				audio_sound_file = SOUND_INT1_EJ //What’s matter, CJ?  Can’t keep up with the fat man?
+			BREAK
+			CASE 1
+				audio_sound_file = SOUND_INT1_ED //C’mon man, you gotta keep up!
+			BREAK
+			CASE 2
+				audio_sound_file = SOUND_INT1_EE //Keep up, CJ!
+			BREAK
+			CASE 3
+				audio_sound_file = SOUND_INT1_EF //Don’t lose us, CJ!
+			BREAK
+			ENDSWITCH
+			LOAD_MISSION_AUDIO 2 audio_sound_file
 		ENDIF
 	ENDIF
 
@@ -2931,27 +2911,25 @@ get_back_in_bike_group_smoke:
 	PLAY_MISSION_AUDIO 2 
 	IF switch_traffic_back_on = 2
 		IF play_catch_up_audio_smoke = 1 //SMOKE
-			IF get_in_counter_intro1_2 = 0   	
-				PRINT_NOW ( INT1_EJ ) 3000 1 //What’s matter, CJ?  Can’t keep up with the fat man? 
-			ENDIF
-			IF get_in_counter_intro1_2 = 1	 
-				PRINT_NOW ( INT1_ED ) 3000 1 //C’mon man, you gotta keep up!
-			ENDIF								
-			IF get_in_counter_intro1_2 = 2  	
-				PRINT_NOW ( INT1_EE ) 3000 1 //Keep up, CJ! 
-			ENDIF							 
-			IF get_in_counter_intro1_2 = 3  	
-				PRINT_NOW ( INT1_EF ) 3000 1 //Don’t lose us, CJ! 
-			ENDIF			 	 
+			SWITCH get_in_counter_intro1
+			CASE 0
+				$audio_string = &INT1_EJ //What’s matter, CJ?  Can’t keep up with the fat man? 
+			BREAK
+			CASE 1
+				$audio_string = &INT1_ED //C’mon man, you gotta keep up!
+			BREAK
+			CASE 2
+				$audio_string = &INT1_EE //Keep up, CJ! 
+			BREAK
+			CASE 3
+				$audio_string = &INT1_EF //Don’t lose us, CJ! 
+			BREAK
+			ENDSWITCH
+			PRINT_NOW ( $audio_string ) 3000 1
 		ENDIF
 	ENDIF
 
 	GOSUB finish_any_audio
-
-	get_in_counter_intro1_2 ++
-	IF get_in_counter_intro1_2 > 3
-		get_in_counter_intro1_2 = 0
-	ENDIF
 
 	TIMERA = 0
 
@@ -2963,28 +2941,7 @@ load_any_audio:
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
 	
-		IF IS_CAR_DEAD players_bmx
-		ENDIF
-
-		IF IS_CHAR_DEAD bmx_gang[0]
-			PRINT_NOW (INT2_F1) 10000 1 //~r~Smoke is dead!
-			failed_mission = 1
-			RETURN
-		ENDIF
-
-		IF IS_CHAR_DEAD bmx_gang[1]
-			PRINT_NOW (INT2_F3) 10000 1 //~r~Ryder is dead!
-			failed_mission = 1
-			RETURN
-		ENDIF
-		
-		IF NOT switch_traffic_back_on = 2
-			IF IS_CHAR_DEAD bmx_gang[2]
-				PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
-				failed_mission = 1
-				RETURN
-			ENDIF
-		ENDIF
+	GOSUB bmx_checkup
 
 		IF switch_traffic_back_on = 1
 			IF NOT IS_CHAR_DEAD bmx_gang[2]
@@ -3013,28 +2970,8 @@ finish_any_audio:
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
 
-		IF IS_CAR_DEAD players_bmx
-		ENDIF
+	GOSUB bmx_checkup
 
-		IF IS_CHAR_DEAD bmx_gang[0]
-			PRINT_NOW (INT2_F1) 10000 1 //~r~Smoke is dead!
-			failed_mission = 1
-			RETURN
-		ENDIF
-
-		IF IS_CHAR_DEAD bmx_gang[1]
-			PRINT_NOW (INT2_F3) 10000 1 //~r~Ryder is dead!
-			failed_mission = 1
-			RETURN
-		ENDIF
-		
-		IF NOT switch_traffic_back_on = 2
-			IF IS_CHAR_DEAD bmx_gang[2]
-				PRINT_NOW (INT2_F2) 10000 1 //~r~Sweet is dead!
-				failed_mission = 1
-				RETURN
-			ENDIF
-		ENDIF
 		IF switch_traffic_back_on = 1
 			IF NOT IS_CHAR_DEAD bmx_gang[2]
 				IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1644.7734 -1051.3339 22.8984 10.0 12.0 20.0 FALSE

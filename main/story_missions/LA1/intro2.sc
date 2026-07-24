@@ -340,29 +340,8 @@ RESTORE_CAMERA_JUMPCUT
 
 DO_FADE 1000 FADE_IN
 
-
-IF IS_CAR_DEAD ryder_car
-	GOTO mission_intro2_failed
-ENDIF
-
-IF IS_CHAR_DEAD ryder
-	GOTO mission_intro2_failed
-ENDIF
-
-
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 1
@@ -370,17 +349,6 @@ PRINT_NOW ( INT2_AA ) 10000 1 // Show me how they drive on the East Coast, homie
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-	
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
 ENDWHILE
 
 
@@ -396,16 +364,6 @@ CLEAR_THIS_PRINT INT2_1
 
     PRINT_NOW ( INT2_6 ) 6000 1  // ~s~Get in ~b~Ryder's car~s~!
 	
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
 flag_player_on_menace_mission = 1
 
 WHILE NOT LOCATE_CAR_3D ryder_car 2077.84 -1792.59 12.38 4.0 4.0 4.0 blob_flag
@@ -426,17 +384,9 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 		ENDIF
 	ENDIF
 
-	IF IS_CHAR_DEAD ryder
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
+	GOSUB ryder_checkup
 
-	IF IS_CAR_DEAD ryder_car
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ELSE
+	IF NOT IS_CAR_DEAD ryder_car
 		IF IS_CHAR_IN_CAR scplayer ryder_car
 			IF ryders_car_blip_removed = 0
 				REMOVE_BLIP ryders_car_blip
@@ -472,19 +422,6 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 			ENDIF
 		ENDIF
 	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CAR_DEAD ryder_car
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
 
 ENDWHILE
 
@@ -558,15 +495,7 @@ WHILE flag_changed_hair_intro2 = 0
 OR NOT LOCATE_CHAR_ON_FOOT_3D scplayer 2072.11 -1793.80 12.56 10.0 10.0 3.0 FALSE
 	WAIT 0
 
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
+	GOSUB ryder_checkup
 	
 	IF stop_playing_ryder_audio = 0
 		IF NOT IS_CHAR_DEAD ryder
@@ -606,13 +535,6 @@ OR NOT LOCATE_CHAR_ON_FOOT_3D scplayer 2072.11 -1793.80 12.56 10.0 10.0 3.0 FALS
 		ENDIF
 	ENDIF
 
-	IF flag_changed_hair_intro2 = 0
-		IF flag_attacked_barber = 1
-			PRINT_NOW ( INT2_14 ) 10000 1 //You've freaked out the shop keeper.
-			GOTO mission_intro2_failed
-		ENDIF
-	ENDIF
-
 ENDWHILE
 /*
 REMOVE_PRICE_MODIFIER afro haircuts
@@ -644,22 +566,14 @@ TASK_STAND_STILL scplayer 10
 
 WHILE NOT HAS_ANIMATION_LOADED SHOP
 	WAIT 0
-	DO_FADE 0 FADE_OUT
 ENDWHILE
 
-IF NOT IS_CAR_DEAD ryder_car
-	IF NOT IS_CHAR_DEAD	ryder
-		
+GOSUB ryder_checkup
+
 		//CREATE_FX_SYSTEM_ON_OBJECT cigarette_smoke ryders_ciggy 0.0 0.0 0.115 TRUE smoke_effect
 		//PLAY_FX_SYSTEM smoke_effect
 		WHILE IS_CAR_WAITING_FOR_WORLD_COLLISION ryder_car
 			WAIT 0
-
-			IF IS_CAR_DEAD ryder_car
-				PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-				GOTO mission_intro2_failed
-			ENDIF
-			DO_FADE 0 FADE_OUT
 		ENDWHILE
 
 		IF NOT IS_CHAR_DEAD	ryder
@@ -687,14 +601,6 @@ IF NOT IS_CAR_DEAD ryder_car
 		FIX_CAR_DOOR ryder_car FRONT_RIGHT_DOOR
 		CLOSE_ALL_CAR_DOORS	ryder_car	 
 		LOCK_CAR_DOORS ryder_car CARLOCK_LOCKOUT_PLAYER_ONLY
-	ELSE
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed	
-	ENDIF
-ELSE
-	PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-	GOTO mission_intro2_failed
-ENDIF
 
 
 TIMERA = 0
@@ -707,14 +613,14 @@ ENDWHILE
 
 CLEAR_PRINTS
 
-IF NOT IS_CHAR_DEAD	ryder
 	OPEN_SEQUENCE_TASK player_sequence_1
 		TASK_GO_STRAIGHT_TO_COORD -1 2075.53 -1796.32 12.55 PEDMOVE_WALK 10000
 		CLEAR_LOOK_AT -1
+IF NOT IS_CHAR_DEAD	ryder
 		TASK_LOOK_AT_CHAR -1 ryder 4500
+ENDIF
 		//TASK_ACHIEVE_HEADING -1 270.0
 	CLOSE_SEQUENCE_TASK player_sequence_1
-ENDIF
 
 PERFORM_SEQUENCE_TASK scplayer player_sequence_1
 CLEAR_SEQUENCE_TASK	player_sequence_1
@@ -741,9 +647,7 @@ GOSUB intro2_chat_switch
 TIMERA = 0
 WHILE NOT TIMERA > 1700
 	WAIT 0
-	
 	GOSUB smoke_a_blunt
-
 ENDWHILE
 
 IF can_skip_smoking_cutscene = 1
@@ -765,6 +669,8 @@ ENDIF
 		STOP_CHAR_FACIAL_TALK ryder
 	ENDIF
 
+intro2_cutscene_flag = 0
+
 IF IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD tash
 OR IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD goatee
 OR IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD beard
@@ -774,17 +680,9 @@ OR IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD flattop
 	LOAD_MISSION_AUDIO 1 SOUND_INT2_DA //SHIT! I told you he was insane.
 	LOAD_MISSION_AUDIO 2 SOUND_INT2_DB //You look lousy
 				
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-			ENDIF
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -793,17 +691,9 @@ OR IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD flattop
 		START_CHAR_FACIAL_TALK ryder 2000
 	ENDIF
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-			ENDIF
-		ENDIF
-
 	ENDWHILE
 	IF NOT IS_CHAR_DEAD ryder
 		STOP_CHAR_FACIAL_TALK ryder
@@ -814,17 +704,9 @@ OR IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD flattop
 
 	WAIT 1000
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-			ENDIF
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2
@@ -833,38 +715,19 @@ OR IS_PLAYER_WEARING Player1 CLOTHES_TEX_HEAD flattop
 		START_CHAR_FACIAL_TALK ryder 2000
 	ENDIF
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-			ENDIF
-		ENDIF
-
 	ENDWHILE
-	IF NOT IS_CHAR_DEAD ryder
-		STOP_CHAR_FACIAL_TALK ryder
-	ENDIF
   
 ELSE
 
 	LOAD_MISSION_AUDIO 1 SOUND_INT2_EA	//I take it back, Old Reece still got it.
 //	LOAD_MISSION_AUDIO 2 SOUND_INT2_EB	//Word. // FIXEDGROVE: comment, this line doesn't exist
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-			ENDIF
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -873,18 +736,9 @@ ELSE
 		START_CHAR_FACIAL_TALK ryder 2000
 	ENDIF
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				
-			ENDIF
-		ENDIF
-
 	ENDWHILE
 	IF NOT IS_CHAR_DEAD ryder
 		STOP_CHAR_FACIAL_TALK ryder
@@ -896,19 +750,10 @@ ELSE
 	/*
 	WAIT 1000 // FIXEDGROVE: comment out
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
 		GOSUB smoke_a_blunt
-			
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-			ENDIF
-		ENDIF
-
 	ENDWHILE
-
 
 	PLAY_MISSION_AUDIO 2
 	PRINT_NOW ( INT2_EB ) 10000 1 //Word.
@@ -916,22 +761,10 @@ ELSE
 		START_CHAR_FACIAL_TALK ryder 3000
 	ENDIF
 
-	intro2_cutscene_flag = 0
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-		
 		GOSUB smoke_a_blunt
-		
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				
-			ENDIF
-		ENDIF
-
 	ENDWHILE
-	IF NOT IS_CHAR_DEAD ryder
-		STOP_CHAR_FACIAL_TALK ryder
-	ENDIF
 	*/
 ENDIF
 	
@@ -943,37 +776,18 @@ ENDIF
 TIMERA = 0
 WHILE NOT TIMERA > 1000
 	WAIT 0
-	
 	GOSUB smoke_a_blunt
-
 ENDWHILE
-
-IF NOT IS_CHAR_DEAD ryder
-	STOP_CHAR_FACIAL_TALK ryder
-ENDIF
 
 IF NOT IS_CHAR_DEAD ryder
 	CLEAR_LOOK_AT ryder
 	TASK_LOOK_AT_COORD ryder 2102.0 -1806.0 14.0 3000
-	//START_CHAR_FACIAL_TALK ryder 2000
 ENDIF
-intro2_cutscene_flag = 0
 WHILE NOT intro2_index = 1 //Shit looks ridiculous.
 	WAIT 0
-
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
 		GOSUB smoke_a_blunt
-
 ENDWHILE
-//IF NOT IS_CHAR_DEAD ryder
-	//STOP_CHAR_FACIAL_TALK ryder
-//ENDIF
 
 
 CLEAR_LOOK_AT scplayer
@@ -989,64 +803,30 @@ TASK_LOOK_AT_COORD scplayer 2102.0 -1806.0 14.0 3000
     CAMERA_SET_VECTOR_TRACK 2077.1672 -1795.7289 14.1884 2075.9734 -1798.7341 14.5649 12000 TRUE
 
 
-intro2_cutscene_flag = 0
 WHILE NOT intro2_index = 2 //No respect for the neighbourhood, all clean and shit.
 	WAIT 0
-
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD ryder
-					//START_CHAR_FACIAL_TALK ryder 2000
-				ENDIF
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
 		GOSUB smoke_a_blunt
-
 ENDWHILE
-//IF NOT IS_CHAR_DEAD ryder
-	//STOP_CHAR_FACIAL_TALK ryder
-//ENDIF
 
 TIMERB = 0
 
-intro2_cutscene_flag = 0
 WHILE NOT intro2_index = 3 //You're looking too skinny, CJ.
 	WAIT 0
-
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD ryder
-					//START_CHAR_FACIAL_TALK ryder 2000
-				ENDIF
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
 		GOSUB smoke_a_blunt
-
 ENDWHILE
-//IF NOT IS_CHAR_DEAD ryder
-	//STOP_CHAR_FACIAL_TALK ryder
-//ENDIF
 
-intro2_cutscene_flag = 0
 WHILE NOT intro2_index = 4 //Go in and get some food - I'm going to finish this.
 	WAIT 0
-
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD ryder
-					//START_CHAR_FACIAL_TALK ryder 2000
-				ENDIF
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
 		GOSUB smoke_a_blunt
-
 ENDWHILE
+
+// FIXEDGROVE: START - needed to be able to show the HUD properly
+SWITCH_WIDESCREEN OFF
+DISPLAY_RADAR OFF
+// FIXEDGROVE: END
 
 WHILE NOT TIMERB > 18000
 	WAIT 0
@@ -1067,6 +847,11 @@ WHILE NOT TIMERB > 18000
 		ENDIF
 
 ENDWHILE
+
+// FIXEDGROVE: START - restore them back
+SWITCH_WIDESCREEN ON
+DISPLAY_RADAR ON
+// FIXEDGROVE: START
 
 IF can_skip_smoking_cutscene = 1
 	SKIP_CUTSCENE_END
@@ -1116,15 +901,7 @@ OR NOT flag_menace_buyfood = 3
 		ENDIF
 	ENDIF
 
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 	GOSUB smoke_a_blunt
 
@@ -1148,9 +925,9 @@ OR NOT flag_menace_buyfood = 3
 		ENDIF
 	ENDIF
 
-	IF NOT IS_CHAR_DEAD ryder
-		IF NOT IS_CAR_DEAD ryder_car
-			IF ryders_car_moved = 0
+	IF ryders_car_moved = 0
+		IF NOT IS_CHAR_DEAD ryder
+			IF NOT IS_CAR_DEAD ryder_car
 				IF NOT LOCATE_CAR_3D ryder_car 2078.09 -1796.20 12.38 0.2 0.2 2.0 FALSE
 				OR NOT IS_CHAR_HEALTH_GREATER ryder 499
 					TASK_ENTER_CAR_AS_PASSENGER ryder ryder_car 20000 0	
@@ -1191,11 +968,6 @@ OR NOT flag_menace_buyfood = 3
 		ENDIF
 	ENDIF
 	
-	IF flag_attacked_keeper_food = 1
-		PRINT_NOW ( INT2_14 ) 10000 1 //You've freaked out the shop keeper.
-		GOTO mission_intro2_failed
-	ENDIF
-
 ENDWHILE
 
 
@@ -1219,23 +991,9 @@ OR NOT HAS_MODEL_LOADED WMYPIZZ
 OR NOT HAS_MODEL_LOADED COLT45
 OR NOT HAS_MODEL_LOADED CHROMEGUN
 	WAIT 0
-
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car.
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF flag_attacked_keeper_food = 1
-		PRINT_NOW ( INT2_14 ) 10000 1 //You've freaked out the shop keeper.
-		GOTO mission_intro2_failed
-	ENDIF
-
 ENDWHILE
+
+GOSUB ryder_checkup
 
 IF NOT IS_CHAR_DEAD ryder
 	DROP_OBJECT ryder TRUE
@@ -1376,20 +1134,7 @@ WHILE NOT LOCATE_CHAR_ANY_MEANS_3D ryder 375.2 -119.8 1000.5 0.4 0.6 2.0 FALSE
 		ENDIF
     ENDIF     
 
-	IF IS_CAR_DEAD ryder_car
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-	
-	IF flag_attacked_keeper_food = 1
-		PRINT_NOW ( INT2_14 ) 10000 1 //You've freaked out the shop keeper.
-		GOTO mission_intro2_failed
-	ENDIF
+	GOSUB ryder_checkup
 	
 	IF player_chats_a_bit = 0
 		IF TIMERA > 1000
@@ -1633,26 +1378,15 @@ skipped_cutscene = 1 // was skipped_pizza_cutscene
 SKIP_CUTSCENE_END
 
 IF skipped_cutscene = 0 // was skipped_pizza_cutscene
-
 	DO_FADE 0 FADE_OUT //End cutscene
-
-	CLEAR_PRINTS
-
-	WHILE GET_FADING_STATUS
-		WAIT 0
-	ENDWHILE
-
 ELSE
-
 	DO_FADE 500 FADE_OUT //End cutscene
+ENDIF
 
 	CLEAR_PRINTS
-
 	WHILE GET_FADING_STATUS
 		WAIT 0
 	ENDWHILE
-
-ENDIF
 
 CAMERA_RESET_NEW_SCRIPTABLES
 
@@ -1676,17 +1410,7 @@ IF NOT IS_CHAR_DEAD ryder
 		SET_CAR_COORDINATES ryder_car 2077.57 -1796.41 12.0
 		SET_CAR_HEADING ryder_car 180.0
 		SET_CAR_HEALTH ryder_car 1000
-		/*
-		WHILE IS_CAR_WAITING_FOR_WORLD_COLLISION ryder_car
-			WAIT 0
 
-			IF IS_CAR_DEAD ryder_car
-				PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-				GOTO mission_intro2_failed
-			ENDIF
-			DO_FADE 0 FADE_OUT
-		ENDWHILE
-		*/
 		CLEAR_AREA 2098.61 -1801.62 12.39 100.0 TRUE
 		SET_CHAR_COORDINATES ryder 2092.61 -1801.62 12.39
 		SET_CHAR_HEADING ryder 72.0
@@ -1716,9 +1440,9 @@ ryders_car_blip_removed = 0
 
 PRINT_NOW ( INT2_6 ) 10000 1  // ~s~Get in ~b~Ryder's car~s~!
 
-IF IS_CHAR_DEAD ryder
-	GOTO mission_intro2_failed
-ELSE
+GOSUB ryder_checkup
+
+IF NOT IS_CHAR_DEAD ryder
 	SET_CHAR_HEALTH ryder 500
 	SET_CHAR_MAX_HEALTH	ryder 500
 	ADD_BLIP_FOR_CHAR ryder ryders_blip
@@ -1731,8 +1455,6 @@ IF NOT IS_CAR_DEAD ryder_car
 	REMOVE_BLIP ryders_car_blip
 	ADD_BLIP_FOR_CAR ryder_car ryders_car_blip
 	SET_BLIP_AS_FRIENDLY ryders_car_blip TRUE
-ELSE
-	GOTO mission_intro2_failed
 ENDIF
 
 SWITCH_ENTRY_EXIT FDpiza FALSE
@@ -1751,23 +1473,13 @@ LOAD_MISSION_AUDIO 1 SOUND_INT2_HA	//This pizza parlour is no push-over!
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-	
 ENDWHILE
 
 LOAD_SCENE_IN_DIRECTION 2102.21 -1806.65 12.4 75.0
 
 DO_FADE 500 FADE_IN
 
-
-IF IS_CAR_DEAD ryder_car
-	PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car.
-	GOTO mission_intro2_failed
-ENDIF
-
-IF IS_CHAR_DEAD ryder
-	PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-	GOTO mission_intro2_failed
-ENDIF
+GOSUB ryder_checkup
 
 intro2_index = 0
 intro2_audio_is_playing = 0
@@ -1786,20 +1498,11 @@ OR NOT IS_CHAR_SITTING_IN_CAR scplayer ryder_car
 OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 	WAIT 0
 
-	IF IS_CAR_DEAD ryder_car
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
+	GOSUB ryder_checkup
   
 	IF NOT LOCATE_CHAR_ON_FOOT_3D scplayer 2104.62 -1806.54 12.55 7.0 6.0 3.0 FALSE
-		IF shopkeeper_goes_radge = 0
+		SWITCH shopkeeper_goes_radge
+		CASE 0
 			IF NOT IS_CHAR_DEAD hood_shop_keeper
 				CLEAR_CHAR_TASKS hood_shop_keeper
 				CLEAR_CHAR_TASKS_IMMEDIATELY hood_shop_keeper
@@ -1818,17 +1521,18 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 				TIMERA = 0
 				shopkeeper_goes_radge = 1
 			ENDIF
-		ELSE
+		BREAK
+		CASE 1
 			IF TIMERA > 2000
-				IF shopkeeper_goes_radge = 1
-					IF NOT IS_CHAR_DEAD hood_shop_keeper
-						IF LOCATE_CHAR_ON_FOOT_3D hood_shop_keeper 2102.77 -1806.35 12.55 1.0 1.0 3.0 FALSE
-							SET_CHAR_RELATIONSHIP hood_shop_keeper ACQUAINTANCE_TYPE_PED_HATE PEDTYPE_PLAYER1	
-							shopkeeper_goes_radge = 2
-						ENDIF
+				IF NOT IS_CHAR_DEAD hood_shop_keeper
+					IF LOCATE_CHAR_ON_FOOT_3D hood_shop_keeper 2102.77 -1806.35 12.55 1.0 1.0 3.0 FALSE
+						SET_CHAR_RELATIONSHIP hood_shop_keeper ACQUAINTANCE_TYPE_PED_HATE PEDTYPE_PLAYER1	
+						shopkeeper_goes_radge = 2
 					ENDIF
 				ENDIF
 			ENDIF
+		BREAK
+		ENDSWITCH
 		ENDIF		
 	ENDIF
 
@@ -1841,15 +1545,6 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 						TIMERB = 0
 						got_in_ryders_truck_first = 1
 					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD ryder
-		IF NOT IS_CAR_DEAD ryder_car
-			IF IS_CHAR_IN_CAR scplayer ryder_car
-				IF IS_CHAR_SITTING_IN_CAR ryder ryder_car
 					IF ryders_car_blip_removed = 0
 						REMOVE_BLIP ryders_blip
 						REMOVE_BLIP ryders_car_blip
@@ -1858,9 +1553,7 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 						blob_flag = 1
 						IF got_in_ryders_truck_first = 1
 							IF TIMERB > 7000
-								
 								PRINT_NOW ( INT2_O ) 10000 1 // Drive ryder home
-
 								ryders_car_blip_removed = 1
 							ENDIF
 						ENDIF
@@ -1892,22 +1585,7 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS ryder_car
 					ryders_car_blip_removed = 0
 				ENDIF
 			ENDIF
-		ELSE
-		 	PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car!
-			GOTO mission_intro2_failed
 		ENDIF	
-	ENDIF
-
-	IF IS_CHAR_DEAD ryder
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-		GOTO mission_intro2_failed
-	ENDIF
-
-	IF IS_CAR_DEAD ryder_car
-	//OR intro2_failed_flag = 1
-		PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-		GOTO mission_intro2_failed
 	ENDIF
 
 ENDWHILE
@@ -1923,11 +1601,11 @@ ENDWHILE
 	IF NOT IS_CHAR_DEAD	ryder
 		IF NOT IS_CAR_DEAD ryder_car
 			TASK_LEAVE_CAR ryder ryder_car
-			WAIT 700
-			IF NOT IS_CAR_DEAD ryder_car
-				TASK_LEAVE_CAR scplayer ryder_car
-			ENDIF
 		ENDIF
+	ENDIF
+	WAIT 700
+	IF NOT IS_CAR_DEAD ryder_car
+		TASK_LEAVE_CAR scplayer ryder_car
 	ENDIF
 
 	DO_FADE 1600 FADE_OUT //End cutscene
@@ -1962,18 +1640,9 @@ ENDWHILE
   	SET_FIXED_CAMERA_POSITION 2464.7715 -1687.4926 14.2709 0.0 0.0 0.0 
 	POINT_CAMERA_AT_POINT 2465.7505 -1687.6754 14.1833 JUMP_CUT
 	
-intro2_cutscene_flag = 0
 WHILE NOT intro2_index = 1 // You better drop by and see Sweet.
 	WAIT 0
-
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
 ENDWHILE
 
 // FIXEDGROVE: START - add ability to skip ending cutscene
@@ -1984,15 +1653,7 @@ SKIP_CUTSCENE_START
 intro2_cutscene_flag = 0
 WHILE NOT intro2_index = 2 // He's been rapping on about that grafitti.
 	WAIT 0
-
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
 ENDWHILE
 
 intro2_cutscene_flag = 0
@@ -2198,38 +1859,50 @@ mission_cleanup_intro2:
 
 RETURN
 
+ryder_checkup:
+IF IS_CHAR_DEAD ryder
+	PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
+	GOTO mission_intro2_failed
+ENDIF
+IF IS_CAR_DEAD ryder_car
+	PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
+	GOTO mission_intro2_failed
+ENDIF
+IF flag_attacked_keeper_food = 1
+	PRINT_NOW ( INT2_14 ) 10000 1 //You've freaked out the shop keeper.
+	GOTO mission_intro2_failed
+ENDIF
+RETURN
 
 get_back_in_the_car_intro2:
 	
+	GENERATE_RANDOM_INT_IN_RANGE 0 7 get_in_counter_intro2
 
 	CLEAR_MISSION_AUDIO 2
-	IF get_in_counter_intro2 = 0
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AA	//Hop in, CJ.
-	ENDIF
-
-	IF get_in_counter_intro2 = 1
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AB	//Jump in.
-	ENDIF
-
-	IF get_in_counter_intro2 = 2
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AC	//Get in fool!
-	ENDIF
-
-	IF get_in_counter_intro2 = 3			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AD	//All aboard, CJ.
-	ENDIF
-
-	IF get_in_counter_intro2 = 4			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AE //Guess you drivin, huh?
-	ENDIF
-
-	IF get_in_counter_intro2 = 5			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AF //C'mon CJ, earn your keep!
-	ENDIF
-
-	IF get_in_counter_intro2 = 6			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AG //I'm tripping man, you drive.
-	ENDIF
+	SWITCH get_in_counter_intro2
+	CASE 0
+		audio_sound_file = SOUND_RYDX_AA	//Hop in, CJ.
+	BREAK
+	CASE 1
+		audio_sound_file = SOUND_RYDX_AB	//Jump in.
+	BREAK
+	CASE 2
+		audio_sound_file = SOUND_RYDX_AC	//Get in fool!
+	BREAK
+	CASE 3
+		audio_sound_file = SOUND_RYDX_AD	//All aboard, CJ.
+	BREAK
+	CASE 4
+		audio_sound_file = SOUND_RYDX_AE //Guess you drivin, huh?
+	BREAK
+	CASE 5
+		audio_sound_file = SOUND_RYDX_AF //C'mon CJ, earn your keep!
+	BREAK
+	CASE 6
+		audio_sound_file = SOUND_RYDX_AG //I'm tripping man, you drive.
+	BREAK
+	ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 
 	STOP_CHAR_FACIAL_TALK scplayer
@@ -2237,67 +1910,38 @@ get_back_in_the_car_intro2:
 	CLEAR_MISSION_AUDIO 1
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
-		IF IS_CAR_DEAD ryder_car
-			//PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-			//intro2_failed_flag = 1
-			RETURN
-		ENDIF
-
-		IF IS_CHAR_DEAD ryder
-			//PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-			//intro2_failed_flag = 1
-			RETURN
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2 
 	  	
-	IF get_in_counter_intro2 = 0
-		PRINT_NOW ( RYDX_AA ) 3000 1 //Hop in, CJ.	
-	ENDIF
-	IF get_in_counter_intro2 = 1
-		PRINT_NOW ( RYDX_AB ) 3000 1 //Jump in.
-	ENDIF
-	IF get_in_counter_intro2 = 2
-		PRINT_NOW ( RYDX_AC ) 3000 1 //Get in fool!
-	ENDIF
-	IF get_in_counter_intro2 = 3
-		PRINT_NOW ( RYDX_AD ) 3000 1 //All aboard, CJ.
-	ENDIF
-	IF get_in_counter_intro2 = 4
-		PRINT_NOW ( RYDX_AE ) 3000 1 //Guess you drivin, huh?
-	ENDIF
-	IF get_in_counter_intro2 = 5
-		PRINT_NOW ( RYDX_AF ) 3000 1 //C'mon CJ, earn your keep!
-	ENDIF
-	IF get_in_counter_intro2 = 6
-		PRINT_NOW ( RYDX_AG ) 3000 1 //I'm tripping man, you drive.
-	ENDIF
+	SWITCH get_in_counter_intro2
+	CASE 0
+		$audio_string = &RYDX_AA //Hop in, CJ.	
+	BREAK
+	CASE 1
+		$audio_string = &RYDX_AB //Jump in.
+	BREAK
+	CASE 2
+		$audio_string = &RYDX_AC //Get in fool!
+	BREAK
+	CASE 3
+		$audio_string = &RYDX_AD //All aboard, CJ.
+	BREAK
+	CASE 4
+		$audio_string = &RYDX_AE //Guess you drivin, huh?
+	BREAK
+	CASE 5
+		$audio_string = &RYDX_AF //C'mon CJ, earn your keep!
+	BREAK
+	CASE 6
+		$audio_string = &RYDX_AG //I'm tripping man, you drive.
+	BREAK
+	ENDSWITCH
+	PRINT_NOW ( $audio_string ) 3000 1
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-
-		IF IS_CAR_DEAD ryder_car
-			//PRINT_NOW ( INT2_11 ) 10000 1 //You destroyed ryders car
-			//intro2_failed_flag = 1
-			RETURN
-		ENDIF
-
-		IF IS_CHAR_DEAD ryder
-			//PRINT_NOW ( INT2_12 ) 10000 1 //Ryder is dead!
-			//intro2_failed_flag = 1
-			RETURN
-		ENDIF
-
 	ENDWHILE
-
-	get_in_counter_intro2 ++
-
-	IF get_in_counter_intro2 > 6
-		get_in_counter_intro2 = 0
-	ENDIF
 
 RETURN
 

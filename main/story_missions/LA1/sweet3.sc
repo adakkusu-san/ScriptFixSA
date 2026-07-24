@@ -487,12 +487,6 @@ LOAD_MISSION_AUDIO 1 SOUND_SWE2_AA //Carl, you drive.Smoke looks like he’s gon
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 1
@@ -500,12 +494,6 @@ PRINT_NOW ( SWE2_AA ) 10000 1 //Carl, you drive.Smoke looks like he’s gonna pa
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ENDIF
-
 ENDWHILE
 
 sweet3_index = 0
@@ -513,12 +501,9 @@ sweet3_audio_is_playing = 0
 sweet3_cutscene_flag = 0
 sweet3_chat_switch = sweet3_CHAT2
 GOSUB sweet3_chat_switch
-	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ENDIF
-	
+
+GOSUB sweet3_checkup
+
 PRINT_NOW ( TWAR2_A ) 6000 1 // Get in the car.
 
 TIMERB = 0
@@ -552,12 +537,10 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 		ENDIF 
 	ENDIF
 	*/	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ELSE
+
+	GOSUB sweet3_checkup
+
 		IF NOT IS_CAR_DEAD sweet_car
-			IF car_blow_up = 0
 				IF IS_CHAR_IN_CAR scplayer sweet_car
 					IF chicken_shop_blip_removed = 0
 						REMOVE_BLIP chicken_shop_blip
@@ -590,109 +573,9 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 						chicken_shop_blip_removed = 0
 					ENDIF
 				ENDIF
-			ENDIF
 
-			IF NOT IS_CAR_HEALTH_GREATER sweet_car 250
-				LOAD_MISSION_AUDIO 2 SOUND_SWE2_KC
-				WHILE NOT HAS_MISSION_AUDIO_LOADED 2
-					WAIT 0
+			GOSUB sweet3_car_checkup
 
-					IF IS_CHAR_DEAD	sweet
-					//OR failed_sweet3 = 1
-						PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	ryder
-					//OR failed_sweet3 = 1
-						PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	big_smoke
-					//OR failed_sweet3 = 1
-						PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CAR_DEAD sweet_car
-					//OR failed_sweet3 = 1
-						PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-				ENDWHILE
-				CLEAR_MISSION_AUDIO 1
-				PLAY_MISSION_AUDIO 2
-				PRINT_NOW ( SWE2_KC ) 2000 1 //Our ride’s totalled – everybody out!
-
-				IF car_blow_up = 0
-					IF NOT IS_CAR_DEAD sweet_car
-						IF NOT IS_CHAR_DEAD	big_smoke
-							TASK_LEAVE_CAR_IMMEDIATELY big_smoke sweet_car
-							TASK_SMART_FLEE_CHAR big_smoke scplayer 100.0 10000
-						ENDIF 
-						IF NOT IS_CHAR_DEAD	ryder
-							TASK_LEAVE_CAR_IMMEDIATELY ryder sweet_car
-							TASK_SMART_FLEE_CHAR ryder scplayer 100.0 10000
-						ENDIF
-						IF NOT IS_CHAR_DEAD sweet
-							TASK_LEAVE_CAR_IMMEDIATELY sweet sweet_car
-							TASK_SMART_FLEE_CHAR sweet scplayer 100.0 10000
-						ENDIF
-						car_blow_up = 1
-					ENDIF
-				ENDIF
-
-				WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
-					WAIT 0
-				
-					IF IS_CHAR_DEAD	sweet
-						PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	ryder
-						PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	big_smoke
-						PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CAR_DEAD sweet_car
-						PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-				ENDWHILE
-
-				PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-				GOTO mission_sweet3_failed	
-			ENDIF
-		ENDIF		
-	ENDIF
-
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	big_smoke
-		PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
 	ENDIF
 
 ENDWHILE
@@ -1257,12 +1140,7 @@ OR NOT IS_CHAR_DEAD drive_by_bloke[1]
 		GOTO mission_sweet3_failed
 	ENDIF
 
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ELSE	
-		IF NOT IS_CAR_DEAD sweet_car
-			IF car_blow_up = 0
+	IF NOT IS_CAR_DEAD sweet_car
 			
 				IF IS_CHAR_IN_CAR scplayer sweet_car
 					IF chicken_shop_blip_removed = 0
@@ -1338,90 +1216,11 @@ OR NOT IS_CHAR_DEAD drive_by_bloke[1]
 					ENDIF
 				ENDIF
 
-			ENDIF
-
-			IF NOT IS_CAR_HEALTH_GREATER sweet_car 250
-				LOAD_MISSION_AUDIO 2 SOUND_SWE2_KA
-				WHILE NOT HAS_MISSION_AUDIO_LOADED 2
-					WAIT 0
-
-				ENDWHILE
-				CLEAR_MISSION_AUDIO 1
-				PLAY_MISSION_AUDIO 2
-				PRINT_NOW ( SWE2_KA ) 2000 1 //We’re on fire, everybody for themselves!
-				
-				IF car_blow_up = 0
-					IF NOT IS_CAR_DEAD sweet_car
-						IF NOT IS_CHAR_DEAD	big_smoke
-							TASK_LEAVE_CAR_IMMEDIATELY big_smoke sweet_car
-							TASK_SMART_FLEE_CHAR big_smoke scplayer 100.0 10000
-						ENDIF 
-						IF NOT IS_CHAR_DEAD	ryder
-							TASK_LEAVE_CAR_IMMEDIATELY ryder sweet_car
-							TASK_SMART_FLEE_CHAR ryder scplayer 100.0 10000
-						ENDIF
-						IF NOT IS_CHAR_DEAD sweet
-							TASK_LEAVE_CAR_IMMEDIATELY sweet sweet_car
-							TASK_SMART_FLEE_CHAR sweet scplayer 100.0 10000
-						ENDIF
-						car_blow_up = 1
-					ENDIF
-				ENDIF
-				WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
-					WAIT 0
-				
-					IF IS_CHAR_DEAD	sweet
-						PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	ryder
-						PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	big_smoke
-						PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CAR_DEAD sweet_car
-						PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-				ENDWHILE
-
-				PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-				GOTO mission_sweet3_failed
-					
-			ENDIF
-		ENDIF
+			GOSUB sweet3_car_checkup
 				
 	ENDIF
 
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	big_smoke
-		PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CAR_DEAD drive_by_car1
-	ENDIF
+	GOSUB sweet3_checkup
 
 ENDWHILE
 
@@ -1447,10 +1246,7 @@ REMOVE_BLIP drive_by_bloke_blip2
 		ENDIF
 	ENDIF
 
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
+GOSUB sweet3_checkup
 
 CLEAR_MISSION_AUDIO 1
 CLEAR_MISSION_AUDIO 2
@@ -1476,12 +1272,7 @@ OR NOT IS_CHAR_SITTING_IN_CAR scplayer sweet_car
 OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 	WAIT 0
 	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ELSE
-		IF NOT IS_CAR_DEAD sweet_car
-			IF car_blow_up = 0
+	IF NOT IS_CAR_DEAD sweet_car
 				IF IS_CHAR_IN_CAR scplayer sweet_car
 					IF chicken_shop_blip_removed = 0
 						REMOVE_BLIP chicken_shop_blip
@@ -1516,86 +1307,12 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 						chicken_shop_blip_removed = 0
 					ENDIF
 				ENDIF
-			ENDIF
 
-			IF NOT IS_CAR_HEALTH_GREATER sweet_car 250
-				LOAD_MISSION_AUDIO 2 SOUND_SWE2_KB
-				WHILE NOT HAS_MISSION_AUDIO_LOADED 2
-					WAIT 0
-
-				ENDWHILE
-				CLEAR_MISSION_AUDIO 1
-				PLAY_MISSION_AUDIO 2
-				PRINT_NOW ( SWE2_KB ) 2000 1 //She's gonna blow, bail out!
-
-				IF car_blow_up = 0
-					IF NOT IS_CAR_DEAD sweet_car
-						IF NOT IS_CHAR_DEAD	big_smoke
-							TASK_LEAVE_CAR_IMMEDIATELY big_smoke sweet_car
-							TASK_SMART_FLEE_CHAR big_smoke scplayer 100.0 10000
-						ENDIF 
-						IF NOT IS_CHAR_DEAD	ryder
-							TASK_LEAVE_CAR_IMMEDIATELY ryder sweet_car
-							TASK_SMART_FLEE_CHAR ryder scplayer 100.0 10000
-						ENDIF
-						IF NOT IS_CHAR_DEAD sweet
-							TASK_LEAVE_CAR_IMMEDIATELY sweet sweet_car
-							TASK_SMART_FLEE_CHAR sweet scplayer 100.0 10000
-						ENDIF
-						car_blow_up = 1
-					ENDIF
-				ENDIF
-				WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
-					WAIT 0
-				
-					IF IS_CHAR_DEAD	sweet
-						PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	ryder
-						PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CHAR_DEAD	big_smoke
-						PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CAR_DEAD sweet_car
-						PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-				ENDWHILE
-
-				PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-				GOTO mission_sweet3_failed	
-			ENDIF
-		ENDIF
+			GOSUB sweet3_car_checkup
 				
 	ENDIF
 
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	big_smoke
-		PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ENDIF
+	GOSUB sweet3_checkup
 	
 ENDWHILE
 
@@ -1714,25 +1431,14 @@ played_the_timer = 0
 
 TIMERA = 0
 
-IF IS_CAR_DEAD sweet_car
-	PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-	GOTO mission_sweet3_failed
-ENDIF
-
 IF NOT IS_CAR_DEAD sweet_car
 	IF IS_CHAR_IN_CAR scplayer sweet_car
 		blob_flag = 1
 		REMOVE_BLIP drive_by_car1_blip
 		ADD_BLIP_FOR_COORD 2066.4648 -1695.4436 12.5547 drive_by_car1_blip
-	ELSE
-		blob_flag = 0
-	ENDIF
-ENDIF
-
-IF NOT IS_CAR_DEAD sweet_car
-	IF IS_CHAR_IN_CAR scplayer sweet_car
 		PRINT_NOW ( TW2_Z ) 6000 1 // Go back to Smokes gaff.
 	ELSE
+		blob_flag = 0
 		PRINT_NOW ( TW2_X ) 6000 1 //~s~Get back in the ~b~car~s~.
 	ENDIF
 ENDIF
@@ -1742,12 +1448,7 @@ OR NOT IS_CHAR_SITTING_IN_CAR scplayer sweet_car
 OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 	WAIT 0
 	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ELSE
-		IF NOT IS_CAR_DEAD sweet_car
-			IF car_blow_up = 0
+	IF NOT IS_CAR_DEAD sweet_car
 				IF IS_CHAR_IN_CAR scplayer sweet_car
 					IF chicken_shop_blip_removed = 0
 						REMOVE_BLIP chicken_shop_blip
@@ -1782,56 +1483,12 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 						chicken_shop_blip_removed = 0
 					ENDIF
 				ENDIF	
-			ENDIF
 
-			IF NOT IS_CAR_HEALTH_GREATER sweet_car 250
-				LOAD_MISSION_AUDIO 2 SOUND_SWE2_KB
-				WHILE NOT HAS_MISSION_AUDIO_LOADED 2
-					WAIT 0
-				ENDWHILE
-				CLEAR_MISSION_AUDIO 1
-				PLAY_MISSION_AUDIO 2
-				PRINT_NOW ( SWE2_KB ) 2000 1 //She’s gonna blow, bail out!
-				IF car_blow_up = 0
-					IF NOT IS_CAR_DEAD sweet_car
-						IF NOT IS_CHAR_DEAD	big_smoke
-							TASK_LEAVE_CAR_IMMEDIATELY big_smoke sweet_car
-							TASK_SMART_FLEE_CHAR big_smoke scplayer 100.0 10000
-						ENDIF 
-						car_blow_up = 1
-					ENDIF
-				ENDIF
-				WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
-					WAIT 0
-				
-					IF IS_CHAR_DEAD	big_smoke
-						PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-					IF IS_CAR_DEAD sweet_car
-						PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-						GOTO mission_sweet3_failed
-					ENDIF
-
-				ENDWHILE
-
-				PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-				GOTO mission_sweet3_failed	
-			ENDIF
-		ENDIF
+			GOSUB sweet3_car_checkup
 
 	ENDIF
 
-	IF IS_CHAR_DEAD	big_smoke
-		PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-		GOTO mission_sweet3_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-		GOTO mission_sweet3_failed
-	ENDIF
+	GOSUB sweet3_smoke_checkup
 
 ENDWHILE
 
@@ -1994,6 +1651,100 @@ RETURN
  
 
 
+sweet3_checkup:
+IF IS_CHAR_DEAD	sweet
+	PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
+	GOTO mission_sweet3_failed
+ENDIF
+IF IS_CHAR_DEAD	ryder
+	PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
+	GOTO mission_sweet3_failed
+ENDIF
+IF IS_CHAR_DEAD	big_smoke
+	PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
+	GOTO mission_sweet3_failed
+ENDIF
+IF IS_CAR_DEAD sweet_car
+	PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
+	GOTO mission_sweet3_failed
+ENDIF
+RETURN
+
+sweet3_smoke_checkup:
+IF IS_CHAR_DEAD	big_smoke
+	PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
+	GOTO mission_sweet3_failed
+ENDIF
+IF IS_CAR_DEAD sweet_car
+	PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
+	GOTO mission_sweet3_failed
+ENDIF
+RETURN
+
+sweet3_car_checkup:
+IF NOT IS_CAR_DEAD
+IF NOT IS_CAR_HEALTH_GREATER sweet_car 250
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 sweet3_index
+	SWITCH sweet3_index
+		CASE 0
+			audio_sound_file = SOUND_SWE2_KA
+			$audio_string = &SWE2_KA //We’re on fire, everybody for themselves!
+		BREAK
+		CASE 1
+			audio_sound_file = SOUND_SWE2_KB
+			$audio_string = &SWE2_KB //She's gonna blow, bail out!
+		BREAK
+		CASE 2
+			audio_sound_file = SOUND_SWE2_KC
+			$audio_string = &SWE2_KC //Our ride’s totalled – everybody out!
+		BREAK
+		ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
+	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
+		WAIT 0
+	ENDWHILE
+	CLEAR_MISSION_AUDIO 1
+	PLAY_MISSION_AUDIO 2
+	PRINT_NOW ( $audio_string ) 2000 1
+	GOSUB sweet3_checkup
+		TASK_LEAVE_CAR_IMMEDIATELY big_smoke sweet_car
+		TASK_SMART_FLEE_CHAR big_smoke scplayer 100.0 10000
+		TASK_LEAVE_CAR_IMMEDIATELY ryder sweet_car
+		TASK_SMART_FLEE_CHAR ryder scplayer 100.0 10000
+		TASK_LEAVE_CAR_IMMEDIATELY sweet sweet_car
+		TASK_SMART_FLEE_CHAR sweet scplayer 100.0 10000
+	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
+		WAIT 0
+	ENDWHILE
+	PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
+	GOTO mission_sweet3_failed	
+ENDIF
+ENDIF
+RETURN
+
+sweet3_car_smoke_checkup:
+IF NOT IS_CAR_DEAD
+IF NOT IS_CAR_HEALTH_GREATER sweet_car 250
+	audio_sound_file = SOUND_SWE2_KB
+	$audio_string = &SWE2_KB //She's gonna blow, bail out!
+	LOAD_MISSION_AUDIO 2 audio_sound_file
+	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
+		WAIT 0
+	ENDWHILE
+	CLEAR_MISSION_AUDIO 1
+	PLAY_MISSION_AUDIO 2
+	PRINT_NOW ( $audio_string ) 2000 1
+	GOSUB sweet3_smoke_checkup
+		TASK_LEAVE_CAR_IMMEDIATELY big_smoke sweet_car
+		TASK_SMART_FLEE_CHAR big_smoke scplayer 100.0 10000
+	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
+		WAIT 0
+	ENDWHILE
+	PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
+	GOTO mission_sweet3_failed
+ENDIF
+ENDIF
+RETURN
 
 load_and_play_audio_sweet3:
 
@@ -2233,27 +1984,27 @@ RETURN
 
 get_back_in_the_car_sweet3_1:
 	
+	GENERATE_RANDOM_INT_IN_RANGE 0 7 get_in_counter_sweet3
 
 	CLEAR_MISSION_AUDIO 2
-	IF get_in_counter_sweet3 = 0
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AA //Get in
-	ENDIF
-
-	IF get_in_counter_sweet3 = 1
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AB //In the ride!
-	ENDIF
-
-	IF get_in_counter_sweet3 = 2
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AC //Get in the car!
-	ENDIF
-
-	IF get_in_counter_sweet3 = 3   
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AD //Come on, playa, get in!
-	ENDIF
-
-	IF get_in_counter_sweet3 = 4   
-		LOAD_MISSION_AUDIO 2 SOUND_SMOX_AE //Come on, wise man, get in the car!
-	ENDIF
+	SWITCH get_in_counter_sweet3
+	CASE 0
+		audio_sound_file = SOUND_SMOX_AA //Get in
+	BREAK
+	CASE 1
+		audio_sound_file = SOUND_SMOX_AB //In the ride!
+	BREAK
+	CASE 2
+		audio_sound_file = SOUND_SMOX_AC //Get in the car!
+	BREAK
+	CASE 3
+		audio_sound_file = SOUND_SMOX_AD //Come on, playa, get in!
+	BREAK
+	CASE 4
+		audio_sound_file = SOUND_SMOX_AE //Come on, wise man, get in the car!
+	BREAK
+	ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 
 	STOP_CHAR_FACIAL_TALK scplayer
@@ -2261,88 +2012,66 @@ get_back_in_the_car_sweet3_1:
 	CLEAR_MISSION_AUDIO 1
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	big_smoke
-			//PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CAR_DEAD sweet_car
-			//PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2 
 	  	
-	IF get_in_counter_sweet3 = 0
-		PRINT_NOW ( SMOX_AA ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet3 = 1
-		PRINT_NOW ( SMOX_AB ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet3 = 2
-		PRINT_NOW ( SMOX_AC ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet3 = 3
-		PRINT_NOW ( SMOX_AD ) 3000 1 
-	ENDIF
-	IF get_in_counter_sweet3 = 4
-		PRINT_NOW ( SMOX_AE ) 3000 1 
-	ENDIF
+	SWITCH get_in_counter_sweet3
+	CASE 0
+		$audio_string = &SMOX_AA
+	BREAK
+	CASE 1
+		$audio_string = &SMOX_AB
+	BREAK
+	CASE 2
+		$audio_string = &SMOX_AC
+	BREAK
+	CASE 3
+		$audio_string = &SMOX_AD
+	BREAK
+	CASE 4
+		$audio_string = &SMOX_AE
+	BREAK
+	ENDSWITCH
+	PRINT_NOW ( $audio_string ) 3000 1
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	big_smoke
-			//PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CAR_DEAD sweet_car
-			//PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-
 	ENDWHILE
-
-	get_in_counter_sweet3 ++
-
-	IF get_in_counter_sweet3 > 4
-		get_in_counter_sweet3 = 0
-	ENDIF
 
 RETURN
 
 
 get_back_in_the_car_sweet3_2:
 
+	GENERATE_RANDOM_INT_IN_RANGE 0 7 get_in_counter_sweet3
+
 	CLEAR_MISSION_AUDIO 2
 
-	IF get_in_counter_sweet3 = 0			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AF //C'mon CJ, earn your keep!
-	ENDIF
-	IF get_in_counter_sweet3 = 1
-		LOAD_MISSION_AUDIO 2 SOUND_SWE1_BM //Get in, nigga!
-	ENDIF
-	IF get_in_counter_sweet3 = 2
-		LOAD_MISSION_AUDIO 2 SOUND_SWEX_BP //Don't be a buster, CJ!
-	ENDIF
-	IF get_in_counter_sweet3 = 3
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AC //Get in fool!
-	ENDIF
-	IF get_in_counter_sweet3 = 4
-		LOAD_MISSION_AUDIO 2 SOUND_SWEX_BS //CJ, for once, don't be a punk!
-	ENDIF
-	IF get_in_counter_sweet3 = 5			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AD //All aboard, CJ.
-	ENDIF
-	IF get_in_counter_sweet3 = 6			
-		LOAD_MISSION_AUDIO 2 SOUND_SWE1_BG // CJ, GET IN!
-	ENDIF
+	SWITCH get_in_counter_sweet3
+	CASE 0
+		audio_sound_file = SOUND_RYDX_AF //C'mon CJ, earn your keep!
+	BREAK
+	CASE 1
+		audio_sound_file = SOUND_SWE1_BM //Get in, nigga!
+	BREAK
+	CASE 2
+		audio_sound_file = SOUND_SWEX_BP //Don't be a buster, CJ!
+	BREAK
+	CASE 3
+		audio_sound_file = SOUND_RYDX_AC //Get in fool!
+	BREAK
+	CASE 4
+		audio_sound_file = SOUND_SWEX_BS //CJ, for once, don't be a punk!
+	BREAK
+	CASE 5
+		audio_sound_file = SOUND_RYDX_AD //All aboard, CJ.
+	BREAK
+	CASE 6
+		audio_sound_file = SOUND_SWE1_BG // CJ, GET IN!
+	BREAK
+	ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 
 	STOP_CHAR_FACIAL_TALK scplayer
@@ -2350,85 +2079,38 @@ get_back_in_the_car_sweet3_2:
 	CLEAR_MISSION_AUDIO 1
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	sweet
-			//PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CHAR_DEAD	ryder
-			//PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CHAR_DEAD	big_smoke
-			//PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CAR_DEAD sweet_car
-			//PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2 
 	  	
-	IF get_in_counter_sweet3 = 0
-		PRINT_NOW ( RYDX_AF ) 3000 1 //C'mon CJ, earn your keep!				 
-	ENDIF
-	IF get_in_counter_sweet3 = 1
-		PRINT_NOW ( SWE1_BM ) 3000 1 //Get in, nigga!							 
-	ENDIF
-	IF get_in_counter_sweet3 = 2
-		PRINT_NOW ( SWEX_BP ) 3000 1 //Don't be a buster, CJ!					 
-	ENDIF
-	IF get_in_counter_sweet3 = 3
-		PRINT_NOW ( RYDX_AC ) 3000 1 //Get in fool!								 
-	ENDIF
-	IF get_in_counter_sweet3 = 4
-		PRINT_NOW ( SWEX_BS ) 3000 1 //CJ, for once, don't be a punk!			 
-	ENDIF
-	IF get_in_counter_sweet3 = 5														
-		PRINT_NOW ( RYDX_AD ) 3000 1 //All aboard, CJ.							 
-	ENDIF
-	IF get_in_counter_sweet3 = 6														
-		PRINT_NOW ( SWE1_BG ) 3000 1 // CJ, GET IN!								 
-	ENDIF
+	SWITCH get_in_counter_sweet3
+	CASE 0
+		$audio_string = &RYDX_AF //C'mon CJ, earn your keep!				 
+	BREAK
+	CASE 1
+		$audio_string = &SWE1_BM //Get in, nigga!							 
+	BREAK
+	CASE 2
+		$audio_string = &SWEX_BP //Don't be a buster, CJ!					 
+	BREAK
+	CASE 3
+		$audio_string = &RYDX_AC //Get in fool!								 
+	BREAK
+	CASE 4
+		$audio_string = &SWEX_BS //CJ, for once, don't be a punk!			 
+	BREAK
+	CASE 5
+		$audio_string = &RYDX_AD //All aboard, CJ.							 
+	BREAK
+	CASE 6
+		$audio_string = &SWE1_BG // CJ, GET IN!								 
+	BREAK
+	ENDSWITCH
+	PRINT_NOW ( $audio_string ) 3000 1
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	sweet
-			//PRINT_NOW ( SWE3_E ) 2000 1 //Sweet is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CHAR_DEAD	ryder
-			//PRINT_NOW ( SWE3_F ) 2000 1 //Ryder is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CHAR_DEAD	big_smoke
-			//PRINT_NOW ( SWE3_G ) 2000 1 //Smoke is dead!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-		IF IS_CAR_DEAD sweet_car
-			//PRINT_NOW ( SWE3_D ) 2000 1 //The car is trashed!
-			//failed_sweet3 = 1
-			RETURN
-		ENDIF
-
 	ENDWHILE
-
-	get_in_counter_sweet3 ++
-
-	IF get_in_counter_sweet3 > 6
-		get_in_counter_sweet3 = 0
-	ENDIF
 
 RETURN
 

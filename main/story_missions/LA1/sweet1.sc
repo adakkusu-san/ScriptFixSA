@@ -119,9 +119,7 @@ ENDSWITCH
 
 RETURN
 
-GOTO dont_create_this_shit
 CREATE_PICKUP_WITH_AMMO SPRAYCAN PICKUP_ON_STREET_SLOW 1000 2493.52 -1700.83 14.27 spray_can_pickup
-dont_create_this_shit:
 
 mission_start_sweet1:
 
@@ -452,7 +450,6 @@ IF tag_cutscene_skipped = 0
 	SET_CHAR_COORDINATES scplayer 2511.68 -1670.33 12.46   
 	SET_CHAR_HEADING scplayer 62.36
 	CLEAR_LOOK_AT scplayer
-	//SET_NEXT_DESIRED_MOVE_STATE PEDMOVE_WALK
 	IF NOT IS_CHAR_DEAD sweet
 		IF NOT IS_CAR_DEAD sweet_car
 			CLEAR_AREA 2510.05 -1666.61 12.57 1.0 TRUE
@@ -502,20 +499,9 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 		GOTO mission_sweet1_passed
 	ENDIF
 
-	IF IS_CHAR_DEAD sweet 
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
+	GOSUB sweet_checkup
 
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ELSE
+	IF NOT IS_CAR_DEAD sweet_car
 		IF IS_CHAR_IN_CAR scplayer sweet_car
 			IF sweet_car_blip_removed = 0
 				REMOVE_BLIP sweet_car_blip
@@ -537,21 +523,6 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 				sweet_car_blip_removed = 0
 			ENDIF
 		ENDIF
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet 
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
 	ENDIF
 
 ENDWHILE
@@ -661,17 +632,6 @@ POINT_CAMERA_AT_POINT 2101.3691 -1648.3153 13.3438 JUMP_CUT
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-	
-		IF IS_CHAR_DEAD	sweet
-			PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			GOTO mission_sweet1_failed
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			GOTO mission_sweet1_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2
@@ -682,45 +642,18 @@ POINT_CAMERA_AT_POINT 2101.3691 -1648.3153 13.3438 JUMP_CUT
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	sweet
-			PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			GOTO mission_sweet1_failed
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			GOTO mission_sweet1_failed
-		ENDIF
-
 	ENDWHILE
 	CLEAR_PRINTS
 
-	IF NOT IS_CHAR_DEAD sweet
-		STOP_CHAR_FACIAL_TALK sweet
-	ENDIF
-
 IF NOT IS_CHAR_DEAD sweet
+		STOP_CHAR_FACIAL_TALK sweet
 	GET_SEQUENCE_PROGRESS sweet Return_Progress
 ENDIF
 
 WHILE NOT Return_Progress = 2
 	WAIT 0
 
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
+	GOSUB sweet_checkup
 	GET_SEQUENCE_PROGRESS sweet Return_Progress
 
 ENDWHILE
@@ -744,20 +677,7 @@ TIMERA = 0
 		
 		GET_PERCENTAGE_TAGGED_IN_AREA tag_area4aX tag_area4aY tag_area4bX tag_area4bY tag_percentage
 		
-		IF IS_CHAR_DEAD	sweet
-			PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			GOTO mission_sweet1_failed
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			GOTO mission_sweet1_failed
-		ENDIF
-		
-		IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-			PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-			GOTO mission_sweet1_failed
-		ENDIF
+		GOSUB sweet_checkup
 
 		IF help_for_tagging = 1
 			IF TIMERA > 5000
@@ -781,21 +701,9 @@ TIMERA = 0
 	WHILE NOT ReturnStatus = FINISHED_TASK
 		WAIT 0
 
-		IF IS_CHAR_DEAD	sweet
-			PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			GOTO mission_sweet1_failed
-		ENDIF
-		GET_SCRIPT_TASK_STATUS sweet TASK_PLAY_ANIM ReturnStatus
+		GOSUB sweet_checkup
 
-		IF IS_CAR_DEAD sweet_car
-			PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			GOTO mission_sweet1_failed
-		ENDIF
-			
-		IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-			PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-			GOTO mission_sweet1_failed
-		ENDIF
+		GET_SCRIPT_TASK_STATUS sweet TASK_PLAY_ANIM ReturnStatus
 
 		IF help_for_tagging = 1
 			IF TIMERA > 5000
@@ -814,8 +722,6 @@ TIMERA = 0
 
 	IF NOT IS_CHAR_DEAD sweet
 		TASK_GO_STRAIGHT_TO_COORD sweet 2099.10 -1650.02 12.57 PEDMOVE_WALK 20000
-	ENDIF
-	IF NOT IS_CHAR_DEAD sweet
 		CLEAR_LOOK_AT sweet
 		CLEAR_LOOK_AT scplayer
 		TASK_LOOK_AT_CHAR scplayer sweet 4500
@@ -824,17 +730,6 @@ TIMERA = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 		WAIT 0
-	
-		IF IS_CHAR_DEAD	sweet
-			PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			GOTO mission_sweet1_failed
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			GOTO mission_sweet1_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 1
@@ -845,18 +740,10 @@ TIMERA = 0
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 		WAIT 0
-
-		IF IS_CHAR_DEAD	sweet
-			PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			GOTO mission_sweet1_failed
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			GOTO mission_sweet1_failed
-		ENDIF
-
 	ENDWHILE
+
+	GOSUB sweet_checkup
+
 	IF NOT IS_CHAR_DEAD sweet
 		STOP_CHAR_FACIAL_TALK sweet
 	ENDIF
@@ -938,40 +825,28 @@ ENDIF
     WHILE NOT tag_percentage = 100
 	WAIT 0
 
-	IF played_last_line_of_audio = 0
+	SWITCH played_last_line_of_audio
+	CASE 0
 		IF HAS_MISSION_AUDIO_LOADED 2
 			PLAY_MISSION_AUDIO 2
 			PRINT_NOW (SWE1_CB) 2500 1 //You go get 'em and I'll keep the engine running.
 			played_last_line_of_audio = 1
 		ENDIF
-	ELSE
-		IF played_last_line_of_audio = 1
-			IF HAS_MISSION_AUDIO_FINISHED 2
-				PRINT_NOW ( SWE1_X ) 6000 1 // ~s~Spray over the remaining tags.
-				played_last_line_of_audio = 2
-			ENDIF
+	BREAK
+	CASE 1
+		IF HAS_MISSION_AUDIO_FINISHED 2
+			PRINT_NOW ( SWE1_X ) 6000 1 // ~s~Spray over the remaining tags.
+			played_last_line_of_audio = 2
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 
 	GET_PERCENTAGE_TAGGED_IN_AREA tag_area1aX tag_area1aY tag_area1bX tag_area1bY tag_percentage
 
 	GET_PERCENTAGE_TAGGED_IN_AREA 2068.8760 -1654.5895 2063.5444 -1650.0127 tag_percentage1	//On house
 	GET_PERCENTAGE_TAGGED_IN_AREA 2044.8356 -1633.9858 2047.1448 -1638.9565 tag_percentage2	//Down alleyway
 
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
+	GOSUB sweet_checkup
 
 	IF LOCATE_CHAR_ON_FOOT_2D scplayer 2043.68 -1635.73 4.0 4.0 FALSE
 	OR LOCATE_CHAR_ON_FOOT_2D scplayer 2067.99 -1652.61 4.0 4.0 FALSE
@@ -1000,6 +875,8 @@ ENDIF
 
 ENDWHILE
 
+GOSUB sweet_checkup
+
 IF NOT IS_CAR_DEAD sweet_car
 	REMOVE_BLIP sweet1_tag2
 	REMOVE_BLIP sweet1_tag3
@@ -1010,35 +887,12 @@ ENDIF
 
 PRINT_NOW ( SWE1_S ) 6000 1 //~s~Get back in ~b~Sweets car!
 
-IF IS_CHAR_DEAD	sweet
-	PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-	GOTO mission_sweet1_failed
-ENDIF
-
 LOAD_MISSION_AUDIO 1 SOUND_SWE1_AS //C’mon, let’s cruise into Ballas territory.
 
 WHILE NOT IS_CHAR_IN_CAR scplayer sweet_car
 	WAIT 0
 
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
+	GOSUB sweet_checkup
 
 ENDWHILE
 
@@ -1053,22 +907,6 @@ ADD_BLIP_FOR_COORD 2338.74 -1500.31 22.83 sweet1_tag1
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 1
@@ -1076,36 +914,9 @@ PRINT_NOW ( SWE1_AS ) 3000 1 // C’mon, let’s cruise into Ballas territory.
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
 ENDWHILE
 
-
-
-IF IS_CHAR_DEAD	sweet
-	PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-	GOTO mission_sweet1_failed
-ENDIF
-
-IF IS_CAR_DEAD sweet_car
-	PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-	GOTO mission_sweet1_failed
-ENDIF
-
+GOSUB sweet_checkup
 
 TIMERA = 0
 
@@ -1121,20 +932,9 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 		ENDIF
 	ENDIF
 		
-	IF IS_CHAR_DEAD	sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
+	GOSUB sweet_checkup
 
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ELSE
+	IF NOT IS_CAR_DEAD sweet_car
 		IF IS_CHAR_IN_CAR scplayer sweet_car
 			IF sweet_car_blip_removed = 0
 				REMOVE_BLIP	sweet1_tag1
@@ -1167,21 +967,6 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 		ENDIF
 	ENDIF	
 
-	IF IS_CHAR_DEAD sweet 
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
 ENDWHILE
 
 LOAD_MISSION_AUDIO 1 SOUND_SWE1_AV
@@ -1213,17 +998,6 @@ POINT_CAMERA_AT_POINT 2330.6533 -1499.9260 25.6440 JUMP_CUT
 	
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 1
@@ -1231,28 +1005,11 @@ PRINT_NOW ( SWE1_AV ) 10000 1 // You mark up here, I’ll go off and do another 
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-
 ENDWHILE
 
 
 WHILE IS_CHAR_IN_CAR scplayer sweet_car
 	WAIT 0
-
-	IF NOT IS_CHAR_DEAD	sweet 
-		IF NOT IS_CAR_DEAD sweet_car
-		ENDIF
-	ENDIF
-
 ENDWHILE
 
 IF NOT IS_CHAR_DEAD	sweet
@@ -1317,7 +1074,8 @@ WHILE NOT tag_percentage = 100 //SPRAY 2 BALLAS TAGS****************************
 		ENDIF
 	ELSE
 
-		IF gang_hassle = 0
+		SWITCH gang_hassle
+		CASE 0
 			IF LOCATE_CHAR_ANY_MEANS_2D scplayer 2395.61 -1470.52 20.0 17.0 FALSE //FLATS MEMBERS
 				IF NOT IS_CHAR_DEAD sweet1_flat1
 					IF NOT IS_CHAR_DEAD sweet1_flat2
@@ -1337,9 +1095,8 @@ WHILE NOT tag_percentage = 100 //SPRAY 2 BALLAS TAGS****************************
 				ENDIF
 				gang_hassle = 1
 			ENDIF
-		ENDIF
-
-		IF gang_hassle = 1
+		BREAK
+		CASE 1
 			IF help_for_gangs = 0
 				IF TIMERA > 2000
 					PRINT_HELP SWE1_I 
@@ -1367,9 +1124,8 @@ WHILE NOT tag_percentage = 100 //SPRAY 2 BALLAS TAGS****************************
 				ENDIF
 				gang_hassle = 2
 			ENDIF
-		ENDIF
-
-		IF gang_hassle = 2
+		BREAK
+		CASE 2
 			IF tag_percentage1 = 100
 			OR TIMERA > 5000
 				IF NOT IS_CHAR_DEAD	sweet1_flat1
@@ -1384,9 +1140,8 @@ WHILE NOT tag_percentage = 100 //SPRAY 2 BALLAS TAGS****************************
 				ENDIF
 				gang_hassle = 3
 			ENDIF
-		ENDIF
-
-		IF gang_hassle = 3
+		BREAK
+		CASE 3
 			IF HAS_MISSION_AUDIO_FINISHED 2
 				IF NOT IS_CHAR_DEAD	sweet1_flat1
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH sweet1_flat1 FALSE
@@ -1396,7 +1151,8 @@ WHILE NOT tag_percentage = 100 //SPRAY 2 BALLAS TAGS****************************
 				ENDIF
 				gang_hassle = 4
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 	ENDIF 
 		
@@ -1408,27 +1164,15 @@ WHILE NOT tag_percentage = 100 //SPRAY 2 BALLAS TAGS****************************
 		REMOVE_BLIP sweet1_tag4
 	ENDIF
 	
+	IF jump_help6 = 0
 	IF LOCATE_CHAR_ON_FOOT_2D scplayer 2353.30 -1508.18 3.0 3.0 FALSE
-	AND jump_help6 = 0
 		PRINT_HELP SWE1_G //Spraying over a rival tags will gain you respect from your gang.
 		TIMERA = 0
 		jump_help6 = 1		
 	ENDIF
+	ENDIF
  
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-	
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
+	GOSUB sweet_checkup
 
 	IF sweet_car_frozen = 0
 		IF NOT IS_CHAR_DEAD sweet
@@ -1487,56 +1231,32 @@ WHILE NOT tag_percentage = 100 //SPRAY LAST TAG*********************************
 			CHANGE_BLIP_COLOUR sweet1_tag2 1
 			jump_help1 = 1
 		ENDIF
+		IF LOCATE_CHAR_ON_FOOT_2D scplayer 2352.3 -1552.1 3.0 3.0 FALSE
+		OR LOCATE_CHAR_ON_FOOT_2D scplayer 2420.7 -1572.1 3.0 3.0 FALSE
+			PRINT_HELP JUMPH1  
+			jump_help1 = 1
+		ENDIF
 	ENDIF
 
-	IF LOCATE_CHAR_ON_FOOT_2D scplayer 2352.3 -1552.1 3.0 3.0 FALSE
-	AND jump_help1 = 0
-
-		PRINT_HELP JUMPH1  
-		
-		jump_help1 = 1
-	ENDIF
-
-	IF LOCATE_CHAR_ON_FOOT_2D scplayer 2420.7 -1572.1 3.0 3.0 FALSE
-	AND jump_help1 = 0
-		
-		PRINT_HELP JUMPH1  
-		
-		jump_help1 = 1
-	ENDIF
-
+	IF jump_help2 = 0
 	IF LOCATE_CHAR_ON_FOOT_2D scplayer 2373.5 -1547.2 3.0 3.0 FALSE
-	AND jump_help2 = 0
 		PRINT_HELP RADAR5 //up arrows
 		jump_help2 = 1
 	ENDIF
+	ENDIF
 
+	IF jump_help5 = 0
 	IF LOCATE_CHAR_ON_FOOT_2D scplayer 2378.7546 -1555.8896 3.0 3.0 FALSE
-	AND jump_help5 = 0
-		
 		PRINT_HELP JUMPH2  
-
 		REMOVE_BLIP sweet1_tag1
 		REMOVE_BLIP	sweet1_tag2
 		ADD_BLIP_FOR_COORD 2395.43 -1551.69 26.98 sweet1_tag2 //Roof
 		CHANGE_BLIP_COLOUR sweet1_tag2 1
 		jump_help5 = 1
 	ENDIF
- 
-	IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-		PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-		GOTO mission_sweet1_failed
-	ENDIF
-	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
 	ENDIF
 
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
+	GOSUB sweet_checkup
 
 	IF sweet_car_frozen = 0
 		IF NOT IS_CHAR_DEAD sweet
@@ -1584,15 +1304,6 @@ WHILE NOT HAS_CAR_RECORDING_BEEN_LOADED 207
 	WAIT 0
 	
 	REQUEST_CAR_RECORDING 207
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
 
 ENDWHILE
 
@@ -1649,15 +1360,7 @@ LOAD_MISSION_AUDIO 1 SOUND_SWE1_BH
 WHILE NOT TIMERA > 3500	
 	WAIT 0
 
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
+	GOSUB sweet_checkup
 
 ENDWHILE
 
@@ -1671,17 +1374,6 @@ ENDIF
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-
 ENDWHILE
 
 //WAIT 500
@@ -1695,17 +1387,6 @@ PRINT_NOW ( SWE1_BH ) 10000 1 // CARL, QUICK, GET IN!
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-	
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
-
 ENDWHILE
 
 IF NOT IS_CAR_DEAD sweet_car
@@ -1751,15 +1432,9 @@ OR NOT IS_CHAR_SITTING_IN_CAR scplayer sweet_car
 OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 	WAIT 0
 
-	IF IS_CHAR_DEAD sweet
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed	
-	ENDIF
+	GOSUB sweet_checkup
 
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
-	ELSE
+	IF NOT IS_CAR_DEAD sweet_car
 		IF IS_CHAR_IN_CAR scplayer sweet_car
 			IF played_mission_audio_sweet1 = 0
 				IF HAS_MISSION_AUDIO_LOADED 1
@@ -1793,16 +1468,6 @@ OR NOT IS_VEHICLE_ON_ALL_WHEELS sweet_car
 				sweet_car_blip_removed = 0
 			ENDIF
 		ENDIF
-	ENDIF
-
-	IF IS_CHAR_DEAD sweet 
-		PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-		GOTO mission_sweet1_failed
-	ENDIF
-
-	IF IS_CAR_DEAD sweet_car
-		PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-		GOTO mission_sweet1_failed
 	ENDIF
 
 ENDWHILE
@@ -1905,31 +1570,13 @@ ENDWHILE
 sweet1_cutscene_flag = 0
 WHILE NOT sweet1_index = 2 //Yeah, it all comes back, man.
 	WAIT 0
-
 		GOSUB load_and_play_audio_sweet1
-		IF sweet1_cutscene_flag = 0
-			IF sweet1_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD sweet
-				ENDIF
-				sweet1_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
 ENDWHILE
 
 sweet1_cutscene_flag = 0
 WHILE NOT sweet1_index = 3 //Yo, how you doing for greens?
 	WAIT 0
-
 		GOSUB load_and_play_audio_sweet1
-		IF sweet1_cutscene_flag = 0
-			IF sweet1_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD sweet
-				ENDIF
-				sweet1_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
 ENDWHILE
 
 sweet1_cutscene_flag = 0
@@ -1952,17 +1599,7 @@ ENDWHILE
 sweet1_cutscene_flag = 0
 WHILE NOT sweet1_index = 5 //CRASH took my big greens, left me with small change...
 	WAIT 0
-
 		GOSUB load_and_play_audio_sweet1
-		IF sweet1_cutscene_flag = 0
-			IF sweet1_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD sweet
-					//TASK_PLAY_ANIM scplayer IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE 6000
-				ENDIF
-				sweet1_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
 ENDWHILE
 
 sweet1_cutscene_flag = 0
@@ -2136,25 +1773,41 @@ mission_cleanup_sweet1:
 
 RETURN
 
+sweet_checkup:
+IF IS_CHAR_DEAD sweet 
+	PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
+	GOTO mission_sweet1_failed
+ENDIF
+IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
+	PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
+	GOTO mission_sweet1_failed
+ENDIF
+IF IS_CAR_DEAD sweet_car
+	PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
+	GOTO mission_sweet1_failed
+ENDIF
+RETURN
 
 get_back_in_the_car:
 	
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 get_in_counter_swee1
+
 	CLEAR_MISSION_AUDIO 2
-	IF get_in_counter_swee1 = 0
-		LOAD_MISSION_AUDIO 2 SOUND_SWE1_BM	//Get in, nigga!
-	ENDIF
-
-	IF get_in_counter_swee1 = 1
-		LOAD_MISSION_AUDIO 2 SOUND_SWEX_BS	//CJ, for once, don't be a punk!
-	ENDIF
-
-	IF get_in_counter_swee1 = 2
-		LOAD_MISSION_AUDIO 2 SOUND_SWEX_BP	//Don't be a buster, CJ!
-	ENDIF
-
-	IF get_in_counter_swee1 = 3			
-		LOAD_MISSION_AUDIO 2 SOUND_SWE1_BG // CJ, GET IN!
-	ENDIF
+	SWITCH get_in_counter_swee1
+	CASE 0
+		audio_sound_file = SOUND_SWE1_BM //Get in, nigga!
+	BREAK
+	CASE 1
+		audio_sound_file = SOUND_SWEX_BS //CJ, for once, don't be a punk!
+	BREAK
+	CASE 2
+		audio_sound_file = SOUND_SWEX_BP //Don't be a buster, CJ!
+	BREAK
+	CASE 3
+		audio_sound_file = SOUND_SWE1_BG // CJ, GET IN!
+	BREAK
+	ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 
 	STOP_CHAR_FACIAL_TALK scplayer
@@ -2162,68 +1815,28 @@ get_back_in_the_car:
 	CLEAR_MISSION_AUDIO 1
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-		IF IS_CHAR_DEAD sweet 
-			//PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			//GOTO mission_sweet1_failed
-			RETURN
-		ENDIF
-
-		IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-			//PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-			//GOTO mission_sweet1_failed
-			RETURN
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			//PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			//GOTO mission_sweet1_failed
-			RETURN
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2 
-	  	
-	IF get_in_counter_swee1 = 0
-		PRINT_NOW ( SWE1_BM ) 3000 1 //Get in, nigga!	
-	ENDIF
-	IF get_in_counter_swee1 = 1
-		PRINT_NOW ( SWEX_BS ) 3000 1 //	CJ, for once, don't be a punk!
-	ENDIF
-	IF get_in_counter_swee1 = 2
-		PRINT_NOW ( SWEX_BP ) 3000 1 //Don't be a buster, CJ!
-	ENDIF
-	IF get_in_counter_swee1 = 3
-		PRINT_NOW ( SWE1_BG ) 3000 1 // CJ, GET IN!
-	ENDIF
+	SWITCH get_in_counter_swee1
+	CASE 0
+		$audio_string = &SWE1_BM //Get in, nigga!	
+	BREAK
+	CASE 1
+		$audio_string = &SWEX_BS //	CJ, for once, don't be a punk!
+	BREAK
+	CASE 2
+		$audio_string = &SWEX_BP //Don't be a buster, CJ!
+	BREAK
+	CASE 3
+		$audio_string = &SWE1_BG // CJ, GET IN!
+	BREAK
+	ENDSWITCH
+	PRINT_NOW ( $audio_string ) 3000 1
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-		IF IS_CHAR_DEAD sweet 
-			//PRINT_NOW (SWE1_P) 10000 1 //~r~Sweet is dead!
-			//GOTO mission_sweet1_failed
-			RETURN
-		ENDIF
-
-		IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_SPRAYCAN
-			//PRINT_NOW (SWE1SPF) 10000 1 //~r~You need a spraycan!
-			//GOTO mission_sweet1_failed
-			RETURN
-		ENDIF
-
-		IF IS_CAR_DEAD sweet_car
-			//PRINT_NOW (SWE1_Q) 10000 1 //~r~You destroyed Sweets ride!
-			//GOTO mission_sweet1_failed
-			RETURN
-		ENDIF
-
 	ENDWHILE
-
-	get_in_counter_swee1 ++
-
-	IF get_in_counter_swee1 > 3
-		get_in_counter_swee1 = 0
-	ENDIF
 
 RETURN
 

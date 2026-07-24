@@ -344,10 +344,7 @@ WHILE NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 2301.07 -1754.40 12.54 4.0 4.0 4.0 b
 OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D ryder scplayer 30.0 30.0 8.0 FALSE
 	WAIT 0
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 	IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
 		GOTO mission_sweet1b_passed
@@ -369,11 +366,6 @@ OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D ryder scplayer 30.0 30.0 8.0 FALSE
 	ENDIF
 
 	GOSUB ryders_group_break
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
 
 ENDWHILE
 
@@ -541,12 +533,6 @@ DO_FADE 1000 FADE_IN
 								
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 	WAIT 0
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
-
 ENDWHILE
 
 PLAY_MISSION_AUDIO 1
@@ -554,12 +540,6 @@ PRINT_NOW ( SWE1_YH ) 3000 1 //Let’s just cruise through the hood and find us 
 
 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 	WAIT 0
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
-
 ENDWHILE
 
 PRINT_NOW ( SW1B_B ) 10000 1 // Go beat up the crack dealers.
@@ -570,10 +550,7 @@ WHILE NOT IS_CHAR_DEAD crackhead1
 //OR NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 2284.9465 -1645.3959 14.1413 50.0 50.0 8.0 FALSE
 	WAIT 0
    
-   	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 	IF played_up_help = 0
 		IF TIMERA > 2000
@@ -677,12 +654,9 @@ WHILE NOT IS_CHAR_DEAD crackhead1
 					flag_player_killed_crackhead1 = 1
 				ENDIF
 			ELSE
-				IF NOT IS_CHAR_DEAD	crackhead1
-					TASK_PLAY_ANIM crackhead1 XPRESSscratch PED 4.0 FALSE FALSE FALSE FALSE -1
-					flag_player_killed_crackhead1 = 1
-				ENDIF
+				TASK_PLAY_ANIM crackhead1 XPRESSscratch PED 4.0 FALSE FALSE FALSE FALSE -1
+				flag_player_killed_crackhead1 = 1
 			ENDIF
-
 		ENDIF
 	ENDIF
 
@@ -723,12 +697,6 @@ WHILE NOT IS_CHAR_DEAD crackhead1
 				IF LOCATE_CHAR_ANY_MEANS_CHAR_3D ryder scplayer 10.0 10.0 8.0 FALSE
 					WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 						WAIT 0
-
-						IF IS_CHAR_DEAD	ryder
-							PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-							GOTO mission_sweet1b_failed
-						ENDIF
-
 					ENDWHILE
 
 					PLAY_MISSION_AUDIO 1
@@ -736,12 +704,6 @@ WHILE NOT IS_CHAR_DEAD crackhead1
 
 					WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 						WAIT 0
-						
-						IF IS_CHAR_DEAD	ryder
-							PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-							GOTO mission_sweet1b_failed
-						ENDIF
-
 					ENDWHILE
 				ELSE
 					WAIT 2000
@@ -764,11 +726,6 @@ WHILE NOT IS_CHAR_DEAD crackhead1
 
 	GOSUB ryders_group_break
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
-
 ENDWHILE
 
 MARK_MODEL_AS_NO_LONGER_NEEDED fam1 // FIXEDGROVE
@@ -783,10 +740,7 @@ WHILE NOT TIMERA > 2000
 OR NOT new_visible_area	= 0
 	WAIT 0
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 ENDWHILE
 
@@ -1109,19 +1063,6 @@ IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_BASEBALLBAT
 
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
-	   	IF IS_CHAR_DEAD	ryder
-			PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-			GOTO mission_sweet1b_failed
-		ENDIF
-
-		GOSUB ryders_group_break
-
-		IF IS_CHAR_DEAD	ryder
-			PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-			GOTO mission_sweet1b_failed
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2   	
@@ -1129,15 +1070,10 @@ IF NOT HAS_CHAR_GOT_WEAPON scplayer WEAPONTYPE_BASEBALLBAT
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0   	
-	   	IF IS_CHAR_DEAD	ryder
-			PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-			GOTO mission_sweet1b_failed
-		ENDIF
-
-		//GOSUB ryders_group_break
-
 	ENDWHILE
 ENDIF
+
+GOSUB ryders_group_break
 
 sweet1b_index = 0
 sweet1b_audio_is_playing = 0
@@ -1148,10 +1084,7 @@ GOSUB sweet1b_chat_switch
 TIMERB = 0
 TIMERA = 0
 
-IF IS_CHAR_DEAD	ryder
-	PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-	GOTO mission_sweet1b_failed
-ENDIF
+GOSUB ryder_checkup
 
 PRINT_NOW ( SW1B_1 ) 10000 1 // ~s~Go to ~r~crack dealer~s~
 
@@ -1161,10 +1094,7 @@ WHILE NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 2171.7815 -1676.7803 14.0859 3.5 3.5
 OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D ryder scplayer 30.0 30.0 8.0 FALSE
 	WAIT 0
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 	IF TIMERB > 5000
 		IF LOCATE_CHAR_ANY_MEANS_CHAR_3D ryder scplayer 10.0 10.0 8.0 FALSE
@@ -1191,11 +1121,6 @@ OR NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D ryder scplayer 30.0 30.0 8.0 FALSE
 				help_for_melee_combat = 2
 			ENDIF
 		ENDIF
-	ENDIF
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
 	ENDIF
 
 ENDWHILE
@@ -1247,10 +1172,7 @@ WHILE NOT killed_all_crack_fucks = 1
 		GOTO mission_sweet1b_passed
 	ENDIF
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 	
 	GOSUB load_and_play_audio_sweet1b
 
@@ -1443,11 +1365,6 @@ WHILE NOT killed_all_crack_fucks = 1
 
 				WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 					WAIT 0
-					IF IS_CHAR_DEAD	ryder
-						SWITCH_ENTRY_EXIT lacrak TRUE
-						PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-						GOTO mission_sweet1b_failed
-					ENDIF
 				ENDWHILE
 
 				PLAY_MISSION_AUDIO 2
@@ -1455,11 +1372,6 @@ WHILE NOT killed_all_crack_fucks = 1
 
 				WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 					WAIT 0
-					IF IS_CHAR_DEAD	ryder
-						SWITCH_ENTRY_EXIT lacrak TRUE
-						PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-						GOTO mission_sweet1b_failed
-					ENDIF
 				ENDWHILE
 
 				
@@ -1468,12 +1380,7 @@ WHILE NOT killed_all_crack_fucks = 1
 				IF NOT IS_CHAR_DEAD ryder
 					WHILE NOT LOCATE_CHAR_ANY_MEANS_3D ryder 320.0 1122.3 1082.8 0.9 0.9 2.0 FALSE
 						WAIT 0
-					 	IF IS_CHAR_DEAD	ryder
-							SWITCH_ENTRY_EXIT lacrak TRUE
-							PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-							GOTO mission_sweet1b_failed
-						ENDIF
-
+					 	GOSUB ryder_checkup
 					ENDWHILE
 				ENDIF
 
@@ -1481,20 +1388,16 @@ WHILE NOT killed_all_crack_fucks = 1
 					IF NOT IS_CHAR_DEAD crackhead5
 						//TASK_KILL_CHAR_ON_FOOT ryder crackhead5
 						TASK_PLAY_ANIM ryder bat_4 BASEBALL 4.0 FALSE FALSE FALSE FALSE -1
-						TIMERA = 0
-						WHILE NOT TIMERA > 400
-							WAIT 0
-						ENDWHILE
-						IF NOT IS_CHAR_DEAD	crackhead5
-							//REPORT_MISSION_AUDIO_EVENT_AT_CHAR crackhead5 SOUND_BASEBALL_BAT_HIT_PED
-							REPORT_MISSION_AUDIO_EVENT_AT_POSITION 320.1898 1123.2921 1082.8750 SOUND_BASEBALL_BAT_HIT_PED
-
-							TASK_DIE_NAMED_ANIM crackhead5 CRCKDETH3 CRACK 4.0 FALSE
-							DROP_OBJECT crackhead5 FALSE
-						ENDIF
-						sweet1b_cutscene_flag = 1 
 					ENDIF
 				ENDIF
+				WAIT 400
+				IF NOT IS_CHAR_DEAD	crackhead5
+					//REPORT_MISSION_AUDIO_EVENT_AT_CHAR crackhead5 SOUND_BASEBALL_BAT_HIT_PED
+					REPORT_MISSION_AUDIO_EVENT_AT_POSITION 320.1898 1123.2921 1082.8750 SOUND_BASEBALL_BAT_HIT_PED
+					TASK_DIE_NAMED_ANIM crackhead5 CRCKDETH3 CRACK 4.0 FALSE
+					DROP_OBJECT crackhead5 FALSE
+				ENDIF
+				sweet1b_cutscene_flag = 1 
 
 				IF NOT IS_CHAR_DEAD crackhead8
 					TASK_GO_STRAIGHT_TO_COORD crackhead8 323.80 1124.35 1082.89 PEDMOVE_WALK 10000 //BJ bloke
@@ -1509,11 +1412,7 @@ WHILE NOT killed_all_crack_fucks = 1
 				TIMERA = 0
 				WHILE NOT TIMERA > 700
 					WAIT 0
-					IF IS_CHAR_DEAD	ryder
-						SWITCH_ENTRY_EXIT lacrak TRUE
-						PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-						GOTO mission_sweet1b_failed
-					ENDIF
+					GOSUB ryder_checkup
 				ENDWHILE
 
 				IF NOT IS_CHAR_DEAD crack_boss		
@@ -1533,11 +1432,7 @@ WHILE NOT killed_all_crack_fucks = 1
 				TIMERA = 0
 				WHILE NOT TIMERA > 2500
 					WAIT 0
-					IF IS_CHAR_DEAD	ryder
-						SWITCH_ENTRY_EXIT lacrak TRUE
-						PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-						GOTO mission_sweet1b_failed
-					ENDIF
+					GOSUB ryder_checkup
 				ENDWHILE
 
 				IF NOT IS_CHAR_DEAD crackhead7
@@ -1551,11 +1446,6 @@ WHILE NOT killed_all_crack_fucks = 1
 
 				WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 					WAIT 0
-					IF IS_CHAR_DEAD	ryder
-						PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-						SWITCH_ENTRY_EXIT lacrak TRUE
-						GOTO mission_sweet1b_failed
-					ENDIF						   
 				ENDWHILE					   
 
 				PLAY_MISSION_AUDIO 2
@@ -1563,13 +1453,10 @@ WHILE NOT killed_all_crack_fucks = 1
 
 				WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 					WAIT 0
-					IF IS_CHAR_DEAD	ryder
-						SWITCH_ENTRY_EXIT lacrak TRUE
-						PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-						GOTO mission_sweet1b_failed
-					ENDIF
 				ENDWHILE
 				
+				GOSUB ryder_checkup
+
 				skip_cutscene = 1 // FIXEDGROVE: was skip_crack_cutscene
 				SKIP_CUTSCENE_END
 
@@ -1649,8 +1536,8 @@ WHILE NOT killed_all_crack_fucks = 1
 				create_crack_den = 1
 			ELSE
 
-				IF TIMERA > 2000
-					IF played_wee_sample = 0
+				IF played_wee_sample = 0
+					IF TIMERA > 2000
 						IF HAS_MISSION_AUDIO_LOADED 2
 							PLAY_MISSION_AUDIO 2
 							PRINT_NOW ( RYDX_BC ) 2000 1 //	Ninja these motherfuckers!
@@ -1659,8 +1546,8 @@ WHILE NOT killed_all_crack_fucks = 1
 					ENDIF
 				ENDIF
 
-				IF TIMERA > 4000
-					IF played_wee_sample = 1
+				IF played_wee_sample = 1
+					IF TIMERA > 4000
 						PRINT_NOW ( SW1B_B ) 6000 1 // ~s~Go beat up the ~r~crack dealer~s~
 						played_wee_sample = 2
 					ENDIF
@@ -1777,10 +1664,7 @@ WHILE NOT killed_all_crack_fucks = 1
 
 	GOSUB ryders_group_break
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 ENDWHILE
 
@@ -1821,9 +1705,6 @@ ADD_BLIP_FOR_COORD 2513.33 -1672.12 12.52 B_dups_blip
 blob_flag = 1
 flag_sweet1b = 4
 
-IF NOT IS_CHAR_DEAD	ryder
-ENDIF
-
 play_ryder_mission_audio = 0
 
 sweet1b_index = 0
@@ -1838,10 +1719,7 @@ OR NOT LOCATE_CHAR_ANY_MEANS_3D ryder 2513.3 -1671.9 12.52 4.0 4.0 4.0 FALSE
 
 	WAIT 0
 
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
-	ENDIF
+	GOSUB ryder_checkup
 
 	IF play_ryder_mission_audio = 1
 		GOSUB ryders_group_break
@@ -1924,11 +1802,6 @@ OR NOT LOCATE_CHAR_ANY_MEANS_3D ryder 2513.3 -1671.9 12.52 4.0 4.0 4.0 FALSE
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-
-	IF IS_CHAR_DEAD	ryder
-		PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-		GOTO mission_sweet1b_failed
 	ENDIF
 
 ENDWHILE
@@ -2071,16 +1944,12 @@ GOTO mission_sweet1b_passed
 
 mission_sweet1b_failed:
 
-
-	GET_AREA_VISIBLE new_visible_area
-	IF new_visible_area	= 5
-		SWITCH_ENTRY_EXIT lacrak TRUE
-	ENDIF
-
 	PRINT_BIG ( M_FAIL ) 5000 1 //"Mission Failed"
 	
 	GET_AREA_VISIBLE new_visible_area
 	IF new_visible_area	= 5
+		SWITCH_ENTRY_EXIT lacrak TRUE
+
 		IF create_crack_den = 1
 
 			IF NOT IS_CHAR_DEAD	crackhead2
@@ -2200,6 +2069,13 @@ IF sweet1b_char_select = 6
 ENDIF
 RETURN
 
+ryder_checkup:
+IF IS_CHAR_DEAD ryder
+	PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
+	GOTO mission_sweet1b_failed
+ENDIF
+RETURN
+
 ryders_group_break:
 
 	GET_AREA_VISIBLE new_visible_area
@@ -2236,39 +2112,36 @@ ryders_group_break:
 								SET_PLAYER_GROUP_RECRUITMENT player1 FALSE
 								LISTEN_TO_PLAYER_GROUP_COMMANDS ryder FALSE	
 							ENDIF
-							IF flag_sweet1b	= 0
+							SWITCH flag_sweet1b
+							CASE 0
 								REMOVE_BLIP B_dups_blip
 								ADD_BLIP_FOR_COORD 2301.07 -1754.40 12.54 B_dups_blip
 								PRINT_NOW ( SW1B_A ) 7000 1 // ~s~Go to ~y~B Dup crib~s~
-							ENDIF
-							IF flag_sweet1b	= 1
+							BREAK
+							CASE 1
 								IF NOT IS_CHAR_DEAD	crackhead1
 									REMOVE_BLIP crackhead1_blip
 									ADD_BLIP_FOR_CHAR crackhead1 crackhead1_blip
 								ENDIF
 								PRINT_NOW ( SW1B_B ) 7000 1 // ~s~Go beat up the ~r~crack dealer~s~
-							ENDIF
-							IF flag_sweet1b	= 2
-								IF new_visible_area	= 0
-									REMOVE_BLIP B_dups_blip
-									ADD_BLIP_FOR_COORD 2171.7815 -1676.7803 14.0859 B_dups_blip	//CRACK HOUSE
-								ENDIF
+							BREAK
+							CASE 2
+								REMOVE_BLIP B_dups_blip
+								ADD_BLIP_FOR_COORD 2171.7815 -1676.7803 14.0859 B_dups_blip	//CRACK HOUSE
 								PRINT_NOW ( SW1B_1 ) 7000 1 // ~s~Go to ~r~crack dealer~s~
-							ENDIF
-							IF flag_sweet1b	= 3
+							BREAK
+							CASE 3
 								SWITCH_ENTRY_EXIT lacrak TRUE
-								IF new_visible_area	= 0
-									REMOVE_BLIP B_dups_blip
-									ADD_BLIP_FOR_COORD 2169.72 -1673.14 13.01 B_dups_blip	//CRACK HOUSE door
-								ENDIF
+								REMOVE_BLIP B_dups_blip
+								ADD_BLIP_FOR_COORD 2169.72 -1673.14 13.01 B_dups_blip	//CRACK HOUSE door
 								PRINT_NOW ( SW1B_1 ) 7000 1 // ~s~Go to ~r~crack dealer~s~
-							ENDIF
-							IF flag_sweet1b	= 4
-								//SWITCH_ENTRY_EXIT lacrak TRUE
+							BREAK
+							CASE 4
 								REMOVE_BLIP B_dups_blip
 								ADD_BLIP_FOR_COORD 2513.33 -1672.12 12.52 B_dups_blip
 								PRINT_NOW ( SW1B_F ) 7000 1 // Go back to Ryders gaff.
-							ENDIF
+							BREAK
+							ENDSWITCH
 							blob_flag = 1
 							ryder_group_spilt_blip = 0
 						ENDIF
@@ -2405,26 +2278,27 @@ RETURN
 
 get_back_in_ryders_group:
 	
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 get_in_counter_intro1
+
 	CLEAR_MISSION_AUDIO 2
-	IF get_in_counter_swee1b = 0
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AL	//Hey buster, wait up!
-	ENDIF
-
-	IF get_in_counter_swee1b = 1
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AM	//Don't you bust on me!
-	ENDIF
-
-	IF get_in_counter_swee1b = 2
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AN	//Wait up, CJ!
-	ENDIF
-
-	IF get_in_counter_swee1b = 3			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AO	//Hold up, fool!
-	ENDIF
-
-	IF get_in_counter_swee1b = 4			
-		LOAD_MISSION_AUDIO 2 SOUND_RYDX_AP	//Hey, CJ, where you at?
-	ENDIF
+	SWITCH get_in_counter_swee1b
+	CASE 0
+		audio_sound_file = SOUND_RYDX_AL	//Hey buster, wait up!
+	BREAK
+	CASE 1
+		audio_sound_file = SOUND_RYDX_AM	//Don't you bust on me!
+	BREAK
+	CASE 2
+		audio_sound_file = SOUND_RYDX_AN	//Wait up, CJ!
+	BREAK
+	CASE 3
+		audio_sound_file = SOUND_RYDX_AO	//Hold up, fool!
+	BREAK
+	CASE 4
+		audio_sound_file = SOUND_RYDX_AP	//Hey, CJ, where you at?
+	BREAK
+	ENDSWITCH
+	LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 
 	STOP_CHAR_FACIAL_TALK scplayer
@@ -2432,53 +2306,32 @@ get_back_in_ryders_group:
 	CLEAR_MISSION_AUDIO 1
 	WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	ryder
-			//PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-			//GOTO mission_sweet1b_failed
-			RETURN
-		ENDIF
-
 	ENDWHILE
 
 	PLAY_MISSION_AUDIO 2 
 	  	
-	IF get_in_counter_swee1b = 0	
-		PRINT_NOW (RYDX_AL ) 3000 1 //Hey buster, wait up!
-	ENDIF								
-	IF get_in_counter_swee1b = 1	
-		PRINT_NOW ( RYDX_AM ) 3000 1 //Don't you bust on me!
-	ENDIF							   	 
-	IF get_in_counter_swee1b = 2	
-		PRINT_NOW ( RYDX_AN ) 3000 1 //Wait up, CJ!
-	ENDIF						 	   
-	IF get_in_counter_swee1b = 3	
-		PRINT_NOW ( RYDX_AO	) 3000 1 //Hold up, fool!
-	ENDIF							   
-	IF get_in_counter_swee1b = 4	
-		PRINT_NOW ( RYDX_AP ) 3000 1 //Hey, CJ, where you at? 
-	ENDIF
+	SWITCH get_in_counter_swee1b
+	CASE 0
+		$audio_string = &RYDX_AL //Hey buster, wait up!
+	BREAK
+	CASE 1
+		$audio_string = &RYDX_AM //Don't you bust on me!
+	BREAK
+	CASE 2
+		$audio_string = &RYDX_AN //Wait up, CJ!
+	BREAK
+	CASE 3
+		$audio_string = &RYDX_AO //Hold up, fool!
+	BREAK
+	CASE 4
+		$audio_string = &RYDX_AP //Hey, CJ, where you at? 
+	BREAK
+	ENDSWITCH
+	PRINT_NOW ( $audio_string ) 3000 1
 
 	WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
 		WAIT 0
-
-		IF IS_CHAR_DEAD	ryder
-			//PRINT_NOW (SW1B_G) 10000 1 //~r~Ryder is dead!
-			//GOTO mission_sweet1b_failed
-			RETURN
-		ENDIF
-
 	ENDWHILE
-
-	get_in_counter_swee1b ++
-
-	IF get_in_counter_swee1b > 4
-		get_in_counter_swee1b = 0
-	ENDIF
-
-	IF IS_CHAR_DEAD	ryder
-		
-	ENDIF
 
 RETURN
 

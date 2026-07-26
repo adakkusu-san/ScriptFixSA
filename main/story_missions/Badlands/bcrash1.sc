@@ -593,42 +593,93 @@ mission_loop_bcrash1:
 
 WAIT 0
 
-
+/*
 IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
 	GOTO mission_passed_bcrash1
 ENDIF
 IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_1
 	flag_bcr1_skip = 1
 ENDIF
+*/
 IF main_visible_area = 0
-	IF bc1_help = 3
+	SWITCH bc1_help
+	CASE 3
 		IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
 			PRINT_HELP ( BCR1_23 ) // You can view your Gallery photos in your GTA San Andreas User Files directory.
 			bc1_help = 4
 		ENDIF
-	ENDIF
-	IF bc1_help = 2
+	BREAK
+	CASE 2
 		IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
 			PRINT_HELP ( FEG_HOW )  
 			bc1_help = 3
 		ENDIF
-	ENDIF
-	IF bc1_help = 1
+	BREAK
+	CASE 1
 		IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
 			PRINT_HELP ( BCR1_21 )  
 			bc1_help = 2
 		ENDIF
-	ENDIF
-	IF bc1_help = 0
+	BREAK
+	CASE 0
 		IF NOT IS_MESSAGE_BEING_DISPLAYED
 			PRINT_HELP BCR1_22	
 			bc1_help = 1
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 ENDIF
 
 // In car check
 IF bc1_stage < 4
+	GOSUB bc1_stage_lt_4
+ENDIF
+
+IF bc1_stage > 3
+	GOSUB bc1_stage_gt_3
+ENDIF
+
+SWITCH bc1_stage
+CASE -1
+	GOSUB bc1_stage_eq_m1
+BREAK
+CASE 0
+	GOSUB bc1_stage_eq_0
+BREAK
+CASE 1
+	GOSUB bc1_stage_eq_1
+BREAK
+CASE 2
+	GOSUB bc1_stage_eq_2
+BREAK
+CASE 3
+	GOSUB bc1_stage_eq_3
+BREAK
+CASE 4
+	GOSUB bc1_stage_eq_4
+BREAK
+CASE 5
+	GOSUB bc1_stage_eq_5
+BREAK
+CASE 6
+	GOSUB bc1_stage_eq_6
+BREAK
+CASE 7
+	GOSUB bc1_stage_eq_7
+BREAK
+CASE 8
+	GOSUB bc1_stage_eq_8
+BREAK
+ENDSWITCH
+
+IF bc1_stage > 0
+AND bc1_stage < 7
+	GOSUB bc1_stage_gt_0_lt_7
+ENDIF
+
+GOTO mission_loop_bcrash1
+
+bc1_stage_lt_4:
 	IF bc1_incar = 0
 		IF IS_CHAR_IN_ANY_CAR scplayer
 			STORE_CAR_CHAR_IS_IN scplayer bc1_player_car
@@ -640,9 +691,9 @@ IF bc1_stage < 4
 			bc1_incar = 0
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
-IF bc1_stage = -1
+bc1_stage_eq_m1:
 	IF NOT IS_CHAR_DEAD scplayer
 		IF LOCATE_CHAR_ANY_MEANS_3D scplayer bc1_check_x[0] bc1_check_y[0] bc1_check_z[0] 4.0 4.0 4.0 TRUE
 			//GOSUB bc1_bmx_delete
@@ -659,10 +710,10 @@ IF bc1_stage = -1
 			bc1_stage = 0
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 
-IF bc1_stage = 0
+bc1_stage_eq_0:
 	IF NOT IS_CHAR_DEAD scplayer
 		IF bc1_create = 0 
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer bc1_locate_x bc1_locate_y bc1_locate_z 150.0 150.0 150.0 FALSE
@@ -676,11 +727,6 @@ IF bc1_stage = 0
 			   	bc1_create = 1
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF
-
-IF bc1_stage = 0
-	IF NOT IS_CHAR_DEAD scplayer
 		IF bc1_cut > 1
 			IF NOT IS_SKIP_CUTSCENE_BUTTON_PRESSED // FIXEDGROVE: changed from cross and circle check
 				bc1_pressed = 0
@@ -693,7 +739,8 @@ IF bc1_stage = 0
 				ENDIF
 			ENDIF
 	   	ENDIF
-		IF bc1_cut = 0 
+		SWITCH bc1_cut
+		CASE 0
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer bc1_locate_x bc1_locate_y bc1_locate_z 100.0 100.0 100.0 FALSE
 				bc1_pressed = 1
 				SET_PLAYER_CONTROL player1 OFF
@@ -715,8 +762,8 @@ IF bc1_stage = 0
 				ENDIF
 				bc1_cut = 1
 			ENDIF
-		ENDIF
-		IF bc1_cut = 1
+		BREAK
+		CASE 1
 			GET_GAME_TIMER bc1_timer_end
 			bc1_timer_diff = bc1_timer_end - bc1_timer_start
 			IF bc1_timer_diff > 250
@@ -748,9 +795,11 @@ IF bc1_stage = 0
 				GET_GAME_TIMER bc1_timer_start
 				bc1_cut = 2
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 		IF NOT IS_CHAR_DEAD bc1_target
-			IF bc1_cut = 2
+			SWITCH bc1_cut
+			CASE 2
 				GET_GAME_TIMER bc1_timer_end
 				bc1_timer_diff = bc1_timer_end - bc1_timer_start
 				IF bc1_timer_diff > 3000
@@ -758,8 +807,8 @@ IF bc1_stage = 0
 					GET_GAME_TIMER bc1_timer_start
 					bc1_cut = 3
 				ENDIF
-			ENDIF
-			IF bc1_cut = 3
+			BREAK
+			CASE 3
 				GET_GAME_TIMER bc1_timer_end
 				bc1_timer_diff = bc1_timer_end - bc1_timer_start
 				IF bc1_timer_diff > 3000
@@ -769,24 +818,24 @@ IF bc1_stage = 0
 					GET_GAME_TIMER bc1_timer_start
 					bc1_cut = 4
 				ENDIF
-			ENDIF
-			IF bc1_cut = 4
+			BREAK
+			CASE 4
 				GET_GAME_TIMER bc1_timer_end
 				bc1_timer_diff = bc1_timer_end - bc1_timer_start
 				IF bc1_timer_diff > 2000
 					GET_GAME_TIMER bc1_timer_start
 					bc1_cut = 5
 				ENDIF
-			ENDIF
-			IF bc1_cut = 5
+			BREAK
+			CASE 5
 				GET_GAME_TIMER bc1_timer_end
 				bc1_timer_diff = bc1_timer_end - bc1_timer_start
 				IF bc1_timer_diff > 1500
 					GET_GAME_TIMER bc1_timer_start
 					bc1_cut = 6
 				ENDIF
-			ENDIF
-		   	IF bc1_cut = 6
+			BREAK
+			CASE 6
 				GET_GAME_TIMER bc1_timer_end
 				bc1_timer_diff = bc1_timer_end - bc1_timer_start
 				IF bc1_timer_diff > 500
@@ -806,12 +855,13 @@ IF bc1_stage = 0
 						CLOSE_SEQUENCE_TASK bc1_run_to_car
 		  			ENDIF
 				ENDIF
-			ENDIF
+			BREAK
+			ENDSWITCH
 		ENDIF
 	ENDIF
-ENDIF 
+RETURN 
  
-IF bc1_stage = 1
+bc1_stage_eq_1:
 	IF IS_CHAR_ON_FOOT scplayer
 		IF IS_CHAR_DEAD bc1_target
 			IF NOT IS_CHAR_DEAD bc1_marshall[1]
@@ -1117,10 +1167,10 @@ IF bc1_stage = 1
 			bc1_stage = 2
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 // set target to get in car and drive away
-IF bc1_stage = 2
+bc1_stage_eq_2:
 	IF NOT IS_CAR_DEAD bc1_marshall_car
 		IF NOT IS_CHAR_DEAD bc1_target
 			IF bc1_drive_car = 0
@@ -1137,11 +1187,11 @@ IF bc1_stage = 2
 			bc1_stage = 7
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 // tell player to avoid blowing up the car as he needs remains that can be identified, photographed.
 // set car properties / mission. tell the target to drive to the nearest police station. that's the time limit.
-IF bc1_stage = 3
+bc1_stage_eq_3:
 	IF NOT IS_CAR_DEAD bc1_marshall_car
 		IF NOT IS_CHAR_DEAD bc1_target
 			IF IS_CHAR_IN_CAR bc1_target bc1_marshall_car
@@ -1166,7 +1216,8 @@ IF bc1_stage = 3
 						bc1_route_nx++
 					ENDIF
 				ENDIF
-				IF bc1_cut = 0
+				SWITCH bc1_cut
+				CASE 0
 					SET_CAR_HEALTH bc1_marshall_car 1000
 					SET_CAR_CRUISE_SPEED bc1_marshall_car 40.0
 					SET_CAR_DRIVING_STYLE bc1_marshall_car DRIVINGMODE_PLOUGHTHROUGH
@@ -1208,9 +1259,8 @@ IF bc1_stage = 3
 					POINT_CAMERA_AT_POINT -2795.9998 -1506.5857 138.9953 JUMP_CUT
 					GET_GAME_TIMER bc1_timer_start
 					bc1_cut = 1
-
-				ENDIF
-				IF bc1_cut = 1
+				BREAK
+				CASE 1
 					IF IS_CHAR_ON_SCREEN scplayer
 						IF IS_CHAR_IN_ANY_CAR scplayer
 							STORE_CAR_CHAR_IS_IN_NO_SAVE scplayer bc1_player_car
@@ -1227,7 +1277,8 @@ IF bc1_stage = 3
 						GET_GAME_TIMER bc1_timer_start
 						bc1_cut = 2
 					ENDIF	 
-				ENDIF
+				BREAK
+				ENDSWITCH
 			ENDIF
 			IF bc1_cut = 2
 				GET_GAME_TIMER bc1_timer_end
@@ -1257,11 +1308,11 @@ IF bc1_stage = 3
 		SET_CAMERA_BEHIND_PLAYER
 		bc1_stage = 4
 	ENDIF			
-ENDIF
+RETURN
 
 
 // when car is burning - stop car. 
-IF bc1_stage = 4
+bc1_stage_eq_4:
 	IF IS_CAR_DEAD bc1_marshall_car
 		IF NOT IS_CHAR_DEAD bc1_target
 			IF NOT IS_CHAR_ON_FOOT bc1_target
@@ -1424,10 +1475,10 @@ IF bc1_stage = 4
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 // When car is burning - run away from it.
-IF bc1_stage = 5
+bc1_stage_eq_5:
 	IF IS_CAR_DEAD bc1_marshall_car
 		IF NOT IS_CHAR_DEAD bc1_target
 			IF NOT IS_CHAR_ON_FOOT bc1_target
@@ -1459,10 +1510,9 @@ IF bc1_stage = 5
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
-IF bc1_stage > 0
-AND bc1_stage < 7
+bc1_stage_gt_0_lt_7:
 	IF DOES_CHAR_EXIST bc1_target
 		IF IS_CHAR_HEAD_MISSING bc1_target
 			IF NOT IS_CAR_DEAD bc1_marshall_car
@@ -1506,10 +1556,10 @@ AND bc1_stage < 7
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 // remove car blip and add target blip
-IF bc1_stage = 6
+bc1_stage_eq_6:
 	IF NOT IS_CAR_DEAD bc1_marshall_car
 		IF NOT IS_CHAR_DEAD bc1_target
 			IF NOT IS_CHAR_SITTING_IN_CAR bc1_target bc1_marshall_car
@@ -1522,19 +1572,36 @@ IF bc1_stage = 6
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
-IF bc1_stage > 3
+bc1_stage_gt_3:
 	IF bc1_target_photo = 0
 		IF NOT DOES_CHAR_EXIST bc1_target
 			PRINT_NOW ( BCR1_09 ) 5000 1 // He can't be identified!
 			GOTO mission_failed_bcrash1
 		ENDIF
 	ENDIF
-ENDIF
+	IF bc1_blipped = 1
+		IF NOT IS_CHAR_DEAD scplayer
+		AND NOT IS_CAR_DEAD bc1_bmx
+		AND NOT IS_CHAR_DEAD bc1_target
+			IF IS_CHAR_IN_CAR scplayer bc1_bmx
+			OR NOT LOCATE_CHAR_ANY_MEANS_CAR_2D scplayer bc1_bmx 50.0 50.0 FALSE
+				PRINT ( BCR1_13 ) 5000 1 // Chase and kill
+				bc1_blipped = 0
+			ENDIF
+			IF IS_CHAR_IN_ANY_CAR scplayer
+				IF NOT IS_CHAR_IN_CAR scplayer bc1_bmx
+					PRINT ( BCR1_13 ) 5000 1 // Chase and kill
+					bc1_blipped = 0
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+RETURN
 
 // check that photo has been taken of dead target
-IF bc1_stage = 7
+bc1_stage_eq_7:
 	IF DOES_CHAR_EXIST bc1_target
 		IF IS_CHAR_HEAD_MISSING bc1_target
 			PRINT_NOW ( BCR1_09 ) 5000 1 // He can't be identified!
@@ -1607,19 +1674,7 @@ IF bc1_stage = 7
 		PRINT_NOW ( BCR1_17 ) 5000 1
 		bc1_stage = 8
 	ENDIF
-ENDIF
 
-IF bc1_stage = 8
-	IF NOT IS_CHAR_DEAD scplayer
-		IF LOCATE_CHAR_ON_FOOT_3D scplayer -2044.10 -2523.86 31.11 1.2 1.2 2.0 TRUE 
-			SET_CHAR_AMMO scplayer WEAPONTYPE_CAMERA 0
-			GOTO mission_passed_bcrash1
-		ENDIF
-	ENDIF
-ENDIF
-
-
-IF bc1_stage = 7
 	//IF bc1_flee = 1
 		IF bc1_target_photo = 0
 			GET_AMMO_IN_CHAR_WEAPON scplayer WEAPONTYPE_CAMERA bc1_camera_ammo
@@ -1690,29 +1745,19 @@ IF bc1_stage = 7
 	ENDIF
 ENDIF
 
-// In car check
-IF bc1_stage > 3
-	IF bc1_blipped = 1
-		IF NOT IS_CHAR_DEAD scplayer
-		AND NOT IS_CAR_DEAD bc1_bmx
-		AND NOT IS_CHAR_DEAD bc1_target
-			IF IS_CHAR_IN_CAR scplayer bc1_bmx
-			OR NOT LOCATE_CHAR_ANY_MEANS_CAR_2D scplayer bc1_bmx 50.0 50.0 FALSE
-				PRINT ( BCR1_13 ) 5000 1 // Chase and kill
-				bc1_blipped = 0
-			ENDIF
-			IF IS_CHAR_IN_ANY_CAR scplayer
-				IF NOT IS_CHAR_IN_CAR scplayer bc1_bmx
-					PRINT ( BCR1_13 ) 5000 1 // Chase and kill
-					bc1_blipped = 0
-				ENDIF
-			ENDIF
+bc1_stage_eq_8:
+	IF NOT IS_CHAR_DEAD scplayer
+		IF LOCATE_CHAR_ON_FOOT_3D scplayer -2044.10 -2523.86 31.11 1.2 1.2 2.0 TRUE 
+			SET_CHAR_AMMO scplayer WEAPONTYPE_CAMERA 0
+			GOTO mission_passed_bcrash1
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 
-GOTO mission_loop_bcrash1
+// GOTO mission_loop_bcrash1
+
+// ??? these will never run
 
 WAIT 1500
 

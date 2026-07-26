@@ -561,39 +561,28 @@ MISSION_END
 
 sw4_hood_react_group1:
 	IF NOT IS_CAR_DEAD sw4_hood_car[0]
-	AND NOT IS_CAR_DEAD sw4_player_car
+		IF NOT IS_CAR_DEAD sw4_player_car
 		OPEN_SEQUENCE_TASK sw4_hood_react[0] // First car, driver gets out and shoots at the player's car...
 			TASK_LEAVE_CAR -1 sw4_hood_car[0]
 			TASK_STAY_IN_SAME_PLACE -1 TRUE
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[0]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
-	AND NOT IS_CAR_DEAD sw4_player_car
 		OPEN_SEQUENCE_TASK sw4_hood_react[1] // First car, goon walks around car while shooting at the player, then shoots some more...
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 2075.15	-1363.85 23.85 PEDMOVE_RUN 0.5 5.0 scplayer
 			TASK_STAY_IN_SAME_PLACE -1 TRUE
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[1]
-	ENDIF
+		ENDIF
 
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[2] // First car, goon heads for the player's car while shooting...
 			TASK_DIVE_AND_GET_UP -1 1.0 1.0 500
 			TASK_STAY_IN_SAME_PLACE -1 TRUE
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[2]
-	ENDIF
-		
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_anim // First car, goon heads for the player's car while shooting...
 			TASK_PLAY_ANIM -1 prtial_gngtlkG GANGS 4.0 FALSE FALSE FALSE FALSE 0
 			TASK_PLAY_ANIM -1 prtial_gngtlkH GANGS 4.0 FALSE FALSE FALSE FALSE 0	
 		CLOSE_SEQUENCE_TASK sw4_hood_anim
-	ENDIF	
-
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[3] // First car, goon makes a break for it...
 			TASK_STAY_IN_SAME_PLACE -1 TRUE
 			TASK_DESTROY_CAR -1 sw4_player_car
@@ -603,29 +592,21 @@ RETURN
 
 sw4_hood_react_group2:
 	IF NOT IS_CAR_DEAD sw4_hood_car[1]
-	AND NOT IS_CHAR_DEAD scplayer
+		IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[4] // Second car, goon gets out of car heads for player while shooting...
 			TASK_LEAVE_CAR -1 sw4_hood_car[1]
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 sw4_player_car_x sw4_player_car_y sw4_player_car_z PEDMOVE_WALK 1.0 5.0 scplayer
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[4]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
+		ENDIF
 		OPEN_SEQUENCE_TASK sw4_hood_react[5] // Second car, goon makes a break for it...
 			TASK_WEAPON_ROLL -1	TRUE
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[5]		
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[6] // Second car, goon moves to corner while shooting, then flees...
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 2080.66 -1292.61 24.02 PEDMOVE_RUN 0.5 5.0 scplayer
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[6]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[7] // Second car, goon sidesteps behind car while shooting...
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 2132.0 -1307.0 24.0 PEDMOVE_RUN 1.0 5.0 scplayer
 			TASK_DESTROY_CAR -1 sw4_player_car
@@ -640,23 +621,15 @@ sw4_hood_react_group3:
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 2080.0 -1261.0 24.0 PEDMOVE_RUN 1.0 5.0 scplayer
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[8]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[9] // Second car, goon makes a break for it...
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[9]		
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
-	AND NOT IS_CAR_DEAD sw4_player_car
+		IF NOT IS_CAR_DEAD sw4_player_car
 		OPEN_SEQUENCE_TASK sw4_hood_react[10] // Second car, goon moves to corner while shooting, then flees...
 			TASK_STAY_IN_SAME_PLACE -1 TRUE
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[10]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
+		ENDIF
 		OPEN_SEQUENCE_TASK sw4_hood_react[11] // Second car, goon sidesteps behind car while shooting...
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 2163.0 -1262.0 24.0 PEDMOVE_RUN 1.0 5.0 scplayer
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 2080.0 -1261.0 24.0 PEDMOVE_RUN 1.0 5.0 scplayer
@@ -671,23 +644,15 @@ sw4_hood_react_group4:
 			TASK_GO_TO_COORD_WHILE_SHOOTING -1 sw4_player_car_x sw4_player_car_y sw4_player_car_z PEDMOVE_WALK 1.0 5.0 scplayer
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[12]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
-	AND NOT IS_CAR_DEAD sw4_player_car
+		IF NOT IS_CAR_DEAD sw4_player_car
 		OPEN_SEQUENCE_TASK sw4_hood_react[13] // Second car, goon makes a break for it...
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK sw4_hood_react[13]		
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
+		ENDIF
 		OPEN_SEQUENCE_TASK sw4_hood_react[14] // Second car, goon moves to corner while shooting, then flees...
 			TASK_SHOOT_AT_COORD -1 1984.21 -1239.04 20.50 6000
 			TASK_FLEE_CHAR -1 scplayer 50.0 -1
 		CLOSE_SEQUENCE_TASK sw4_hood_react[14]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD scplayer
 		OPEN_SEQUENCE_TASK sw4_hood_react[15] // Second car, goon sidesteps behind car while shooting...
 			TASK_DESTROY_CAR -1 sw4_player_car
 		CLOSE_SEQUENCE_TASK	sw4_hood_react[15]
@@ -1261,21 +1226,86 @@ WAIT 0
 
 // ---- Load & Play Dialogue...
 IF NOT sw4_counter = 0
-	IF sw4_audio_playing = 0
+	GOSUB sw4_audio_play
+ENDIF
+
+GOSUB sw4_group_checkup
+
+IF sw4_stage < 4
+	GOSUB sw4_stage_lt_4
+ENDIF
+
+SWITCH sw4_stage
+CASE 0
+	GOSUB sw4_stage_eq_0
+BREAK
+CASE 4
+	GOSUB sw4_stage_eq_4
+BREAK
+CASE 5
+	GOSUB sw4_stage_eq_5
+BREAK
+CASE 6
+	GOSUB sw4_stage_eq_6
+BREAK
+CASE 7
+	GOSUB sw4_stage_eq_7
+BREAK
+CASE 8
+	GOSUB sw4_stage_eq_8
+BREAK
+CASE 666
+	GOSUB sw4_stage_eq_66
+BREAK
+CASE 667
+	GOSUB sw4_stage_eq_67
+BREAK
+ENDSWITCH
+
+IF sw4_stage > 4
+	GOSUB sw4_stage_gt_4
+ENDIF
+
+IF sw4_stage > 2
+AND sw4_stage < 8
+	GOSUB sw4_stage_gt_2_lt_8
+ENDIF
+
+// Text Timers
+IF sw4_blipped = 0
+	SWITCH sw4_stage
+	CASE 3
+		GOSUB sw4_text_timer_eq3
+	BREAK
+	CASE 4
+		GOSUB sw4_text_timer_eq4
+	BREAK
+	CASE 6
+		GOSUB sw4_text_timer_eq6
+	BREAK
+	CASE 7
+		GOSUB sw4_text_timer_eq7
+	BREAK
+	ENDSWITCH
+ENDIF
+
+GOTO sw4_main_loop
+
+sw4_audio_play:
+	SWITCH sw4_audio_playing
+	CASE 0
 		IF HAS_MISSION_AUDIO_LOADED sw4_alt_slot
 			CLEAR_MISSION_AUDIO sw4_alt_slot
 		ENDIF
 		sw4_audio_playing = 1
-	ENDIF
-
-	IF sw4_audio_playing = 1
+	BREAK
+	CASE 1
 		LOAD_MISSION_AUDIO sw4_audio_slot sw4_audio[sw4_counter]
 		GOSUB sw4_dialogue_pos
 //		ATTACH_MISSION_AUDIO_TO_PED sw4_audio_slot sw4_audio_char
 		sw4_audio_playing = 2
-	ENDIF
-
-	IF sw4_audio_playing = 2
+	BREAK
+	CASE 2
 	 	IF HAS_MISSION_AUDIO_LOADED sw4_audio_slot
 			IF NOT sw4_audio_char = 0
 				IF NOT IS_CHAR_DEAD	sw4_audio_char
@@ -1288,9 +1318,8 @@ IF NOT sw4_counter = 0
 			PRINT_NOW $sw4_text[sw4_counter] 10000 1
 			sw4_audio_playing = 3
 		ENDIF
-	ENDIF
-
-	IF sw4_audio_playing = 3
+	BREAK
+	CASE 3
 		IF HAS_MISSION_AUDIO_FINISHED sw4_audio_slot
 			CLEAR_THIS_PRINT $sw4_text[sw4_counter]
 			IF NOT sw4_audio_char = 0
@@ -1321,14 +1350,17 @@ IF NOT sw4_counter = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF  
+	BREAK
+	ENDSWITCH
+RETURN  
 
+/*
 IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
 	GOTO mission_passed_sweet4
 ENDIF
+*/
 
-
+sw4_group_checkup:
 // If anyone dies...
 IF sw4_stage < 8
 OR sw4_stage = 666
@@ -1344,6 +1376,7 @@ IF IS_CAR_DEAD sw4_player_car
 	PRINT_NOW ( SWE4_04 ) 5000 1 // Your homies didn't make it.
 	GOTO mission_failed_sweet4
 ENDIF
+RETURN
 
 //IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_SPACE
 //	GOSUB sw4_flat_hood_create
@@ -1371,7 +1404,7 @@ ENDIF
 //ENDIF
 
 // Get in the car...
-IF sw4_stage = 0
+sw4_stage_eq_0:
 	IF NOT IS_CAR_DEAD sw4_player_car
 		IF NOT IS_CHAR_DEAD scplayer
 		AND NOT IS_CHAR_DEAD sw4_smoke
@@ -1482,8 +1515,9 @@ IF sw4_stage = 0
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
+sw4_stage_lt_4:
 // If you're ready we can begin...
 IF NOT IS_CHAR_DEAD scplayer
 AND NOT IS_CHAR_DEAD sw4_smoke
@@ -1495,8 +1529,6 @@ AND NOT	IS_CHAR_DEAD sw4_sweet
 		AND	IS_CHAR_IN_CAR sw4_ryder sw4_player_car
 		AND	IS_CHAR_IN_CAR sw4_sweet sw4_player_car
 			IF sw4_stage = 1
-				
-				
 				sw4_stage = 2
 		   	ENDIF
 		   	IF sw4_stage = 2
@@ -1523,8 +1555,6 @@ AND NOT	IS_CHAR_DEAD sw4_sweet
 						sw4_help = 2
 					ENDIF
 				ENDIF
-			ENDIF
-		   	IF sw4_stage = 3
 				IF sw4_hood_create[1] = 0
 				AND sw4_group_active = 0
 					IF NOT IS_CAR_DEAD sw4_player_car
@@ -1583,34 +1613,23 @@ AND NOT	IS_CHAR_DEAD sw4_sweet
  	  	ENDIF
 	ENDIF
 ENDIF
+RETURN
 
 // Fit a cutscene in here...
-IF sw4_stage = 4
-AND sw4_cut = 0
-	IF NOT IS_CHAR_DEAD sw4_ryder
-	AND NOT IS_CHAR_DEAD sw4_smoke
-		IF NOT IS_CAR_DEAD sw4_player_car
-		AND NOT IS_CHAR_DEAD sw4_sweet
-			GET_GAME_TIMER sw4_timer_start[0]
-			GET_GAME_TIMER sw4_text_timer_start
-			sw4_cut = 1
+sw4_stage_eq_4:
+	SWITCH sw4_cut
+	CASE 0
+		IF NOT IS_CHAR_DEAD sw4_ryder
+		AND NOT IS_CHAR_DEAD sw4_smoke
+			IF NOT IS_CAR_DEAD sw4_player_car
+			AND NOT IS_CHAR_DEAD sw4_sweet
+				GET_GAME_TIMER sw4_timer_start[0]
+				GET_GAME_TIMER sw4_text_timer_start
+				sw4_cut = 1
+			ENDIF
 		ENDIF
-	ENDIF
-ENDIF
-IF sw4_stage = 4
-	IF sw4_cut > 0
-		GET_GAME_TIMER sw4_timer_end[0]
-		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
-		IF sw4_timer_diff[0] > 2000
-			IF IS_SKIP_CUTSCENE_BUTTON_PRESSED // FIXEDGROVE: changed from cross check
-				CLEAR_PRINTS
-				sw4_text_timer_flag = 14
-				sw4_skip_flag = 1
-				sw4_cut = 4
-		 	ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_cut = 1
+	BREAK
+	CASE 1
 		GET_GAME_TIMER sw4_timer_end[0]
 		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 		IF sw4_timer_diff[0] > 300
@@ -1633,8 +1652,8 @@ IF sw4_stage = 4
 				ENDIF
 			ENDIF
 	   	ENDIF
-	ENDIF
-	IF sw4_cut = 2											 
+	BREAK
+	CASE 2											 
 		GET_GAME_TIMER sw4_timer_end[0]
 		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 		IF sw4_timer_diff[0] > 10700
@@ -1649,8 +1668,8 @@ IF sw4_stage = 4
 				sw4_cut = 31
 			ENDIF
 	   	ENDIF
-	ENDIF
-	IF sw4_cut = 31
+	BREAK
+	CASE 31
 		GET_GAME_TIMER sw4_timer_end[0]
 		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 		IF sw4_timer_diff[0] > 11000
@@ -1664,8 +1683,8 @@ IF sw4_stage = 4
 			ENDWHILE
 			sw4_cut = 3
 		ENDIF
-	ENDIF
-	IF sw4_cut = 3
+	BREAK
+	CASE 3
 		GET_GAME_TIMER sw4_timer_end[0]
 		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 		IF sw4_timer_diff[0] > 13000
@@ -1687,8 +1706,8 @@ IF sw4_stage = 4
 				ENDIF
 			ENDIF
 	   	ENDIF
-	ENDIF
-	IF sw4_cut = 4
+	BREAK
+	CASE 4
 		GET_GAME_TIMER sw4_timer_end[0]
 		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 		IF sw4_timer_diff[0] > 20000
@@ -1697,9 +1716,9 @@ IF sw4_stage = 4
 			DO_FADE 300 FADE_OUT
 			sw4_cut = 6
 	   	ENDIF
-	ENDIF
+	BREAK
 
-	IF sw4_cut = 6
+	CASE 6
 		GET_GAME_TIMER sw4_timer_end[0]
 		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 		IF sw4_timer_diff[0] > 21000
@@ -1739,174 +1758,24 @@ IF sw4_stage = 4
 			sw4_skip_flag = 0
 			sw4_stage = 5
 	   	ENDIF
-	ENDIF
-ENDIF
-
-// Continue after cutscene...
-IF sw4_stage = 5
-AND sw4_cut >= 6 // or up
-	GET_GAME_TIMER sw4_timer_end[5]
-	sw4_timer_diff[5] = sw4_timer_end[5] - sw4_timer_start[5]
-	IF sw4_timer_diff[5] > 5000	
-		IF sw4_count = 0
-			CLEAR_ONSCREEN_COUNTER sw4_health_display
-			DISPLAY_ONSCREEN_COUNTER_WITH_STRING sw4_health_display COUNTER_DISPLAY_BAR SWE4_08
-			//SET_ONSCREEN_COUNTER_COLOUR sw4_health_display HUD_COLOUR_RED
-			
-			PRINT_HELP SWE4_15  // This will allow you to see where your enemies are located.
-			
-			// Add counter and second help box.
-			GET_GAME_TIMER sw4_timer_start[3]
-			sw4_count = 1
+	BREAK
+	ENDSWITCH
+	IF sw4_cut > 0
+		GET_GAME_TIMER sw4_timer_end[0]
+		sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
+		IF sw4_timer_diff[0] > 2000
+			IF IS_SKIP_CUTSCENE_BUTTON_PRESSED // FIXEDGROVE: changed from cross check
+				CLEAR_PRINTS
+				sw4_text_timer_flag = 14
+				sw4_skip_flag = 1
+				sw4_cut = 4
+		 	ENDIF
 		ENDIF
 	ENDIF
-	IF sw4_attack[0] = 0
-	AND sw4_hood_create[0] = 1
-		IF NOT IS_CAR_DEAD sw4_player_car
-			IF NOT IS_CHAR_DEAD	sw4_flat_hood[0]
-			AND NOT IS_CHAR_DEAD sw4_smoke
-				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[0] sw4_flat_hood_y[0] sw4_flat_hood_z[0] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
-				OR IS_CHAR_SHOOTING sw4_smoke
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[1]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[2]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[3]
-					AND NOT IS_CAR_DEAD sw4_hood_car[0]
-						DELETE_OBJECT sw4_forty
-						//DROP_OBJECT sw4_flat_hood[3] TRUE
-						SET_CURRENT_CHAR_WEAPON sw4_flat_hood[3] WEAPONTYPE_PISTOL
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[0] sw4_hood_react[0]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[0]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[1] sw4_hood_react[1]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[1]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[2] sw4_hood_react[2]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[2]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[3] sw4_hood_react[3]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[3]
-						sw4_attack[0] = 1
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_attack[1] = 0
-	AND sw4_hood_create[1] = 1
-		IF NOT IS_CAR_DEAD sw4_player_car
-			IF NOT IS_CHAR_DEAD	sw4_flat_hood[4]
-			AND NOT IS_CHAR_DEAD sw4_smoke
-				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[4] sw4_flat_hood_y[4] sw4_flat_hood_z[4] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
-				OR IS_CHAR_SHOOTING sw4_smoke
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[5]	
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[6]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[7]
-					AND NOT IS_CAR_DEAD sw4_hood_car[1]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[4] sw4_hood_react[4]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[4]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[5] sw4_hood_react[5]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[5]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[6] sw4_hood_react[6]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[6]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[7] sw4_hood_react[7]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[7]
-						sw4_attack[1] = 1
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_attack[2] = 0
-	AND sw4_hood_create[2] = 1
-		IF NOT IS_CAR_DEAD sw4_player_car
-			IF NOT IS_CHAR_DEAD	sw4_flat_hood[8]
-			AND NOT IS_CHAR_DEAD sw4_smoke
-				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[8] sw4_flat_hood_y[8] sw4_flat_hood_z[8] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
-				OR IS_CHAR_SHOOTING sw4_smoke
-					IF NOT IS_CHAR_DEAD	sw4_flat_hood[9]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[10]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[11]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[8]  sw4_hood_react[8]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[8] 
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[9]  sw4_hood_react[9] 
-						CLEAR_SEQUENCE_TASK sw4_hood_react[9]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[10] sw4_hood_react[10]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[10]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[11] sw4_hood_react[11]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[11]
-						sw4_attack[2] = 1
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_attack[3] = 0
-	AND sw4_hood_create[3] = 1
-		IF NOT IS_CAR_DEAD sw4_player_car
-			IF NOT IS_CHAR_DEAD	sw4_flat_hood[12]
-			AND NOT IS_CHAR_DEAD sw4_smoke
-				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[12] sw4_flat_hood_y[12] sw4_flat_hood_z[12] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
-				OR IS_CHAR_SHOOTING sw4_smoke
-					IF NOT IS_CHAR_DEAD	sw4_flat_hood[13]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[14]
-					AND NOT IS_CHAR_DEAD sw4_flat_hood[15]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[12] sw4_hood_react[12]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[12]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[13] sw4_hood_react[13]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[13]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[14] sw4_hood_react[14]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[14]
-						PERFORM_SEQUENCE_TASK sw4_flat_hood[15] sw4_hood_react[15]
-						CLEAR_SEQUENCE_TASK sw4_hood_react[15]
-						sw4_attack[3] = 1
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_hood_create[1] = 0
-	AND sw4_group_active = 2
-	AND sw4_blipped = 0
-		IF NOT IS_CAR_DEAD sw4_player_car
-			IF NOT IS_POINT_ON_SCREEN sw4_flat_hood_x[4] sw4_flat_hood_y[4] sw4_flat_hood_z[4] 4.0   //We don't care about this pop-in now that the Ballas are spawned in ahead of time
-				IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer sw4_flat_hood_x[4] sw4_flat_hood_y[4] sw4_flat_hood_z[4] sw4_group_loc sw4_group_loc sw4_group_loc FALSE 
-				   	GOSUB sw4_flat_hood_create2
-					GOSUB sw4_hood_group2
-					GOSUB sw4_hood_react_group2
-					MARK_MODEL_AS_NO_LONGER_NEEDED VOODOO
-					sw4_hood_create[1] = 1
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_hood_create[2] = 0
-	AND sw4_group_active = 3
-	AND sw4_blipped = 0
-		IF NOT IS_CAR_DEAD sw4_player_car
-//			IF NOT IS_POINT_ON_SCREEN sw4_flat_hood_x[8] sw4_flat_hood_y[8] sw4_flat_hood_z[8] 4.0
-			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer sw4_flat_hood_x[8] sw4_flat_hood_y[8] sw4_flat_hood_z[8] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
-				GOSUB sw4_flat_hood_create3
-				GOSUB sw4_hood_group3
-				GOSUB sw4_hood_react_group3
-				sw4_hood_create[2] = 1
-			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_hood_create[3] = 0
-	AND sw4_group_active = 4
-	AND sw4_blipped = 0
-		IF NOT IS_CAR_DEAD sw4_player_car
-//			IF NOT IS_POINT_ON_SCREEN sw4_flat_hood_x[12] sw4_flat_hood_y[12] sw4_flat_hood_z[12] 4.0
-			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer sw4_flat_hood_x[12] sw4_flat_hood_y[12] sw4_flat_hood_z[12] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
-  				GOSUB sw4_flat_hood_create4
-				GOSUB sw4_hood_group4
-				GOSUB sw4_hood_react_group4
-				sw4_hood_create[3] = 1
-			ENDIF
-		ENDIF
-	ENDIF
-ENDIF
-
+RETURN
 
 // Count the dead...
-IF sw4_stage > 4
+sw4_stage_gt_4:
 	IF NOT IS_CHAR_DEAD scplayer
 	AND NOT IS_CHAR_DEAD sw4_smoke
 	AND NOT	IS_CHAR_DEAD sw4_ryder
@@ -1939,6 +1808,10 @@ IF sw4_stage > 4
 			ENDIF
 		ENDIF
 	ENDIF
+	IF NOT sw4_group_dead[0] = 1
+	AND NOT sw4_group_dead[1] = 1
+	AND NOT sw4_group_dead[2] = 1
+	AND NOT sw4_group_dead[3] = 1
    	GET_GAME_TIMER sw4_timer_end[3]
 	sw4_timer_diff[3] = sw4_timer_end[3] - sw4_timer_start[3]
 	IF sw4_timer_diff[3] > 2000
@@ -1952,6 +1825,7 @@ IF sw4_stage > 4
 		sw4_anim = DRIVEBY_AI_ALL_DIRN //DRIVEBY_START_FROM_RHS
 		sw4_gosub_char = sw4_smoke 
 		GOSUB sw4_shoot_at_closest
+	ENDIF
 	ENDIF
 	IF sw4_hood_create[0] = 1
 		IF sw4_group_active = 1 
@@ -2155,10 +2029,171 @@ IF sw4_stage > 4
 			ENDIF
 	   	ENDIF
 	ENDIF
+RETURN
+
+// Continue after cutscene...
+sw4_stage_eq_5:
+IF sw4_cut >= 6 // or up
+	GET_GAME_TIMER sw4_timer_end[5]
+	sw4_timer_diff[5] = sw4_timer_end[5] - sw4_timer_start[5]
+	IF sw4_timer_diff[5] > 5000	
+		IF sw4_count = 0
+			CLEAR_ONSCREEN_COUNTER sw4_health_display
+			DISPLAY_ONSCREEN_COUNTER_WITH_STRING sw4_health_display COUNTER_DISPLAY_BAR SWE4_08
+			//SET_ONSCREEN_COUNTER_COLOUR sw4_health_display HUD_COLOUR_RED
+			
+			PRINT_HELP SWE4_15  // This will allow you to see where your enemies are located.
+			
+			// Add counter and second help box.
+			GET_GAME_TIMER sw4_timer_start[3]
+			sw4_count = 1
+		ENDIF
+	ENDIF
+	IF sw4_attack[0] = 0
+	AND sw4_hood_create[0] = 1
+		IF NOT IS_CAR_DEAD sw4_player_car
+			IF NOT IS_CHAR_DEAD	sw4_flat_hood[0]
+			AND NOT IS_CHAR_DEAD sw4_smoke
+				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[0] sw4_flat_hood_y[0] sw4_flat_hood_z[0] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
+				OR IS_CHAR_SHOOTING sw4_smoke
+					IF NOT IS_CHAR_DEAD sw4_flat_hood[1]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[2]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[3]
+					AND NOT IS_CAR_DEAD sw4_hood_car[0]
+						DELETE_OBJECT sw4_forty
+						//DROP_OBJECT sw4_flat_hood[3] TRUE
+						SET_CURRENT_CHAR_WEAPON sw4_flat_hood[3] WEAPONTYPE_PISTOL
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[0] sw4_hood_react[0]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[0]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[1] sw4_hood_react[1]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[1]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[2] sw4_hood_react[2]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[2]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[3] sw4_hood_react[3]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[3]
+						sw4_attack[0] = 1
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sw4_attack[1] = 0
+	AND sw4_hood_create[1] = 1
+		IF NOT IS_CAR_DEAD sw4_player_car
+			IF NOT IS_CHAR_DEAD	sw4_flat_hood[4]
+			AND NOT IS_CHAR_DEAD sw4_smoke
+				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[4] sw4_flat_hood_y[4] sw4_flat_hood_z[4] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
+				OR IS_CHAR_SHOOTING sw4_smoke
+					IF NOT IS_CHAR_DEAD sw4_flat_hood[5]	
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[6]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[7]
+					AND NOT IS_CAR_DEAD sw4_hood_car[1]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[4] sw4_hood_react[4]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[4]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[5] sw4_hood_react[5]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[5]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[6] sw4_hood_react[6]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[6]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[7] sw4_hood_react[7]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[7]
+						sw4_attack[1] = 1
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sw4_attack[2] = 0
+	AND sw4_hood_create[2] = 1
+		IF NOT IS_CAR_DEAD sw4_player_car
+			IF NOT IS_CHAR_DEAD	sw4_flat_hood[8]
+			AND NOT IS_CHAR_DEAD sw4_smoke
+				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[8] sw4_flat_hood_y[8] sw4_flat_hood_z[8] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
+				OR IS_CHAR_SHOOTING sw4_smoke
+					IF NOT IS_CHAR_DEAD	sw4_flat_hood[9]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[10]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[11]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[8]  sw4_hood_react[8]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[8] 
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[9]  sw4_hood_react[9] 
+						CLEAR_SEQUENCE_TASK sw4_hood_react[9]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[10] sw4_hood_react[10]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[10]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[11] sw4_hood_react[11]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[11]
+						sw4_attack[2] = 1
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sw4_attack[3] = 0
+	AND sw4_hood_create[3] = 1
+		IF NOT IS_CAR_DEAD sw4_player_car
+			IF NOT IS_CHAR_DEAD	sw4_flat_hood[12]
+			AND NOT IS_CHAR_DEAD sw4_smoke
+				IF LOCATE_CAR_3D sw4_player_car sw4_flat_hood_x[12] sw4_flat_hood_y[12] sw4_flat_hood_z[12] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
+				OR IS_CHAR_SHOOTING sw4_smoke
+					IF NOT IS_CHAR_DEAD	sw4_flat_hood[13]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[14]
+					AND NOT IS_CHAR_DEAD sw4_flat_hood[15]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[12] sw4_hood_react[12]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[12]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[13] sw4_hood_react[13]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[13]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[14] sw4_hood_react[14]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[14]
+						PERFORM_SEQUENCE_TASK sw4_flat_hood[15] sw4_hood_react[15]
+						CLEAR_SEQUENCE_TASK sw4_hood_react[15]
+						sw4_attack[3] = 1
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sw4_hood_create[1] = 0
+	AND sw4_group_active = 2
+	AND sw4_blipped = 0
+		IF NOT IS_CAR_DEAD sw4_player_car
+			IF NOT IS_POINT_ON_SCREEN sw4_flat_hood_x[4] sw4_flat_hood_y[4] sw4_flat_hood_z[4] 4.0   //We don't care about this pop-in now that the Ballas are spawned in ahead of time
+				IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer sw4_flat_hood_x[4] sw4_flat_hood_y[4] sw4_flat_hood_z[4] sw4_group_loc sw4_group_loc sw4_group_loc FALSE 
+				   	GOSUB sw4_flat_hood_create2
+					GOSUB sw4_hood_group2
+					GOSUB sw4_hood_react_group2
+					MARK_MODEL_AS_NO_LONGER_NEEDED VOODOO
+					sw4_hood_create[1] = 1
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sw4_hood_create[2] = 0
+	AND sw4_group_active = 3
+	AND sw4_blipped = 0
+		IF NOT IS_CAR_DEAD sw4_player_car
+//			IF NOT IS_POINT_ON_SCREEN sw4_flat_hood_x[8] sw4_flat_hood_y[8] sw4_flat_hood_z[8] 4.0
+			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer sw4_flat_hood_x[8] sw4_flat_hood_y[8] sw4_flat_hood_z[8] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
+				GOSUB sw4_flat_hood_create3
+				GOSUB sw4_hood_group3
+				GOSUB sw4_hood_react_group3
+				sw4_hood_create[2] = 1
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sw4_hood_create[3] = 0
+	AND sw4_group_active = 4
+	AND sw4_blipped = 0
+		IF NOT IS_CAR_DEAD sw4_player_car
+//			IF NOT IS_POINT_ON_SCREEN sw4_flat_hood_x[12] sw4_flat_hood_y[12] sw4_flat_hood_z[12] 4.0
+			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer sw4_flat_hood_x[12] sw4_flat_hood_y[12] sw4_flat_hood_z[12] sw4_group_loc sw4_group_loc sw4_group_loc FALSE
+  				GOSUB sw4_flat_hood_create4
+				GOSUB sw4_hood_group4
+				GOSUB sw4_hood_react_group4
+				sw4_hood_create[3] = 1
+			ENDIF
+		ENDIF
+	ENDIF
 ENDIF
 
 // If there are enough dead...   ...Show Sprayshop blip...   ...send in the goon cars...   ...add a wanted level...
-IF sw4_stage = 5
 	IF NOT IS_CAR_DEAD sw4_player_car
 		IF sw4_stopped = 0
 			IF IS_CAR_STOPPED sw4_player_car
@@ -2166,54 +2201,13 @@ IF sw4_stage = 5
 				GET_GAME_TIMER sw4_timer_start[0]
 				GENERATE_RANDOM_INT_IN_RANGE 0 6 sw4_stopped_text // FIXEDGROVE: increase upper limit
 				sw4_hood_acc = 50
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[0]
-					SET_CHAR_ACCURACY sw4_flat_hood[0] sw4_hood_acc
+				temp_int = 0
+				WHILE temp_int < 16
+				IF NOT IS_CHAR_DEAD sw4_flat_hood[temp_int]
+					SET_CHAR_ACCURACY sw4_flat_hood[temp_int] sw4_hood_acc
+					temp_int++
 				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[1]
-					SET_CHAR_ACCURACY sw4_flat_hood[1] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[2]
-					SET_CHAR_ACCURACY sw4_flat_hood[2] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[3]
-					SET_CHAR_ACCURACY sw4_flat_hood[3] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[4]
-					SET_CHAR_ACCURACY sw4_flat_hood[4] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[5]
-					SET_CHAR_ACCURACY sw4_flat_hood[5] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[6]
-					SET_CHAR_ACCURACY sw4_flat_hood[6] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[7]
-					SET_CHAR_ACCURACY sw4_flat_hood[7] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[8]
-					SET_CHAR_ACCURACY sw4_flat_hood[8] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[9]
-					SET_CHAR_ACCURACY sw4_flat_hood[9] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[10]
-					SET_CHAR_ACCURACY sw4_flat_hood[10] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[11]
-					SET_CHAR_ACCURACY sw4_flat_hood[11] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[12]
-					SET_CHAR_ACCURACY sw4_flat_hood[12] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[13]
-					SET_CHAR_ACCURACY sw4_flat_hood[13] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[14]
-					SET_CHAR_ACCURACY sw4_flat_hood[14] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[15]
-					SET_CHAR_ACCURACY sw4_flat_hood[15] sw4_hood_acc
-				ENDIF
+				ENDWHILE
 				sw4_stopped = 1
 			ENDIF
 		ENDIF
@@ -2225,7 +2219,8 @@ IF sw4_stage = 5
 					GET_GAME_TIMER sw4_timer_end[0]
 					sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 					IF sw4_timer_diff[0] > 250
-						IF sw4_stopped_text = 0
+						SWITCH sw4_stopped_text
+						CASE 0
 							IF sw4_audio_playing = 0
 							AND sw4_counter = 0
 								sw4_counter = 20 // RYDER: Holy shit we’re sitting ducks!
@@ -2233,8 +2228,8 @@ IF sw4_stage = 5
 								GET_GAME_TIMER sw4_timer_start[0]
 								sw4_stopped = 2
 							ENDIF
-						ENDIF
-						IF sw4_stopped_text = 1
+						BREAK
+						CASE 1
 							IF sw4_audio_playing = 0
 							AND sw4_counter = 0
 								sw4_counter = 21 // RYDER: Oh man, oh man, move! MOVE!
@@ -2242,8 +2237,8 @@ IF sw4_stage = 5
 								GET_GAME_TIMER sw4_timer_start[0]
 								sw4_stopped = 2
 							ENDIF
-						ENDIF
-						IF sw4_stopped_text = 2
+						BREAK
+						CASE 2
 							IF sw4_audio_playing = 0
 							AND sw4_counter = 0
 								sw4_counter = 22 // RYDER: What you doing, CJ?!
@@ -2251,8 +2246,8 @@ IF sw4_stage = 5
 								GET_GAME_TIMER sw4_timer_start[0]
 								sw4_stopped = 2
 							ENDIF
-						ENDIF
-						IF sw4_stopped_text = 3
+						BREAK
+						CASE 3
 							IF sw4_audio_playing = 0
 							AND sw4_counter = 0
 								sw4_counter = 23 // RYDER: He’s trying to get us killed!
@@ -2260,8 +2255,8 @@ IF sw4_stage = 5
 								GET_GAME_TIMER sw4_timer_start[0]
 								sw4_stopped = 2
 							ENDIF
-						ENDIF
-						IF sw4_stopped_text = 4
+						BREAK
+						CASE 4
 							IF sw4_audio_playing = 0
 							AND sw4_counter = 0
 								sw4_counter = 24 // RYDER: He’s trying to get us killed!
@@ -2269,8 +2264,8 @@ IF sw4_stage = 5
 								GET_GAME_TIMER sw4_timer_start[0]
 								sw4_stopped = 2
 							ENDIF
-						ENDIF
-						IF sw4_stopped_text = 5
+						BREAK
+						CASE 5
 							IF sw4_audio_playing = 0
 							AND sw4_counter = 0
 								sw4_counter = 25 // RYDER: Move it, CJ, move it!
@@ -2278,8 +2273,8 @@ IF sw4_stage = 5
 								GET_GAME_TIMER sw4_timer_start[0]
 								sw4_stopped = 2
 							ENDIF
-						ENDIF
-
+						BREAK
+						ENDSWITCH
 					ENDIF
 				ELSE
 					sw4_stopped = 2
@@ -2295,54 +2290,13 @@ IF sw4_stage = 5
 				ENDIF  
 				//CLEAR_PRINTS
 				sw4_hood_acc = 30
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[0]
-					SET_CHAR_ACCURACY sw4_flat_hood[0] sw4_hood_acc
+				temp_int = 0
+				WHILE temp_int < 16
+				IF NOT IS_CHAR_DEAD sw4_flat_hood[temp_int]
+					SET_CHAR_ACCURACY sw4_flat_hood[temp_int] sw4_hood_acc
+					temp_int++
 				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[1]
-					SET_CHAR_ACCURACY sw4_flat_hood[1] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[2]
-					SET_CHAR_ACCURACY sw4_flat_hood[2] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[3]
-					SET_CHAR_ACCURACY sw4_flat_hood[3] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[4]
-					SET_CHAR_ACCURACY sw4_flat_hood[4] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[5]
-					SET_CHAR_ACCURACY sw4_flat_hood[5] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[6]
-					SET_CHAR_ACCURACY sw4_flat_hood[6] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[7]
-					SET_CHAR_ACCURACY sw4_flat_hood[7] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[8]
-					SET_CHAR_ACCURACY sw4_flat_hood[8] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[9]
-					SET_CHAR_ACCURACY sw4_flat_hood[9] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[10]
-					SET_CHAR_ACCURACY sw4_flat_hood[10] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[11]
-					SET_CHAR_ACCURACY sw4_flat_hood[11] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[12]
-					SET_CHAR_ACCURACY sw4_flat_hood[12] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[13]
-					SET_CHAR_ACCURACY sw4_flat_hood[13] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[14]
-					SET_CHAR_ACCURACY sw4_flat_hood[14] sw4_hood_acc
-				ENDIF
-				IF NOT IS_CHAR_DEAD sw4_flat_hood[15]
-					SET_CHAR_ACCURACY sw4_flat_hood[15] sw4_hood_acc
-				ENDIF
+				ENDWHILE
 			ENDIF
 		ENDIF
 	ENDIF
@@ -2372,22 +2326,12 @@ IF sw4_stage = 5
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			GET_GAME_TIMER sw4_blip_timer_start
 			SET_PED_DENSITY_MULTIPLIER 0.5
-			REMOVE_BLIP sw4_flat_hood_blip[0]
-			REMOVE_BLIP sw4_flat_hood_blip[1]
-			REMOVE_BLIP sw4_flat_hood_blip[2]
-			REMOVE_BLIP sw4_flat_hood_blip[3]
-			REMOVE_BLIP sw4_flat_hood_blip[4]
-			REMOVE_BLIP sw4_flat_hood_blip[5]
-			REMOVE_BLIP sw4_flat_hood_blip[6]
-			REMOVE_BLIP sw4_flat_hood_blip[7]
-			REMOVE_BLIP sw4_flat_hood_blip[8]
-			REMOVE_BLIP sw4_flat_hood_blip[9]
-			REMOVE_BLIP sw4_flat_hood_blip[10]
-			REMOVE_BLIP sw4_flat_hood_blip[11]
-			REMOVE_BLIP sw4_flat_hood_blip[12]
-			REMOVE_BLIP sw4_flat_hood_blip[13]
-			REMOVE_BLIP sw4_flat_hood_blip[14]
-			REMOVE_BLIP sw4_flat_hood_blip[15]
+			temp_int = 0
+			WHILE temp_int < 16
+				REMOVE_BLIP sw4_flat_hood_blip[temp_int]
+				temp_int++
+			ENDIF
+			ENDWHILE
 			GET_GAME_TIMER sw4_text_timer_start
 			sw4_text_timer_flag = 14
 			sw4_cut = 0
@@ -2396,138 +2340,139 @@ IF sw4_stage = 5
 			sw4_blip_counter = 0
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 // If player clears..
-IF sw4_stage = 6
-AND sw4_text_timer_flag = 18
+sw4_stage_eq_6:
+IF sw4_text_timer_flag = 18
 	GET_GAME_TIMER sw4_blip_timer_end
 	sw4_blip_timer_diff = sw4_blip_timer_end - sw4_blip_timer_start 
-	IF sw4_blip_counter = 0
+	SWITCH sw4_blip_counter
+	CASE 0
 		IF sw4_blip_timer_diff > 500
 			PRINT_HELP ( SWE4_07 ) // Marked on Radar as a Spray can
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 1
+	BREAK
+	CASE 1
 		IF sw4_blip_timer_diff > 1000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 2
+	BREAK
+	CASE 2
 		IF sw4_blip_timer_diff > 1500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 3
+	BREAK
+	CASE 3
 		IF sw4_blip_timer_diff > 2000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 4
+	BREAK
+	CASE 4
 		IF sw4_blip_timer_diff > 2500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 5
+	BREAK
+	CASE 5
 		IF sw4_blip_timer_diff > 3000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 6
+	BREAK
+	CASE 6
 		IF sw4_blip_timer_diff > 3500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 7
+	BREAK
+	CASE 7
 		IF sw4_blip_timer_diff > 4000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 8
+	BREAK
+	CASE 8
 		IF sw4_blip_timer_diff > 4500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 9
+	BREAK
+	CASE 9
 		IF sw4_blip_timer_diff > 5000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 10
+	BREAK
+	CASE 10
 		IF sw4_blip_timer_diff > 5500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 11
+	BREAK
+	CASE 11
 		IF sw4_blip_timer_diff > 6000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 12
+	BREAK
+	CASE 12
 		IF sw4_blip_timer_diff > 6500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 13
+	BREAK
+	CASE 13
 		IF sw4_blip_timer_diff > 7000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 14
+	BREAK
+	CASE 14
 		IF sw4_blip_timer_diff > 7500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 15
+	BREAK
+	CASE 15
 		IF sw4_blip_timer_diff > 8000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 16
+	BREAK
+	CASE 16
 		IF sw4_blip_timer_diff > 8500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 17
+	BREAK
+	CASE 17
 		IF sw4_blip_timer_diff > 9000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 18
+	BREAK
+	CASE 18
 		IF sw4_blip_timer_diff > 9500
 			REMOVE_BLIP	spray_shop1
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
-	IF sw4_blip_counter = 19
+	BREAK
+	CASE 19
 		IF sw4_blip_timer_diff > 10000
 			REMOVE_BLIP	spray_shop1
 			ADD_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
@@ -2535,7 +2480,8 @@ AND sw4_text_timer_flag = 18
 			ADD_BLIP_FOR_COORD 2075.55 -1831.09 12.21 sw4_spray_marker
 			sw4_blip_counter++
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 	IF sw4_cut = 0
 		IF NOT IS_CHAR_DEAD scplayer
 			IF LOCATE_CHAR_IN_CAR_3D scplayer 2075.55 -1831.09 12.21 4.0 4.0 4.0 TRUE
@@ -2559,8 +2505,9 @@ AND sw4_text_timer_flag = 18
 		ENDIF
 	ENDIF
 ENDIF
+RETURN
 
-IF sw4_stage = 7
+sw4_stage_eq_7:
 	GET_GAME_TIMER sw4_timer_end[0]
 	sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 	IF sw4_timer_diff[0] > 5000
@@ -2619,13 +2566,14 @@ IF sw4_stage = 7
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 
 // End cutscene...  
-IF sw4_stage = 8
+sw4_stage_eq_8:
 	IF NOT IS_CAR_DEAD sw4_player_car
-		IF sw4_cut = 0
+		SWITCH sw4_cut
+		CASE 0
 			IF sw4_cut_text = 0
 				IF sw4_audio_playing = 0
 					IF IS_CAR_STOPPED sw4_player_car
@@ -2669,13 +2617,13 @@ IF sw4_stage = 8
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-		IF sw4_cut = 3
+		BREAK
+		CASE 3
 			GET_GAME_TIMER sw4_timer_end[0]
 			sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
-			IF sw4_timer_diff[0] > 1000
+			IF sw4_cut_text = 2
+				IF sw4_timer_diff[0] > 1000
 				REMOVE_CHAR_ELEGANTLY sw4_ryder
-				IF sw4_cut_text = 2
 					IF sw4_audio_playing = 0
 					AND sw4_counter = 0
 						sw4_counter = 44
@@ -2711,8 +2659,8 @@ IF sw4_stage = 8
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-		IF sw4_cut = 4
+		BREAK
+		CASE 4
 			IF NOT IS_CHAR_DEAD sw4_smoke
 				GET_SCRIPT_TASK_STATUS sw4_smoke TASK_PLAY_ANIM sw4_smoke_status
 				IF sw4_smoke_status = FINISHED_TASK
@@ -2726,8 +2674,8 @@ IF sw4_stage = 8
 					sw4_cut = 5
 				ENDIF
 			ENDIF
-	   	ENDIF
-		IF sw4_cut = 5
+	   	BREAK
+		CASE 5
 			GET_GAME_TIMER sw4_timer_end[0]
 			sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 			IF sw4_timer_diff[0] > 1000
@@ -2747,8 +2695,8 @@ IF sw4_stage = 8
 				GET_GAME_TIMER sw4_timer_start[0]
 				sw4_cut = 7
 			ENDIF
-	   	ENDIF
-		IF sw4_cut = 7
+	   	BREAK
+		CASE 7
 			GET_GAME_TIMER sw4_timer_end[0]
 			sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 			IF sw4_timer_diff[0] > 100
@@ -2767,13 +2715,13 @@ IF sw4_stage = 8
 					sw4_cut = 8
 				ENDIF
 		   	ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	ENDIF
-ENDIF
+RETURN
 
 // If player leaves car...
-IF sw4_stage > 2
-AND sw4_stage < 8
+sw4_stage_gt_2_lt_8:
 	IF sw4_blipped = 0
    		IF NOT IS_CHAR_DEAD scplayer
 		AND NOT IS_CAR_DEAD	sw4_player_car
@@ -2880,30 +2828,32 @@ AND sw4_stage < 8
 				GET_GAME_TIMER sw4_timer_end[0]
 				sw4_timer_diff[0] = sw4_timer_end[0] - sw4_timer_start[0]
 				IF sw4_timer_diff[0] > 200
-					IF sw4_stopped_text = 0
+					SWITCH sw4_stopped_text
+					CASE 0
 						IF sw4_audio_playing = 0
 						AND sw4_counter = 0
 							sw4_counter = 26 // RYDER: I told you he was a buster!
 							sw4_stopped_text = 5
 							//PRINT ( SWE4_EA ) 3000 1 // RYDER: I told you he was a buster!
 						ENDIF
-					ENDIF
-					IF sw4_stopped_text = 1
+					BREAK
+					CASE 1
 						IF sw4_audio_playing = 0
 						AND sw4_counter = 0
 							sw4_counter = 27 // SWEET: Don’t run out on me again, Carl!
 							sw4_stopped_text = 5
 							//PRINT ( SWE4_EB ) 3000 1 // SWEET: Don’t run out on me again, Carl!
 						ENDIF
-					ENDIF
-					IF sw4_stopped_text = 2
+					BREAK
+					CASE 2
 						IF sw4_audio_playing = 0
 						AND sw4_counter = 0
 							sw4_counter = 28 // SMOKE: Carl’s quitting on us!
 							sw4_stopped_text = 5
 							//PRINT ( SWE4_EC ) 3000 1 // SMOKE: Carl’s quitting on us!
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 				ENDIF
 			ENDIF
 		ENDIF
@@ -2941,95 +2891,38 @@ AND sw4_stage < 8
  			IF IS_CHAR_IN_CAR scplayer sw4_player_car
 				sw4_in_car = 0
 				REMOVE_BLIP sw4_player_car_blip
-				IF sw4_stage = 3
+				SWITCH sw4_stage
+				CASE 3
 					ADD_BLIP_FOR_COORD sw4_hood_x sw4_hood_y sw4_hood_z sw4_hood_blip
-				ENDIF
-				IF sw4_stage = 5
+				BREAK
+				CASE 5
 					IF sw4_count = 1
 						CLEAR_ONSCREEN_COUNTER sw4_health_display
 						DISPLAY_ONSCREEN_COUNTER_WITH_STRING sw4_health_display COUNTER_DISPLAY_BAR SWE4_08
 						//SET_ONSCREEN_COUNTER_COLOUR sw4_health_display HUD_COLOUR_RED
 					ENDIF
 
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[0]
-						REMOVE_BLIP sw4_flat_hood_blip[0]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[0] sw4_flat_hood_blip[0]
+					temp_int = 0
+					WHILE temp_int < 15
+					IF NOT IS_CHAR_DEAD sw4_flat_hood[temp_int]
+						REMOVE_BLIP sw4_flat_hood_blip[temp_int]
+						ADD_BLIP_FOR_CHAR sw4_flat_hood[temp_int] sw4_flat_hood_blip[temp_int]
 					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[1]
-						REMOVE_BLIP sw4_flat_hood_blip[1]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[1] sw4_flat_hood_blip[1]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[2]
-						REMOVE_BLIP sw4_flat_hood_blip[2]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[2] sw4_flat_hood_blip[2]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[3]  
-						REMOVE_BLIP sw4_flat_hood_blip[3]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[3] sw4_flat_hood_blip[3]
-					ENDIF
-					
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[4]
-						REMOVE_BLIP sw4_flat_hood_blip[4]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[4] sw4_flat_hood_blip[4]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[5]
-						REMOVE_BLIP sw4_flat_hood_blip[5]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[5] sw4_flat_hood_blip[5]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[6]
-						REMOVE_BLIP sw4_flat_hood_blip[6]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[6] sw4_flat_hood_blip[6]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[7]
-						REMOVE_BLIP sw4_flat_hood_blip[7]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[7] sw4_flat_hood_blip[7]
-					ENDIF
-					
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[8]
-						REMOVE_BLIP sw4_flat_hood_blip[8]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[8] sw4_flat_hood_blip[8]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[9]
-						REMOVE_BLIP sw4_flat_hood_blip[9]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[9] sw4_flat_hood_blip[9]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[10]
-						REMOVE_BLIP sw4_flat_hood_blip[10]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[10] sw4_flat_hood_blip[10]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[11]
-						REMOVE_BLIP sw4_flat_hood_blip[11]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[11] sw4_flat_hood_blip[11]
-					ENDIF
-					
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[12]
-						REMOVE_BLIP sw4_flat_hood_blip[12]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[12] sw4_flat_hood_blip[12]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[13]
-						REMOVE_BLIP sw4_flat_hood_blip[13]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[13] sw4_flat_hood_blip[13]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[14]
-						REMOVE_BLIP sw4_flat_hood_blip[14]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[14] sw4_flat_hood_blip[14]
-					ENDIF
-					IF NOT IS_CHAR_DEAD sw4_flat_hood[15]
-						REMOVE_BLIP sw4_flat_hood_blip[15]
-						ADD_BLIP_FOR_CHAR sw4_flat_hood[15] sw4_flat_hood_blip[15]
-					ENDIF
-				ENDIF
-				IF sw4_stage = 6
+					temp_int++
+					ENDWHILE
+				BREAK
+				CASE 6
 					sw4_text_timer_flag = 18
 					GET_GAME_TIMER sw4_blip_timer_start
 					sw4_blip_timer_start -= 5000
 					REMOVE_BLIP sw4_spray_marker
 					ADD_BLIP_FOR_COORD 2075.55 -1831.09 12.21 sw4_spray_marker
-				ENDIF
-				IF sw4_stage = 7
+				BREAK
+				CASE 7
 					REMOVE_BLIP sw4_end_blip
 					ADD_BLIP_FOR_COORD sw4_end_x sw4_end_y sw4_end_z sw4_end_blip
-				ENDIF
+				BREAK
+				ENDSWITCH
 				CLEAR_PRINTS
 				sw4_timer_remaining_secs = 1
 				GET_GAME_TIMER sw4_text_timer_start
@@ -3037,9 +2930,9 @@ AND sw4_stage < 8
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
-IF sw4_stage = 666
+sw4_stage_eq_66:
 	GET_GAME_TIMER sw4_timer_end[2]
 	sw4_timer_diff[2] = sw4_timer_end[2] - sw4_timer_start[2]
 	IF sw4_timer_diff[2] > 1000
@@ -3056,9 +2949,9 @@ IF sw4_stage = 666
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
-IF sw4_stage = 667
+sw4_stage_eq_67:
 	IF NOT IS_CAR_DEAD sw4_player_car
 		IF NOT IS_CAR_ON_SCREEN sw4_player_car
 		OR NOT LOCATE_CHAR_ANY_MEANS_CAR_3D scplayer sw4_player_car 50.0 50.0 50.0 FALSE
@@ -3066,13 +2959,12 @@ IF sw4_stage = 667
 			GOTO mission_failed_sweet4
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 
-// Text Timers
-IF sw4_blipped = 0
-	IF sw4_stage = 3
-		IF sw4_text_timer_flag = -1
+sw4_text_timer_eq3:
+		SWITCH sw4_text_timer_flag
+		CASE -1
 			IF sw4_audio_playing = 0
 				PRINT ( SWE4_01 ) 100 1 // Drive your homies into Balla territory.
 			ENDIF
@@ -3083,70 +2975,74 @@ IF sw4_blipped = 0
 				sw4_text_timer_flag++
 				GET_GAME_TIMER sw4_text_timer_start
 			ENDIF 
-		ENDIF
-		IF sw4_text_timer_flag = 0
+		BREAK
+		CASE 0
 			IF sw4_audio_playing = 0
 			AND	sw4_counter = 0
 				sw4_counter = 1	 // RYDER: Where we going, homie?
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 1
+		BREAK
+		CASE 1
 			IF sw4_audio_playing = 0
 			AND	sw4_counter = 0
 				sw4_counter = 2	// SWEET: Rollin’ Heights Ballas country.
 			ENDIF	
-		ENDIF
-		IF sw4_text_timer_flag = 2
+		BREAK
+		CASE 2
 			IF sw4_audio_playing = 0
 			AND	sw4_counter = 0
 				sw4_counter = 5	// RYDER: Do us a little drive by?
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 6
+		BREAK
+		CASE 6
 			IF sw4_audio_playing = 0
 			AND	sw4_counter = 0
 				sw4_counter = 9	// RYDER: No, you’re our chauffeur for this little gig!
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 7
+		BREAK
+		CASE 7
 			IF sw4_audio_playing = 0
 			AND	sw4_counter = 0
 				sw4_counter = 10 // CARL: Gee, thanks.
 				//PRINT ( SWE4_AJ ) 100 1 // CARL: Gee, thanks.
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 8
+		BREAK
+		CASE 8
 			IF sw4_audio_playing = 0
 				sw4_counter = 11 // RYDER: Just don’t drive like a fool.
 			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_stage = 4
-		IF sw4_text_timer_flag = 9
+		BREAK
+		ENDSWITCH
+
+RETURN
+sw4_text_timer_eq4:
+
+		SWITCH sw4_text_timer_flag
+		CASE 9
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 12 // SWEET: Alright – Ballas turf, you dogs ready?
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 10
+		BREAK
+		CASE 10
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 13 // CARL: Sure, dude, I’m ready.
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 11
+		BREAK
+		CASE 11
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 14 // SWEET: Carl, Just concentrate on the driving and we’ll take care of the shooting.
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 12
+		BREAK
+		CASE 12
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 15 // RYDER: Listen to the man. Try not to park us up a tree or nothin’.
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 13
+		BREAK
+		CASE 13
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 16 // SWEET: Yeah if the car stops, we’re dead meat.
@@ -3158,9 +3054,12 @@ IF sw4_blipped = 0
 					TASK_PLAY_ANIM sw4_flat_hood[3] drnkbr_prtl GANGS 4.0 FALSE FALSE FALSE FALSE 0
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
-	IF sw4_stage = 6
+		BREAK
+		ENDSWITCH
+
+RETURN
+sw4_text_timer_eq6:
+
 		IF sw4_wanted_flag = 0
 			IF sw4_text_timer_flag = 14
 				PRINT ( SWE4_12 ) 100 1 // You have a wanted level, cops will chase you.
@@ -3203,48 +3102,53 @@ IF sw4_blipped = 0
 				GET_GAME_TIMER sw4_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sw4_stage = 7
-	AND sw4_help = 4
-		GET_GAME_TIMER sw4_text_timer_end 
-		sw4_text_timer_diff = sw4_text_timer_end - sw4_text_timer_start
-		IF sw4_text_timer_diff > 6000
-			IF sw4_text_timer_flag = 18
+
+RETURN
+sw4_text_timer_eq7:
+
+		IF sw4_help = 4
+		SWITCH sw4_text_timer_flag
+		CASE 18
+			GET_GAME_TIMER sw4_text_timer_end 
+			sw4_text_timer_diff = sw4_text_timer_end - sw4_text_timer_start
+			IF sw4_text_timer_diff > 6000
 				IF sw4_audio_playing = 0
 				AND sw4_counter = 0
 					sw4_counter = 37 // SWEET: Holy fuck, Grove is back, man, Grove is back!
 				ENDIF
 			ENDIF
-		ENDIF																																  
-		IF sw4_text_timer_flag = 19
+		BREAK
+		CASE 19
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 38 // CARL: Righteous, dude, they was totally unprepared for us!
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 20
+		BREAK
+		CASE 20
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 39 // RYDER: I’m amazed you didn’t get us killed, CJ.
 			ENDIF
-		ENDIF
-		IF sw4_text_timer_flag = 21
+		BREAK
+		CASE 21
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 40 // RYDER: Yo, check it, am I dead?
 			ENDIF
-		ENDIF
-	   	IF sw4_text_timer_flag = 22
+		BREAK
+		CASE 22
 			IF sw4_audio_playing = 0
 			AND sw4_counter = 0
 				sw4_counter = 41 // SWEET: Hey, Carl, ignore that motherfucker, you did good today.
 			ENDIF
+		BREAK
+		ENDSWITCH
 		ENDIF
-	ENDIF
-ENDIF
+
+RETURN
 
 		
-GOTO sw4_main_loop 
+// GOTO sw4_main_loop 
 // ------------------------------------------------------------------------------------------------
 // Mission Failed
 mission_failed_sweet4:
@@ -3312,22 +3216,11 @@ mission_cleanup_sweet4:
 	REMOVE_BLIP sw4_hood_blip
 	REMOVE_BLIP sw4_end_blip
 
-	REMOVE_BLIP sw4_flat_hood_blip[0]
-	REMOVE_BLIP sw4_flat_hood_blip[1]
-	REMOVE_BLIP sw4_flat_hood_blip[2]
-	REMOVE_BLIP sw4_flat_hood_blip[3]
-	REMOVE_BLIP sw4_flat_hood_blip[4]
-	REMOVE_BLIP sw4_flat_hood_blip[5]
-	REMOVE_BLIP sw4_flat_hood_blip[6]
-	REMOVE_BLIP sw4_flat_hood_blip[7]
-	REMOVE_BLIP sw4_flat_hood_blip[8]
-	REMOVE_BLIP sw4_flat_hood_blip[9]
-	REMOVE_BLIP sw4_flat_hood_blip[10]
-	REMOVE_BLIP sw4_flat_hood_blip[11]
-	REMOVE_BLIP sw4_flat_hood_blip[12]
-	REMOVE_BLIP sw4_flat_hood_blip[13]
-	REMOVE_BLIP sw4_flat_hood_blip[14]
-	REMOVE_BLIP sw4_flat_hood_blip[15]
+	temp_int = 0
+	WHILE temp_int < 16
+		REMOVE_BLIP sw4_flat_hood_blip[temp_int]
+		temp_int++
+	ENDWHILE
 
 	REMOVE_BLIP spray_shop1
 	REMOVE_BLIP sw4_spray_marker

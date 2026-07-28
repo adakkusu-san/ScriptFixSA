@@ -215,7 +215,8 @@ mission_start_cesar2:
 		ENDIF
 
 
-		IF scene_flag = 4
+		SWITCH scene_flag
+		CASE 4
 			IF TIMERA > scene_wait
 				SET_FIXED_CAMERA_POSITION 1579.1005 -1624.9429 14.1665 0.0 0.0 0.0
 //				POINT_CAMERA_AT_POINT 1598.0006 -1618.6028 12.8122 JUMP_CUT
@@ -223,9 +224,9 @@ mission_start_cesar2:
 				SET_CHAR_COORDINATES scplayer 1593.2775 -1717.9689 5.2265
 				scene_wait = TIMERA + 8000				
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF scene_flag = 5
+		CASE 5
 			IF NOT IS_CAR_DEAD cs_cop_car
 				GET_CAR_COORDINATES cs_cop_car cs2_x cs2_y cs2_z
 				cs2_z += 1.0
@@ -238,18 +239,18 @@ mission_start_cesar2:
 				scene_flag = 6
 				scene_wait = TIMERA + 8000				
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF scene_flag = 6
+		CASE 6
 			IF TIMERA > scene_wait
 				SET_FIXED_CAMERA_POSITION 1525.8379 -1634.0477 10.5122 0.0 0.0 0.0
 				POINT_CAMERA_AT_POINT 1526.2441 -1634.9055 10.1975 JUMP_CUT
 				scene_flag = 7
 				scene_wait = TIMERA + 8000				
 			ENDIF
-		ENDIF
+		BREAK
 				
-		IF scene_flag = 7
+		CASE 7
 			IF TIMERA > scene_wait
 				SKIP_CUTSCENE_END
 				DO_FADE 800 FADE_OUT
@@ -257,9 +258,9 @@ mission_start_cesar2:
 				
 				scene_flag = 8
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF scene_flag = 8
+		CASE 8
 			IF NOT GET_FADING_STATUS
 
 				SET_CAR_DENSITY_MULTIPLIER 1.0
@@ -286,14 +287,15 @@ mission_start_cesar2:
 				PRINT CS2_23 8000 1				
 				scene_flag = 9
 			ENDIF			
-		ENDIF
+		BREAK
 		
-		IF scene_flag = 9
+		CASE 9
 			IF TIMERA > scene_wait
 				DO_FADE 800 FADE_IN
 				end_scene_now = 1		
 			ENDIF			
-		ENDIF		
+		BREAK
+		ENDSWITCH		
 	ENDWHILE
 
 	end_Scene_now = 0

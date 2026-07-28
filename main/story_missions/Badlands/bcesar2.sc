@@ -331,27 +331,28 @@ WAIT 0
 
 // ---- Load & Play Dialogue...
 IF NOT bce2_counter = 0
-	IF bce2_audio_playing = 0
+	SWITCH bce2_audio_playing
+	CASE 0
 		IF HAS_MISSION_AUDIO_LOADED bce2_alt_slot
 			CLEAR_MISSION_AUDIO bce2_alt_slot
 		ENDIF
 		bce2_audio_playing = 1
-	ENDIF
+	BREAK
 
-	IF bce2_audio_playing = 1
+	CASE 1
 		LOAD_MISSION_AUDIO bce2_audio_slot bce2_audio[bce2_counter]
 		bce2_audio_playing = 2
-	ENDIF
+	BREAK
 
-	IF bce2_audio_playing = 2
+	CASE 2
 	 	IF HAS_MISSION_AUDIO_LOADED bce2_audio_slot
 			PLAY_MISSION_AUDIO bce2_audio_slot
 			PRINT_NOW $bce2_text[bce2_counter] 10000 1
 			bce2_audio_playing = 3
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF bce2_audio_playing = 3
+	CASE 3
 		IF HAS_MISSION_AUDIO_FINISHED bce2_audio_slot
 			CLEAR_THIS_PRINT $bce2_text[bce2_counter]
 			IF bce2_audio_slot = 1
@@ -371,18 +372,20 @@ IF NOT bce2_counter = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 ENDIF
 
 IF bce2_played > 0
-	IF bce2_mobile = 0
+	SWITCH bce2_mobile
+	CASE 0
 		IF bce2_audio_playing = 0
 			bce2_counter = 1	// Yo.
 			bce2_mobile = 1
 			GET_GAME_TIMER bce2_text_timer_start
 		ENDIF
-	ENDIF
-	IF bce2_mobile = 1
+	BREAK
+	CASE 1
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -394,8 +397,8 @@ IF bce2_played > 0
 				PRINT_HELP_FOREVER TALK_1
 			ENDIF
 		ENDIF
-	ENDIF
-	IF bce2_mobile = 2
+	BREAK
+	CASE 2
 
 		IF IS_BUTTON_PRESSED PAD1 DPADLEFT
 
@@ -409,8 +412,8 @@ IF bce2_played > 0
 			bce2_mobile = 3
 		ENDIF
 
-	ENDIF
-	IF bce2_mobile = 3
+	BREAK
+	CASE 3
 		IF bce2_response = 1 		
 			GET_GAME_TIMER bce2_text_timer_end
 			bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
@@ -432,18 +435,20 @@ IF bce2_played > 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 ELSE
-	IF bce2_mobile = 0
+	SWITCH bce2_mobile
+	CASE 0
 		IF bce2_audio_playing = 0
 			bce2_counter = 4	// Yo, Cesar, whattup?
 			bce2_mobile = 1
 			bce2_response = 1
 			GET_GAME_TIMER bce2_text_timer_start
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF bce2_mobile = 1
+	CASE 1
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -453,9 +458,9 @@ ELSE
 				GET_GAME_TIMER bce2_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF bce2_mobile = 2
+	CASE 2
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -465,9 +470,9 @@ ELSE
 				GET_GAME_TIMER bce2_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF bce2_mobile = 3
+	CASE 3
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -477,9 +482,9 @@ ELSE
 				GET_GAME_TIMER bce2_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF bce2_mobile = 4
+	CASE 4
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -489,9 +494,9 @@ ELSE
 				GET_GAME_TIMER bce2_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF bce2_mobile = 5
+	CASE 5
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -503,7 +508,7 @@ ELSE
 		ENDIF
 	ENDIF
 
-	IF bce2_mobile = 6
+	CASE 6
 		GET_GAME_TIMER bce2_text_timer_end
 		bce2_text_timer_diff = bce2_text_timer_end - bce2_text_timer_start
 		IF bce2_text_timer_diff > 1000
@@ -513,7 +518,8 @@ ELSE
 				GET_GAME_TIMER bce2_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 ENDIF
 
 
@@ -582,11 +588,6 @@ IF IS_PLAYER_PLAYING player1
 				bce2_in_car = 0
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF
-
-IF IS_PLAYER_PLAYING player1
-	IF NOT IS_CHAR_DEAD scplayer
 		IF bce2_ram_text = 0
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer bce2_track_x bce2_track_y bce2_track_z 100.0 100.0 50.0 FALSE
 				PRINT_NOW ( BCE2_02 ) 5000 1

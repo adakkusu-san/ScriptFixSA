@@ -488,15 +488,16 @@ cutscene_1a:
 		ENDIF
 	ENDIF
 
-	IF d9_cut_flag = 0
+	SWITCH d9_cut_flag
+	CASE 0
 
 		SET_CHAR_AREA_VISIBLE scplayer 0
 		DO_FADE 1000 FADE_OUT
 		d9_cut_flag = 1
 
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 1
+	CASE 1
 
 		IF NOT GET_FADING_STATUS
 
@@ -543,11 +544,8 @@ cutscene_1a:
 
 			LOAD_ALL_MODELS_NOW
 
-			d9_cut_flag = 1
 		ENDIF
-	ENDIF
 
-	IF d9_cut_flag = 1
 		IF HAS_MODEL_LOADED ANDROM
 		AND HAS_MODEL_LOADED BOBCAT
 		AND HAS_MODEL_LOADED WMOMIB
@@ -590,9 +588,9 @@ cutscene_1a:
 				d9_cut_flag = 2
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 2
+	CASE 2
 		IF d9_cut_timer > TIMERA
 	
 			IF NOT IS_CAR_DEAD d9_enemy_car[0]
@@ -639,9 +637,9 @@ cutscene_1a:
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 3
+	CASE 3
 		IF NOT IS_CAR_DEAD d9_enemy_car[0]
 		AND NOT IS_CAR_DEAD d9_enemy_car[1]
 		AND NOT IS_CAR_DEAD d9_enemy_car[2]
@@ -679,9 +677,9 @@ cutscene_1a:
 			ENDIF
 
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 4
+	CASE 4
 
 		IF NOT IS_CAR_DEAD d9_enemy_car[0]
 		AND NOT IS_CAR_DEAD d9_enemy_car[1]
@@ -732,11 +730,11 @@ cutscene_1a:
 
 		d9_cut_flag = 5
 		d9_cut_timer = TIMERA + 1700
-	ENDIF
+	BREAK
 
 
 	// cut of plane landing and cars following on
-	IF d9_cut_flag = 5
+	CASE 5
 		IF TIMERA > d9_cut_timer
 		 
 			IF NOT IS_CAR_DEAD d9_enemy_car[0]
@@ -788,10 +786,10 @@ cutscene_1a:
 			d9_plane_z = 29.1834
 //			PRINT des9_35 8500 1	   		
 		ENDIF
-	ENDIF
+	BREAK
 
 //CJ runs to hide
-	IF d9_cut_flag = 6
+	CASE 6
 
 		//plane control here
 		IF NOT IS_CAR_DEAD d9_plane
@@ -819,11 +817,11 @@ cutscene_1a:
 			d9_cut_timer = TIMERA + 2500
 			d9_cut_flag = 8
 		ENDIF			 
-	ENDIF
+	BREAK
 
 
 	//carl hiding crouched behind pillar
-	IF d9_cut_flag = 7
+	CASE 7
 
 
 		
@@ -858,10 +856,10 @@ cutscene_1a:
 				d9_cut_timer = TIMERA + 4000
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
 		
-	IF d9_cut_flag = 8
+	CASE 8
 		IF TIMERA > d9_cut_timer
 			DO_FADE 800 FADE_OUT
 			IF NOT IS_CAR_DEAD d9_plane
@@ -869,9 +867,9 @@ cutscene_1a:
 				d9_cut_flag = 9
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 9
+	CASE 9
 		IF NOT GET_FADING_STATUS
 
 			IF NOT IS_CAR_DEAD d9_plane
@@ -924,7 +922,8 @@ cutscene_1a:
 				d9_flag = 21
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 
 RETURN
 
@@ -1005,7 +1004,8 @@ RETURN
 cutscene_1c:
 
 
-	IF d9_cut_flag = 0
+	SWITCH d9_cut_flag
+	CASE 0
 		SET_CHAR_AREA_VISIBLE scplayer 0
 		REQUEST_MODEL ANDROM
 		REQUEST_MODEL BOBCAT
@@ -1022,9 +1022,9 @@ cutscene_1c:
 		REQUEST_CAR_RECORDING 134
 
 		d9_cut_flag = 1
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 1
+	CASE 1
 		IF	HAS_MODEL_LOADED BOBCAT
 		AND	HAS_MODEL_LOADED WMOMIB
 		AND	HAS_MODEL_LOADED MICRO_UZI
@@ -1040,9 +1040,9 @@ cutscene_1c:
 				d9_cut_flag = 2
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 2
+	CASE 2
 
 		// setup cars to chase plane down runway
 		CREATE_CAR BOBCAT 366.7640 2512.6550 15.5677 d9_enemy_car[0] 
@@ -1125,9 +1125,9 @@ cutscene_1c:
 
 		d9_cut_flag = 3
 		d9_cut_timer = TIMERA + 1000
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 3
+	CASE 3
 		IF d9_cut_timer > TIMERA
 
 
@@ -1155,9 +1155,9 @@ cutscene_1c:
 			PRINT DES9_3 4000 1	
 		  
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 4
+	CASE 4
 
 		IF TIMERA > d9_cut_timer
 			SWITCH_WIDESCREEN ON
@@ -1175,10 +1175,10 @@ cutscene_1c:
 			ENDIF
 			d9_cut_flag = 5	
 		ENDIF
-	ENDIF
+	BREAK
 
 
-	IF d9_cut_flag = 5
+	CASE 5
 		IF TIMERA > d9_cut_timer
 
 			CLEAR_PRINTS
@@ -1212,9 +1212,9 @@ cutscene_1c:
 			d9_cut_timer = TIMERA + 3000
 			d9_cut_flag = 6
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 6
+	CASE 6
 		IF TIMERA > d9_cut_timer
 			SWITCH_WIDESCREEN OFF
 			SET_PLAYER_CONTROL player1 ON
@@ -1225,7 +1225,8 @@ cutscene_1c:
 			d9_flag = 2
 
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 
 RETURN
 
@@ -1289,18 +1290,19 @@ plane_race:
 		ENDIF
 
 
-		IF d9_plane_leave_flag = 0
+		SWITCH d9_plane_leave_flag
+		CASE 0
 			IF NOT IS_CAR_DEAD d9_players_bike
 				IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 412.6561 2530.9084 15.617 5.0 5.0 5.0 FALSE
 					d9_plane_leave_time = TIMERA + 8000
 					d9_plane_leave_flag = 2					
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 
 
-		IF d9_plane_leave_flag = 2
+		CASE 2
 
 
 			IF IS_CHAR_IN_ANY_CAR scplayer
@@ -1330,17 +1332,17 @@ plane_race:
 
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF d9_plane_leave_flag = 3
+		CASE 3
 
 			IF TIMERA > d9_plane_leave_time
 				SET_PLAYBACK_SPEED d9_plane 1.0
 				d9_plane_leave_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF d9_plane_leave_flag = 4
+		CASE 4
 
 			LVAR_FLOAT d9_speed
 			GET_OBJECT_COORDINATES d9_locator x y z
@@ -1382,7 +1384,8 @@ plane_race:
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 RETURN
 
@@ -1471,7 +1474,8 @@ cutscene_2:
 		ENDIF
 	ENDIF	
 
-	IF d9_cut_flag = 0
+	SWITCH d9_cut_flag
+	CASE 0
 
 		
 
@@ -1575,42 +1579,19 @@ cutscene_2:
 		ELSE
 			d9_cut_flag = 1
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag > 0
-	AND d9_cut_flag < 20
-		GOSUB drop_barrels
-	ENDIF
-
-
-
-		IF d9_barrel_set_to_drop = 0
-			IF TIMERA > d9_first_barrel_time
-				d9_barrel_set_to_drop = 1
-			ENDIF
-		ENDIF
-			
-
-
-		IF DOES_OBJECT_EXIST d9_ground 
-
-			GET_OBJECT_COORDINATES d9_ground d9_ground_x d9_ground_y d9_ground_z
-
-			d9_ground_y += 0.05
-
-		ENDIF
-
-		IF d9_cut_flag = 1
+		CASE 1
 			IF TIMERA > d9_cut_timer
 				TASK_LEAVE_ANY_CAR scplayer
 				d9_cut_flag = 2
 				d9_cut_timer = TIMERA + 300	
 			ENDIF
-		ENDIF
+		BREAK
 
 
     	// camera looks at bike on ramp
-		IF d9_cut_flag = 2
+		CASE 2
 			IF TIMERA > d9_cut_timer
 				IF NOT IS_CAR_DEAD d9_plane
 					DELETE_CAR d9_plane
@@ -1621,10 +1602,10 @@ cutscene_2:
 				d9_cut_timer = TIMERA + 1000
 				d9_cut_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
 		// set camera to pan as bike drives up ramp
-		IF d9_cut_flag = 3
+		CASE 3
 			IF TIMERA > d9_cut_timer
 
 
@@ -1640,11 +1621,11 @@ cutscene_2:
 				d9_cut_flag = 4
 				d9_cut_timer = TIMERA + 1500
 			ENDIF
-		ENDIF
+		BREAK
 
 
 		// start playback of bike, cam pans to barrel rolling down plane
-		IF d9_cut_flag = 4
+		CASE 4
 
 			d9_percent = d9_cut_timer - TIMERA
 			d9_percentF =# d9_percent
@@ -1681,27 +1662,27 @@ cutscene_2:
 			d9_y += 1024.8152
 			d9_z += 1949.3497
 			
-		ENDIF
+		BREAK
 
 		
 
-		IF d9_cut_flag = 5
+		CASE 5
 			GET_OBJECT_COORDINATES d9_barrel[5] d9_barrel_x[0] d9_barrel_y[0] d9_barrel_z[0]
-		ENDIF
+		BREAK
 
 
 		// player says "What the fuck...?"
-		IF d9_cut_flag = 6
+		CASE 6
 			GET_OBJECT_COORDINATES d9_barrel[5] d9_barrel_x[0] d9_barrel_y[0] d9_barrel_z[0]
 //			POINT_CAMERA_AT_POINT d9_barrel_x[0] d9_barrel_y[0] d9_barrel_z[0] JUMP_CUT
 			IF TIMERA > d9_cut_timer
 				d9_cut_flag = 11 //was 7
 				CLEAR_PRINTS
 			ENDIF
-		ENDIF
+		BREAK
 
 		// Thug says "Fuck you cunt"
-		IF d9_cut_flag = 7
+		CASE 7
 				CAMERA_RESET_NEW_SCRIPTABLES
 				SET_FIXED_CAMERA_POSITION 316.0625 988.6853 1957.7406  0.0 0.0 0.0
 				POINT_CAMERA_AT_POINT 316.0338 987.7417 1958.0701 JUMP_CUT
@@ -1712,10 +1693,10 @@ cutscene_2:
 					SET_CHAR_HEADING d9_enemy[4] 0.0
 					TASK_PLAY_ANIM d9_enemy[4] FUCKU PED 4.0 FALSE 0 0 0 3000
 				ENDIF
-		ENDIF
+		BREAK
 
 //		camera points at player with Satchel
-		IF d9_cut_flag = 8
+		CASE 8
 			IF HAS_MODEL_LOADED gun_para
 				IF TIMERA > d9_cut_timer
 					CLEAR_PRINTS
@@ -1740,10 +1721,10 @@ cutscene_2:
 			ELSE
 				REQUEST_MODEL gun_para
 			ENDIF
-		ENDIF
+		BREAK
 
 		// camera points at guard to be killed
-		IF d9_cut_flag = 9
+		CASE 9
 			IF TIMERA > d9_cut_timer
 				SET_FIXED_CAMERA_POSITION 318.8293 975.9706 1960.7589 0.0 0.0 0.0
 				POINT_CAMERA_AT_POINT 318.3584 976.8294 1960.5571 JUMP_CUT
@@ -1766,17 +1747,17 @@ cutscene_2:
 				d9_cut_flag = 10
 				d9_cut_timer = TIMERA + 1100
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF d9_cut_flag = 10
+		CASE 10
 			IF TIMERA > d9_cut_timer
 				d9_barrel_set_to_drop = 2				
 				d9_cut_flag = 11
 				d9_cut_timer = TIMERA + 2900
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF d9_cut_flag = 11
+		CASE 11
 			IF TIMERA > d9_cut_timer
 
 				REQUEST_MODEL gun_para
@@ -1914,9 +1895,32 @@ cutscene_2:
 
 			ENDIF
 			
-		ENDIF		
+		BREAK		
+		ENDSWITCH
    
 
+	IF d9_cut_flag > 0
+	AND d9_cut_flag < 20
+		GOSUB drop_barrels
+	ENDIF
+
+
+
+		IF d9_barrel_set_to_drop = 0
+			IF TIMERA > d9_first_barrel_time
+				d9_barrel_set_to_drop = 1
+			ENDIF
+		ENDIF
+			
+
+
+		IF DOES_OBJECT_EXIST d9_ground 
+
+			GET_OBJECT_COORDINATES d9_ground d9_ground_x d9_ground_y d9_ground_z
+
+			d9_ground_y += 0.05
+
+		ENDIF
 
 
 RETURN
@@ -1946,7 +1950,8 @@ cutscene_2:
 
 	d9_enemy_stops_rolling_barrels = 1
 
-	IF d9_cut_flag = 0
+	SWITCH d9_cut_flag
+	CASE 0
 		IF NOT IS_CAR_DEAD d9_plane
 			d9_first_barrel_time = TIMERA + 6500
 			SWITCH_WIDESCREEN ON
@@ -1970,9 +1975,9 @@ cutscene_2:
 						 
 			d9_cut_flag = 1			
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 1
+	CASE 1
 		CAMERA_RESET_NEW_SCRIPTABLES
 		CAMERA_PERSIST_TRACK TRUE                   
 		CAMERA_PERSIST_POS TRUE                       
@@ -1981,23 +1986,23 @@ cutscene_2:
 
 		d9_cut_flag = 2
 		d9_cut_timer = TIMERA + 4500
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 2
+	CASE 2
 		IF TIMERA > d9_cut_timer
 			DO_FADE 1000 FADE_OUT
 //			CLEAR_CHAR_TASKS_IMMEDIATELY scplayer
 			d9_cut_flag = 3
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 3
+	CASE 3
 		IF NOT GET_FADING_STATUS
 			d9_cut_flag = 4
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 4
+	CASE 4
 
 		IF NOT IS_CAR_DEAD d9_players_bike
 			FREEZE_CAR_POSITION d9_players_bike FALSE
@@ -2050,17 +2055,17 @@ cutscene_2:
 
 		d9_cut_flag = 5
 
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 5
+	CASE 5
 		IF TIMERA > d9_cut_timer
 
 
 			d9_cut_flag = 6
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 6
+	CASE 6
 		IF HAS_CAR_RECORDING_BEEN_LOADED 150
 		AND HAS_CAR_RECORDING_BEEN_LOADED 152
 			// Set bike to top of ramp.
@@ -2083,24 +2088,24 @@ cutscene_2:
 			
 			d9_cut_flag = 7
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 7
+	CASE 7
 		REQUEST_MODEL gun_para
 		d9_cut_timer = TIMERA + 2200
 		
 		DO_FADE 600 FADE_IN
 
 		d9_cut_flag = 8
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 8
+	CASE 8
 		IF TIMERA > d9_cut_timer
 			TASK_LEAVE_ANY_CAR scplayer
 			d9_cut_flag = 9
 			d9_cut_timer = TIMERA + 300	
 		ENDIF
-	ENDIF
+	BREAK
 
 
 		
@@ -2116,19 +2121,6 @@ cutscene_2:
 
 
 
-	IF d9_cut_flag > 0
-	AND d9_cut_flag < 20
-		GOSUB drop_barrels
-	ENDIF
-
-
-
-		IF d9_barrel_set_to_drop = 0
-			IF TIMERA > d9_first_barrel_time
-				d9_barrel_set_to_drop = 1
-//				d9_drop_a_barrel = TIMERA + 10000
-			ENDIF
-		ENDIF
 
 
 
@@ -2140,7 +2132,7 @@ cutscene_2:
 
 
 		// camera looks at bike on ramp
-		IF d9_cut_flag = 9
+		CASE 9
 			IF TIMERA > d9_cut_timer
 				IF NOT IS_CAR_DEAD d9_plane
 					DELETE_CAR d9_plane
@@ -2151,10 +2143,10 @@ cutscene_2:
 				d9_cut_timer = TIMERA + 1000
 				d9_cut_flag = 10
 			ENDIF
-		ENDIF
+		BREAK
 
 		// set camera to pan as bike drives up ramp
-		IF d9_cut_flag = 10
+		CASE 10
 			IF TIMERA > d9_cut_timer
 
 
@@ -2170,11 +2162,11 @@ cutscene_2:
 				d9_cut_flag = 11
 				d9_cut_timer = TIMERA + 1500
 			ENDIF
-		ENDIF
+		BREAK
 
 
 		// start playback of bike, cam pans to barrel rolling down plane
-		IF d9_cut_flag = 11
+		CASE 11
 
 			d9_percent = d9_cut_timer - TIMERA
 			d9_percentF =# d9_percent
@@ -2213,10 +2205,10 @@ cutscene_2:
 			
 //			POINT_CAMERA_AT_POINT d9_x d9_y d9_z JUMP_CUT
 
-		ENDIF
+		BREAK
 
 		// player says "What the fuck...?"
-		IF d9_cut_flag = 12
+		CASE 12
 			GET_OBJECT_COORDINATES d9_barrel[5] d9_barrel_x[0] d9_barrel_y[0] d9_barrel_z[0]
 //			POINT_CAMERA_AT_POINT d9_barrel_x[0] d9_barrel_y[0] d9_barrel_z[0] JUMP_CUT
 			IF TIMERA > d9_cut_timer
@@ -2227,10 +2219,10 @@ cutscene_2:
 					TASK_SAY d9_enemy[4] CONTEXT_GLOBAL_GENERIC_INSULT_MALE
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF d9_cut_flag = 13
+		CASE 13
 			IF TIMERA > d9_cut_timer
 
 				CAMERA_RESET_NEW_SCRIPTABLES
@@ -2340,9 +2332,23 @@ cutscene_2:
 				ENDIF
 			ENDIF
 			
-		ENDIF		
+		BREAK		
+		ENDSWITCH
    
 
+	IF d9_cut_flag > 0
+	AND d9_cut_flag < 20
+		GOSUB drop_barrels
+	ENDIF
+
+
+
+		IF d9_barrel_set_to_drop = 0
+			IF TIMERA > d9_first_barrel_time
+				d9_barrel_set_to_drop = 1
+//				d9_drop_a_barrel = TIMERA + 10000
+			ENDIF
+		ENDIF
 
 
 RETURN
@@ -2719,7 +2725,8 @@ RETURN
 
 cutscene_4:
 
-	IF d9_cut_flag = 0
+	SWITCH d9_cut_flag
+	CASE 0
 
 		LVAR_INT d9_track_plane
 		CREATE_CAR ANDROM 339.9034 2499.8049 15.4884 d9_track_plane
@@ -2730,9 +2737,9 @@ cutscene_4:
 
 		d9_cut_timer = TIMERA + 1000
 		d9_cut_flag = 1
-	ENDIF
+	BREAK
 
-	IF d9_cut_flag = 1
+	CASE 1
 		IF TIMERA > d9_cut_timer
 
 //			PRINT_BIG ( M_FAIL ) 5000 1 //"Mission Failed"
@@ -2760,7 +2767,33 @@ cutscene_4:
 			d9_cut_flag = 3
 			d9_cut_timer = TIMERA + 5000
 		ENDIF
-	ENDIF
+	BREAK
+
+
+
+	CASE 3
+		IF TIMERA > d9_cut_timer
+			d9_cut_flag = 4
+			DO_FADE 1000 FADE_OUT
+			d9_cut_timer = TIMERA + 1000
+		ENDIF
+	BREAK
+
+	CASE 4
+		IF NOT GET_FADING_STATUS
+			FORCE_DEATH_RESTART
+			SET_CAMERA_BEHIND_PLAYER 
+			RESTORE_CAMERA_JUMPCUT
+			GOTO game_over
+//		IF TIMERA > d9_cut_timer
+//			DO_FADE 800 FADE_IN
+//			SET_PLAYER_CONTROL player1 ON
+//			SWITCH_WIDESCREEN OFF
+//			SET_CAMERA_BEHIND_PLAYER
+//			RESTORE_CAMERA_JUMPCUT
+		ENDIF
+	BREAK
+	ENDSWITCH
 
    	IF make_explosions = 1
 		IF TIMERA > new_explosion_time
@@ -2777,31 +2810,6 @@ cutscene_4:
 			ENDIF
 		ENDIF
 	ENDIF
-
-
-	IF d9_cut_flag = 3
-		IF TIMERA > d9_cut_timer
-			d9_cut_flag = 4
-			DO_FADE 1000 FADE_OUT
-			d9_cut_timer = TIMERA + 1000
-		ENDIF
-	ENDIF
-
-	IF d9_cut_flag = 4
-		IF NOT GET_FADING_STATUS
-			FORCE_DEATH_RESTART
-			SET_CAMERA_BEHIND_PLAYER 
-			RESTORE_CAMERA_JUMPCUT
-			GOTO game_over
-//		IF TIMERA > d9_cut_timer
-//			DO_FADE 800 FADE_IN
-//			SET_PLAYER_CONTROL player1 ON
-//			SWITCH_WIDESCREEN OFF
-//			SET_CAMERA_BEHIND_PLAYER
-//			RESTORE_CAMERA_JUMPCUT
-		ENDIF
-	ENDIF
-
 
 	//SET_PLAYER_CONTROL player1 OFF
 

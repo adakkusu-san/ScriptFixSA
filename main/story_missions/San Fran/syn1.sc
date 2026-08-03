@@ -635,21 +635,22 @@ syn1_mobile_loop:
 WAIT 0
 // ---- Load & Play Dialogue...
 IF NOT sy1_counter = 0
-	IF sy1_audio_playing = 0
+	SWITCH sy1_audio_playing
+	CASE 0
 		IF HAS_MISSION_AUDIO_LOADED sy1_alt_slot
 			CLEAR_MISSION_AUDIO sy1_alt_slot
 		ENDIF
 		sy1_audio_playing = 1
-	ENDIF
+	BREAK
 
-	IF sy1_audio_playing = 1
+	CASE 1
 		LOAD_MISSION_AUDIO sy1_audio_slot sy1_audio[sy1_counter]
 		GOSUB sy1_dialogue_pos
 		
 		sy1_audio_playing = 2
-	ENDIF
+	BREAK
 
-	IF sy1_audio_playing = 2
+	CASE 2
 	 	IF HAS_MISSION_AUDIO_LOADED sy1_audio_slot
 			IF NOT sy1_audio_char = 0
 				IF NOT IS_CHAR_DEAD	sy1_audio_char
@@ -661,9 +662,9 @@ IF NOT sy1_counter = 0
 			PRINT_NOW $sy1_text[sy1_counter] 10000 1
 			sy1_audio_playing = 3
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_audio_playing = 3
+	CASE 3
 		IF HAS_MISSION_AUDIO_FINISHED sy1_audio_slot
 			CLEAR_THIS_PRINT $sy1_text[sy1_counter]
 			IF NOT sy1_audio_char = 0
@@ -688,18 +689,20 @@ IF NOT sy1_counter = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 ENDIF
 
-	IF sy1_mobile = 0
+	SWITCH sy1_mobile
+	CASE 0
 		IF sy1_audio_playing = 0
 			sy1_counter = 1	// CESAR: CJ.
 			sy1_mobile = 1
 			GET_GAME_TIMER sy1_text_timer_start
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 1
+	CASE 1
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -709,9 +712,9 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 2
+	CASE 2
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -721,9 +724,9 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 3
+	CASE 3
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -733,9 +736,9 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 4
+	CASE 4
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -751,9 +754,9 @@ ENDIF
 
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 5
+	CASE 5
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -763,9 +766,9 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 6
+	CASE 6
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -775,9 +778,9 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 7
+	CASE 7
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -787,9 +790,9 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 8
+	CASE 8
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -799,10 +802,13 @@ ENDIF
 				GET_GAME_TIMER sy1_text_timer_start
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_mobile = 9
-	OR sy1_mobile = 10
+	CASE 9
+		sy1_mobile = 10
+	ENDIF
+	
+	CASE 10
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -815,7 +821,8 @@ ENDIF
 				GOTO syn1_main_loop
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 
 	IF IS_BUTTON_PRESSED PAD1 TRIANGLE
 	OR IS_BUTTON_PRESSED PAD1 CROSS
@@ -837,7 +844,40 @@ syn1_main_loop:
 
 WAIT 0
 
+IF NOT sy1_counter = 0
+	GOSUB sy1_audio_play
+ENDIF
+
+SWITCH sy1_stage
+CASE 0
+	GOSUB sy1_stage_eq_0:
+BREAK
+CASE 1
+	GOSUB sy1_stage_eq_1
+BREAK
+CASE 2
+	GOSUB sy1_stage_eq_2
+BREAK
+CASE 3
+	GOSUB sy1_stage_eq_3
+BREAK
+CASE 5
+	GOSUB sy1_stage_eq_5
+BREAK
+CASE 6
+	GOSUB sy1_stage_eq_6
+BREAK
+ENDSWITCH
+
+IF sy1_stage = 2
+OR sy1_stage = 3
+	GOSUB sy1_checkup
+ENDIF
+
+GOTO syn1_main_loop
+
 // ---- Debug Skips
+/*
 IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
 	GOTO mission_passed_syn1  
 ENDIF
@@ -867,23 +907,25 @@ IF sy1_stage = 0
 		sy1_cut = 1
 	ENDIF
 ENDIF
+*/
 
-IF NOT sy1_counter = 0
-	IF sy1_audio_playing = 0
+sy1_audio_play:
+	SWITCH sy1_audio_playing
+	CASE 0
 		IF HAS_MISSION_AUDIO_LOADED sy1_alt_slot
 			CLEAR_MISSION_AUDIO sy1_alt_slot
 		ENDIF
 		sy1_audio_playing = 1
-	ENDIF
+	BREAK
 
-	IF sy1_audio_playing = 1
+	CASE 1
 		LOAD_MISSION_AUDIO sy1_audio_slot sy1_audio[sy1_counter]
 		GOSUB sy1_dialogue_pos
 		
 		sy1_audio_playing = 2
-	ENDIF
+	BREAK
 
-	IF sy1_audio_playing = 2
+	CASE 2
 	 	IF HAS_MISSION_AUDIO_LOADED sy1_audio_slot
 			IF NOT sy1_audio_char = 0
 				IF NOT IS_CHAR_DEAD	sy1_audio_char
@@ -895,9 +937,9 @@ IF NOT sy1_counter = 0
 			PRINT_NOW $sy1_text[sy1_counter] 10000 1
 			sy1_audio_playing = 3
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF sy1_audio_playing = 3
+	CASE 3
 		IF HAS_MISSION_AUDIO_FINISHED sy1_audio_slot
 			CLEAR_THIS_PRINT $sy1_text[sy1_counter]
 			IF NOT sy1_audio_char = 0
@@ -940,10 +982,11 @@ IF NOT sy1_counter = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF
+	BREAK
+	ENDSWITCH
+RETURN
 
-IF sy1_stage = 0
+sy1_stage_eq_0:
 	ADD_BLIP_FOR_COORD sy1_cesar_car_x sy1_cesar_car_y sy1_cesar_car_z sy1_cesar_blip
 	SET_COORD_BLIP_APPEARANCE sy1_cesar_blip COORD_BLIP_APPEARANCE_FRIEND
 	GET_GAME_TIMER sy1_text_timer_start
@@ -951,18 +994,10 @@ IF sy1_stage = 0
 	
 	sy1_dialogue = 11
 	sy1_stage = 1
-ENDIF
-
-
-IF sy1_stage = 2
-	IF NOT LOCATE_CHAR_IN_CAR_3D scplayer sy1_park_x sy1_park_y sy1_park_z 4.0 4.0 4.0 FALSE
-		GOSUB sy1_player_car_check
-		GOSUB sy1_player_group_check
-	ENDIF
-ENDIF
+RETURN
 
 // Go pick up Cesar...
-IF sy1_stage = 1
+sy1_stage_eq_1:
 	IF sy1_cut = 0
 		IF IS_CHAR_IN_ANY_CAR scplayer
 			STORE_CAR_CHAR_IS_IN_NO_SAVE scplayer sy1_player_car
@@ -1138,27 +1173,14 @@ IF sy1_stage = 1
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
 
 // ---- Cesar dies
-IF sy1_stage = 1
 	IF sy1_temp_flag = 1
-		IF IS_CHAR_DEAD sy1_cesar
-			CLEAR_PRINTS
-			PRINT ( SYN1_06 ) 5000 1 // Cesar didn't make it.
-			GOTO mission_failed_syn1
-		ENDIF
-
-		IF IS_CAR_DEAD sy1_cesar_car
-			CLEAR_PRINTS
-			PRINT ( SYN1_08 ) 5000 1 // You destroyed the car!
-			GOTO mission_failed_syn1
-		ENDIF
+		GOSUB sy1_checkup
 	ENDIF
-ENDIF
+RETURN
 
-IF sy1_stage = 2
-OR sy1_stage = 3
+sy1_checkup:
 	IF IS_CHAR_DEAD sy1_cesar
 		CLEAR_PRINTS
 		PRINT ( SYN1_06 ) 5000 1 // Cesar didn't make it.
@@ -1169,9 +1191,14 @@ OR sy1_stage = 3
 		PRINT ( SYN1_08 ) 5000 1 // You destroyed the car!
 		GOTO mission_failed_syn1
 	ENDIF
-ENDIF
+RETURN
 
-IF sy1_stage = 2
+sy1_stage_eq_2:
+	IF NOT LOCATE_CHAR_IN_CAR_3D scplayer sy1_park_x sy1_park_y sy1_park_z 4.0 4.0 4.0 FALSE
+		GOSUB sy1_player_car_check
+		GOSUB sy1_player_group_check
+	ENDIF
+
 	IF sy1_in_car = 1
 	AND sy1_grouped = 1
 	AND sy1_dialogue = 12
@@ -1280,9 +1307,9 @@ IF sy1_stage = 2
 			ENDIF
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
-IF sy1_stage = 3
+sy1_stage_eq_3:
 	GET_GAME_TIMER sy1_text_timer_end
 	sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 	IF sy1_text_timer_diff > 500
@@ -1322,11 +1349,12 @@ IF sy1_stage = 3
 		GET_GAME_TIMER sy1_text_timer_start
 		PRINT_NOW ( SYN1_12 ) 10000 1 // Get them quick
 	ENDIF	
-ENDIF
+RETURN
 
-IF sy1_stage = 5
+sy1_stage_eq_5:
 	GET_CAMERA_FOV sy1_fov
-	IF sy1_cut = 0
+	SWITCH sy1_cut
+	CASE 0
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 8000
@@ -1342,9 +1370,9 @@ IF sy1_stage = 5
 				sy1_cut = 1
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 // ---- Ryder
-	IF sy1_cut = 1
+	CASE 1
 		IF NOT IS_CAR_DEAD sy1_ryder_car
 		AND NOT IS_CHAR_DEAD sy1_ryder
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR	sy1_ryder_car
@@ -1361,8 +1389,8 @@ IF sy1_stage = 5
 				sy1_cut = 2
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 2
+	BREAK
+	CASE 2
 		IF NOT IS_CAR_DEAD sy1_ryder_car
 		AND NOT IS_CHAR_DEAD sy1_ryder
 			IF NOT IS_CHAR_IN_CAR sy1_ryder sy1_ryder_car
@@ -1374,8 +1402,8 @@ IF sy1_stage = 5
 				sy1_cut = 3
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 3
+	BREAK
+	CASE 3
 		IF NOT IS_CHAR_DEAD sy1_ryder
 			GET_SCRIPT_TASK_STATUS sy1_ryder PERFORM_SEQUENCE_TASK sy1_ryder_status
 			IF sy1_ryder_status = FINISHED_TASK
@@ -1393,8 +1421,6 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 3
 		IF sy1_photo_targets = 0
 			IF NOT IS_CHAR_DEAD sy1_ryder
 				IF HAS_CHAR_BEEN_PHOTOGRAPHED sy1_ryder
@@ -1424,27 +1450,10 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut > 3
-	AND sy1_cut < 7
-		IF sy1_photo_targets = 0
-			IF sy1_audio_playing = 0
-				IF sy1_audio_seq = 0
-					sy1_counter = 20 
-				ENDIF
-				IF sy1_audio_seq = 1
-					sy1_counter = 22
-				ENDIF
-				IF sy1_audio_seq = 2
-					sy1_counter = 27
-					sy1_photo_targets = 1
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
+	BREAK
 
 // ---- TBone
-	IF sy1_cut = 4
+	CASE 4
 		IF NOT IS_CAR_DEAD sy1_tbone_car
 		AND NOT IS_CHAR_DEAD sy1_tbone
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR	sy1_tbone_car
@@ -1461,8 +1470,8 @@ IF sy1_stage = 5
 				sy1_cut = 5
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 5
+	BREAK
+	CASE 5
 		IF NOT IS_CAR_DEAD sy1_tbone_car
 		AND NOT IS_CHAR_DEAD sy1_tbone
 			IF NOT IS_CHAR_IN_CAR sy1_tbone sy1_tbone_car
@@ -1474,8 +1483,8 @@ IF sy1_stage = 5
 				sy1_cut = 6
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 6
+	BREAK
+	CASE 6
 		IF NOT IS_CHAR_DEAD sy1_tbone
 			GET_SCRIPT_TASK_STATUS sy1_tbone PERFORM_SEQUENCE_TASK sy1_tbone_status
 			IF sy1_tbone_status = FINISHED_TASK
@@ -1493,8 +1502,6 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 6
 		IF sy1_photo_targets = 1
 			IF NOT IS_CHAR_DEAD sy1_tbone
 				IF HAS_CHAR_BEEN_PHOTOGRAPHED sy1_tbone
@@ -1524,27 +1531,10 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut > 6
-	AND sy1_cut < 10
-		IF sy1_photo_targets = 1
-			IF sy1_audio_playing = 0
-				IF sy1_audio_seq = 0
-					sy1_counter = 32 
-				ENDIF
-				IF sy1_audio_seq = 1
-					sy1_counter = 33
-				ENDIF
-				IF sy1_audio_seq = 2
-					sy1_counter = 30
-					sy1_photo_targets = 2
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
+	BREAK
 
 // ---- toreno
-	IF sy1_cut = 7
+	CASE 7
 		IF NOT IS_CAR_DEAD sy1_toreno_car
 		AND NOT IS_CHAR_DEAD sy1_toreno
 			IF IS_PLAYBACK_GOING_ON_FOR_CAR	sy1_toreno_car
@@ -1572,8 +1562,8 @@ IF sy1_stage = 5
 				sy1_cut = 8
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 8
+	BREAK
+	CASE 8
 		IF NOT IS_CAR_DEAD sy1_toreno_car
 		AND NOT IS_CHAR_DEAD sy1_toreno
 			IF NOT IS_CHAR_IN_CAR sy1_toreno sy1_toreno_car
@@ -1585,8 +1575,8 @@ IF sy1_stage = 5
 				sy1_cut = 9
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 9
+	BREAK
+	CASE 9
 		IF NOT IS_CHAR_DEAD sy1_toreno
 			GET_SCRIPT_TASK_STATUS sy1_toreno PERFORM_SEQUENCE_TASK sy1_toreno_status
 			IF sy1_toreno_status = FINISHED_TASK
@@ -1604,8 +1594,6 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 9
 		IF sy1_photo_targets = 2
 			IF NOT IS_CHAR_DEAD sy1_toreno
 				IF HAS_CHAR_BEEN_PHOTOGRAPHED sy1_toreno
@@ -1635,26 +1623,9 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut > 9
-	AND sy1_cut < 13
-		IF sy1_photo_targets = 2
-			IF sy1_audio_playing = 0
-				IF sy1_audio_seq = 0
-					sy1_counter = 42 
-				ENDIF
-				IF sy1_audio_seq = 1
-					sy1_counter = 43
-				ENDIF
-				IF sy1_audio_seq = 2
-					sy1_counter = 39
-					sy1_photo_targets = 3
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
+	BREAK
 	// ---- jizzy
-	IF sy1_cut = 10
+	CASE 10
 		IF NOT IS_CAR_DEAD sy1_jizzy_car
 		AND NOT IS_CHAR_DEAD sy1_jizzy
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR	sy1_jizzy_car
@@ -1670,8 +1641,8 @@ IF sy1_stage = 5
 				sy1_cut = 11
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 11
+	BREAK
+	CASE 11
 		IF NOT IS_CAR_DEAD sy1_jizzy_car
 		AND NOT IS_CHAR_DEAD sy1_jizzy
 			IF NOT IS_CHAR_IN_CAR sy1_jizzy sy1_jizzy_car
@@ -1683,8 +1654,8 @@ IF sy1_stage = 5
 				sy1_cut = 12
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 12
+	BREAK
+	CASE 12
 		IF NOT IS_CHAR_DEAD sy1_jizzy
 			GET_SCRIPT_TASK_STATUS sy1_jizzy PERFORM_SEQUENCE_TASK sy1_jizzy_status
 			IF NOT sy1_jizzy_status = FINISHED_TASK
@@ -1712,8 +1683,6 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 12
 		IF sy1_photo_targets = 3
 			IF NOT IS_CHAR_DEAD sy1_jizzy
 				IF HAS_CHAR_BEEN_PHOTOGRAPHED sy1_jizzy
@@ -1741,8 +1710,8 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 13
+	BREAK
+	CASE 13
 		IF sy1_photo_targets = 3
 			IF sy1_audio_playing = 0
 				IF sy1_audio_seq = 0
@@ -1759,8 +1728,62 @@ IF sy1_stage = 5
 				ENDIF
 			ENDIF
 		ENDIF
+	BREAK
+	ENDSWITCH
+
+	IF sy1_cut > 3
+	AND sy1_cut < 7
+		IF sy1_photo_targets = 0
+			IF sy1_audio_playing = 0
+				IF sy1_audio_seq = 0
+					sy1_counter = 20 
+				ENDIF
+				IF sy1_audio_seq = 1
+					sy1_counter = 22
+				ENDIF
+				IF sy1_audio_seq = 2
+					sy1_counter = 27
+					sy1_photo_targets = 1
+				ENDIF
+			ENDIF
+		ENDIF
 	ENDIF
-ENDIF
+	IF sy1_cut > 6
+	AND sy1_cut < 10
+		IF sy1_photo_targets = 1
+			IF sy1_audio_playing = 0
+				IF sy1_audio_seq = 0
+					sy1_counter = 32 
+				ENDIF
+				IF sy1_audio_seq = 1
+					sy1_counter = 33
+				ENDIF
+				IF sy1_audio_seq = 2
+					sy1_counter = 30
+					sy1_photo_targets = 2
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	IF sy1_cut > 9
+	AND sy1_cut < 13
+		IF sy1_photo_targets = 2
+			IF sy1_audio_playing = 0
+				IF sy1_audio_seq = 0
+					sy1_counter = 42 
+				ENDIF
+				IF sy1_audio_seq = 1
+					sy1_counter = 43
+				ENDIF
+				IF sy1_audio_seq = 2
+					sy1_counter = 39
+					sy1_photo_targets = 3
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	
+RETURN
 
 //-2170.2451 -2410.9556 33.2969  
 //-2169.0303 -2409.3274 33.6180  
@@ -1768,8 +1791,9 @@ ENDIF
 //-2161.8145 -2414.8108 29.6250 
 
 
-IF sy1_stage = 6
-	IF sy1_cut = -3
+sy1_stage_eq_6:
+	SWITCH sy1_cut
+	CASE -3
 		IF sy1_counter = 0
 			DO_FADE 150 FADE_OUT
 			WHILE GET_FADING_STATUS
@@ -1798,7 +1822,7 @@ IF sy1_stage = 6
 			ENDIF
 		ENDIF
 	ENDIF
-	IF sy1_cut = -2
+	CASE -2
 		IF NOT IS_CHAR_DEAD sy1_cesar
 			PERFORM_SEQUENCE_TASK sy1_cesar sy1_down_stairs
 			PERFORM_SEQUENCE_TASK scplayer sy1_down_stairs
@@ -1810,14 +1834,14 @@ IF sy1_stage = 6
 			sy1_cut = -1
 		ENDIF
 	ENDIF
-	IF sy1_cut = -1
+	CASE -1
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 4500
 			sy1_cut = 0
 		ENDIF
 	ENDIF
-	IF sy1_cut = 0
+	CASE 0
 		DO_FADE 250 FADE_OUT
 		WHILE GET_FADING_STATUS
 		WAIT 0
@@ -1859,8 +1883,8 @@ IF sy1_stage = 6
 			sy1_cut = 1
 			sy1_temp_flag = 1
 		ENDIF
-	ENDIF
-	IF sy1_cut = 1
+	BREAK
+	CASE 1
 		IF NOT IS_CAR_DEAD sy1_cesar_car
 			GET_GAME_TIMER sy1_text_timer_end
 			sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
@@ -1894,8 +1918,8 @@ IF sy1_stage = 6
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 2
+	BREAK
+	CASE 2
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 2000
@@ -1914,8 +1938,8 @@ IF sy1_stage = 6
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 3
+	BREAK
+	CASE 3
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -1930,16 +1954,16 @@ IF sy1_stage = 6
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 4
+	BREAK
+	CASE 4
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1
 			sy1_cut = 5
 			GET_GAME_TIMER sy1_text_timer_start
 		ENDIF
-	ENDIF
-	IF sy1_cut = 5
+	BREAK
+	CASE 5
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 1000
@@ -1962,8 +1986,8 @@ IF sy1_stage = 6
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF sy1_cut = 6
+	BREAK
+	CASE 6
 		GET_GAME_TIMER sy1_text_timer_end
 		sy1_text_timer_diff = sy1_text_timer_end - sy1_text_timer_start
 		IF sy1_text_timer_diff > 3000
@@ -1982,13 +2006,14 @@ IF sy1_stage = 6
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF
+	BREAK
+	ENDSWITCH
+RETURN
 
 
 
 
-GOTO syn1_main_loop 
+//GOTO syn1_main_loop 
 
 // ------------------------------------------------------------------------------------------------
 

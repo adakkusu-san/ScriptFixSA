@@ -396,29 +396,50 @@ WAIT 0
 
 // ---- Load & Play Dialogue...
 IF NOT st1_counter = 0
-	IF st1_audio_playing = 0
+	GOSUB st1_audio_play
+ENDIF
+
+SWITCH st1_stage
+CASE 0
+	GOSUB st1_stage_eq_0
+BREAK
+CASE 1
+	GOSUB st1_stage_eq_1
+BREAK
+CASE 2
+	GOSUB st1_stage_eq_2
+BREAK
+ENDSWITCH
+
+GOSUB st1_checkup
+
+GOTO st1_main_loop
+
+st1_audio_play:
+	SWITCH st1_audio_playing
+	CASE 0
 		IF HAS_MISSION_AUDIO_LOADED st1_alt_slot
 			CLEAR_MISSION_AUDIO st1_alt_slot
 		ENDIF
 		st1_audio_playing = 1
-	ENDIF
+	BREAK
 
-	IF st1_audio_playing = 1
+	CASE 1
 		LOAD_MISSION_AUDIO st1_audio_slot st1_audio[st1_counter]
 		//GOSUB st1_dialogue_pos
 		//ATTACH_MISSION_AUDIO_TO_PED st1_audio_slot st1_audio_char
 		st1_audio_playing = 2
-	ENDIF
+	BREAK
 
-	IF st1_audio_playing = 2
+	CASE 2
 	 	IF HAS_MISSION_AUDIO_LOADED st1_audio_slot
 			PLAY_MISSION_AUDIO st1_audio_slot
 			PRINT_NOW $st1_text[st1_counter] 10000 1
 			st1_audio_playing = 3
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF st1_audio_playing = 3
+	CASE 3
 		IF HAS_MISSION_AUDIO_FINISHED st1_audio_slot
 			CLEAR_THIS_PRINT $st1_text[st1_counter]
 			IF st1_audio_slot = 1
@@ -438,17 +459,19 @@ IF NOT st1_counter = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF
+	BREAK
+	ENDSWITCH
+RETURN
 
 // ----
-
+/*
 IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
 	GOTO mission_passed_steal1
 ENDIF
-
+*/
 // ----
 
+st1_checkup:
 IF NOT IS_CHAR_DEAD scplayer
 	IF st1_stage < 3
 		IF st1_in_car = 0
@@ -463,12 +486,56 @@ IF NOT IS_CHAR_DEAD scplayer
 			ENDIF
 		ENDIF
 	ENDIF 
+
+// Get Player's car...
+	IF st1_take > 1
+	AND st1_take < 4
+		IF NOT IS_CAR_DEAD st1_girl_car
+			IF st1_in_car = 0
+				PRINT_NOW ( STL1_11 ) 100 1
+				IF IS_CHAR_IN_CAR scplayer st1_girl_car
+					REMOVE_BLIP st1_girl_car_blip
+					REMOVE_BLIP st1_hub_blip
+					PRINT_NOW ( STL1_06 ) 5000 1 // Head back to the garage.
+					ADD_BLIP_FOR_COORD st1_hub_x st1_hub_y st1_hub_z st1_hub_blip
+					st1_in_car = 1
+				ENDIF
+			ENDIF
+			IF st1_in_car = 1
+				IF NOT IS_CHAR_IN_CAR scplayer st1_girl_car
+					REMOVE_BLIP st1_hub_blip
+					REMOVE_BLIP st1_girl_car_blip
+					ADD_BLIP_FOR_CAR st1_girl_car st1_girl_car_blip
+					SET_BLIP_AS_FRIENDLY st1_girl_car_blip TRUE
+					st1_in_car = 0
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF	
 ENDIF
+
+IF IS_CAR_DEAD st1_girl_car
+	CLEAR_PRINTS
+	PRINT_NOW ( STL1_07 ) 5000 1 // ~s~You destroyed the car!
+	GOTO mission_failed_steal1
+ENDIF
+RETURN
 
 // ----
 
-IF st1_stage = 0
-	IF st1_cut = 0
+st1_stage_eq_0:
+	IF st1_cut > 0
+		GET_GAME_TIMER st1_timer_end
+		st1_timer_diff = st1_timer_end - st1_timer_start
+		IF st1_timer_diff >	1000
+			IF IS_SKIP_CUTSCENE_BUTTON_PRESSED // FIXEDGROVE: changed from cross check
+				st1_timer_start	-= 10000
+				st1_cut = 5
+			ENDIF
+		ENDIF
+	ENDIF
+	SWITCH st1_cut
+	CASE 0
 //		DO_FADE 500 FADE_OUT
 //		WHILE GET_FADING_STATUS
 //		WAIT 0
@@ -506,18 +573,8 @@ IF st1_stage = 0
 				st1_cut = 1	
 			ENDIF
 		ENDIF
-	ENDIF
-	IF st1_cut > 0
-		GET_GAME_TIMER st1_timer_end
-		st1_timer_diff = st1_timer_end - st1_timer_start
-		IF st1_timer_diff >	1000
-			IF IS_SKIP_CUTSCENE_BUTTON_PRESSED // FIXEDGROVE: changed from cross check
-				st1_timer_start	-= 10000
-				st1_cut = 5
-			ENDIF
-		ENDIF
-	ENDIF
-	IF st1_cut = 1
+	BREAK
+	CASE 1
 		GET_GAME_TIMER st1_timer_end
 		st1_timer_diff = st1_timer_end - st1_timer_start
 		IF st1_timer_diff >	1000
@@ -528,8 +585,8 @@ IF st1_stage = 0
 				st1_cut = 2
 			ENDIF
 		ENDIF
-	ENDIF
-	IF st1_cut = 2
+	BREAK
+	CASE 2
 		GET_GAME_TIMER st1_timer_end
 		st1_timer_diff = st1_timer_end - st1_timer_start
 		IF st1_timer_diff >	1000
@@ -541,9 +598,9 @@ IF st1_stage = 0
 				st1_cut = 3
 			ENDIF
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF st1_cut = 3
+	CASE 3
 		IF NOT IS_CAR_DEAD st1_girl_car
 		AND NOT IS_CHAR_DEAD st1_girl
 			GET_GAME_TIMER st1_timer_end
@@ -573,8 +630,8 @@ IF st1_stage = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF st1_cut = 4		
+	BREAK
+	CASE 4		
 		IF NOT IS_CAR_DEAD st1_girl_car
 			IF NOT IS_CHAR_DEAD st1_girl
 				IF IS_CHAR_SITTING_IN_CAR st1_girl st1_girl_car
@@ -591,8 +648,8 @@ IF st1_stage = 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
-	IF st1_cut = 5
+	BREAK
+	CASE 5
 		GET_GAME_TIMER st1_timer_end
 		st1_timer_diff = st1_timer_end - st1_timer_start
 		IF st1_timer_diff >	1000
@@ -636,11 +693,12 @@ IF st1_stage = 0
 				st1_stage = 1
 			ENDIF
 		ENDIF
-	ENDIF
-ENDIF 
+	BREAK
+	ENDSWITCH
+RETURN 
 
 // Mini cutscene...
-IF st1_stage = 1
+st1_stage_eq_1:
 	IF NOT IS_CHAR_DEAD scplayer
 	AND NOT IS_CAR_DEAD st1_girl_car
 	AND NOT IS_CHAR_DEAD st1_girl
@@ -653,17 +711,12 @@ IF st1_stage = 1
 			
 		ENDIF
 	ENDIF
-ENDIF
+RETURN
 
 
-IF IS_CAR_DEAD st1_girl_car
-	CLEAR_PRINTS
-	PRINT_NOW ( STL1_07 ) 5000 1 // ~s~You destroyed the car!
-	GOTO mission_failed_steal1
-ENDIF
 
 
-IF st1_stage = 2
+st1_stage_eq_2:
 	IF NOT IS_CAR_DEAD st1_girl_car
 	AND NOT IS_CHAR_DEAD st1_girl
 	AND NOT	IS_CHAR_DEAD scplayer
@@ -872,16 +925,17 @@ IF st1_stage = 2
 	IF IS_CHAR_DEAD st1_girl
 		st1_stage = 3
 	ENDIF
-ENDIF
+RETURN
 
-IF st1_stage = 3
+st1_stage_eq_3:
 	IF NOT IS_CAR_DEAD st1_girl_car
 	AND NOT IS_CHAR_DEAD scplayer
-		IF st1_take = 0
+		SWITCH st1_take
+		CASE 0
 			LOCK_CAR_DOORS st1_girl_car CARLOCK_UNLOCKED
 			st1_take = 1
-		ENDIF
-		IF st1_take = 1
+		BREAK
+		CASE 1
 			IF IS_CHAR_IN_CAR scplayer st1_girl_car
 				REMOVE_BLIP st1_girl_car_blip
 				PRINT_NOW ( STL1_06 ) 5000 1 // Head back to the garage.
@@ -893,8 +947,8 @@ IF st1_stage = 3
 				ENDWHILE
 				st1_take = 2
 			ENDIF
-		ENDIF
-		IF st1_take = 2
+		BREAK
+		CASE 2
 			IF NOT IS_CAR_DEAD st1_girl_car
 				IF IS_CHAR_IN_CAR scplayer st1_girl_car 
 					IF LOCATE_CHAR_IN_CAR_3D scplayer st1_hub_x st1_hub_y st1_hub_z 4.0 4.0 4.0 TRUE  
@@ -922,8 +976,8 @@ IF st1_stage = 3
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-		IF st1_take = 21
+		BREAK
+		CASE 21
 			IF NOT IS_CAR_DEAD st1_girl_car
 				IF IS_GARAGE_OPEN hbgdSFS
 					CLEAR_AREA st1_hub_x st1_hub_y st1_hub_z 25.0 TRUE
@@ -933,9 +987,9 @@ IF st1_stage = 3
 					st1_take = 3
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		//telling player to drive into garage
-		IF st1_take = 3 
+		CASE 3 
 			IF NOT IS_CAR_DEAD st1_girl_car
 				IF IS_CHAR_IN_CAR scplayer st1_girl_car
 					IF LOCATE_STOPPED_CHAR_IN_CAR_3D scplayer st1_hub_x st1_hub_y st1_hub_z 4.0 4.0 4.0 FALSE
@@ -950,8 +1004,8 @@ IF st1_stage = 3
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-		IF st1_take = 31
+		BREAK
+		CASE 31
 			IF NOT IS_CAR_DEAD st1_girl_car
 				OPEN_SEQUENCE_TASK st1_cj_end
 					TASK_LEAVE_CAR -1 st1_girl_car
@@ -960,8 +1014,8 @@ IF st1_stage = 3
 				PERFORM_SEQUENCE_TASK scplayer st1_cj_end
 				st1_take = 32
 			ENDIF
-		ENDIF
-		IF st1_take = 32
+		BREAK
+		CASE 32
 			IF NOT IS_CAR_DEAD st1_girl_car
 				//IF NOT LOCATE_CHAR_ANY_MEANS_2D scplayer st1_hub_x st1_hub_y 6.0 6.0 FALSE
 					CLOSE_GARAGE hbgdSFS
@@ -972,8 +1026,8 @@ IF st1_stage = 3
 					st1_take = 41
 				//ENDIF
 			ENDIF
-		ENDIF
-		IF st1_take = 41
+		BREAK
+		CASE 41
 			LVAR_FLOAT old_X old_Y old_Z old_Heading
             SET_PLAYER_CONTROL player1 OFF
             SWITCH_WIDESCREEN ON
@@ -1018,8 +1072,8 @@ IF st1_stage = 3
             ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD -2728.5, 212.2, 3.4 RADAR_SPRITE_MOD_GARAGE mod_garage_blips[0]
             japcar_mod_garage_open = 1
 			st1_take = 4
-		ENDIF
-		IF st1_take = 4
+		BREAK
+		CASE 4
 //			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK st1_player_status
 //			IF st1_player_status = FINISHED_TASK
 				IF IS_GARAGE_CLOSED hbgdSFS
@@ -1038,39 +1092,12 @@ IF st1_stage = 3
 					GOTO mission_passed_steal1
 				ENDIF
 			//ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	ENDIF
-ENDIF
+RETURN
 
-// Get Player's car...
-IF NOT IS_CHAR_DEAD scplayer
-	IF st1_take > 1
-	AND st1_take < 4
-		IF NOT IS_CAR_DEAD st1_girl_car
-			IF st1_in_car = 0
-				PRINT_NOW ( STL1_11 ) 100 1
-				IF IS_CHAR_IN_CAR scplayer st1_girl_car
-					REMOVE_BLIP st1_girl_car_blip
-					REMOVE_BLIP st1_hub_blip
-					PRINT_NOW ( STL1_06 ) 5000 1 // Head back to the garage.
-					ADD_BLIP_FOR_COORD st1_hub_x st1_hub_y st1_hub_z st1_hub_blip
-					st1_in_car = 1
-				ENDIF
-			ENDIF
-			IF st1_in_car = 1
-				IF NOT IS_CHAR_IN_CAR scplayer st1_girl_car
-					REMOVE_BLIP st1_hub_blip
-					REMOVE_BLIP st1_girl_car_blip
-					ADD_BLIP_FOR_CAR st1_girl_car st1_girl_car_blip
-					SET_BLIP_AS_FRIENDLY st1_girl_car_blip TRUE
-					st1_in_car = 0
-				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF	
-ENDIF
-
-GOTO st1_main_loop 
+//GOTO st1_main_loop 
 // ------------------------------------------------------------------------------------------------
 // Mission Failed
 mission_failed_steal1:

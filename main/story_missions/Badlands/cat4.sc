@@ -639,7 +639,8 @@ streaming_otb_clerk:
 										cat_coment_counter = 0
 									ENDIF 
 
-									IF cat_coment_counter = 2
+									SWITCH cat_coment_counter
+									CASE 2
  			  							LOAD_MISSION_AUDIO 1 SOUND_CATX_UA
 										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 											WAIT 0
@@ -653,11 +654,11 @@ streaming_otb_clerk:
 										CLEAR_THIS_PRINT CATX_UA 
 
 										cat_coment_counter++
-									ENDIF
+									BREAK
 
 
 
-									IF cat_coment_counter = 1
+									CASE 1
 
  			  							LOAD_MISSION_AUDIO 1 SOUND_CATX_UB
 										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
@@ -673,11 +674,11 @@ streaming_otb_clerk:
 
 
 										cat_coment_counter++
-									ENDIF
+									BREAK
 
 
 
-									IF cat_coment_counter = 0
+									CASE 0
 										LOAD_MISSION_AUDIO 1 SOUND_CATX_UF
 
 										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
@@ -691,7 +692,8 @@ streaming_otb_clerk:
 										ENDWHILE
 										CLEAR_THIS_PRINT CATX_UF 
 										cat_coment_counter++
-									ENDIF
+									BREAK
+									ENDSWITCH
 								ENDIF
 
 
@@ -735,7 +737,8 @@ streaming_otb_clerk:
 				// corona outside pay and spray
 				IF NOT IS_CHAR_DEAD catalina
 
-					IF flag_help_text_spary_cat4 = 0
+					SWITCH flag_help_text_spary_cat4
+					CASE 0
 						IF LOCATE_CHAR_ANY_MEANS_3D catalina 720.5 -466.73 15.72 4.0 4.0 4.0 TRUE
 							IF flag_help_text_spary_cat4 = 0
 
@@ -769,9 +772,9 @@ streaming_otb_clerk:
 								flag_help_text_spary_cat4 = 1
 							ENDIF
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF flag_help_text_spary_cat4 = 1 
+					CASE 1 
 						IF NOT LOCATE_CHAR_ANY_MEANS_3D catalina 720.5 -460.73 15.72 15.0 15.0 15.0 FALSE
 
 							IF flag_help_text_spary_cat4 = 1
@@ -779,7 +782,8 @@ streaming_otb_clerk:
 							ENDIF
 
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 					IF flag_dont_make_cat_leave_car = 0
 						IF flag_cat_shoot_cops = 0
@@ -1183,7 +1187,8 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 	WHILE NOT flag_cutscene1_cat4 = 10
 		WAIT 0
 
-		IF flag_cutscene1_cat4 = 0
+		SWITCH flag_cutscene1_cat4
+		CASE 0
 			START_CHAR_FACIAL_TALK scplayer 10000
 
 		 	LOAD_MISSION_AUDIO 1 SOUND_CAT2_AB
@@ -1200,11 +1205,11 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 			STOP_CHAR_FACIAL_TALK scplayer
 			flag_cutscene1_cat4 = 1 
 
-		ENDIF	
+		BREAK	
 
 
 
-		IF flag_cutscene1_cat4 = 1
+		CASE 1
 		SKIP_CUTSCENE_START // FIXEDGROVE
 
 			IF NOT IS_CHAR_DEAD catalina
@@ -1229,10 +1234,10 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 
 
-		ENDIF
+		BREAK
 
-		IF TIMERB > 3000
-			IF flag_cutscene1_cat4 = 2
+		CASE 2
+			IF TIMERB > 3000
 
 				
 				CAMERA_RESET_NEW_SCRIPTABLES
@@ -1266,10 +1271,10 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				
 				flag_cutscene1_cat4 = 3
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene1_cat4 = 3
+		CASE 3
 
 				SET_FIXED_CAMERA_POSITION 1300.1182 272.2002 20.6733 0.0 0.0 0.0 
 				POINT_CAMERA_AT_POINT 1299.1564 271.9637 20.5352 JUMP_CUT
@@ -1337,9 +1342,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 			flag_cutscene1_cat4 = 4
 			TIMERA = 0
-		ENDIF
+		BREAK
 
-		IF flag_cutscene1_cat4 = 4
+		CASE 4
 
 			IF NOT IS_CHAR_DEAD catalina
 		   		TASK_GO_STRAIGHT_TO_COORD catalina 1292.81 269.01 18.5469 PEDMOVE_WALK -1
@@ -1361,14 +1366,23 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 			CLEAR_THIS_PRINT CAT2_JA 
 
 
-		ENDIF
+		BREAK
 
-		IF flag_cutscene1_cat4 = 5
+		CASE 5
 			IF TIMERA > 1500
 				flag_cutscene1_cat4 = 10
 			ENDIF
-		ENDIF
+		BREAK
 
+		// FIXEDGROVE: START
+		CASE 10
+			CLEAR_MISSION_AUDIO 1
+			IF NOT IS_CHAR_DEAD catalina
+				CLEAR_CHAR_TASKS catalina
+			ENDIF
+		BREAK
+		// FIXEDGROVE: END
+		ENDSWITCH
 
 			IF TIMERB > 10000
 				SKIP_CUTSCENE_END // FIXEDGROVE
@@ -1379,15 +1393,6 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 			CLEAR_MISSION_AUDIO 1
 			flag_cutscene1_cat4 = 10
 		ENDIF
-
-		// FIXEDGROVE: START
-		IF flag_cutscene1_cat4 = 10
-			CLEAR_MISSION_AUDIO 1
-			IF NOT IS_CHAR_DEAD catalina
-				CLEAR_CHAR_TASKS catalina
-			ENDIF
-		ENDIF
-		// FIXEDGROVE: END
 
 	ENDWHILE
 
@@ -1457,17 +1462,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 	ENDIF	*/
 
 	WHILE NOT HAS_MODEL_LOADED kev_safe
-		WAIT 0
-	ENDWHILE
-
-
-
-	WHILE NOT HAS_MODEL_LOADED man_safenew
-		WAIT 0
-	ENDWHILE
-
-	WHILE NOT HAS_MODEL_LOADED DESERT_EAGLE
-		OR NOT HAS_MODEL_LOADED rider1_door
+	OR NOT HAS_MODEL_LOADED man_safenew
+	OR NOT HAS_MODEL_LOADED DESERT_EAGLE
+	OR NOT HAS_MODEL_LOADED rider1_door
 		WAIT 0
 	ENDWHILE
 
@@ -1583,7 +1580,8 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 					ENDIF
 
 					
-					IF flag_cutscene1_cat4 = 0
+					SWITCH flag_cutscene1_cat4
+					CASE 0
 						
 						SET_CHAR_COORDINATES scplayer 832.4548 7.0794 1003.1870 
 						TASK_GO_STRAIGHT_TO_COORD scplayer 828.2866 8.2237 1003.1870 PEDMOVE_WALK 5000
@@ -1632,9 +1630,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 						ENDIF
 
 						flag_cutscene1_cat4 = 1
-					ENDIF
+					BREAK
 
-					IF flag_cutscene1_cat4 = 1					 
+					CASE 1					 
 						IF TIMERA > 2000								
 							IF NOT IS_CHAR_DEAD catalina
 							   	CLEAR_CHAR_TASKS catalina
@@ -1734,9 +1732,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							ENDIF		   
 							flag_cutscene1_cat4 = 2
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF flag_cutscene1_cat4 = 2
+					CASE 2
 						IF TIMERA > 500
 
 
@@ -1784,9 +1782,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 			  				ENDIF 
 							flag_cutscene1_cat4 = 3
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF flag_cutscene1_cat4 = 3
+					CASE 3
 						IF TIMERA > 2000
 							IF NOT IS_CHAR_DEAD catalina
 								TASK_AIM_GUN_AT_COORD catalina coord_otb_clerk_x_cat4 coord_otb_clerk_y_cat4 coord_otb_clerk_z_cat4 5000
@@ -1823,9 +1821,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							flag_cutscene1_cat4 = 4
 							TIMERA = 0
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF flag_cutscene1_cat4 = 4
+					CASE 4
 						IF TIMERA > 1000
 
 							IF NOT IS_CHAR_DEAD catalina
@@ -1867,7 +1865,8 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 							flag_cutscene1_cat4 = 5
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 
 
@@ -1950,66 +1949,32 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 			RETURN
 		ENDIF
 
-		IF help_text_cat4 = 0
+		SWITCH help_text_cat4
+		CASE 0
 			PRINT_HELP CAT4_43  
 			help_text_cat4 = 1	// GOD plant satchel
 			TIMERB = 0
-		ENDIF							 
+		BREAK							 
 
-		IF help_text_cat4 = 1
+		CASE 1
 		   	IF TIMERB > 6000
 				PRINT_NOW CAT4_42 6000 1
-	
 				help_text_cat4 = 2	   //HELP  press o to throw
 		 		TIMERB = 0
 			ENDIF
-			
-		ENDIF	
+		BREAK	
 
-
-
-		
-		IF help_text_cat4 <= 2
-		  IF IS_CURRENT_CHAR_WEAPON scplayer WEAPONTYPE_REMOTE_SATCHEL_CHARGE
-		   	IF players_ammo_cat4 < players_ammo_3_cat4
-			  		CLEAR_HELP
-
-					
-
-					help_text_cat4 = 3	   // HELP get a safe distance away
-					TIMERB = 0
-				ENDIF
-
-		   	ENDIF
-		ENDIF
-
-
-		IF help_text_cat4 = 3
+		CASE 3
 			IF TIMERB > 1500	
-
 				PRINT_NOW CAT4_44 6000 1
 				PRINT_HELP CAT4_45  
 				help_text_cat4 = 4
 				TIMERB = 0
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF help_text_cat4 <= 4
-	   		IF DOES_OBJECT_EXIST object_door_cat4
-			   //	IF HAS_OBJECT_BEEN_DAMAGED object_door_cat4
-		  		IF HAS_OBJECT_OF_TYPE_BEEN_SMASHED 824.4123 10.80 1003.2004 10.0 rider1_door	
-			   		IF TIMERB > 500
-						CLEAR_SMALL_PRINTS
-						CLEAR_HELP
-						
-						help_text_cat4 = 5	   //HELP  press cicle to detonate
-						TIMERB = 0
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF	
 		
-		IF help_text_cat4 = 5
+		CASE 5
 
 		        CLEAR_HELP
 
@@ -2039,34 +2004,43 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				help_text_cat4 = 6	  
 				TIMERB = 0
 	   //		ENDIF
-		ENDIF	
-		
-		
-		
-					 
+		BREAK
+		ENDSWITCH
 
-		
+		IF help_text_cat4 <= 2
+		  IF IS_CURRENT_CHAR_WEAPON scplayer WEAPONTYPE_REMOTE_SATCHEL_CHARGE
+		   	IF players_ammo_cat4 < players_ammo_3_cat4
+			  		CLEAR_HELP
+					help_text_cat4 = 3	   // HELP get a safe distance away
+					TIMERB = 0
+				ENDIF
+		   	ENDIF
+		ENDIF
+
+		IF help_text_cat4 <= 4
+	   		IF DOES_OBJECT_EXIST object_door_cat4
+			   //	IF HAS_OBJECT_BEEN_DAMAGED object_door_cat4
+		  		IF HAS_OBJECT_OF_TYPE_BEEN_SMASHED 824.4123 10.80 1003.2004 10.0 rider1_door	
+			   		IF TIMERB > 500
+						CLEAR_SMALL_PRINTS
+						CLEAR_HELP
+						help_text_cat4 = 5	   //HELP  press cicle to detonate
+						TIMERB = 0
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF	
+
 		IF player_in_otb_flag_cat4_local_var = 1
 
 		  	GET_GAME_TIMER game_timer1_cat4
 			game_timer1_cat4 -= game_timer2_cat4
 
-			IF flag_text_otb = 0
-				flag_text_otb = 1
-				GET_GAME_TIMER game_timer2_cat4
-			ENDIF
-
-		  	GET_GAME_TIMER game_timer1_cat4
-			game_timer1_cat4 -= game_timer2_cat4
-
-
-			IF flag_text_otb = 1
+			SWITCH flag_text_otb
+			CASE 0
+			CASE 1
 				 	flag_text_otb = 2
-
-
-					  
 					 LOAD_MISSION_AUDIO 1 SOUND_CAT2_FC
-
 					 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 					 	WAIT 0
 					 ENDWHILE  
@@ -2077,11 +2051,6 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 					 	WAIT 0
 					 ENDWHILE
 				   //	 CLEAR_THIS_PRINT CAT2_FC 
-
-
-
-
-
 
 					IF NOT IS_CHAR_DEAD catalina
 						CLEAR_CHAR_TASKS catalina
@@ -2097,15 +2066,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				   //	TIMERB = 0
 				   GET_GAME_TIMER game_timer2_cat4
 			   //	ENDIF
-			ENDIF
+			BREAK
 
-		  	GET_GAME_TIMER game_timer1_cat4
-			game_timer1_cat4 -= game_timer2_cat4
-
-
-
-
-			IF flag_text_otb = 2
+			CASE 2
 			   //	IF game_timer1_cat4 > 5000
 				flag_text_otb = 3
 
@@ -2117,33 +2080,21 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				ENDWHILE  
 
 					 //	PRINT_NOW ( CATX_TU ) 10000 1		
-							 							
 				PLAY_MISSION_AUDIO 1
 				WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
 					WAIT 0
 				ENDWHILE
 						  //		CLEAR_THIS_PRINT CATX_TU 
 
-
 				GET_GAME_TIMER game_timer2_cat4
 			 //	ENDIF
 			   //	TIMERB = 0
-				
-			ENDIF
+			BREAK
 
-		  	GET_GAME_TIMER game_timer1_cat4
-			game_timer1_cat4 -= game_timer2_cat4
-
-
-			IF flag_text_otb = 3
+			CASE 3
 				IF game_timer1_cat4 > 5000
 				 	flag_text_otb = 4
-
-
 					 LOAD_MISSION_AUDIO 1 SOUND_CAT2_EB
-
-					  
-
 					 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
 					 	WAIT 0
 					 ENDWHILE  
@@ -2158,13 +2109,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 					GET_GAME_TIMER game_timer2_cat4
 				ENDIF
 			   //TIMERB = 0
-			ENDIF
+			BREAK
 
-		  	GET_GAME_TIMER game_timer1_cat4
-			game_timer1_cat4 -= game_timer2_cat4
-
-
-			IF flag_text_otb = 4
+			CASE 4
 				IF game_timer1_cat4 > 10000
 				 	flag_text_otb = 5
 
@@ -2185,24 +2132,17 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 					GET_GAME_TIMER game_timer2_cat4
 				ENDIF
 			  //	TIMERB = 0
-			ENDIF
+			BREAK
 
-		  	GET_GAME_TIMER game_timer1_cat4
-			game_timer1_cat4 -= game_timer2_cat4
-
-
-			IF flag_text_otb = 5
+			CASE 5
 				IF game_timer1_cat4 > 10000
 				 	flag_text_otb = 6
 					GET_GAME_TIMER game_timer2_cat4
 				ENDIF
 			 //	TIMERB = 0
 
-			ENDIF
-
-		  	GET_GAME_TIMER game_timer1_cat4
-			game_timer1_cat4 -= game_timer2_cat4
-
+			BREAK
+			ENDSWITCH
 
 			// cat goes mental and starts to shoot everyone
 			IF flag_text_otb > 1
@@ -2445,17 +2385,18 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 
 
-					IF flag_cutscene1_cat4 = 0
+					SWITCH flag_cutscene1_cat4
+					CASE 0
 						IF TIMERA > 2000
 						  //	SET_FIXED_CAMERA_POSITION 819.6043 10.3457 1004.4273  0.0 0.0 0.0 //establishing shot
 						//	POINT_CAMERA_AT_POINT 820.5945 10.2527 1004.3235   JUMP_CUT
 							flag_cutscene1_cat4 = 1 
 						ENDIF
-					ENDIF
+					BREAK
 
 
 
-					IF flag_cutscene1_cat4 = 1
+					CASE 1
 						IF TIMERA > 2000
 
 					  //		SET_FIXED_CAMERA_POSITION 823.9662 11.5153 1005.8105 0.0 0.0 0.0 //establishing shot
@@ -2532,9 +2473,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 						ENDIF
 						
 	
-					ENDIF	
+					BREAK	
 					
-					IF flag_cutscene1_cat4 = 2
+					CASE 2
 						IF TIMERA > 2000
 
 							SET_FIXED_CAMERA_POSITION 	819.5102 10.5367 1004.4390  0.0 0.0 0.0 
@@ -2572,15 +2513,6 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 								STOP_CHAR_FACIAL_TALK scplayer
 							ENDIF
 
-
-
-
-
-
-
-
-
-
 	 						LOAD_MISSION_AUDIO 1 SOUND_CAT2_GB
 
 							 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
@@ -2603,21 +2535,13 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 								STOP_CHAR_FACIAL_TALK catalina
 							ENDIF
 
-
-
-
-							
-
-
-
- 
 							TIMERA = 0
 							flag_cutscene1_cat4 = 3
 						ENDIF
-					ENDIF
+					BREAK
 
 
-					IF flag_cutscene1_cat4 = 3
+					CASE 3
 						IF TIMERA > 1000
 
 							
@@ -2663,25 +2587,17 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 								STOP_CHAR_FACIAL_TALK scplayer
 							ENDIF
 
-
 							CLEAR_THIS_PRINT CAT2_GC
 
-
-
-
-
-
-							
-							 
 							TIMERA = 0
 							flag_cutscene1_cat4 = 4
 						ENDIF
-					ENDIF
+					BREAK
 
 
 
 
-					IF flag_cutscene1_cat4 = 4
+					CASE 4
 					//	IF TIMERA > 1000
 							DO_FADE 1000 FADE_OUT
 
@@ -2695,15 +2611,16 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							TIMERA = 0
 							flag_cutscene1_cat4 = 5
 					//	ENDIF
-					ENDIF
+					BREAK
 
 					// FIXEDGROVE: START - added to make black screen time shorter
-					IF flag_cutscene1_cat4 = 5
+					CASE 5
 						IF TIMERA > 1000
 							flag_cutscene1_cat4 = 10
 						ENDIF
-					ENDIF
+					BREAK
 					// FIXEDGROVE: END
+					ENDSWITCH
 
 					IF TIMERB > 14800
 						flag_cutscene1_cat4 = 10
@@ -3003,20 +2920,14 @@ getaway_cat4:
 
 				ENDIF 
 
-
-
-
-
-				
-
-
 			   flag_create_car_cat_enters = 1
 
 			ENDIF
 		ENDIF
 		
 		IF NOT IS_CHAR_DEAD catalina 
-				IF flag_create_car_cat_enters = 1
+				SWITCH flag_create_car_cat_enters
+				CASE 1
 
 						MARK_CAR_AS_NO_LONGER_NEEDED car_police1_cat4
 						MARK_CAR_AS_NO_LONGER_NEEDED car_police2_cat4
@@ -3037,22 +2948,16 @@ getaway_cat4:
 							REMOVE_BLIP blip_paint_and_spray_cat4
 						ENDIF
 						//SWITCH_ROADS_BACK_TO_ORIGINAL -5000.5276 -5000.4624 -1000.8299 5000.5276 5000.4624 1000.82993
-						
-						
-												
+
 						SET_CAR_DENSITY_MULTIPLIER 1.0
 						SET_PED_DENSITY_MULTIPLIER 1.0
-							
-
-					
-
 
 						flag_create_car_cat_enters = 2
 
 			   //	ENDIF
-			ENDIF
+			BREAK
 
-			IF flag_create_car_cat_enters = 2
+			CASE 2
 	
 					IF IS_CHAR_IN_ANY_CAR scplayer 
 				//	AND IS_CHAR_IN_ANY_CAR catalina
@@ -3083,7 +2988,8 @@ getaway_cat4:
 						ENDIF
 	
 
-						IF flag_are_cops_pissed  = 0	
+						SWITCH flag_are_cops_pissed
+						CASE 0	
 							IF NOT DOES_BLIP_EXIST blip_hiding_spot
 
 								ADD_BLIP_FOR_COORD coord_hiding_spot_x_cat4 coord_hiding_spot_y_cat4 coord_hiding_spot_z_cat4 blip_hiding_spot
@@ -3092,9 +2998,9 @@ getaway_cat4:
 								DISABLE_ALL_ENTRY_EXITS FALSE
 
 							ENDIF
-						ENDIF
+						BREAK
 
-						IF flag_are_cops_pissed  = 1
+						CASE 1
 							IF NOT IS_CHAR_DEAD catalina
 								IF IS_GROUP_MEMBER catalina Players_Group	
 									IF NOT DOES_BLIP_EXIST blip_paint_and_spray_cat4
@@ -3106,14 +3012,15 @@ getaway_cat4:
 									ENDIF
 								ENDIF
 							ENDIF
-						ENDIF
+						BREAK
+						ENDSWITCH
 
 					ENDIF
 				
-			ENDIF
+			BREAK
 
 
-		   	IF flag_create_car_cat_enters = 3
+		   	CASE 3
 	  			GOSUB check_cat_cat4
 				IF flag_mission_failed_cat4 = 1
 					RETURN
@@ -3129,15 +3036,16 @@ getaway_cat4:
 						flag_create_car_cat_enters = 4
 					ENDIF 
 				ENDIF 
-			ENDIF 
+			BREAK 
 
 
-		   	IF flag_create_car_cat_enters = 4
+		   	CASE 4
 	  			GOSUB check_cat_cat4
 				IF flag_mission_failed_cat4 = 1
 					RETURN
 				ENDIF
-			ENDIF 
+			BREAK
+			ENDSWITCH
 
 		ELSE
 
@@ -3247,7 +3155,8 @@ getaway_cat4:
 
 
 						CLEAR_AREA 866.7373 -24.0333 64.9955 1000.0 TRUE 
-						IF flag_cutscene1_cat4 = 0
+						SWITCH flag_cutscene1_cat4
+						CASE 0
 							flag_cutscene1_cat4 = 1
 							SET_FIXED_CAMERA_POSITION 866.3945 -23.1135 65.1866 0.0 0.0 0.0 
 							POINT_CAMERA_AT_POINT 866.7373 -24.0333 64.9955  JUMP_CUT
@@ -3265,9 +3174,9 @@ getaway_cat4:
 							ENDWHILE
 							CLEAR_THIS_PRINT CAT2_CA 
 
-						ENDIF
+						BREAK
 
-						IF flag_cutscene1_cat4 = 1
+						CASE 1
 							flag_cutscene1_cat4 = 2
 
 							LOAD_MISSION_AUDIO 1 SOUND_CATX_RC
@@ -3282,9 +3191,9 @@ getaway_cat4:
 							ENDWHILE
 							CLEAR_THIS_PRINT CATX_RC   
 
-						ENDIF
+						BREAK
 
-						IF flag_cutscene1_cat4 = 2
+						CASE 2
 							flag_cutscene1_cat4 = 3
 							TIMERA = 0
 							IF NOT IS_CHAR_DEAD catalina
@@ -3296,9 +3205,9 @@ getaway_cat4:
 									TASK_LEAVE_ANY_CAR catalina
 								ENDIF
 							ENDIF
-						ENDIF
+						BREAK
 
-						IF flag_cutscene1_cat4 = 3
+						CASE 3
 							IF TIMERA < 1500
 								flag_cutscene1_cat4 = 4
 
@@ -3306,15 +3215,8 @@ getaway_cat4:
 		   							TASK_GO_STRAIGHT_TO_COORD catalina 869.84 -26.24 63.1797 PEDMOVE_WALK -1
 								ENDIF
 							ENDIF
- 
-						ENDIF
-
-
-
-
-
-
-
+						BREAK
+						ENDSWITCH
 
 						IF TIMERB > 7000
 							flag_cutscene1_cat4 = 10
@@ -3329,24 +3231,9 @@ getaway_cat4:
 
 				// end cutscene
 
-
 				ENDIF	 
-
-
-		   
 			ENDIF
-
-
-
-
 		ENDIF
-
-
-
-
-
-
-
 	ENDWHILE
 
 
@@ -3494,26 +3381,27 @@ RETURN
 // *********************************** audio******************************		 
 load_and_play_audio_cat4:
 
-	IF play_audio_flag_cat4 = 0
+	SWITCH play_audio_flag_cat4
+	CASE 0
 		IF NOT IS_CHAR_DEAD catalina
 			SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH catalina TRUE
 		ENDIF
 		CLEAR_MISSION_AUDIO 1
 		LOAD_MISSION_AUDIO 1 cat4_audio[index_dialogue_cat4]
 		play_audio_flag_cat4 = 1
-	ENDIF
+	BREAK
 
-	IF play_audio_flag_cat4 = 1
+	CASE 1
 		IF HAS_MISSION_AUDIO_LOADED 1
 			PLAY_MISSION_AUDIO 1
 			PRINT_NOW $cat4_text[index_dialogue_cat4] 10000 1
 			play_audio_flag_cat4 = 2
 		ENDIF
-	ENDIF
+	BREAK
 
 
 
-	IF play_audio_flag_cat4 = 2
+	CASE 2
 		IF HAS_MISSION_AUDIO_FINISHED 1
 		   //	temp_int = c3_counter - 1
 			play_audio_flag_cat4 = 0
@@ -3526,7 +3414,8 @@ load_and_play_audio_cat4:
 			index_dialogue_cat4++
 			flag_text_otb++
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 
 
 

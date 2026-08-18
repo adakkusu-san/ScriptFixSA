@@ -483,11 +483,42 @@ WAIT 0
 		GOTO mission_music5_failed
 	ENDIF
 
+SWITCH music5_goals
+CASE 0
+	GOSUB music5_goals_eq_0
+BREAK
+CASE 1
+	GOSUB music5_goals_eq_1
+BREAK
+CASE 2
+	GOSUB music5_goals_eq_2
+BREAK
+CASE 3
+	GOSUB music5_goals_eq_3
+BREAK
+CASE 4
+	GOSUB music5_goals_eq_4
+BREAK
+ENDSWITCH
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////MISC STUFF//////////////////////////////////////////////////////////////////////////////////////
+	IF NOT LOCATE_CHAR_ANY_MEANS_2D scplayer 2484.9 -1663.5 300.0 300.0	FALSE 
+		CLEAR_PRINTS
+		PRINT_NOW ( STP4_06 ) 7000 1 //Too many of your gang have been killed.
+		GOTO mission_music5_failed
+	ENDIF  
+
+	//ingame dialogue
+	GOSUB m5_overall_dialogue
+
+GOTO mission_music5_loop
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Playing the BIG intro cutscene//////////////////////////////////////////////////////////////////
-	IF music5_goals = 0
-		IF m5_control_flag = 0
+	music5_goals_eq_0:
+		SWITCH m5_control_flag
+		CASE 0
 
 			IF NOT IS_CAR_DEAD blocking_car1
 				OPEN_SEQUENCE_TASK m5_seq
@@ -582,9 +613,9 @@ WAIT 0
 			SKIP_CUTSCENE_START
 			timera = 0
 			m5_control_flag = 1
-		ENDIF
+		BREAK
 
-		IF m5_control_flag = 1			    
+		CASE 1			    
 		   IF NOT IS_CHAR_DEAD sweet 
 				IF timera > 3000
 					//sweet dialogue
@@ -599,10 +630,10 @@ WAIT 0
 					m5_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
 		//waiting until big smoke and m5_car_mover are in the cars
-		IF m5_control_flag = 2 
+		CASE 2 
 			//controlling the baddies coming in		
 		 	IF triggering_original_enemy_cars = 0
 				IF timera > 6000 
@@ -730,9 +761,9 @@ WAIT 0
 				ENDIF
 				m5_control_flag = 3	
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF m5_control_flag = 3 
+		CASE 3 
 			
 			LOAD_SCENE 2404.5 -1672.3 15.8 
 			
@@ -761,15 +792,15 @@ WAIT 0
 			ENDIF
 			timera = 0
 			m5_control_flag = 4			
-		ENDIF
+		BREAK
 		
-		IF m5_control_flag = 4
+		CASE 4
 			IF timera > 5800  
 				m5_control_flag = 5
 			ENDIF
-		ENDIF	
+		BREAK	
 	 
-		IF m5_control_flag = 5 
+		CASE 5 
 			m5_skip_cutscene_flag = 0
 			SKIP_CUTSCENE_END
 			GOSUB m5_death_checks
@@ -941,14 +972,15 @@ WAIT 0
 			m5_control_flag = 0
 			music5_goals = 1
 
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////WAVE 1 - Getting the first set of guys into place and waiting for them all to die///////////////
-	IF music5_goals = 1	
+	music5_goals_eq_1:
 		IF m5_speech_flag = 0
 			IF m5_speech_goals = 0 
 				PRINT ( STP4_02 ) 11000 1 //Defend your hood from the attackers.
@@ -1114,26 +1146,12 @@ WAIT 0
 										IF IS_CHAR_DEAD bad_gang_member[7]
 											IF IS_CHAR_DEAD bad_gang_member[8]
 												IF IS_CHAR_DEAD bad_gang_member[9]
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[0] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[1] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[2] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[3] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[4] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[5] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[6] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[7] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[8] 
-													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[9] 
-													REMOVE_BLIP bad_gang_member_blip[0]
-													REMOVE_BLIP bad_gang_member_blip[1]
-													REMOVE_BLIP bad_gang_member_blip[2]
-													REMOVE_BLIP bad_gang_member_blip[3]
-													REMOVE_BLIP bad_gang_member_blip[4]
-													REMOVE_BLIP bad_gang_member_blip[5]
-													REMOVE_BLIP bad_gang_member_blip[6]
-													REMOVE_BLIP bad_gang_member_blip[7]
-													REMOVE_BLIP bad_gang_member_blip[8]
-													REMOVE_BLIP bad_gang_member_blip[9]
+													m5_seq = 0
+													WHILE m5_seq < 10
+													MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[m5_seq] 
+													REMOVE_BLIP bad_gang_member_blip[m5_seq]
+													m5_seq++
+													ENDWHILE
 													CLEAR_PRINTS
 													timera = 0
 													m5_control_flag = 0
@@ -1161,17 +1179,18 @@ WAIT 0
 			m5_blip_flag = 0
 		ENDIF
 		
-	ENDIF
+	RETURN
 
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////WAVE 2 - Guys on top of the bridge//////////////////////////////////////////////////////////////
-	IF music5_goals = 2
+	music5_goals_eq_2:
 	
 		GOSUB check_player_is_safe
-		IF player_is_completely_safe = 1
-			IF m5_control_flag = 0
+		SWITCH m5_control_flag
+		CASE 0
+			IF player_is_completely_safe = 1
 				IF timera > 2000 
 					CLEAR_PRINTS
 					CLEAR_MISSION_AUDIO 1
@@ -1303,9 +1322,9 @@ WAIT 0
 					m5_control_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF m5_control_flag = 1
+		CASE 1
 			IF timera > 3000
 				SKIP_CUTSCENE_END
 				GOSUB m5_death_checks
@@ -1346,9 +1365,9 @@ WAIT 0
 				m5_speech_flag = 0
 				m5_control_flag = 2
 			ENDIF 
-		ENDIF
+		BREAK
 
-		IF m5_control_flag = 2 
+		CASE 2 
 			IF m5_speech_flag = 0
 				IF m5_speech_goals = 0 
 					PRINT ( STP4_03 ) 11000 1 //There are enemies on the bridge above.
@@ -1377,7 +1396,8 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		//removing blips as each char dies
 		IF m5_blip_flag < 4
@@ -1390,12 +1410,12 @@ WAIT 0
 			m5_blip_flag = 0
 		ENDIF
 
-	ENDIF	
+	RETURN	
 		
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////WAVE 3 - Guys coming from the alleyway//////////////////////////////////////////////////////////
-	IF music5_goals = 3
+	music5_goals_eq_3:
 		GOSUB check_player_is_safe
 		IF player_is_completely_safe = 1
 			IF m5_control_flag = 0
@@ -1964,30 +1984,12 @@ WAIT 0
 												IF IS_CHAR_DEAD bad_gang_member[9]
 													IF IS_CHAR_DEAD bad_gang_member[10]
 														IF IS_CHAR_DEAD bad_gang_member[11]
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[0] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[1] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[2] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[3] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[4] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[5] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[6] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[7] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[8] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[9] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[10] 
-															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[11] 
-															REMOVE_BLIP bad_gang_member_blip[0]
-															REMOVE_BLIP bad_gang_member_blip[1]
-															REMOVE_BLIP bad_gang_member_blip[2]
-															REMOVE_BLIP bad_gang_member_blip[3]
-															REMOVE_BLIP bad_gang_member_blip[4]
-															REMOVE_BLIP bad_gang_member_blip[5]
-															REMOVE_BLIP bad_gang_member_blip[6]
-															REMOVE_BLIP bad_gang_member_blip[7]
-															REMOVE_BLIP bad_gang_member_blip[8]
-															REMOVE_BLIP bad_gang_member_blip[9]
-															REMOVE_BLIP bad_gang_member_blip[10]
-															REMOVE_BLIP bad_gang_member_blip[11]
+															m5_seq = 0
+															WHILE m5_seq < 12
+															MARK_CHAR_AS_NO_LONGER_NEEDED bad_gang_member[m5_seq] 
+															REMOVE_BLIP bad_gang_member_blip[m5_seq]
+															m5_seq++
+															ENDWHILE
 															CLEAR_PRINTS
 															timera = 0 
 															m5_control_flag = 0
@@ -2016,17 +2018,18 @@ WAIT 0
 		ELSE
 			m5_blip_flag = 0
 		ENDIF
-	ENDIF
+	RETURN
 
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Final Cutscene ////////////////////////////////////////////////////////////////////////////////
 	
-	IF music5_goals = 4
+	music5_goals_eq_4:
 		GOSUB check_player_is_safe
-		IF player_is_completely_safe = 1
-			IF m5_control_flag = 0
+		SWITCH m5_control_flag
+		CASE 0
+			IF player_is_completely_safe = 1
 				IF timera > 2000 
 					CLEAR_PRINTS
 					DO_FADE 500 FADE_OUT	
@@ -2127,9 +2130,9 @@ WAIT 0
 					m5_control_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF m5_control_flag = 1
+		CASE 1
 			IF m5_speech_control_flag = 4
 				
 				SET_FIXED_CAMERA_POSITION 2471.5542 -1656.1665 18.3790 0.0 0.0 0.0
@@ -2139,16 +2142,16 @@ WAIT 0
 				//POINT_CAMERA_AT_POINT 2486.5 -1646.7 16.3 JUMP_CUT
 				m5_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF m5_control_flag = 2
+		CASE 2
 			IF m5_speech_goals = 0 
 				timera = 0
 				m5_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m5_control_flag = 3
+		CASE 3
 			IF timera > 1000 
 				DO_FADE 2500 FADE_OUT		
 				WHILE GET_FADING_STATUS
@@ -2182,26 +2185,15 @@ WAIT 0
 				ENDWHILE 
 				GOTO mission_music5_passed
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 	
 			
 	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////MISC STUFF//////////////////////////////////////////////////////////////////////////////////////
-	IF NOT LOCATE_CHAR_ANY_MEANS_2D scplayer 2484.9 -1663.5 300.0 300.0	FALSE 
-		CLEAR_PRINTS
-		PRINT_NOW ( STP4_06 ) 7000 1 //Too many of your gang have been killed.
-		GOTO mission_music5_failed
-	ENDIF  
 
-	//ingame dialogue
-	GOSUB m5_overall_dialogue
-
-
-
-GOTO mission_music5_loop
+//GOTO mission_music5_loop
 
 
 	
@@ -2454,7 +2446,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 m5_dialogue_setup://////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 // FIXEDGROVE: assigned speakers
-IF m5_speech_goals = 1
+SWITCH m5_speech_goals
+CASE 1
 	$m5_print_label[0] = &LOC4_CA // Shit, I'll go rustle up some homies!
 	$m5_print_label[1] = &LOC4_CB // Oh man, I'll go get us some more back up!
 	$m5_print_label[2] = &LOC4_CC // I'll go get Smoke and some Grove boys!
@@ -2467,9 +2460,9 @@ IF m5_speech_goals = 1
 	m5_speaker[1] = ryder
 	m5_speaker[2] = ryder
 	m5_last_label = m5_random_last_label
-ENDIF
+BREAK
 
-IF m5_speech_goals = 2
+CASE 2
 	$m5_print_label[0] = &LOC4_AA // Yo, get some cars and block the road!
 	$m5_print_label[1] = &LOC4_AB // The rest of you get strapped!
 	$m5_print_label[2] = &LOC4_AC // Pick your positions - Carl get some cover!
@@ -2497,9 +2490,9 @@ IF m5_speech_goals = 2
 	m5_speaker[6] = sweet
 	m5_speaker[7] = sweet
 	m5_last_label = m5_random_last_label
-ENDIF
+BREAK
 
-IF m5_speech_goals = 3
+CASE 3
 	$m5_print_label[0] = &LOC4_BA // GROVE IS KING!!
 	$m5_print_label[1] = &LOC4_BB // Man, I ain't seen Ballas roll in that strength before!
 	$m5_print_label[2] = &LOC4_BC // They heard Carl Johnson was running with his brother again!
@@ -2524,7 +2517,8 @@ IF m5_speech_goals = 3
 	//m5_speaker[5] = sweet
 	m5_speaker[5] = scplayer
 	m5_last_label = 6
-ENDIF
+BREAK
+ENDSWITCH
 
 m5_slot_load = m5_speech_control_flag
 m5_slot1 = 0

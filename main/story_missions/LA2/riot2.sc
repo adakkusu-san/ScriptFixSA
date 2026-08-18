@@ -414,6 +414,7 @@ WAIT 0
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// INITIAL CUTSCENE AND DRIVE TO SEE OG'S ////////////////////////////////////////////////////////
 
+/*
 ////////////DEBUG//////////////////
 	IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 		SET_CHAR_COORDINATES scplayer 1776.0 -1988.1 12.9
@@ -421,9 +422,51 @@ WAIT 0
 	ENDIF
 ////////////DEBUG//////////////////
 	GET_GROUP_SIZE Players_Group minutes r2_group_size
+*/
 
-	IF r2_goals = 0 
-		IF r2_control_flag = 0
+SWITCH r2_goals
+CASE 0
+	GOSUB r2_goals_eq_0
+BREAK
+CASE 1
+	GOSUB r2_goals_eq_1
+BREAK
+CASE 2
+	GOSUB r2_goals_eq_2
+BREAK
+CASE 3
+	GOSUB r2_goals_eq_3
+BREAK
+CASE 4
+	GOSUB r2_goals_eq_4
+BREAK
+CASE 5
+	GOSUB r2_goals_eq_5
+BREAK
+CASE 6
+	GOSUB r2_goals_eq_6
+BREAK
+CASE 7
+	GOSUB r2_goals_eq_7
+BREAK
+CASE 8
+	GOSUB r2_goals_eq_8
+BREAK
+ENDSWITCH
+
+	///ingame dialogue///
+	GOSUB r2_overall_dialogue
+
+GOTO mission_riot2_loop
+
+	r2_goals_eq_0: 
+	    //checking Cesar is still in players group
+		IF r2_control_flag > 2 
+			GOSUB r2_mc_strap_group
+		ENDIF
+
+		SWITCH r2_control_flag
+		CASE 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -469,18 +512,18 @@ WAIT 0
 
 			r2_skip_cutscene_flag = 1
 			SKIP_CUTSCENE_START
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 1
+		CASE 1
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status	 
 			IF task_status = FINISHED_TASK
 				//making them chat with each other
 				TASK_PLAY_ANIM scplayer IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE -1
 				r2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 2
+		CASE 2
 			IF r2_speech_goals = 0
 				r2_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -544,16 +587,10 @@ WAIT 0
 				r2_control_flag = 3
 
 			ENDIF
-		ENDIF
-
-	    //checking Cesar is still in players group
-		IF r2_control_flag > 2 
-			GOSUB r2_mc_strap_group
-		ENDIF
-
+		BREAK
 
 		//waiting for player to get the correct number in gang
-		IF r2_control_flag = 3 
+		CASE 3 
 			IF r2_group_size > 2  
 				REMOVE_BLIP r2_control_blip 												 
 				ADD_BLIP_FOR_COORD 1774.9 -1974.9 13.1 r2_control_blip
@@ -563,12 +600,14 @@ WAIT 0
 				timerb = 0
 				r2_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		//waiting for player to reach veterano's
 		IF r2_control_flag = 4 
 			/// DIALOGUE FOR THIS SECTION
-			IF r2_speech_flag = 0
+			SWITCH r2_speech_flag
+			CASE 0
 				IF timerb > 7000
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer TRUE
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
@@ -578,18 +617,18 @@ WAIT 0
 					GOSUB r2_dialogue_setup 
 					r2_speech_flag = 1
 				ENDIF
-			ENDIF
+			BREAK
 			
 			//waiting for first convo to end
-			IF r2_speech_flag = 1
+			CASE 1
 				IF r2_speech_goals = 0
 					timerb = 0 
 					r2_speech_flag = 2
 				ENDIF
-			ENDIF 				 
+			BREAK 				 
 
 			//waiting for second convo to end
-			IF r2_speech_flag = 2
+			CASE 2
 				IF timerb > 7000
 					// While we here, I, eerr, I have a question to ask you.
 					r2_speech_goals = 3
@@ -597,15 +636,16 @@ WAIT 0
 					GOSUB r2_dialogue_setup 
 					r2_speech_flag = 3
 				ENDIF
-			ENDIF
+			BREAK
 		
-			IF r2_speech_flag = 3 
+			CASE 3 
 				IF r2_speech_goals = 0
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE					
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 					r2_speech_flag = 4
 				ENDIF
-			ENDIF
+			BREAK
+			ENDSWITCH
 
 			
 			/// MAIN BIT FOR THIS SECTION
@@ -645,7 +685,7 @@ WAIT 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -653,9 +693,10 @@ WAIT 0
 ////////////////// Player has reached OG's - Cutscene ////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 1 
+	r2_goals_eq_1: 
 		//getting player and guys to leave their car
-		IF r2_control_flag = 0 
+		SWITCH r2_control_flag
+		CASE 0 
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -736,9 +777,9 @@ WAIT 0
 			r2_control_flag = 1
 			r2_skip_cutscene_flag = 1
 			SKIP_CUTSCENE_START
-		ENDIF
+		BREAK
 		
-		IF r2_control_flag = 1
+		CASE 1
 			// those Vagos, man, I'm gonna gut those cacos. | Raspalo hasta el hueso! 
 			r2_speech_goals = 4
 			r2_speech_control_flag = 0
@@ -746,9 +787,9 @@ WAIT 0
 			GOSUB r2_dialogue_setup 
 		
 			r2_control_flag = 2
-		ENDIF			
+		BREAK			
 
-		IF r2_control_flag = 2	
+		CASE 2	
 			IF r2_speech_goals = 0
 				SET_FIXED_CAMERA_POSITION 1784.5 -1967.7 14.7 0.0 0.0 0.0  //looking through trio towards player and cesar
 				POINT_CAMERA_AT_POINT 1781.4 -1973.5 14.3 JUMP_CUT
@@ -774,10 +815,10 @@ WAIT 0
 				timera = 0
 				r2_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF r2_control_flag = 3
+		CASE 3
 			IF r2_speech_goals = 0 	
 				OPEN_SEQUENCE_TASK r2_seq
 					TASK_PLAY_ANIM -1 prtial_gngtlkD GANGS 4.0 FALSE FALSE FALSE FALSE -1
@@ -787,9 +828,9 @@ WAIT 0
 			
 				r2_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 4
+		CASE 4
 			IF r2_speech_goals = 0 
 				GET_SCRIPT_TASK_STATUS cesar PERFORM_SEQUENCE_TASK task_status
 				IF task_status = FINISHED_TASK
@@ -813,16 +854,16 @@ WAIT 0
 					r2_control_flag = 5 
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 5
+		CASE 5
 			IF r2_speech_goals = 0
 				timera = 0
 				r2_control_flag = 6 
 			ENDIF
-		ENDIF  
+		BREAK  
 		
-		IF r2_control_flag = 6
+		CASE 6
 			IF timera > 1000	
 				
 				DO_FADE 500 FADE_OUT
@@ -885,9 +926,9 @@ WAIT 0
 				timera = 0
 				r2_control_flag = 7
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 7 
+		CASE 7 
 			IF r2_speech_goals = 0 
 				IF timera > 4000 
 				
@@ -903,9 +944,9 @@ WAIT 0
 					r2_control_flag = 8
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 8 
+		CASE 8 
             IF NOT IS_CHAR_DEAD r2_flats_lookout[1]
 				IF IS_OBJECT_ATTACHED r2_ball 
 				            
@@ -951,9 +992,9 @@ WAIT 0
 					r2_control_flag = 9
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 9 
+		CASE 9 
 			IF r2_speech_goals = 0
 				IF timera > 4000
 					IF r2_speech_goals = 0 
@@ -1081,8 +1122,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1090,7 +1132,7 @@ WAIT 0
 ////////////////// START OF THE MISSION - PART 1 - The Flats ////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 2
+	r2_goals_eq_2:
 		////////////// SECTION 1 - the flats ///////////////////
 		//// THE LOOKOUTS -  need to be doing stuff (playing cards, shooting hoops, chatting or something?) ////
 
@@ -1892,7 +1934,8 @@ WAIT 0
 		ENDIF
 		
 		/// moving them to the lookout place
-		IF r2_og_control_flag = 0
+		SWITCH r2_og_control_flag
+		CASE 0
 			CLEAR_CHAR_TASKS r2_flame 
 			CLEAR_CHAR_TASKS r2_launcher 
 			CLEAR_CHAR_TASKS r2_katana 
@@ -1903,10 +1946,10 @@ WAIT 0
 			TASK_FOLLOW_PATH_NODES_TO_COORD cesar 1824.5 -1984.0 12.6 PEDMOVE_WALK -2
 			
 			r2_og_control_flag = 1
-		ENDIF
+		BREAK
 
 		/// moving them to the SW houses
-		IF r2_og_control_flag = 1
+		CASE 1
 			IF r2_flats_lookout_control_flag = 6
 				CLEAR_CHAR_TASKS r2_flame 
 				CLEAR_CHAR_TASKS r2_launcher 
@@ -1964,10 +2007,10 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 		/// moving them to the NW houses
-		IF r2_og_control_flag = 2
+		CASE 2
 			IF r2_SW_control_flag[0] = 4
 				CLEAR_CHAR_TASKS r2_flame 
 				CLEAR_CHAR_TASKS r2_launcher 
@@ -1992,10 +2035,10 @@ WAIT 0
 						
 				r2_og_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
 		/// moving them to the NE houses
-		IF r2_og_control_flag = 3
+		CASE 3
 			IF r2_NW_control_flag[0] = 4
 				CLEAR_CHAR_TASKS r2_flame 
 				CLEAR_CHAR_TASKS r2_launcher 
@@ -2020,10 +2063,10 @@ WAIT 0
 				
 				r2_og_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
 		/// moving them to the SE houses
-		IF r2_og_control_flag = 4
+		CASE 4
 			IF r2_NE_control_flag[0] = 4
 				CLEAR_CHAR_TASKS r2_flame 
 				CLEAR_CHAR_TASKS r2_launcher 
@@ -2048,12 +2091,12 @@ WAIT 0
 				
 				r2_og_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
 		
 		
 		//// Heading to the second part of the mission
-		IF r2_og_control_flag = 5
+		CASE 5
 			IF r2_SE_control_flag[0] = 4 
 				CLEAR_CHAR_TASKS r2_flame 
 				CLEAR_CHAR_TASKS r2_launcher 
@@ -2107,9 +2150,9 @@ WAIT 0
 				r2_speech_flag = 0
 				r2_og_control_flag = 6
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF r2_og_control_flag = 6
+		CASE 6
 		
 			IF r2_speech_flag = 0
 				IF r2_speech_goals = 0
@@ -2126,8 +2169,9 @@ WAIT 0
 				r2_control_flag = 0
 				r2_goals = 3
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
@@ -2157,8 +2201,9 @@ WAIT 0
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	IF r2_goals = 3
-		IF r2_control_flag = 0
+	r2_goals_eq_3:
+		SWITCH r2_control_flag
+		CASE 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -2321,10 +2366,10 @@ WAIT 0
 		
 			timera = 0
 			r2_control_flag = 1 
-		ENDIF 
+		BREAK 
 
 
-		IF r2_control_flag = 1 
+		CASE 1 
 			IF timera > 8000
 				CLEAR_AREA 1916.9 -2101.1 12.6 30.0 TRUE
 				
@@ -2358,9 +2403,9 @@ WAIT 0
 				timera = 0
 				r2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF r2_control_flag = 2 
+		CASE 2 
 			IF r2_speech_goals = 0 
 				IF timera > 4000
 					IF NOT IS_CHAR_DEAD r2_car_mechanics[0] 	
@@ -2415,9 +2460,9 @@ WAIT 0
 					r2_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 3
+		CASE 3
 			IF r2_speech_goals = 0 
 				IF timera > 4000
 
@@ -2733,13 +2778,14 @@ WAIT 0
 
 				ENDIF
 			ENDIF															 
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Waiting for all the baddies to die from - STAGE 1 /////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 4
+	r2_goals_eq_4:
 		//deathchecks for the guys peeking
 		IF NOT IS_CHAR_DEAD r2_car_mechanics[0]
 			IF IS_CHAR_IN_AREA_2D scplayer 1877.6 -2050.8 1815.3 -2171.4 FALSE
@@ -2777,7 +2823,8 @@ WAIT 0
 
 
 		// MAIN BIT
-		IF r2_control_flag = 0
+		SWITCH r2_control_flag
+		CASE 0
 			GET_SCRIPT_TASK_STATUS r2_katana PERFORM_SEQUENCE_TASK task_status
 			IF NOT task_status = FINISHED_TASK 
 				GET_SEQUENCE_PROGRESS r2_katana r2_seq_progress
@@ -2786,8 +2833,8 @@ WAIT 0
 					r2_control_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
-		IF r2_control_flag = 1 
+		BREAK
+		CASE 1 
 			GET_SCRIPT_TASK_STATUS r2_katana PERFORM_SEQUENCE_TASK task_status
 			IF NOT task_status = FINISHED_TASK 
 				GET_SEQUENCE_PROGRESS r2_katana r2_seq_progress
@@ -2872,16 +2919,16 @@ WAIT 0
 					r2_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 2 
+		CASE 2 
 			IF timerb > 1000
 				SET_CHAR_COLLISION r2_katana FALSE
 				r2_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 3
+		CASE 3
 			IF IS_CHAR_DEAD r2_car_mechanics[0] 
 				IF IS_CHAR_DEAD r2_car_mechanics[1]
 					IF IS_CHAR_DEAD r2_car_mechanics[2]
@@ -2925,7 +2972,8 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		//removing blips//
 		IF IS_CHAR_DEAD r2_car_mechanics[0] 
@@ -2970,13 +3018,14 @@ WAIT 0
 				REMOVE_BLIP r2_garage_blips[3]
 			ENDIF 
 		ENDIF 
-	ENDIF 
+	RETURN 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Starting Cutscene - STAGE 2 ///////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 5
-		IF r2_control_flag = 0
+	r2_goals_eq_5:
+		SWITCH r2_control_flag
+		CASE 0
 			IF timera > 2000
 				CLEAR_PRINTS
 				CLEAR_MISSION_AUDIO 1
@@ -3027,9 +3076,9 @@ WAIT 0
 				timera = 0
 				r2_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 1
+		CASE 1
 			IF timera > 3000
 				CLEAR_CHAR_TASKS_IMMEDIATELY r2_flame 
 				SET_CHAR_COORDINATES r2_flame 1875.7 -2102.4 12.5   
@@ -3056,9 +3105,9 @@ WAIT 0
 				timera = 0 
 				r2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 			
-		IF r2_control_flag = 2
+		CASE 2
 			IF r2_speech_goals = 0
 				IF timera > 8000
 					r2_skip_cutscene_flag = 0
@@ -3322,8 +3371,9 @@ WAIT 0
 					r2_goals = 6
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 	 
 
 
@@ -3331,7 +3381,7 @@ WAIT 0
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Waiting for all the baddies to die from - STAGE 2 /////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 6 
+	r2_goals_eq_6: 
 		//deathchecks for the guys peeking
 		IF NOT IS_CHAR_DEAD cesar
 			GET_CHAR_HEALTH cesar r2_health_check
@@ -3527,13 +3577,14 @@ WAIT 0
 			MARK_CHAR_AS_NO_LONGER_NEEDED r2_climbers[5]
 			REMOVE_BLIP r2_climbers_blips[5]
 		ENDIF  
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Starting Cutscene - STAGE 3 ///////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 7
-		IF r2_control_flag = 0 
+	r2_goals_eq_7:
+		SWITCH r2_control_flag
+		CASE 0 
 			IF timera > 2000
 			
 				DO_FADE 500 FADE_OUT
@@ -3676,9 +3727,9 @@ WAIT 0
 				timera = 0
 				r2_control_flag = 1	
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 1
+		CASE 1
 			IF r2_speech_goals = 0 
 				IF timera > 4000 
 					DO_FADE 500 FADE_OUT
@@ -3714,9 +3765,9 @@ WAIT 0
 					r2_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF r2_control_flag = 2
+		CASE 2
 			IF r2_speech_goals = 0 
 				IF timera > 4000 
 					SET_FIXED_CAMERA_POSITION 1816.2 -2116.8 13.16 0.0 0.0 0.0
@@ -3735,9 +3786,9 @@ WAIT 0
 					r2_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF r2_control_flag = 3 
+		CASE 3 
 			IF r2_speech_goals = 0 
 				IF timera > 4000 
 					r2_skip_cutscene_flag = 0
@@ -3891,15 +3942,17 @@ WAIT 0
 					r2_goals = 8
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF 
+		BREAK
+		ENDSWITCH
+	RETURN 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Waiting for all the baddies to die from - STAGE 3 /////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF r2_goals = 8
-		IF r2_control_flag = 0
+	r2_goals_eq_8:
+		SWITCH r2_control_flag
+		CASE 0
 			IF IS_CHAR_DEAD r2_car_mechanics[0] 
 				REMOVE_BLIP r2_final_blips[0]
 			ENDIF
@@ -3933,9 +3986,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF		
+		BREAK		
 					
-		IF r2_control_flag = 1
+		CASE 1
 			IF timera > 2000
 				
 				DO_FADE 500 FADE_OUT
@@ -4017,9 +4070,9 @@ WAIT 0
 
 				r2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF r2_control_flag = 2
+		CASE 2
 			IF r2_speech_goals = 0  
 				//player
 				OPEN_SEQUENCE_TASK r2_seq
@@ -4041,9 +4094,9 @@ WAIT 0
 				GOSUB r2_dialogue_setup
 				r2_control_flag = 3
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF r2_control_flag = 3
+		CASE 3
 			IF r2_speech_goals = 0
 				OPEN_SEQUENCE_TASK r2_seq
 					TASK_GO_STRAIGHT_TO_COORD -1 1794.8 -2124.5 12.5 PEDMOVE_WALK -1
@@ -4061,9 +4114,9 @@ WAIT 0
 				timera = 0
 				r2_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r2_control_flag = 4
+		CASE 4
 			IF timera > 3000 
 				SHUT_ALL_CHARS_UP FALSE
 				
@@ -4071,12 +4124,10 @@ WAIT 0
 				DELETE_CHAR r2_flame   
 				GOTO mission_riot2_passed
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
-
-	///ingame dialogue///
-	GOSUB r2_overall_dialogue
 
 
 GOTO mission_riot2_loop
@@ -5445,7 +5496,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 r2_dialogue_setup://////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF r2_speech_goals = 1
+SWITCH r2_speech_goals
+CASE 1
 	$r2_print_label[0] = &ROT2_AA // Ok, so what's the plan?		
 	$r2_print_label[1] = &ROT2_AB // We're going to meet three of my veterano's over at Unity Station.		
 	$r2_print_label[2] = &ROT2_AD // Three, is that all?		
@@ -5456,9 +5508,9 @@ IF r2_speech_goals = 1
 	r2_audio_label[2] = SOUND_ROT2_AD 
 	r2_audio_label[3] = SOUND_ROT2_AE 
 	r2_last_label = 4
-ENDIF
+BREAK
 
-IF r2_speech_goals = 2
+CASE 2
 	$r2_print_label[0] = &ROT2_BA // Shit's real serious, man, look at the streets, eh.
 	$r2_print_label[1] = &ROT2_BB // Yeah, we better watch ourselves.
 	$r2_print_label[2] = &ROT2_BC // Don't want to get caught on Ballas turf while this shit's going down.
@@ -5469,9 +5521,9 @@ IF r2_speech_goals = 2
 	r2_audio_label[2] = SOUND_ROT2_BC 
 	r2_audio_label[3] = SOUND_ROT2_BD 
 	r2_last_label = 4
-ENDIF
+BREAK
 
-IF r2_speech_goals = 3
+CASE 3
 	$r2_print_label[0] = &ROT2_CA // While we here, I, eerr, I have a question to ask you.
 	$r2_print_label[1] = &ROT2_CB // Yeah? What?
 	$r2_print_label[2] = &ROT2_CC // Well it's... it's personal.
@@ -5506,21 +5558,16 @@ IF r2_speech_goals = 3
 	r2_audio_label[14] = SOUND_ROT2_CP 
 	r2_audio_label[15] = SOUND_ROT2_CQ 
 	r2_last_label = 16
-ENDIF
+BREAK
 	
-IF r2_speech_goals = 4
+CASE 4
 	$r2_print_label[0] = &ROT2_DA // Those Vagos, man, I'm gonna gut those cacos.
 	$r2_print_label[1] = &ROT2_DB // Raspalo hasta el hueso!
-
 	$r2_print_label[2] = &ROT2_DC // Hey, carneles, how my Guerreros, eh?
 	$r2_print_label[3] = &ROT2_DD // Cesar! And you must be CJ.
-
 	$r2_print_label[4] = &ROT2_DE // Cesar says you cool, so we cool, holmes.
-
 	$r2_print_label[5] = &ROT2_DF // Ok. We will have to work our way through this neighborhood to get to my house. 
-
 	//$r2_print_label[7] = &ROT2_DH // We will approach from the rear alleyway, ok?
-	
 	$r2_print_label[8] = &ROT2_DJ // If we stick together those Vagos bendejos won't stand a chance!
 	$r2_print_label[9] = &ROT2_DK // Watch each others' backs, amigos.
 	$r2_print_label[10] = &ROT2_DL // Hasta le muerte!
@@ -5538,34 +5585,24 @@ IF r2_speech_goals = 4
 	r2_audio_label[10] = SOUND_ROT2_DL 
 	r2_audio_label[11] = SOUND_ROT2_DM 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 
-IF r2_speech_goals = 5
+CASE 5
 	$r2_print_label[0] = &ROT2_EA // That's the last of them, let's move out!	DONE
-
 	//$r2_print_label[1] = &ROT2_EB // Everybody ok? Let's hit 'em! 
-	
 	//$r2_print_label[2] = &ROT2_EC // Vagos fools didn't stand a chance!
-	
 	$r2_print_label[3] = &ROT2_ED // Quickly, go! GO!  							DONE
 	$r2_print_label[4] = &ROT2_EE // Follow me!									DONE   
 	$r2_print_label[5] = &ROT2_EF // Keep close!								DONE
 	$r2_print_label[6] = &ROT2_EG // Keep together!								DONE
 	$r2_print_label[7] = &ROT2_EH // Stay close.								DONE
 	$r2_print_label[8] = &ROT2_EJ // Keep it tight!								DONE
-	
 	$r2_print_label[11] = &ROT2_EM // Northside Vagos assholes!	  				DONE
-	
 	$r2_print_label[12] = &ROT2_EN // Up ahead!
-	
 	//$r2_print_label[13] = &ROT2_EO // Nearly there!
-
 	//$r2_print_label[14] = &ROT2_EP // Careful, we are close!
-	
 	//$r2_print_label[15] = &ROT2_EQ // Behind us!
-	
 	//$r2_print_label[16] = &ROT2_ER // Watch our backs!
-	
 	//$r2_print_label[17] = &ROT2_ES // Watch your backs!									 
 	
 	r2_audio_label[0] = SOUND_ROT2_EA 
@@ -5585,7 +5622,7 @@ IF r2_speech_goals = 5
 	//r2_audio_label[16] = SOUND_ROT2_ER 
 	//r2_audio_label[17] = SOUND_ROT2_ES 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 
 	//$r2_print_label[9] = &ROT2_EK // Vagos boys!
 	//$r2_print_label[10] = &ROT2_EL // LSV's!
@@ -5596,7 +5633,7 @@ ENDIF
 	//$r2_print_label[22] = &ROT2_EU // They're on the roofs!
 	
 
-IF r2_speech_goals = 6
+CASE 6
 	$r2_print_label[0] = &ROT2_FA // That was the easy bit, eh.
 	$r2_print_label[1] = &ROT2_FB // Now we go into the viper's nest.
 	$r2_print_label[2] = &ROT2_FC // This is where it gets tough.
@@ -5613,16 +5650,15 @@ IF r2_speech_goals = 6
 	r2_audio_label[5] = SOUND_ROT2_FG 
 	r2_audio_label[6] = SOUND_ROT2_FH 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 
-IF r2_speech_goals = 7
+CASE 7
 	$r2_print_label[0] = &ROT2_GA // Hazer!
-
 	r2_audio_label[0] = SOUND_ROT2_GA 
 	r2_last_label = 1
-ENDIF
+BREAK
 	
-IF r2_speech_goals = 8
+CASE 8
 	$r2_print_label[0] = &ROT2_GB // Shit, Hazer...
 	$r2_print_label[1] = &ROT2_GC // He is pretty bad, Cesar...
 	$r2_print_label[2] = &ROT2_GD // Heads up! More Vagos!
@@ -5633,9 +5669,9 @@ IF r2_speech_goals = 8
 	r2_audio_label[2] = SOUND_ROT2_GD 
 	r2_audio_label[3] = SOUND_ROT2_EW 
 	r2_last_label = 4
-ENDIF
+BREAK
 
-IF r2_speech_goals = 9
+CASE 9
 	$r2_print_label[0] = &ROT2_HA // Behind us!
 	$r2_print_label[1] = &ROT2_HB // More Vagos Behind us!
 	$r2_print_label[2] = &ROT2_HC // Northsiders behind us!
@@ -5644,18 +5680,18 @@ IF r2_speech_goals = 9
 	r2_audio_label[1] = SOUND_ROT2_HB 
 	r2_audio_label[2] = SOUND_ROT2_HC 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 
-IF r2_speech_goals = 10
+CASE 10
 	$r2_print_label[0] = &ROT2_JA // Let's fucking finish this!
 	$r2_print_label[1] = &ROT2_JB // I'm with you, man, let's take 'em!
 
 	r2_audio_label[0] = SOUND_ROT2_JA 
 	r2_audio_label[1] = SOUND_ROT2_JB 
 	r2_last_label = 2
-ENDIF
+BREAK
 
-IF r2_speech_goals = 11
+CASE 11
 	$r2_print_label[0] = &ROT2_KA // This is a Vagos neighborhood now!
 	$r2_print_label[1] = &ROT2_KB // Vagos rule this varrio now - Aztecas are no more!
 	$r2_print_label[2] = &ROT2_KC // Find a new home, assholes, Vagos own this 'hood!
@@ -5664,9 +5700,9 @@ IF r2_speech_goals = 11
 	r2_audio_label[1] = SOUND_ROT2_KB 
 	r2_audio_label[2] = SOUND_ROT2_KC 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 	
-IF r2_speech_goals = 12
+CASE 12
 	$r2_print_label[0] = &ROT2_LA // Torch those Aztecas!
 	$r2_print_label[1] = &ROT2_LB // Burn them!
 	$r2_print_label[2] = &ROT2_LC // Burn, Aztecas, burn!
@@ -5675,14 +5711,13 @@ IF r2_speech_goals = 12
 	r2_audio_label[1] = SOUND_ROT2_LB 
 	r2_audio_label[2] = SOUND_ROT2_LC 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 	
-IF r2_speech_goals = 13
+CASE 13
 	$r2_print_label[0] = &ROT2_MA // That's the last of 'em.
 	$r2_print_label[1] = &ROT2_MB // How is Hazer?
 	$r2_print_label[2] = &ROT2_MC // We need to get him to a hospital.
 	$r2_print_label[3] = &ROT2_MD // I'll take him.
-
 	$r2_print_label[4] = &ROT2_ME // CJ, you have done more than enough.
 	$r2_print_label[5] = &ROT2_MF // You should get back to Grove.
 	$r2_print_label[6] = &ROT2_MG // Sure thing, esse, I'll see you after all this has settled.
@@ -5697,9 +5732,9 @@ IF r2_speech_goals = 13
 	r2_audio_label[6] = SOUND_ROT2_MG 
 	r2_audio_label[7] = SOUND_ROT2_MH 
 	r2_last_label = r2_random_last_label
-ENDIF
+BREAK
 
-IF r2_speech_goals = 14
+CASE 14
 	$r2_print_label[0] = &CESX_BA // Wait up, CJ!
 	$r2_print_label[1] = &CESX_BB // Hang ten, CJ!
 	$r2_print_label[2] = &CESX_BC // Hold up!
@@ -5710,7 +5745,8 @@ IF r2_speech_goals = 14
 	r2_audio_label[2] = SOUND_CESX_BC 
 	r2_audio_label[3] = SOUND_CESX_BD 
  	r2_last_label = r2_random_last_label 
-ENDIF
+BREAK
+ENDSWITCH
 
 r2_slot_load = r2_speech_control_flag
 r2_slot1 = 0

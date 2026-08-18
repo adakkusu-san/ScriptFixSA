@@ -218,26 +218,57 @@ WAIT 0
 		GOTO mission_steal2_failed
 	ENDIF
 
+SWITCH steal2_goals
+CASE 0
+	GOSUB steal2_goals_eq_0
+BREAK
+CASE 1
+	GOSUB steal2_goals_eq_1
+BREAK
+CASE 2
+	GOSUB steal2_goals_eq_2
+BREAK
+CASE 3
+	GOSUB steal2_goals_eq_3
+BREAK
+ENDSWITCH
+
+
+IF steal2_goals > 0 
+AND steal2_goals < 13
+	GOSUB steal2_checkup
+ENDIF
+
+IF steal2_goals > 0 
+AND steal2_goals < 14
+	GOSUB st2_blippage
+ENDIF
+
+///ingame dialogue///
+GOSUB st2_overall_dialogue
+
+GOTO mission_steal2_loop
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// THE DRIVE THERE AND THE CAR SHOWROOM BIT //////////////////////////////////////////////////////
 
-	IF steal2_goals = 0 
+	steal2_goals_eq_0: 
 		
 		//main bit for this section
 		IF st2_control_flag = 0
 			GOSUB st2_cesar_group
 
 			//speech for this section 
-			IF st2_speech_flag = 0 
+			SWITCH st2_speech_flag
+			CASE 0 
 				st2_speech_goals = 1
 				st2_speech_control_flag = 0
 				GOSUB st2_dialogue_setup 
 				st2_speech_flag = 1
 				
-			ENDIF
+			BREAK
 
-			IF st2_speech_flag = 1
+			CASE 1
 				IF st2_speech_goals = 0
 					PRINT ( STE2_01 ) 7000 1 //Go and get the cars from the car showroom.
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
@@ -245,9 +276,9 @@ WAIT 0
 					timerb = 0
 					st2_speech_flag = 2
 				ENDIF
-			ENDIF
+			BREAK
 
-			IF st2_speech_flag = 2
+			CASE 2
 				IF timerb > 7000
 					IF st2_speech_goals = 0 
 						st2_speech_goals = 2
@@ -259,9 +290,9 @@ WAIT 0
 						st2_speech_flag = 3	
 					ENDIF
 				ENDIF  
-			ENDIF
+			BREAK
 			
-			IF st2_speech_flag = 3
+			CASE 3
 				IF timerb > 7000
 					IF st2_speech_goals = 0 
 						st2_speech_goals = 3
@@ -270,15 +301,16 @@ WAIT 0
 						st2_speech_flag = 4
 					ENDIF
 				ENDIF
-			ENDIF 
+			BREAK 
 
-			IF st2_speech_flag = 4 
+			CASE 4 
 				IF st2_speech_goals = 0
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE	
 					st2_speech_flag = 5
 				ENDIF
-			ENDIF
+			BREAK
+			ENDSWITCH
 
 			IF IS_GROUP_MEMBER cesar Players_Group 
 				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -1632.9 1207.4 6.1 4.0 4.0 4.0 TRUE
@@ -296,7 +328,8 @@ WAIT 0
 			ENDIF	
 		ENDIF
 		
-		IF st2_control_flag = 1			
+		SWITCH st2_control_flag
+		CASE 1			
 			SET_PLAYER_CONTROL player1 OFF							
 			SWITCH_WIDESCREEN ON
 			MAKE_PLAYER_GANG_DISAPPEAR
@@ -352,9 +385,9 @@ WAIT 0
 			timera = 0 
 			st2_speech_flag = 0
 			st2_control_flag = 2
-		ENDIF
+		BREAK
 
-		IF st2_control_flag = 2 
+		CASE 2 
 			//speech for this section
 			IF st2_speech_flag = 0
 				IF st2_speech_goals = 0 
@@ -412,9 +445,9 @@ WAIT 0
 				timera = 0 
 				st2_control_flag = 3
 			ENDIF	
-		ENDIF
+		BREAK
 			
-		IF st2_control_flag = 3
+		CASE 3
 			GET_SCRIPT_TASK_STATUS cesar PERFORM_SEQUENCE_TASK task_status
 			IF NOT task_status = FINISHED_TASK 
 				GET_SEQUENCE_PROGRESS cesar st2_seq_progress
@@ -425,9 +458,9 @@ WAIT 0
 					st2_control_flag = 4
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF st2_control_flag = 4
+		CASE 4
 			IF st2_speech_control_flag = 2
 				IF NOT IS_CHAR_DEAD st2_salesman 
 					OPEN_SEQUENCE_TASK st2_sequence
@@ -440,9 +473,9 @@ WAIT 0
 				ENDIF
 				st2_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF st2_control_flag = 5 
+		CASE 5 
 			IF st2_speech_goals = 0 
 				st2_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -774,9 +807,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 				
-		IF st2_control_flag = 6 
+		CASE 6 
 			IF NOT IS_CHAR_DEAD st2_random_char
 				IF LOCATE_CHAR_ANY_MEANS_2D st2_random_char -1646.0 1214.4 2.0 2.0 FALSE 
 					//playing the car recordings for recording 1 
@@ -806,18 +839,18 @@ WAIT 0
 					st2_control_flag = 7
 				ENDIF
 			ENDIF
-		ENDIF		
+		BREAK		
 			
-		IF st2_control_flag = 7
+		CASE 7
 			IF timera > 500
 				st2_speech_goals = 6
 				st2_speech_control_flag = 0
 				GOSUB st2_dialogue_setup 
 				st2_control_flag = 8
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF st2_control_flag = 8 
+		CASE 8 
 			IF timera > 2500 
 				IF NOT IS_CHAR_DEAD st2_random_char 
 					TASK_SMART_FLEE_CHAR st2_random_char scplayer 200.0 600000 
@@ -867,9 +900,10 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 1
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
-
+/*
 	//////////////////////////////////DEBUG////////////////////////
 		IF st2_control_flag = 0
 			IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q 
@@ -879,13 +913,15 @@ WAIT 0
 			ENDIF
 		ENDIF
 	//////////////////////////////////DEBUG////////////////////////
-	ENDIF 
+*/
+	RETURN 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 1: BLASTING OUT OF THE CAR SHOWROOM  ////////////////////////////////////////////////
 
-	IF steal2_goals = 1
+	steal2_goals_eq_1:
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF st2_speech_goals = 0
 				IF timerb > 7000 
 					st2_speech_goals = 7
@@ -896,15 +932,16 @@ WAIT 0
 					st2_speech_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 1
+		CASE 1
 			IF st2_speech_goals = 0  
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 			
 		////// car nodes jiggery pokery ///////
@@ -912,15 +949,16 @@ WAIT 0
 		ENDIF
 
 		
+		SWITCH st2_control_flag
 		//waiting for player to leave car showroom
-		IF st2_control_flag = 0 
+		CASE 0 
 			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer -1656.2 1210.2 12.3 7.0 7.0 7.0 FALSE 
 				st2_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
 		//player has left car showroom
-		IF st2_control_flag = 1 
+		CASE 1 
 			UNPAUSE_PLAYBACK_RECORDED_CAR st2_cesars_car
 			IF NOT IS_CAR_DEAD st2_cars[2]  
 				UNPAUSE_PLAYBACK_RECORDED_CAR st2_cars[2] 
@@ -968,10 +1006,10 @@ WAIT 0
 			REQUEST_MODEL COPCARSF
 			REQUEST_MODEL SFPD1
 			st2_control_flag = 2
-		ENDIF
+		BREAK
 		
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 2
+		CASE 2
 			
 			GOSUB st2_sorting_speed
 			
@@ -1041,18 +1079,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 2
 			ENDIF
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH 	
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 2: RACING THE TRAM //////////////////////////////////////////////////////////////////
 
-	IF steal2_goals = 2
+	steal2_goals_eq_2:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 		
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF st2_speech_goals = 0
 				st2_speech_goals = 8
 				st2_speech_control_flag = 0
@@ -1062,9 +1102,9 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
 				st2_speech_flag = 1
 			ENDIF
-		ENDIF 
+		BREAK 
 	
-		IF st2_speech_flag = 1
+		CASE 1
 			IF LOCATE_CAR_2D st2_cesars_car -1702.4 921.4 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0 
 					st2_speech_goals = 8
@@ -1074,27 +1114,29 @@ WAIT 0
 					st2_speech_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 2
+		CASE 2
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
-		IF st2_control_flag = 0
+		SWITCH st2_control_flag
+		CASE 0
 			REQUEST_MODEL COPCARSF
 			REQUEST_MODEL SFPD1
 			st2_control_flag = 1
-		ENDIF 
+		BREAK 
 		
-		IF st2_control_flag = 1 
+		CASE 1 
 		////// streaming in stuff for next recording ///////
 			
 			/*
@@ -1327,10 +1369,10 @@ WAIT 0
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[19] FALSE  
 			ENDIF
 			st2_control_flag = 2
-		ENDIF
+		BREAK
 		
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 2
+		CASE 2
 			
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting the stuff from recording 2
@@ -1375,18 +1417,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 3
 			ENDIF
-		ENDIF 	
-	ENDIF
+		BREAK 	
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 3: ZIG ZAG THEN AVOID THE BLOCKED JUNCTION  /////////////////////////////////////////
 
-	IF steal2_goals = 3
+	steal2_goals_eq_3:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF LOCATE_CAR_2D st2_cesars_car -1855.2 916.9 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -1398,28 +1442,30 @@ WAIT 0
 					st2_speech_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 1  
+		CASE 1  
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 		
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 		////// streaming in stuff for next recording ///////
 			st2_control_flag = 1	
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting the stuff from recording 3
 				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0]
@@ -1464,18 +1510,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 4
 			ENDIF
-		ENDIF 	
-	ENDIF
+		BREAK 	
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 4: RUNNING FROM THE POLICE  /////////////////////////////////////////////////////////
 
-	IF steal2_goals = 4
+	steal2_goals_eq_4:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF st2_speech_goals = 0
 				st2_speech_goals = 8
 				st2_speech_control_flag = 3
@@ -1485,22 +1533,23 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
 				st2_speech_flag = 1
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 1
+		CASE 1
 			IF st2_speech_goals = 0 
 				ALTER_WANTED_LEVEL_NO_DROP player1 2
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF st2_speech_flag = 2
+		CASE 2
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 		
 
 
@@ -1509,7 +1558,8 @@ WAIT 0
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			//creating the stuff needed for recording 5
 			//car 0 
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
@@ -1674,9 +1724,9 @@ WAIT 0
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[10] FALSE  
 			ENDIF
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 	
-		IF st2_control_flag = 1
+		CASE 1
 			//triggering the police
 			IF LOCATE_CAR_2D st2_cesars_car -1990.0 838.0 3.0 3.0 FALSE
 				IF NOT IS_CAR_DEAD st2_cars[15]
@@ -1710,10 +1760,10 @@ WAIT 0
 		 		ENDIF
 				st2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 2
+		CASE 2
 			REQUEST_MODEL COACH
 			REQUEST_MODEL PCJ600
 			
@@ -1797,18 +1847,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 5
 			ENDIF
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 5: NITRO AND DOWN THE HILL  /////////////////////////////////////////////////////////
 
-	IF steal2_goals = 5
+	steal2_goals_eq_5:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF st2_speech_goals = 0
 				st2_speech_goals = 8
 				st2_speech_control_flag = 4
@@ -1818,13 +1870,13 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
 				st2_speech_flag = 1
 			ENDIF
-		ENDIF 
-		IF st2_speech_flag = 1
+		BREAK 
+		CASE 1
 			PRINT_HELP STE2_03 
 			GIVE_NON_PLAYER_CAR_NITRO st2_cesars_car	
 			st2_speech_flag = 2
-		ENDIF 
-		IF st2_speech_flag = 2
+		BREAK 
+		CASE 2
 			IF LOCATE_CAR_2D st2_cesars_car -2319.8 1080.2 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -1834,22 +1886,24 @@ WAIT 0
 					st2_speech_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 3
+		CASE 3
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			//creating the stuff needed for recording 6
 			//car 11 
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
@@ -1939,10 +1993,10 @@ WAIT 0
 			ENDIF
 
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting the stuff from recording 5
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0]
@@ -1996,13 +2050,14 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 6
 			ENDIF
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 6: AROUND THE BUS AND AVOIDING THE SKIDDING BIKE  ///////////////////////////////////
 
-	IF steal2_goals = 6
+	steal2_goals_eq_6:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 	
@@ -2026,7 +2081,8 @@ WAIT 0
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			//creating more stuff needed for recording 6
 			//car 12 
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
@@ -2082,11 +2138,11 @@ WAIT 0
 			
 		
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		  	
 
 		//stopping bike from sliding along the road
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_CAR_DEAD st2_cars[14]
 				IF LOCATE_CAR_2D st2_cesars_car -2599.3 1206.5 3.0 3.0 FALSE
 					IF IS_PLAYBACK_GOING_ON_FOR_CAR st2_cars[14]
@@ -2100,10 +2156,10 @@ WAIT 0
 			ELSE
 				st2_control_flag = 2
 			ENDIF
-		ENDIF	 	
+		BREAK	 	
 
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 2
+		CASE 2
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				
 				//deleting the stuff from recording 6
@@ -2141,18 +2197,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 7
 			ENDIF
-		ENDIF 	
-	ENDIF
+		BREAK 	
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 7: DOWN THE HILL PAST THE SKIDDING CAR  /////////////////////////////////////////////
 
-	IF steal2_goals = 7
+	steal2_goals_eq_7:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 	
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF st2_speech_goals = 0
 				st2_speech_goals = 9
 				st2_speech_control_flag = 0
@@ -2161,8 +2219,8 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
 				st2_speech_flag = 1
 			ENDIF
-		ENDIF 
-		IF st2_speech_flag = 1
+		BREAK 
+		CASE 1
 			IF LOCATE_CAR_2D st2_cesars_car -2622.2 999.7 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -2172,8 +2230,8 @@ WAIT 0
 					st2_speech_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF 
-		IF st2_speech_flag = 2
+		BREAK 
+		CASE 2
 			IF LOCATE_CAR_2D st2_cesars_car -2608.9 913.3 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -2183,22 +2241,24 @@ WAIT 0
 					st2_speech_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 3
+		CASE 3
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			//creating the stuff needed for recording 7
 			//car 0  
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
@@ -2414,9 +2474,9 @@ WAIT 0
 			ENDIF
 		
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		 
-		IF st2_control_flag = 1
+		CASE 1
 			IF LOCATE_CAR_2D st2_cesars_car -2610.7 992.2 3.0 3.0 FALSE 
 				IF NOT IS_CAR_DEAD st2_cars[2]
 					SET_CAR_FORWARD_SPEED st2_cars[2] 15.0 	
@@ -2443,9 +2503,9 @@ WAIT 0
 		 		ENDIF
 				st2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		 
-		IF st2_control_flag = 2
+		CASE 2
 			IF LOCATE_CAR_2D st2_cesars_car -2610.4 922.8 3.0 3.0 FALSE 
 				IF NOT IS_CAR_DEAD st2_cars[3]
 					START_PLAYBACK_RECORDED_CAR st2_cars[3] 93
@@ -2457,11 +2517,11 @@ WAIT 0
 		 		ENDIF
 				st2_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 		 
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 3
+		CASE 3
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting the cars from recording 7
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0]
@@ -2491,18 +2551,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 8
 			ENDIF 	
-		ENDIF 	
-	ENDIF
+		BREAK 	
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 8: DOWN THE HILL AND DOING THE 360  /////////////////////////////////////////////////
 
-	IF steal2_goals = 8
+	steal2_goals_eq_8:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 	
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF LOCATE_CAR_2D st2_cesars_car -2528.9 737.7 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -2514,30 +2576,29 @@ WAIT 0
 					st2_speech_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 1
+		CASE 1
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
-			
-			
-			
+		SWITCH st2_control_flag
+		CASE 0 
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting cop cars from recording 7
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[5] 
@@ -2595,19 +2656,21 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 9
 			ENDIF 	
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 9: ALONG THE ROAD TOWARDS THE TRAM STATION  /////////////////////////////////////////
 
-	IF steal2_goals = 9
+	steal2_goals_eq_9:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 	
 	
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF LOCATE_CAR_2D st2_cesars_car -2528.6 656.4 3.0 3.0 FALSE 
 				//IF st2_speech_goals = 0
 					st2_speech_goals = 10
@@ -2618,8 +2681,8 @@ WAIT 0
 					st2_speech_flag = 1
 				//ENDIF
 			ENDIF
-		ENDIF 
-		IF st2_speech_flag = 1
+		BREAK 
+		CASE 1
 			IF LOCATE_CAR_2D st2_cesars_car -2375.0 566.2 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -2629,29 +2692,31 @@ WAIT 0
 					st2_speech_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 2
+		CASE 2
 			IF st2_speech_goals = 0
 				CLEAR_WANTED_LEVEL player1
 				st2_speech_flag = 3
 			ENDIF
-		ENDIF   	
+		BREAK   	
 
-		IF st2_speech_flag = 3
+		CASE 3
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			//creating the stuff needed for recording 10
 			//car 0 
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
@@ -2782,10 +2847,10 @@ WAIT 0
 			//	TASK_ENTER_CAR_AS_PASSENGER st2_peds[10] st2_cars[3] -1 2  
 			//ENDIF
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting stuff from recording 9
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[9] 
@@ -2851,19 +2916,21 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 10
 			ENDIF 	
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 10: THROUGH THE TRAM STATION TOWARDS THE POLICE ALLEYWAY ////////////////////////////
 
-	IF steal2_goals = 10
+	steal2_goals_eq_10:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 	
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF LOCATE_CAR_2D st2_cesars_car -2264.5 546.1 3.0 3.0 FALSE 
 				IF st2_speech_goals = 0
 					st2_speech_goals = 8
@@ -2875,35 +2942,37 @@ WAIT 0
 					st2_speech_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF 
-		IF st2_speech_flag = 1
+		BREAK 
+		CASE 1
 			IF LOCATE_CAR_2D st2_cesars_car -2224.1 454.8 3.0 3.0 FALSE 
 				PRINT_NOW ( STE2_04 ) 4000 1 //Follow Cesar into the alleyway. 
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF st2_speech_flag = 2
+		CASE 2
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		////// car nodes jiggery pokery ///////
 		IF st2_car_nodes = 0 
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				st2_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF LOCATE_CHAR_IN_CAR_2D scplayer -2213.9 453.0 5.0 5.0 FALSE 
 				
 				//deleting the stuff from recording 10
@@ -2986,18 +3055,20 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 11
 			ENDIF 	
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 11: REVERSING OUT OF THE ALLEYWAY WITH THE POLICE  //////////////////////////////////
 
-	IF steal2_goals = 11
+	steal2_goals_eq_11:
 		//sorting cesar's speed 
 		//GOSUB st2_sorting_speed
 		
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF timerb > 1000 
 				st2_speech_goals = 11
 				st2_speech_control_flag = 0
@@ -3006,22 +3077,23 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
 				st2_speech_flag = 1
 			ENDIF 
-		ENDIF
+		BREAK
 
-		IF st2_speech_flag = 1
+		CASE 1
 			IF st2_speech_goals = 0 
 				ALTER_WANTED_LEVEL_NO_DROP player1 2
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF st2_speech_flag = 2
+		CASE 2
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 
 		////// car nodes jiggery pokery ///////
@@ -3029,7 +3101,8 @@ WAIT 0
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 			CLEAR_AREA -2128.1 496.6 34.0 100.0 TRUE
 		
 			MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0]
@@ -3130,10 +3203,10 @@ WAIT 0
 				SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[2] TRUE
 			ENDIF
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				START_PLAYBACK_RECORDED_CAR st2_cesars_car 99
 				st2_speech_flag = 0
@@ -3141,13 +3214,14 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 12
 			ENDIF 	
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// RECORDING 12: 2 WHEELS PAST THE ROADWORKS /////////////////////////////////////////////////////
 
-	IF steal2_goals = 12
+	steal2_goals_eq_12:
 		//sorting cesar's speed 
 		GOSUB st2_sorting_speed
 		
@@ -3160,13 +3234,14 @@ WAIT 0
 		ENDIF
 
 		
-		IF st2_control_flag = 0 
+		SWITCH st2_control_flag
+		CASE 0 
 		////// streaming in stuff for next recording ///////
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		  	
 		////// waiting for cesar to finish recording /////
-		IF st2_control_flag = 1
+		CASE 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				SET_CAR_DENSITY_MULTIPLIER 1.0
 			
@@ -3187,8 +3262,9 @@ WAIT 0
 				st2_control_flag = 0
 				steal2_goals = 13
 			ENDIF 	
-		ENDIF 	
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
@@ -3196,9 +3272,10 @@ WAIT 0
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// INTO THE HUB AND MISSION COMPLETE  ////////////////////////////////////////////////////////////
 
-	IF steal2_goals = 13
+	steal2_goals_eq_13:
 		////// Speech for this section /////
-		IF st2_speech_flag = 0
+		SWITCH st2_speech_flag
+		CASE 0
 			IF st2_speech_goals = 0
 				// Ok, we're good. | See you back at the hub, CJ!
 				st2_speech_goals = 12
@@ -3219,22 +3296,23 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar TRUE
 				st2_speech_flag = 1
 			ENDIF
-		ENDIF 
+		BREAK 
 	
-		IF st2_speech_flag = 1
+		CASE 1
 			IF st2_speech_goals = 0
 				PRINT ( STE2_05 ) 4000 1 //Drive back to the hub.
 				st2_speech_flag = 2
 			ENDIF
-		ENDIF 
+		BREAK 
 		
-		IF st2_speech_flag = 2
+		CASE 2
 			IF st2_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE		 
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH cesar FALSE
 				st2_speech_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		////// deleting everything once Cesar has returned to the hub ///////
 		IF st2_control_flag = 0 
@@ -3318,14 +3396,15 @@ WAIT 0
 				steal2_goals = 14
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////// FINAL CUTSCENE //////////////////////////////////////////////////////////////////////////
 
-	IF steal2_goals = 14
-		IF st2_control_flag = 0
+	steal2_goals_eq_14:
+		SWITCH st2_control_flag
+		CASE 0
 			DO_FADE 500 FADE_OUT
 			WHILE GET_FADING_STATUS
 			    WAIT 0
@@ -3400,16 +3479,16 @@ WAIT 0
 				GOTO mission_steal2_failed
 			ENDIF
 			st2_control_flag = 1
-		ENDIF
+		BREAK
 		
-		IF st2_control_flag = 1
+		CASE 1
 			IF IS_CAR_IN_AREA_2D st2_players_car -2039.3 175.1-2041.9 181.6 FALSE
 				TASK_PLAY_ANIM cesar stretch PLAYIDLES 1000.0 FALSE FALSE FALSE FALSE -1
 				st2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF st2_control_flag = 2
+		CASE 2
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status	
 			IF task_status = FINISHED_TASK
 				DO_FADE 500 FADE_OUT
@@ -3447,15 +3526,18 @@ WAIT 0
 				ENDWHILE
 				GOTO mission_steal2_passed
 			ENDIF
-		ENDIF 
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Streaming in the car_recordings/////////////////////////////////////////////////////////////////
-	IF steal2_goals = 0
+steal2_car_recordings:
+	SWITCH steal2_goals
+	CASE 0
 		//recording 1
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 70 
 			REQUEST_CAR_RECORDING 70
@@ -3488,8 +3570,8 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 79 
 			REQUEST_CAR_RECORDING 79
 		ENDIF	
-	ENDIF
-	IF steal2_goals = 2
+	BREAK
+	CASE 2
 		//recording 3
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 80 
 			REQUEST_CAR_RECORDING 80
@@ -3512,8 +3594,8 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 85 
 			REQUEST_CAR_RECORDING 85
 		ENDIF	
-	ENDIF
-	IF steal2_goals = 4
+	BREAK
+	CASE 4
 		//recording 5
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 86 
 			REQUEST_CAR_RECORDING 86
@@ -3521,8 +3603,8 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 87 
 			REQUEST_CAR_RECORDING 87
 		ENDIF
-	ENDIF	
-	IF steal2_goals = 5
+	BREAK	
+	CASE 5
 		//recording 6
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 88 
 			REQUEST_CAR_RECORDING 88
@@ -3536,8 +3618,8 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 91 
 			REQUEST_CAR_RECORDING 91
 		ENDIF
-	ENDIF	
-	IF steal2_goals = 6
+	BREAK	
+	CASE 6
 		//recording 7
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 92 
 			REQUEST_CAR_RECORDING 92
@@ -3545,8 +3627,8 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 93 
 			REQUEST_CAR_RECORDING 93
 		ENDIF	
-	ENDIF
-	IF steal2_goals = 7
+	BREAK
+	CASE 7
 		//recording 8
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 94 
 			REQUEST_CAR_RECORDING 94
@@ -3561,8 +3643,8 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 97 
 			REQUEST_CAR_RECORDING 97
 		ENDIF	
-	ENDIF
-	IF steal2_goals = 8
+	BREAK
+	CASE 8
 		//recording 10
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 98 
 			REQUEST_CAR_RECORDING 98
@@ -3577,22 +3659,23 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 67 
 			REQUEST_CAR_RECORDING 67
 		ENDIF	
-	ENDIF
+	BREAK
 
-	IF steal2_goals = 11
+	CASE 11
 		//recording 12
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 99 
 			REQUEST_CAR_RECORDING 99
 		ENDIF	
-	ENDIF
+	BREAK
+	ENDSWITCH
+RETURN
 
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////failing mission/////////////////////////////////////////////////////////////////////////////////
-	IF steal2_goals > 0 
-		IF steal2_goals < 13
+steal2_checkup:
 			IF NOT LOCATE_CHAR_ANY_MEANS_CAR_2D scplayer st2_cesars_car 150.0 150.0 FALSE		
 				IF NOT IS_CAR_ON_SCREEN st2_cesars_car 
 					CLEAR_PRINTS
@@ -3618,25 +3701,11 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF	  
+RETURN
+	
+	
 
-	
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////failing mission/////////////////////////////////////////////////////////////////////////////////
-	IF steal2_goals > 0 
-		IF steal2_goals < 14
-			GOSUB st2_blippage
-		ENDIF
-	ENDIF
-	
-	
-	///ingame dialogue///
-	GOSUB st2_overall_dialogue
-
-
-GOTO mission_steal2_loop 
+// GOTO mission_steal2_loop 
 
 
 
@@ -3868,7 +3937,8 @@ ENDIF
 
 
 //setting the speed of the other cars
-IF steal2_goals = 1
+SWITCH steal2_goals
+CASE 1
 	IF NOT IS_CAR_DEAD st2_cars[2]  
 		IF IS_PLAYBACK_GOING_ON_FOR_CAR st2_cars[2] 
 			SET_PLAYBACK_SPEED st2_cars[2] st2_playback_speed
@@ -3899,28 +3969,28 @@ IF steal2_goals = 1
 			SET_PLAYBACK_SPEED st2_cars[7] st2_playback_speed
 		ENDIF 
 	ENDIF
-ENDIF
+BREAK
 
 /*
-IF steal2_goals = 3
+CASE 3
 	IF NOT IS_CAR_DEAD st2_cars[0] 
 		SET_PLAYBACK_SPEED st2_cars[0] st2_playback_speed
 	ENDIF
-ENDIF
+BREAK
 */
-IF steal2_goals = 4
+CASE 4
 	IF NOT IS_CAR_DEAD st2_cars[15] 
 		SET_PLAYBACK_SPEED st2_cars[15] st2_playback_speed
 	ENDIF
-ENDIF
+BREAK
 
-IF steal2_goals = 5
+CASE 5
 	IF NOT IS_CAR_DEAD st2_cars[2] 
 		SET_PLAYBACK_SPEED st2_cars[2] st2_playback_speed
 	ENDIF
-ENDIF
+BREAK
 
-IF steal2_goals = 6
+CASE 6
 	IF NOT IS_CAR_DEAD st2_cars[14] 
 		SET_PLAYBACK_SPEED st2_cars[14] st2_playback_speed
 	ENDIF
@@ -3930,22 +4000,23 @@ IF steal2_goals = 6
 	IF NOT IS_CAR_DEAD st2_cars[17] 
 		SET_PLAYBACK_SPEED st2_cars[17] st2_playback_speed
 	ENDIF
-ENDIF
+BREAK
 
-IF steal2_goals = 7
+CASE 7
 	IF NOT IS_CAR_DEAD st2_cars[3] 
 		SET_PLAYBACK_SPEED st2_cars[3] st2_playback_speed
 	ENDIF
-ENDIF
+BREAK
 
-IF steal2_goals = 8
+CASE 8
 	IF NOT IS_CAR_DEAD st2_cars[7] 
 		SET_PLAYBACK_SPEED st2_cars[7] st2_playback_speed
 	ENDIF
 	IF NOT IS_CAR_DEAD st2_cars[8] 
 		SET_PLAYBACK_SPEED st2_cars[8] st2_playback_speed
 	ENDIF
-ENDIF
+BREAK
+ENDSWITCH
 
 ////////////////////////////////////////////////////////////////////////////
 RETURN//////////////////////////////////////////////////////////////////////
@@ -4278,13 +4349,14 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 st2_dialogue_setup://///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF st2_speech_goals = 1
+SWITCH st2_speech_goals
+CASE 1
 	$st2_print_label[0] = &STL2_AA // Ok, let's go and get those wheels!		
 	st2_audio_label[0] = SOUND_STL2_AA 
 	st2_last_label = 1
-ENDIF
+BREAK
 
-IF st2_speech_goals = 2
+CASE 2
 	$st2_print_label[0] = &STL2_BA // I like this place, you know.		
 	$st2_print_label[1] = &STL2_BB // What? Where?		
 	$st2_print_label[2] = &STL2_BC // San Fierro, man.		
@@ -4311,9 +4383,9 @@ IF st2_speech_goals = 2
 	st2_audio_label[10] = SOUND_STL2_BL 
 	st2_audio_label[11] = SOUND_STL2_BM 
 	st2_last_label = 12
-ENDIF
+BREAK
 
-IF st2_speech_goals = 3
+CASE 3
 	$st2_print_label[0] = &STL2_CA // Who's this 'Truth' guy, holmes? Is he all there?
 	$st2_print_label[1] = &STL2_CB // He just sees everything from a very different perspective, is all.
 	$st2_print_label[2] = &STL2_CC // At first I thought he was just another acid casualty fruit cake.
@@ -4330,17 +4402,15 @@ IF st2_speech_goals = 3
 	st2_audio_label[5] = SOUND_STL2_CF 
 	st2_audio_label[6] = SOUND_STL2_CG 
 	st2_last_label = 7
-ENDIF
+BREAK
 
-IF st2_speech_goals = 4
+CASE 4
 	$st2_print_label[0] = &STL2_DA // This is the place!
 	$st2_print_label[1] = &STL2_DB // Here we go, holmes.
 	$st2_print_label[2] = &STL2_DC // This is it, CJ!
-	
 	$st2_print_label[3] = &STL2_DD // The cars are upstairs!
 	$st2_print_label[4] = &STL2_DE // The cars are on the first floor
 	$st2_print_label[5] = &STL2_DF // They're in the first floor showroom
-
 	$st2_print_label[6] = &STL2_DH // What, how are we going to get 'em down?
 	$st2_print_label[7] = &STL2_DJ // First floor? Shit...		
 	$st2_print_label[8] = &STL2_DK // Great, nothing's ever easy is it!
@@ -4355,9 +4425,9 @@ IF st2_speech_goals = 4
 	st2_audio_label[7] = SOUND_STL2_DJ 
 	st2_audio_label[8] = SOUND_STL2_DK 
 	st2_last_label = st2_random_last_label
-ENDIF
+BREAK
 
-IF st2_speech_goals = 5
+CASE 5
 	$st2_print_label[0] = &STL2_EA // Can I help you two, eerr, gentlemen?
 	$st2_print_label[1] = &STL2_EB // Yeah, you can help us by going and helping some other motherfucker.
 	$st2_print_label[2] = &STL2_EC // Y- yeah, that sounds like a good idea!
@@ -4370,16 +4440,15 @@ IF st2_speech_goals = 5
 	st2_audio_label[3] = SOUND_STL2_ED 
 	st2_audio_label[4] = SOUND_STL2_EE 
 	st2_last_label = 5
-ENDIF
+BREAK
  
-IF st2_speech_goals = 6
+CASE 6
 	$st2_print_label[0] = &STL2_EF // Holy fuck!
-
 	st2_audio_label[0] = SOUND_STL2_EF 
 	st2_last_label = 1
-ENDIF
+BREAK
 
-IF st2_speech_goals = 7
+CASE 7
 	$st2_print_label[0] = &STL2_FA // Hey, CJ, is this walkie talkie working?
 	$st2_print_label[1] = &STL2_FB // Yeah, reading you loud and clear!
 	$st2_print_label[2] = &STL2_FC // C'mon, CJ, see if you can keep up with Cesar Vialpando!
@@ -4388,9 +4457,9 @@ IF st2_speech_goals = 7
 	st2_audio_label[1] = SOUND_STL2_FB 
 	st2_audio_label[2] = SOUND_STL2_FC 
 	st2_last_label = 3
-ENDIF
+BREAK
 
-IF st2_speech_goals = 8
+CASE 8
 	$st2_print_label[0] = &STL2_FD // Beat the tram up the hill!
 	$st2_print_label[1] = &STL2_FE // Piece of chocolate cake!
 	$st2_print_label[2] = &STL2_FF // This tram driver must be shitting himself!
@@ -4417,9 +4486,9 @@ IF st2_speech_goals = 8
 	st2_audio_label[10] = SOUND_STL2_HB 
 	st2_audio_label[11] = SOUND_STL2_HC 
 	st2_last_label = st2_random_last_label
-ENDIF
+BREAK
 
-IF st2_speech_goals = 9
+CASE 9
 	$st2_print_label[0] = &STL2_FL // Ok, Cesar, that's enough fun.	
 	$st2_print_label[1] = &STL2_FM // Let's get these cars back to the garage!
 	$st2_print_label[2] = &STL2_FN // Ok, CJ, I know a quick route!
@@ -4428,9 +4497,9 @@ IF st2_speech_goals = 9
 	st2_audio_label[1] = SOUND_STL2_FM 
 	st2_audio_label[2] = SOUND_STL2_FN 
 	st2_last_label = 3
-ENDIF
+BREAK
 
-IF st2_speech_goals = 10
+CASE 10
 	$st2_print_label[0] = &STL2_FR // Fuck, holmes, did you see that?
 	$st2_print_label[1] = &STL2_GA // Yeah, can we think about getting back 
 	$st2_print_label[2] = &STL2_GB // before I end up in a carwreck barbeque?
@@ -4441,27 +4510,27 @@ IF st2_speech_goals = 10
 	st2_audio_label[2] = SOUND_STL2_GB 
 	st2_audio_label[3] = SOUND_STL2_HA 
 	st2_last_label = 4																		   
-ENDIF
+BREAK
 
-IF st2_speech_goals = 11
+CASE 11
 	$st2_print_label[0] = &STL2_HD // Uh-oh, more cops!
 	$st2_print_label[1] = &STL2_HE // BACK UP, HOLMES, BACK UP!
 
 	st2_audio_label[0] = SOUND_STL2_HD 
 	st2_audio_label[1] = SOUND_STL2_HE 
 	st2_last_label = 2
-ENDIF
+BREAK
 
-IF st2_speech_goals = 12
+CASE 12
 	$st2_print_label[0] = &STL2_HF // Ok, we're good.
 	$st2_print_label[1] = &STL2_HG // See you back at the hub, CJ!
 
 	st2_audio_label[0] = SOUND_STL2_HF 
 	st2_audio_label[1] = SOUND_STL2_HG 
 	st2_last_label = 2
-ENDIF
+BREAK
 
-IF st2_speech_goals = 14
+CASE 14
 	$st2_print_label[0] = &CESX_BA // Wait up, CJ!
 	$st2_print_label[1] = &CESX_BB // Hang ten, CJ!
 	$st2_print_label[2] = &CESX_BC // Hold up!
@@ -4472,7 +4541,8 @@ IF st2_speech_goals = 14
 	st2_audio_label[2] = SOUND_CESX_BC 
 	st2_audio_label[3] = SOUND_CESX_BD 
  	st2_last_label = st2_random_last_label 
-ENDIF
+BREAK
+ENDSWITCH
 
 st2_slot_load = st2_speech_control_flag
 st2_slot1 = 0

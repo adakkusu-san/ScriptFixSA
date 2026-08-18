@@ -273,21 +273,39 @@ WAIT 0
 		GOTO mission_steal5_failed
 	ENDIF
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////MAKING THE STINGER WORK/////////////////////////////////////////////////////////////////////////
-	IF s5_goals = 0
-		IF s5_trigger_stingers = 1
-			GOSUB s5_burst_tyres
-		ENDIF
-	ENDIF
+SWITCH s5_goals
+CASE 0
+	GOSUB s5_goals_eq_0
+BREAK
+CASE 1
+	GOSUB s5_goals_eq_1
+BREAK
+CASE 2
+	GOSUB s5_goals_eq_2
+BREAK
+CASE 10
+	GOSUB s5_goals_eq_10
+BREAK
+ENDSWITCH
 
+	///ingame dialogue///
+	GOSUB s5_overall_dialogue
+
+GOTO mission_steal5_loop
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Waiting for player to burst the tyres of the target car/////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF s5_goals = 0
+	s5_goals_eq_0:
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////MAKING THE STINGER WORK/////////////////////////////////////////////////////////////////////////
+		IF s5_trigger_stingers = 1
+			GOSUB s5_burst_tyres
+		ENDIF
 
 		////////////////////////// blippage //////////////////////
 		IF s5_is_plyr_in_car = 1 
@@ -344,17 +362,18 @@ WAIT 0
 
 
 		//////////////// MAIN PART //////////////////////
-		IF s5_control_flag = 0
+		SWITCH s5_control_flag
+		CASE 0
 			IF IS_CHAR_IN_CAR scplayer s5_temp_car 
 				PRINT_NOW ( STE5_01 ) 7000 1 //Burst the tyres of the target car using stingers.
 				PRINT_WITH_NUMBER ( STE5_02 ) 3 7000 1 //You only have 6 stingers available.
 				timerb = 0
 				s5_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 			
 		
-		IF s5_control_flag = 1
+		CASE 1
 			//////////////////////////checking to see if tyres are burst or not
 			IF IS_CAR_TYRE_BURST s5_target_car FRONT_RIGHT_WHEEL
 				LOCK_CAR_DOORS s5_target_car CARLOCK_UNLOCKED
@@ -376,8 +395,9 @@ WAIT 0
 					s5_goals = 1
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -385,17 +405,18 @@ WAIT 0
 //////////////////cutscene with player telling cesar he is going to fix the car///////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF s5_goals = 1
-		IF s5_control_flag = 0 
+	s5_goals_eq_1:
+		SWITCH s5_control_flag
+		CASE 0 
 			IF NOT IS_CHAR_IN_ANY_CAR scplayer
 				IF LOCATE_CHAR_ANY_MEANS_CAR_2D scplayer s5_target_car 5.0 5.0 FALSE 
 					s5_control_flag = 1
 				ENDIF
 			ENDIF
 			GOSUB s5_burst_tyres
-		ENDIF
+		BREAK
 	
-		IF s5_control_flag = 1
+		CASE 1
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
 			CLEAR_MISSION_AUDIO 3
@@ -423,9 +444,9 @@ WAIT 0
 			 
 			timera = 0
 			s5_control_flag = 2
-		ENDIF
+		BREAK
 
-		IF s5_control_flag = 2
+		CASE 2
 			IF timera > 2000
 				IF s5_speech_goals = 0 
 					//cutscene dialogue
@@ -435,16 +456,16 @@ WAIT 0
 					s5_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF	
+		BREAK	
 
-		IF s5_control_flag = 3
+		CASE 3
 			IF s5_speech_goals = 0 
 				TASK_USE_MOBILE_PHONE scplayer FALSE
 				s5_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 				
-		IF s5_control_flag = 4
+		CASE 4
 			GET_SCRIPT_TASK_STATUS scplayer TASK_USE_MOBILE_PHONE task_status			
 			IF task_status = FINISHED_TASK	
 				OPEN_SEQUENCE_TASK s5_seq	
@@ -472,9 +493,9 @@ WAIT 0
 				timera = 0
 				s5_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF s5_control_flag = 5
+		CASE 5
 			IF timera > 1000
 				PLAY_MISSION_AUDIO 3
 
@@ -485,9 +506,9 @@ WAIT 0
 
 				s5_control_flag = 6
 			ENDIF
-		ENDIF	
+		BREAK	
 
-		IF s5_control_flag = 6
+		CASE 6
 			IF s5_speech_goals = 0 
 				s5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -569,8 +590,9 @@ WAIT 0
 				s5_control_flag = 0
 				s5_goals = 2
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 	
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	 
@@ -578,7 +600,7 @@ WAIT 0
 //////////////////Waiting for player to take car back to garage///////////////////////////////////////////////////	 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF s5_goals = 2
+	s5_goals_eq_2:
 
 		// debug //
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
@@ -591,7 +613,8 @@ WAIT 0
 
 
 		//waiting for player to reach garage
-		IF s5_control_flag = 0
+		SWITCH s5_control_flagC
+		CASE 0
 			IF NOT IS_CAR_DEAD s5_target_car 
 				IF IS_CHAR_IN_CAR scplayer s5_target_car 
 					IF LOCATE_CHAR_IN_CAR_3D scplayer -2033.1 178.6 27.8 4.0 4.0 4.0 TRUE
@@ -645,9 +668,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF s5_control_flag = 1 			
+		CASE 1 			
 			IF NOT IS_CAR_DEAD s5_target_car
 				GET_SCRIPT_TASK_STATUS scplayer TASK_CAR_DRIVE_TO_COORD task_status					
 				IF task_status = FINISHED_TASK
@@ -661,9 +684,9 @@ WAIT 0
 					s5_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF	  			
+		BREAK	  			
 				
-		IF s5_control_flag = 2
+		CASE 2
 			IF timera  > 2000 
 				DO_FADE 500 FADE_OUT
 				WHILE GET_FADING_STATUS
@@ -725,7 +748,8 @@ WAIT 0
 
 				GOTO mission_steal5_passed
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 
 		//////////////////////////blippage										   
@@ -750,7 +774,7 @@ WAIT 0
 				s5_is_plyr_in_car = 1
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
 
@@ -760,10 +784,11 @@ WAIT 0
 //////////////////////////////////// FAILING MISSION CUTSCENE ////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF s5_goals = 10  
+	s5_goals_eq_10:
 		GOSUB check_player_is_safe
-		IF player_is_completely_safe = 1
-			IF s5_fucking_fudge_flag = 0 
+		SWITCH s5_fucking_fudge_flag
+		CASE 0 
+			IF player_is_completely_safe = 1
 
 				CLEAR_PRINTS 
 							
@@ -827,9 +852,9 @@ WAIT 0
 				ENDIF
 				s5_fucking_fudge_flag = 1
 			ENDIF 
-		ENDIF
+		BREAK
 
-		IF s5_fucking_fudge_flag = 1
+		CASE 1
 			IF NOT IS_CHAR_DEAD s5_enemy
 				GET_SCRIPT_TASK_STATUS s5_enemy TASK_CAR_DRIVE_TO_COORD task_status	
 				IF task_status = FINISHED_TASK	
@@ -870,15 +895,12 @@ WAIT 0
 					GOTO mission_steal5_failed
 				ENDIF
 			ENDIF
-		ENDIF 
-	ENDIF
+		BREAK 
+		ENDSWITCH
+	RETURN
 		 
 
-	///ingame dialogue///
-	GOSUB s5_overall_dialogue
-
-
-GOTO mission_steal5_loop
+// GOTO mission_steal5_loop
 
 	
 // Mission steal5 failed
@@ -1291,7 +1313,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 s5_dialogue_setup://////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF s5_speech_goals = 1
+SWITCH s5_speech_goals
+CASE 1
 	$s5_print_label[0] = &STL5_AA // Hey, CJ, how's it going with that crazy bitch?
 	$s5_print_label[1] = &STL5_AB // Popped her!
 	$s5_print_label[2] = &STL5_AC // Just about to fix the tyres, should be back any minute.
@@ -1304,23 +1327,24 @@ IF s5_speech_goals = 1
 	s5_audio_label[3] = SOUND_STL5_AD
 	s5_audio_label[4] = SOUND_STL5_AE
 	s5_last_label = 5
-ENDIF
+BREAK
 
-IF s5_speech_goals = 2
+CASE 2
 	$s5_print_label[0] = &STL5_AF // Man, this stuff is disgusting.
 	$s5_print_label[1] = &STL5_AG // Aw shit, all over my jeans!
 
 	s5_audio_label[0] = SOUND_STL5_AF
 	s5_audio_label[1] = SOUND_STL5_AG
 	s5_last_label = 2
-ENDIF
+BREAK
 
-IF s5_speech_goals = 3
+CASE 3
 	$s5_print_label[0] = &MOBRING // Phone Ringing
 
 	s5_audio_label[0] = SOUND_MOBRING
 	s5_last_label = 1
-ENDIF
+BREAK
+ENDSWITCH
 
 
 s5_slot_load = s5_speech_control_flag

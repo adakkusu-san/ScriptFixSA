@@ -337,11 +337,44 @@ WAIT 0
 	ENDIF
 
 
+SWITCH des2_goals
+CASE 0
+	GOSUB des2_goals_eq_0
+BREAK
+CASE 1
+	GOSUB des2_goals_eq_1
+BREAK
+CASE 2
+	GOSUB des2_goals_eq_2
+BREAK
+CASE 3
+	GOSUB des2_goals_eq_3
+BREAK
+CASE 4
+	GOSUB des2_goals_eq_4
+BREAK
+CASE 5
+	GOSUB des2_goals_eq_5
+BREAK
+CASE 6
+	GOSUB des2_goals_eq_6
+BREAK
+ENDSWITCH
+IF des2_goals < 3
+	GOSUB des2_goals_lt_3
+ENDIF
+
+	//ingame dialogue 
+	GOSUB des2_overall_dialogue
+
+GOTO mission_toreno2_loop
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Initial Cutscene //////////////////////////////////////////////////////////////////////////////
 
 
-	IF des2_goals = 0    
+	des2_goals_eq_0:
 		IF des2_control_flag = 0
 			IF timerb > 1000 
 				des2_speech_goals = 1
@@ -420,7 +453,7 @@ WAIT 0
 				des2_goals = 1 
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
 
@@ -428,7 +461,7 @@ WAIT 0
 //////////////////waiting for player and cesar to get on bike ////////////////////////////////////////////////////
 
 
-	IF des2_goals = 1
+	des2_goals_eq_1:
 		//waiting for player to get on bike initially
 		IF des2_control_flag = 0
 			IF des2_flag_cesar_in_group = 1	
@@ -476,7 +509,7 @@ WAIT 0
 
 		GOSUB des2_cesar_group
 		GOSUB des2_bike_blippage
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////waiting for player to pull alongside the truck//////////////////////////////////////////////////
@@ -484,7 +517,7 @@ WAIT 0
 ///////	des2_anim_been_played = 1 - balance anim			
 ///////	des2_anim_been_played = 2 - ready anim			
 
-	IF des2_goals = 2
+	des2_goals_eq_2:
 		
 	//////////////////////////////////DEBUG////////////////////////
 		IF IS_CHAR_IN_ANY_CAR scplayer 
@@ -500,15 +533,16 @@ WAIT 0
 		
 	
 		//speech for this section
-		IF des2_speech_flag = 0
+		SWITCH des2_speech_flag
+		CASE 0
 			IF des2_speech_goals = 0 
 				PRINT_NOW ( TOR1_04 ) 7000 1 //The truck is coming from Las Vegas and going to Silicon Valley.
 				des2_speech_flag = 1 
 			ENDIF
-		ENDIF
+		BREAK
 	   
 		//speech stuff to make sure player isn't going the wrong way
-		IF des2_speech_flag = 1
+		CASE 1
 			IF IS_CHAR_IN_CAR scplayer des2_car 
 				IF IS_CHAR_IN_CAR cesar des2_car 
 				
@@ -566,7 +600,35 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+
+		//speech of cesar telling player truck is up ahead
+		CASE 3
+			IF des2_speech_goals = 0
+				IF LOCATE_CHAR_IN_CAR_CAR_2D scplayer des2_transporter 180.0 180.0 FALSE
+					IF IS_CHAR_IN_CAR scplayer des2_car 
+						IF IS_CHAR_IN_CAR cesar des2_car
+							
+							//There's the rig up ahead!
+							SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer TRUE
+							des2_speech_goals = 6
+							des2_speech_control_flag = 0
+							des2_random_last_label = 1
+							GOSUB des2_dialogue_setup 
+							des2_speech_flag = 4
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+		BREAK
+
+		CASE 4 
+			IF des2_speech_goals = 0
+				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
+				des2_speech_flag = 5
+			ENDIF
+		BREAK
+		ENDSWITCH
 
 		//speech of cesar asking player what the plan is
 		IF des2_speech_flag < 2
@@ -584,38 +646,12 @@ WAIT 0
 			ENDIF
 		ENDIF
 
-		//speech of cesar telling player truck is up ahead
-		IF des2_speech_flag = 3
-			IF des2_speech_goals = 0
-				IF LOCATE_CHAR_IN_CAR_CAR_2D scplayer des2_transporter 180.0 180.0 FALSE
-					IF IS_CHAR_IN_CAR scplayer des2_car 
-						IF IS_CHAR_IN_CAR cesar des2_car
-							
-							//There's the rig up ahead!
-							SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer TRUE
-							des2_speech_goals = 6
-							des2_speech_control_flag = 0
-							des2_random_last_label = 1
-							GOSUB des2_dialogue_setup 
-							des2_speech_flag = 4
-						ENDIF
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-
-		IF des2_speech_flag = 4 
-			IF des2_speech_goals = 0
-				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
-				des2_speech_flag = 5
-			ENDIF
-		ENDIF
-
 
 		///MAIN BIT FOR THIS SECTION 
 
 	   	//waiting for the player and cesar to get close to the truck
-	   	IF des2_control_flag = 0
+	   	SWITCH des2_control_flag
+	   	CASE 0
 			IF LOCATE_CHAR_IN_CAR_CAR_2D scplayer des2_transporter 180.0 180.0 FALSE 
 				SET_CAR_FORWARD_SPEED des2_transporter 35.0	 
 				IF NOT IS_CHAR_DEAD des2_transporter_driver 
@@ -629,9 +665,9 @@ WAIT 0
 			ELSE
 				SET_CAR_HEADING des2_transporter 137.0
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF des2_control_flag = 1
+		CASE 1
 			IF LOCATE_CHAR_IN_CAR_CAR_3D scplayer des2_transporter 20.0 20.0 20.0 FALSE 
 				IF IS_CHAR_IN_CAR cesar des2_car 
 					PRINT_NOW ( TOR1_10 ) 11000 1 //Pull up to the left hand side of the truck and hold the bike in position until Cesar is ready to jump.				
@@ -639,9 +675,9 @@ WAIT 0
 					des2_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_control_flag = 2
+		CASE 2
 			IF IS_CHAR_IN_CAR scplayer des2_car 
 				IF IS_CHAR_IN_CAR cesar des2_car 
 					//correct position - flag 1 
@@ -818,7 +854,8 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 		
 		GOSUB des2_attaching_cab
 		GOSUB des2_bike_blippage
@@ -826,30 +863,37 @@ WAIT 0
 		//GOSUB des2_moving_checkpoint
 		GOSUB des2_slowdown_code
 		GOSUB des2_throwing_cars_out_of_way
-	ENDIF
+	RETURN
 
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////making the jump/////////////////////////////////////////////////////////////////////////////////
 		
 	//cesar jumping
-	IF des2_goals = 3
-		IF des2_control_flag = 0
+	des2_goals_eq_3:
+
+		IF des2_control_flag > 3
+			GET_CAR_HEADING des2_transporter des2_truck_heading
+			SET_CHAR_HEADING cesar des2_truck_heading   	
+		ENDIF
+		
+		SWITCH des2_control_flag
+		CASE 0
 			REMOVE_CHAR_FROM_GROUP cesar
 			TASK_PLAY_ANIM cesar Bk_jmp BIKELEAP 4.0 FALSE FALSE FALSE TRUE -1
 			des2_control_flag = 1
-		ENDIF
+		BREAK
 
-		IF des2_control_flag = 1 
+		CASE 1 
 			IF IS_CHAR_PLAYING_ANIM cesar Bk_jmp
 				GET_CHAR_ANIM_CURRENT_TIME cesar Bk_jmp des2_anim_time
 				IF des2_anim_time = 1.0
 					des2_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_control_flag = 2
+		CASE 2
 			IF NOT IS_CAR_DEAD des2_car 
 				REMOVE_CHAR_FROM_CAR_MAINTAIN_POSITION cesar des2_car
 			ENDIF
@@ -861,14 +905,9 @@ WAIT 0
 			ENDIF
 			SET_PLAYER_CONTROL player1 ON
 			des2_control_flag = 3
-		ENDIF
+		BREAK
 		
-		IF des2_control_flag > 3
-			GET_CAR_HEADING des2_transporter des2_truck_heading
-			SET_CHAR_HEADING cesar des2_truck_heading   	
-		ENDIF
-		
-		IF des2_control_flag = 3 			
+		CASE 3 			
 			IF IS_CHAR_PLAYING_ANIM cesar truck_getin
 				GET_CHAR_ANIM_CURRENT_TIME cesar truck_getin des2_anim_time
 				IF des2_anim_time > 0.41 
@@ -877,9 +916,9 @@ WAIT 0
 					des2_control_flag = 4
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_control_flag = 4
+		CASE 4
 			IF IS_CHAR_PLAYING_ANIM cesar truck_getin
 				GET_CHAR_ANIM_CURRENT_TIME cesar truck_getin des2_anim_time
 				IF des2_anim_time > 0.66
@@ -890,9 +929,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_control_flag = 5
+		CASE 5
 			IF IS_CHAR_PLAYING_ANIM cesar truck_getin
 				GET_CHAR_ANIM_CURRENT_TIME cesar truck_getin des2_anim_time
 				IF des2_anim_time = 1.0
@@ -905,10 +944,10 @@ WAIT 0
 					des2_control_flag = 6
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
  			
 			
-		IF des2_control_flag = 6 	
+		CASE 6 	
 			IF des2_truck_control_flag = 16
 				IF NOT IS_CHAR_DEAD des2_transporter_driver
 					CLEAR_CHAR_TASKS cesar
@@ -924,10 +963,10 @@ WAIT 0
 					des2_control_flag = 8
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 			
 		/*
-		IF des2_control_flag = 7
+		CASE 7
 			IF NOT IS_CHAR_DEAD des2_transporter_driver 
 				IF IS_CHAR_PLAYING_ANIM des2_transporter_driver truck_jumpout
 					GET_CHAR_ANIM_CURRENT_TIME des2_transporter_driver truck_jumpout des2_anim_time
@@ -937,9 +976,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		*/
-		IF des2_control_flag = 8	
+		CASE 8	
 			IF NOT IS_CHAR_DEAD des2_transporter_driver 
 				IF NOT IS_CHAR_IN_ANY_CAR des2_transporter_driver 
 					SET_CAR_TEMP_ACTION des2_transporter TEMPACT_NONE -1 
@@ -968,19 +1007,21 @@ WAIT 0
 					des2_goals = 4
 				ENDIF
 			ENDIF	
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		
 		//controlling the truck	sliding about
- 		IF des2_truck_control_flag = 1
+ 		SWITCH des2_truck_control_flag
+ 		CASE 1
 			SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 			SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNLEFT 200 
 			SET_CAR_CRUISE_SPEED des2_transporter 35.0 
 			timera = 0 
 			des2_truck_control_flag = 2
-		ENDIF
+		BREAK
 		
-		IF des2_truck_control_flag = 2
+		CASE 2
 			IF timera > 200
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 300	
@@ -988,9 +1029,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_truck_control_flag = 3
+		CASE 3
 			IF timera > 300
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNRIGHT 200 
@@ -998,9 +1039,9 @@ WAIT 0
 				timera = 0 
 				des2_truck_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_truck_control_flag = 4
+		CASE 4
 			IF timera > 200
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 500	
@@ -1008,9 +1049,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_truck_control_flag = 5
+		CASE 5
 			IF timera > 500
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNLEFT 500	
@@ -1018,9 +1059,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 6
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF des2_truck_control_flag = 6
+		CASE 6
 			IF timera > 500
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 1000	
@@ -1028,9 +1069,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 7
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_truck_control_flag = 7
+		CASE 7
 			IF timera > 1000
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNRIGHT 500	
@@ -1038,9 +1079,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 8
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_truck_control_flag = 8
+		CASE 8
 			IF timera > 500
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 1000	
@@ -1048,9 +1089,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 9
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_truck_control_flag = 9
+		CASE 9
 			IF timera > 1000
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNLEFT 500	
@@ -1058,9 +1099,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 10
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_truck_control_flag = 10
+		CASE 10
 			IF timera > 500
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 1000	
@@ -1068,9 +1109,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 11
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_truck_control_flag = 11
+		CASE 11
 			IF timera > 1000
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNRIGHT 500	
@@ -1078,9 +1119,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 12
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF des2_truck_control_flag = 12
+		CASE 12
 			IF timera > 500
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 1000	
@@ -1088,9 +1129,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 13
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF des2_truck_control_flag = 13
+		CASE 13
 			IF timera > 1000
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_TURNLEFT 500	
@@ -1098,9 +1139,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 14
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF des2_truck_control_flag = 14
+		CASE 14
 			IF timera > 500
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_GOFORWARD 1000	
@@ -1108,9 +1149,9 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 15
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF des2_truck_control_flag = 15
+		CASE 15
 			IF timera > 1000
 				SET_CAR_STATUS des2_transporter STATUS_PHYSICS  
 				SET_CAR_TEMP_ACTION des2_transporter TEMPACT_HANDBRAKESTRAIGHT 1000	
@@ -1118,7 +1159,8 @@ WAIT 0
 				timera = 0
 				des2_truck_control_flag = 16
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 
 		//opening car door
@@ -1134,12 +1176,12 @@ WAIT 0
 
 		GOSUB des2_throwing_cars_out_of_way
 		GOSUB des2_attaching_cab
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////driving the truck back to the hub///////////////////////////////////////////////////////////////
 
-	IF des2_goals = 4
+	des2_goals_eq_4:
 	//////////////////////////////////DEBUG////////////////////////
 		IF IS_CHAR_IN_ANY_CAR scplayer 
 			IF IS_CHAR_IN_ANY_CAR cesar
@@ -1151,7 +1193,8 @@ WAIT 0
 		ENDIF
 	//////////////////////////////////DEBUG////////////////////////
 		
-		IF des2_control_flag = 0
+		SWITCH des2_control_flag
+		CASE 0
 			IF IS_CHAR_IN_CAR scplayer des2_transporter 
 				IF IS_TRAILER_ATTACHED_TO_CAB des2_tanker des2_transporter
 					REMOVE_BLIP des2_transporter_blip
@@ -1170,9 +1213,9 @@ WAIT 0
 				des2_control_flag = 1
 				timerb = 0
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF des2_control_flag = 1
+		CASE 1
 			//speech for this section
 			IF des2_speech_flag = 0
 				IF timerb > 7000
@@ -1199,25 +1242,27 @@ WAIT 0
 			ENDIF
 			GOSUB des2_car_blippage
 			GOSUB des2_cab_attached
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////cutscene at hub/////////////////////////////////////////////////////////////////////////////////
 
-	IF des2_goals = 5
-		IF des2_control_flag = 0
+	des2_goals_eq_5:
+		SWITCH des2_control_flag
+		CASE 0
 			SET_PLAYER_CONTROL player1 OFF 
 			APPLY_BRAKES_TO_PLAYERS_CAR player1 ON  
 			CLEAR_PRINTS
+			REQUEST_ANIMATION POLICE
 			DO_FADE 500 FADE_OUT
 			WHILE GET_FADING_STATUS
 				WAIT 0
 			ENDWHILE
 			des2_control_flag = 1
-		ENDIF
-		IF des2_control_flag = 1
-			REQUEST_ANIMATION POLICE
+		BREAK
+		CASE 1
 			WHILE NOT HAS_ANIMATION_LOADED POLICE
 				WAIT 0
 			ENDWHILE
@@ -1302,9 +1347,9 @@ WAIT 0
 				GOTO mission_toreno2_failed
 			ENDIF
 			des2_control_flag = 2
-		ENDIF
+		BREAK
 
-		IF des2_control_flag = 2
+		CASE 2
 			GET_SCRIPT_TASK_STATUS scplayer TASK_PLAY_ANIM task_status
 			IF task_status = FINISHED_TASK
 				OPEN_SEQUENCE_TASK des2_seq
@@ -1316,9 +1361,9 @@ WAIT 0
 				timera = 0
 				des2_control_flag = 3
 			ENDIF			
-		ENDIF
+		BREAK
 
-		IF des2_control_flag = 3
+		CASE 3
 			IF timera > 5000 
 				DO_FADE 500 FADE_OUT
 				WHILE GET_FADING_STATUS
@@ -1346,8 +1391,9 @@ WAIT 0
 				ENDWHILE
 				GOTO mission_toreno2_passed 
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
@@ -1355,19 +1401,20 @@ WAIT 0
 ////////////////// Failing mission if transporter makes it back to silicon valley ////////////////////////////////
 
 
-	IF des2_goals < 3
+	des2_goals_lt_3:
 		IF NOT IS_CHAR_DEAD des2_transporter_driver
 			IF LOCATE_CAR_2D des2_transporter -1914.6 -1187.7 5.0 5.0 FALSE 
 				des2_control_flag = 0
 				des2_goals = 6
 			ENDIF
 		ENDIF 
-	ENDIF
+	RETURN
 	
-	IF des2_goals = 6
+	des2_goals_eq_6:
 		GOSUB check_player_is_safe
-		IF player_is_completely_safe = 1
-			IF des2_control_flag = 0
+		SWITCH des2_control_flag
+		CASE 0
+			IF player_is_completely_safe = 1
 				CLEAR_PRINTS
 				DO_FADE 500 FADE_OUT
 				WHILE GET_FADING_STATUS
@@ -1439,9 +1486,9 @@ WAIT 0
 					
 				des2_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_control_flag = 1
+		CASE 1
 			GOSUB des2_attaching_cab
 			IF LOCATE_CAR_2D des2_transporter -1943.6 -1040.1 5.0 5.0 FALSE	
 				SKIP_CUTSCENE_END
@@ -1454,13 +1501,11 @@ WAIT 0
 				PRINT_NOW ( TOR1_12 ) 4000 1 //You failed to steal the truck!			
 				GOTO mission_toreno2_failed 
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
-	//ingame dialogue 
-	GOSUB des2_overall_dialogue
-
-GOTO mission_toreno2_loop
+//GOTO mission_toreno2_loop
 
 
 	
@@ -2018,7 +2063,8 @@ OR des2_goals = 2
 			ENDIF
 		ENDIF
 
-		IF des2_speech_goals = 14 //cesar is out of the group
+		SWITCH des2_speech_goals
+		CASE 14 //cesar is out of the group
 			IF NOT IS_GROUP_MEMBER cesar Players_Group
 				IF des2_speech_control_flag < des2_last_label
 					GOSUB des2_loading_dialogue
@@ -2040,18 +2086,18 @@ OR des2_goals = 2
 				PRINT ( TOR1_13 ) 4000 1 //You have left Cesar behind.
 				des2_speech_goals = 15
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_speech_goals = 15 //cesar has been out of the group and has returned
+		CASE 15 //cesar has been out of the group and has returned
 			IF IS_GROUP_MEMBER cesar Players_Group 
 				des2_speech_goals = 16
 				des2_speech_control_flag = 0
 				CLEAR_PRINTS
 				//GOSUB des2_dialogue_setup
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF des2_speech_goals = 16 //cesar is back in group
+		CASE 16 //cesar is back in group
 			IF IS_GROUP_MEMBER cesar Players_Group 	
 				timerb = 0
 				des2_speech_goals = des2_storing_speech_goals_number
@@ -2076,7 +2122,8 @@ OR des2_goals = 2
 				des2_random_last_label = des2_speech_control_flag + 1 
 				GOSUB des2_dialogue_setup
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	ENDIF
 ENDIF
 
@@ -2191,7 +2238,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 des2_dialogue_setup://///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF des2_speech_goals = 1
+SWITCH des2_speech_goals
+CASE 1
 	$des2_print_label[0] = &DES2_AA // I got here as fast as I could, CJ.
 	$des2_print_label[1] = &DES2_AB // You sure did, how did you know I needed help?
 	$des2_print_label[2] = &DES2_AC // Man, you losing it, man.
@@ -2206,24 +2254,24 @@ IF des2_speech_goals = 1
 	des2_audio_label[4] = SOUND_DES2_AE 
 	des2_audio_label[5] = SOUND_DES2_AF 
 	des2_last_label = 6
-ENDIF
+BREAK
 
-IF des2_speech_goals = 2
+CASE 2
 	$des2_print_label[0] = &DES2_BA // We need to 'jack a truck on the freeway. 
 	$des2_print_label[1] = &DES2_BB // It's headed to San Fierro.
 
 	des2_audio_label[0] = SOUND_DES2_BA 
 	des2_audio_label[1] = SOUND_DES2_BB 
 	des2_last_label = 2
-ENDIF
+BREAK
 
-IF des2_speech_goals = 3
+CASE 3
 	$des2_print_label[0] = &DES2_BC // We can get on the freeway here, holmes.
 	des2_audio_label[0] = SOUND_DES2_BC 
 	des2_last_label = 1
-ENDIF
+BREAK
 
-IF des2_speech_goals = 4
+CASE 4
 	$des2_print_label[0] = &DES2_CA // Man, you crazy, this is the rail bridge! 
 	$des2_print_label[1] = &DES2_CB // The road bridge is over there!
 	$des2_print_label[2] = &DES2_CC // We jacking a train, holmes?
@@ -2232,9 +2280,9 @@ IF des2_speech_goals = 4
 	des2_audio_label[1] = SOUND_DES2_CB 
 	des2_audio_label[2] = SOUND_DES2_CC 
 	des2_last_label = des2_random_last_label
-ENDIF
+BREAK
 
-IF des2_speech_goals = 5
+CASE 5
 	$des2_print_label[0] = &DES2_DA // You missed the turnpike, holmes! 
 	$des2_print_label[1] = &DES2_DB // The freeway's back there!
 	$des2_print_label[2] = &DES2_DC // Dude, you missed the turn!
@@ -2243,9 +2291,9 @@ IF des2_speech_goals = 5
 	des2_audio_label[1] = SOUND_DES2_DB 
 	des2_audio_label[2] = SOUND_DES2_DC 
 	des2_last_label = des2_random_last_label
-ENDIF
+BREAK
 
-IF des2_speech_goals = 6
+CASE 6
 	$des2_print_label[0] = &DES2_EA // There's the rig up ahead!	
 	$des2_print_label[1] = &DES2_EB // What's the plan?
 	$des2_print_label[2] = &DES2_EC // I'm gonna pull alongside and you're gonna hop on board!
@@ -2260,9 +2308,9 @@ IF des2_speech_goals = 6
 	des2_audio_label[4] = SOUND_DES2_EE 
 	des2_audio_label[5] = SOUND_DES2_EF 
 	des2_last_label = des2_random_last_label	   
-ENDIF
+BREAK
 
-IF des2_speech_goals = 7
+CASE 7
 	$des2_print_label[0] = &DES2_FA // Closer, CJ, closer! 
 	$des2_print_label[1] = &DES2_FB // Just a little closer!
 	$des2_print_label[2] = &DES2_FC // I am not a kangaroo, holmes, get closer!
@@ -2271,10 +2319,10 @@ IF des2_speech_goals = 7
 	des2_audio_label[1] = SOUND_DES2_FB 
 	des2_audio_label[2] = SOUND_DES2_FC 
 	des2_last_label = des2_random_last_label
-ENDIF
+BREAK
 
 /*
-IF des2_speech_goals = 8
+CASE 8
 	$des2_print_label[0] = &DES2_GA // Hold her steady, CJ! 
 	$des2_print_label[1] = &DES2_GB // Steady... steady!
 	$des2_print_label[2] = &DES2_GC // Just let me get my balance!
@@ -2283,9 +2331,9 @@ IF des2_speech_goals = 8
 	des2_audio_label[1] = SOUND_DES2_GB 
 	des2_audio_label[2] = SOUND_DES2_GC 
 	des2_last_label = des2_random_last_label
-ENDIF
+BREAK
 */
-IF des2_speech_goals = 9
+CASE 9
 	$des2_print_label[0] = &DES2_HA // Speed up, CJ! 
 	$des2_print_label[1] = &DES2_HB // Match the truck's speed!
 	$des2_print_label[2] = &DES2_HC // Keep level, CJ, keep it level!
@@ -2294,9 +2342,9 @@ IF des2_speech_goals = 9
 	des2_audio_label[1] = SOUND_DES2_HB 
 	des2_audio_label[2] = SOUND_DES2_HC 
 	des2_last_label = des2_random_last_label
-ENDIF
+BREAK
 
-IF des2_speech_goals = 10
+CASE 10
 	$des2_print_label[0] = &DES2_JA // Slow down, CJ! 
 	$des2_print_label[1] = &DES2_JB // Just a bit slower!
 	$des2_print_label[2] = &DES2_JC // Calm it down, CJ, you're too fast!
@@ -2305,9 +2353,9 @@ IF des2_speech_goals = 10
 	des2_audio_label[1] = SOUND_DES2_JB 
 	des2_audio_label[2] = SOUND_DES2_JC 
 	des2_last_label = des2_random_last_label
-ENDIF
+BREAK
 
-IF des2_speech_goals = 11
+CASE 11
 	$des2_print_label[0] = &DES2_KA // Ok, CJ, let's get this rig back to the garage!
 	//$des2_print_label[1] = &DES2_KB // Where we going to take this thing?
 	//$des2_print_label[2] = &DES2_KC // There's a haulage firm over in Whetstone county.
@@ -2320,15 +2368,15 @@ IF des2_speech_goals = 11
 	//des2_audio_label[3] = SOUND_DES2_KC 
 	//des2_audio_label[4] = SOUND_DES2_KC 
 	des2_last_label = 1
-ENDIF
+BREAK
 
-IF des2_speech_goals = 12
+CASE 12
 	$des2_print_label[0] = &DES2_LA // See you later, holmes!
 	des2_audio_label[0] = SOUND_DES2_LA 
 	des2_last_label = 1
-ENDIF
+BREAK
 
-IF des2_speech_goals = 14
+CASE 14
 	$des2_print_label[0] = &CESX_BA // Wait up, CJ!
 	$des2_print_label[1] = &CESX_BB // Hang ten, CJ!
 	$des2_print_label[2] = &CESX_BC // Hold up!
@@ -2339,9 +2387,9 @@ IF des2_speech_goals = 14
 	des2_audio_label[2] = SOUND_CESX_BC 
 	des2_audio_label[3] = SOUND_CESX_BD 
  	des2_last_label = des2_random_last_label 
-ENDIF
+BREAK
 
-IF des2_speech_goals = 17
+CASE 17
 	$des2_print_label[0] = &CESX_AA // Get in, CJ, get in!
 	$des2_print_label[1] = &CESX_AB // Hop in, holmes!
 	$des2_print_label[2] = &CESX_AC // All aboard - heh heh!
@@ -2356,7 +2404,8 @@ IF des2_speech_goals = 17
 	des2_audio_label[4] = SOUND_CESX_AE 
 	des2_audio_label[5] = SOUND_CESX_AF 
  	des2_last_label = des2_random_last_label 
-ENDIF
+BREAK
+ENDSWITCH
 
 des2_slot_load = des2_speech_control_flag
 des2_slot1 = 0

@@ -850,7 +850,7 @@ ENDIF
 
 SWITCH sy1_stage
 CASE 0
-	GOSUB sy1_stage_eq_0:
+	GOSUB sy1_stage_eq_0
 BREAK
 CASE 1
 	GOSUB sy1_stage_eq_1

@@ -267,11 +267,44 @@ WAIT 0
 		GOTO mission_wuzi5_failed
 	ENDIF
 
+SWITCH w5_goals
+CASE 0
+	GOSUB w5_goals_eq_0
+BREAK
+CASE 1
+	GOSUB w5_goals_eq_1
+BREAK
+CASE 2
+	GOSUB w5_goals_eq_2
+BREAK
+CASE 3
+	GOSUB w5_goals_eq_3
+BREAK
+CASE 4
+	GOSUB w5_goals_eq_4
+BREAK
+CASE 5
+	GOSUB w5_goals_eq_5
+BREAK
+CASE 6
+	GOSUB w5_goals_eq_6
+BREAK
+ENDSWITCH
+IF w5_goals > 2
+	GOSUB w5_goals_gt_2
+ENDIF
+
+	///ingame dialogue///
+	GOSUB w5_overall_dialogue
+
+GOTO mission_wuzi5_loop
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Initial Cutscene on roof //////////////////////////////////////////////////////////////////////
 
-	IF w5_goals = 0
-		IF w5_control_flag = 0
+	w5_goals_eq_0
+		SWITCH w5_control_flag
+		CASE 0
 
 			//IF LOCATE_STOPPED_CHAR_ON_FOOT_3D scplayer -1246.1 -36.4 13.1 1.2 1.2 2.0 TRUE     
 				CLEAR_PRINTS	 
@@ -313,7 +346,7 @@ WAIT 0
 				
 				w5_control_flag = 1
 			//ENDIF
-		ENDIF
+		BREAK
 		
 		IF w5_control_flag = 1 
 			IF IS_CHAR_IN_ANY_CAR scplayer 
@@ -328,17 +361,17 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 2
+		CASE 2
 			IF timera > 9000
 				HELI_GOTO_COORDS w5_chopper -2167.8 634.9 80.7 0.0 80.7
 				timera = 0
 				w5_control_flag = 3
 			ENDIF  
-		ENDIF 
+		BREAK 
 		
-		IF w5_control_flag = 3 
+		CASE 3 
 			IF w5_speech_goals = 0 
 				w5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -421,14 +454,15 @@ WAIT 0
 				w5_goals = 1
 
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Heli flying around freighter //////////////////////////////////////////////////////////////////
 
-	IF w5_goals = 1
+	w5_goals_eq_1
 		
 		//////////////DEBUG///////////////
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q 
@@ -474,7 +508,8 @@ WAIT 0
 		//////////////////////////////////////////////////////////////////////////////////////
 		////// blowing up the helicopter when it is in the correct place /////////////////////
 		IF NOT IS_CAR_DEAD w5_chopper 
-			IF w5_control_flag = 0		
+			SWITCH w5_control_flag
+			CASE 0		
 				IF LOCATE_CHAR_ANY_MEANS_2D scplayer -2287.1 1582.8 3.0 3.0 FALSE	
 				  
 					//Pilot telling player he is getting shot at
@@ -485,9 +520,9 @@ WAIT 0
 					SET_PLAYBACK_SPEED w5_chopper 0.6
 					w5_control_flag = 1
 				ENDIF
-			ENDIF
+			BREAK
 			
-			IF w5_control_flag = 1		
+			CASE 1		
 				IF LOCATE_CHAR_ANY_MEANS_2D scplayer -2483.3 1509.6 3.0 3.0 FALSE	
 					
 					GENERATE_RANDOM_INT_IN_RANGE 0 3 w5_char_select_flag // FIXEDGROVE: increase upper limit for extra member variant
@@ -507,9 +542,9 @@ WAIT 0
 					timera = 0
 					w5_control_flag = 2
 				ENDIF	
-			ENDIF
+			BREAK
 
-			IF w5_control_flag = 2
+			CASE 2
 				//IF LOCATE_CHAR_ANY_MEANS_2D scplayer -2462. 3.0 3.0 FALSE
 				IF timera > 1800	
 					//RPG RPG
@@ -520,9 +555,9 @@ WAIT 0
 					
 					w5_control_flag = 3
 				ENDIF
-			ENDIF 
+			BREAK 
 
-			IF w5_control_flag = 3
+			CASE 3
 				IF LOCATE_CHAR_ANY_MEANS_2D scplayer -2401.0 1499.1 3.0 3.0 FALSE	
 					SHAKE_PAD PAD1 10000 200	
 					GET_OFFSET_FROM_CAR_IN_WORLD_COORDS w5_chopper 0.0 4.0 0.0 w5_x w5_y w5_z						
@@ -530,36 +565,9 @@ WAIT 0
 					SET_CAR_HEALTH w5_chopper 300
 					w5_control_flag = 4		
 				ENDIF
-			ENDIF
-
-			//add smoke particle effect every frame
-			IF w5_control_flag > 3  
-				GET_OFFSET_FROM_CAR_IN_WORLD_COORDS w5_chopper 0.0 0.0 0.0 w5_x w5_y w5_z						
-				//x
-				GENERATE_RANDOM_FLOAT_IN_RANGE -2.0 2.0 w5_fXPos
-				w5_fXPos += w5_x  
-				//y
-				GENERATE_RANDOM_FLOAT_IN_RANGE -2.0 2.0 w5_fyPos
-				w5_fYPos += w5_y
-				//z
-				w5_fZPos = w5_z 
-				//x velocity
-				GENERATE_RANDOM_FLOAT_IN_RANGE -1.5 1.5 w5_fXVel
-				//y velocity
-				GENERATE_RANDOM_FLOAT_IN_RANGE -1.5 1.5 w5_fYVel
-				//z velocity
-				GENERATE_RANDOM_FLOAT_IN_RANGE 0.0 1.0 w5_fZVel
-				w5_fRed = 0.0
-				w5_fGreen = 0.0
-				w5_fBlue = 0.0
-				w5_fAlpha = 0.2
-				w5_fSize = 1.0
-				w5_fLife = 1.0
-				ADD_SMOKE_PARTICLE w5_fXPos w5_fYPos w5_fZPos w5_fXVel w5_fYVel w5_fZVel w5_fRed w5_fGreen w5_fBlue w5_fAlpha w5_fSize w5_fLife
-			ENDIF
-
+			BREAK
 			
-			IF w5_control_flag = 4
+			CASE 4
 				IF LOCATE_CHAR_ANY_MEANS_2D scplayer -2381.0 1489.0 3.0 3.0 FALSE
 					CLEAR_PRINTS	 
 					CLEAR_MISSION_AUDIO 1
@@ -590,15 +598,43 @@ WAIT 0
 					SKIP_CUTSCENE_START
 					w5_control_flag = 5
 				ENDIF
-			ENDIF
+			BREAK
 
-			IF w5_control_flag = 5
+			CASE 5
 				IF LOCATE_CAR_2D w5_chopper -2360.0 1481.5 5.0 5.0 FALSE
 					//STOP_PLAYBACK_RECORDED_CAR w5_chopper	   
 					//MAKE_HELI_COME_CRASHING_DOWN w5_chopper
 					w5_control_flag = 6
 				ENDIF
+			BREAK
+			ENDSWITCH
+
+			//add smoke particle effect every frame
+			IF w5_control_flag > 3  
+				GET_OFFSET_FROM_CAR_IN_WORLD_COORDS w5_chopper 0.0 0.0 0.0 w5_x w5_y w5_z						
+				//x
+				GENERATE_RANDOM_FLOAT_IN_RANGE -2.0 2.0 w5_fXPos
+				w5_fXPos += w5_x  
+				//y
+				GENERATE_RANDOM_FLOAT_IN_RANGE -2.0 2.0 w5_fyPos
+				w5_fYPos += w5_y
+				//z
+				w5_fZPos = w5_z 
+				//x velocity
+				GENERATE_RANDOM_FLOAT_IN_RANGE -1.5 1.5 w5_fXVel
+				//y velocity
+				GENERATE_RANDOM_FLOAT_IN_RANGE -1.5 1.5 w5_fYVel
+				//z velocity
+				GENERATE_RANDOM_FLOAT_IN_RANGE 0.0 1.0 w5_fZVel
+				w5_fRed = 0.0
+				w5_fGreen = 0.0
+				w5_fBlue = 0.0
+				w5_fAlpha = 0.2
+				w5_fSize = 1.0
+				w5_fLife = 1.0
+				ADD_SMOKE_PARTICLE w5_fXPos w5_fYPos w5_fZPos w5_fXVel w5_fYVel w5_fZVel w5_fRed w5_fGreen w5_fBlue w5_fAlpha w5_fSize w5_fLife
 			ENDIF
+
 		ENDIF
 
 		IF w5_control_flag < 7
@@ -752,14 +788,15 @@ WAIT 0
 				w5_goals = 2
 			ENDIF
 		ENDIF
-	ENDIF   
+	RETURN   
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Player has to swim to the boat /////////////////////////////////////////////////////////////////
-	IF w5_goals = 2
-		IF w5_control_flag = 0
+	w5_goals_eq_2
+		SWITCH w5_control_flag
+		CASE 0
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer -2329.1 1528.7 0.0 4.0 4.0 4.0 TRUE 
 				DO_FADE 500 FADE_OUT 
 				timera = 0
@@ -772,9 +809,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 1
+		CASE 1
 			IF timera > 500
 				CLEAR_PRINTS	 
 				CLEAR_MISSION_AUDIO 1
@@ -995,17 +1032,17 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 2
+		CASE 2
 			IF timera > 2000
 				w5_skip_cutscene_flag = 1
 				SKIP_CUTSCENE_START
 				w5_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF w5_control_flag = 3
+		CASE 3
 			IF w5_speech_goals = 0 
 				IF timera > 3200
 			 
@@ -1018,9 +1055,9 @@ WAIT 0
 					w5_control_flag = 4
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF w5_control_flag = 4 
+		CASE 4 
 			IF timera > 6000  
 				CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
 				OPEN_SEQUENCE_TASK w5_seq
@@ -1036,10 +1073,10 @@ WAIT 0
 			
 				w5_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF w5_control_flag = 5
+		CASE 5
 			IF timera > 8500
 				w5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -1120,13 +1157,14 @@ WAIT 0
 				w5_control_flag = 0
 				w5_goals = 3
 			ENDIF
-		ENDIF 
-	ENDIF
+		BREAK 
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Going down to see the hull//////////////////////////////////////////////////////////////////////
-	IF w5_goals = 3
+	w5_goals_eq_3
 		//////////DEBUG//////////
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 			SET_CHAR_COORDINATES scplayer -2437.5 1538.4 10.7
@@ -1134,7 +1172,8 @@ WAIT 0
 		//////////DEBUG//////////
 			
 		//waiting for player to reach hull
-		IF w5_control_flag = 0
+		SWITCH w5_control_flag
+		CASE 0
 			IF IS_CHAR_IN_AREA_3D scplayer -2428.6 1532.6 12.2 -2441.3 1549.9 8.0 FALSE 
 				//drawing fake locate
 				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -2437.6 1541.5 6.4 1.2 1.2 1.2 TRUE
@@ -1152,9 +1191,9 @@ WAIT 0
 				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -2437.6 1541.5 6.4 1.2 1.2 1.2 TRUE
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 			
-		IF w5_control_flag = 1
+		CASE 1
 			//drawing fake locate
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer -2437.6 1541.5 6.4 1.2 1.2 1.2 TRUE
 			ENDIF
@@ -1332,9 +1371,9 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 			
-		IF w5_control_flag = 2  
+		CASE 2  
 			IF NOT IS_CHAR_DEAD w5_goons[9]
 				IF LOCATE_CHAR_ANY_MEANS_2D w5_goons[9] -2372.5 1551.0 1.0 1.0 FALSE 
 					//Keep it down, you want to bring the snakehead down here?
@@ -1344,9 +1383,9 @@ WAIT 0
 					w5_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF w5_control_flag = 3
+		CASE 3
 			IF w5_speech_goals = 0   
 				IF NOT IS_CHAR_DEAD w5_goons[9] 
 					OPEN_SEQUENCE_TASK w5_seq
@@ -1357,9 +1396,9 @@ WAIT 0
 					w5_control_flag = 4
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 4  
+		CASE 4  
 			IF timera > 6000 
 				DO_FADE 500 FADE_OUT	
 				WHILE GET_FADING_STATUS
@@ -1421,9 +1460,9 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF w5_control_flag = 5
+		CASE 5
 			IF NOT IS_CHAR_DEAD w5_goons[0]
 				GET_SCRIPT_TASK_STATUS w5_goons[0] PERFORM_SEQUENCE_TASK task_status
 				IF task_status = FINISHED_TASK
@@ -1468,16 +1507,16 @@ WAIT 0
 					w5_control_flag = 6
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 6
+		CASE 6
 			IF w5_speech_goals = 0
 				timera = 0 
 				w5_control_flag = 7	
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 7	
+		CASE 7	
 			IF timera > 800	
 				w5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -1588,37 +1627,37 @@ WAIT 0
 				w5_control_flag = 0
 				w5_goals = 4
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Going down to see the refugees//////////////////////////////////////////////////////////////////
-	IF w5_goals = 4
+	w5_goals_eq_4
 
 
 	///////////////////// SPEECH FOR THIS SECTION //////////////////////////
 		IF w5_control_flag < 5
 			IF IS_CHAR_IN_AREA_3D scplayer -2381.7 1546.2 0.0 -2365.1 1556.1 6.5 FALSE
 				IF w5_speech_goals = 0
-					IF w5_speech_flag = 0
+					SWITCH w5_speech_flag
+					CASE 0
 						// Hey you, help us!
 						w5_speech_goals = 9
 						w5_speech_control_flag = 0
 						w5_random_last_label = 1
 						GOSUB w5_dialogue_setup 
 						w5_speech_flag = 1
-					ENDIF
-				ENDIF
-
-				IF w5_speech_goals = 0
-					IF w5_speech_flag = 1
+					BREAK
+					CASE 1
 						//Hey, please, help us!
 						w5_speech_goals = 9
 						w5_speech_control_flag = 1
 						w5_random_last_label = 2
 						GOSUB w5_dialogue_setup 
 						w5_speech_flag = 2
-					ENDIF 
+					BREAK
+					ENDSWITCH
 				ENDIF
 			ENDIF
 		ENDIF
@@ -1634,7 +1673,8 @@ WAIT 0
 
 
 	//////////////////// MAIN BIT OF THE MISSION ////////////////////////////
-		IF w5_control_flag = 0
+		SWITCH w5_control_flag
+		CASE 0
 			///////////////DEBUG////////////////////
 			IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q 
 				IF NOT IS_CHAR_DEAD w5_goons[9] 
@@ -1683,9 +1723,9 @@ WAIT 0
 			ELSE
 				w5_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 						
-		IF w5_control_flag = 1
+		CASE 1
 			IF NOT IS_CHAR_DEAD w5_goons[9]
 				GET_SCRIPT_TASK_STATUS w5_goons[9] TASK_SHOOT_AT_COORD task_status 
 				IF task_status = FINISHED_TASK
@@ -1701,9 +1741,9 @@ WAIT 0
 			ELSE
 				w5_control_flag = 3
 			ENDIF	
-		ENDIF
+		BREAK
 	
-		IF w5_control_flag = 2
+		CASE 2
 			IF NOT IS_CHAR_DEAD w5_goons[9]
 				GET_SCRIPT_TASK_STATUS w5_goons[9] PERFORM_SEQUENCE_TASK task_status 
 				IF task_status = FINISHED_TASK
@@ -1730,9 +1770,9 @@ WAIT 0
 			ELSE
 				w5_control_flag = 3
 			ENDIF	
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 3
+		CASE 3
 			IF IS_CHAR_DEAD w5_goons[9]
 				MAKE_OBJECT_TARGETTABLE w5_refugee_container_padlock TRUE
 				REMOVE_BLIP w5_blip
@@ -1745,10 +1785,10 @@ WAIT 0
 				ENDIF
 				w5_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
 		//waiting for player to destroy padlock
-		IF w5_control_flag = 4
+		CASE 4
 			IF DOES_OBJECT_EXIST w5_refugee_container_padlock 		  ///debug
 				GET_OBJECT_HEALTH w5_refugee_container_padlock w5_debug_health
 				IF w5_debug_health < 999  
@@ -1760,10 +1800,10 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 5	
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF w5_control_flag = 5
+		CASE 5
 			IF timera > 1000
 				/*
 				DO_FADE 500 FADE_OUT 
@@ -1898,10 +1938,10 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 6
 			ENDIF
-		ENDIF
+		BREAK
 			
 
-		IF w5_control_flag = 6
+		CASE 6
 			//OPENING doors
 			IF DOES_OBJECT_EXIST w5_refugee_container_LD
 				ROTATE_OBJECT w5_refugee_container_LD 180.0 2.0 FALSE
@@ -1967,9 +2007,9 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 7
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 7
+		CASE 7
 			IF NOT IS_CHAR_DEAD w5_refugees[3] 
 				GET_SCRIPT_TASK_STATUS w5_refugees[3] PERFORM_SEQUENCE_TASK task_status	 
 				IF task_status = FINISHED_TASK
@@ -1989,9 +2029,9 @@ WAIT 0
 					w5_control_flag = 8
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF w5_control_flag = 8
+		CASE 8
 			IF timera > 6000
 				IF w5_speech_goals = 0
 					DO_FADE 500 FADE_OUT 
@@ -2033,9 +2073,9 @@ WAIT 0
 					w5_control_flag = 9
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF w5_control_flag = 9
+		CASE 9
 			IF DOES_OBJECT_EXIST w5_storm_freighter_door 
 				ROTATE_OBJECT w5_storm_freighter_door 90.0 2.0 FALSE
 			ENDIF
@@ -2073,9 +2113,9 @@ WAIT 0
 				timera = 0
 				w5_control_flag = 10
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF w5_control_flag = 10
+		CASE 10
 			IF timera > 7000
 				w5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -2234,17 +2274,17 @@ WAIT 0
 				w5_control_flag = 0
 				w5_goals = 5
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Player has to make his way up to kill the katanaboss////////////////////////////////////////////
 
-	IF w5_goals = 5
+	w5_goals_eq_5
 		// REFUGEE DEATH CHECKS
-		IF w5_goals = 5 
 			IF w5_refugees_flag < 4
 				IF IS_CHAR_DEAD w5_refugees[w5_refugees_flag]
 					CLEAR_PRINTS
@@ -2255,10 +2295,10 @@ WAIT 0
 			ELSE
 				w5_refugees_flag = 0
 			ENDIF
-		ENDIF
 
 		// MAIN BIT
-		IF w5_control_flag = 0
+		SWITCH w5_control_flagC
+		CASE 0
 			///////////////DEBUG////////////////////
 			IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q 
 				SET_CHAR_COORDINATES scplayer -2477.4 1537.0 27.8
@@ -2365,9 +2405,9 @@ WAIT 0
 				
 				w5_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF w5_control_flag = 1
+		CASE 1
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status
 			IF task_status = FINISHED_TASK
 			
@@ -2399,9 +2439,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF w5_control_flag = 3
+		CASE 3
 			IF DOES_OBJECT_EXIST w5_kat_anim
 
 				IF NOT IS_CHAR_DEAD w5_head_honcho
@@ -2425,9 +2465,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 4
+		CASE 4
 			IF w5_speech_goals = 0 
 				IF timera > 8000 
 					w5_skip_cutscene_flag = 0
@@ -2547,7 +2587,8 @@ WAIT 0
 					w5_control_flag = 5
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		IF IS_CHAR_DEAD w5_head_honcho
 			REMOVE_BLIP w5_blip
@@ -2596,15 +2637,16 @@ WAIT 0
 			ENDIF
 			*/
 		ENDIF
-	ENDIF
+	RETURN
 
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Final Cutscene showing player and refugees escaping ////////////////////////////////////////////
-	IF w5_goals = 6
-		IF w5_control_flag = 0
+	w5_goals_eq_6
+		SWITCH w5_control_flag
+		CASE 0
 			IF w5_refugees_flag < 4
 				IF IS_CHAR_DEAD w5_refugees[w5_refugees_flag]
 					CLEAR_PRINTS
@@ -2623,16 +2665,16 @@ WAIT 0
 					w5_control_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF w5_control_flag = 1
+		CASE 1
 			DO_FADE 2000 FADE_OUT
 			WHILE GET_FADING_STATUS
 			    WAIT 0
 			ENDWHILE 
 			w5_control_flag = 2
-		ENDIF 
-		IF w5_control_flag = 2
+		BREAK 
+		CASE 2
 			CLEAR_PRINTS	 
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -2686,9 +2728,9 @@ WAIT 0
 			ENDWHILE 
 			timera = 0 
 			w5_control_flag = 3
-		ENDIF
+		BREAK
 
-		IF w5_control_flag = 3
+		CASE 3
 			IF timera > 2000
 				IF NOT IS_CAR_DEAD w5_dinghys[1]
 					SET_CAR_TEMP_ACTION w5_dinghys[1] TEMPACT_GOFORWARD 5000
@@ -2698,8 +2740,8 @@ WAIT 0
 				ENDIF
 				w5_control_flag = 4
 			ENDIF
-		ENDIF
-		IF w5_control_flag = 4
+		BREAK
+		CASE 4
 			IF timera > 6000
 				DELETE_CAR w5_dinghys[1]
 				DELETE_CAR w5_dinghys[2]
@@ -2709,8 +2751,9 @@ WAIT 0
 				DELETE_CHAR w5_refugees[3] 
 				GOTO mission_wuzi5_passed
 			ENDIF
-		ENDIF 	 
-	ENDIF
+		BREAK 	 
+		ENDSWITCH
+	RETURN
 
 
 	
@@ -2718,8 +2761,9 @@ WAIT 0
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// What happens when player falls in water ///////////////////////////////////////////////////////
-	IF w5_goals > 2
-		IF w5_water_flag = 0
+	w5_goals_gt_2
+		SWITCH w5_water_flag
+		CASE 0
 			IF IS_CHAR_IN_WATER scplayer 
 				REMOVE_BLIP w5_blip 
 				//REMOVE_BLIP w5_blip2
@@ -2729,9 +2773,9 @@ WAIT 0
 				PRINT_NOW ( WUZ4_02 ) 7000 1 //Swim over to the freighter.
 				w5_water_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF w5_water_flag = 1
+		CASE 1
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer -2329.1 1528.7 0.0 4.0 4.0 4.0 TRUE
 				CLEAR_PRINTS 
 				DO_FADE 500 FADE_OUT
@@ -2788,7 +2832,8 @@ WAIT 0
 				DO_FADE 500 FADE_IN
 				w5_water_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		IF w5_water_flag = 2
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status	 
@@ -2798,13 +2843,14 @@ WAIT 0
 				SET_CHAR_HEADING scplayer 95.3
 				DELETE_OBJECT w5_box
 				REMOVE_BLIP w5_blip
-				IF w5_goals = 3
+				SWITCH w5_goals
+				CASE 3
 					IF w5_control_flag = 0
 						ADD_BLIP_FOR_COORD -2437.9 1551.9 16.3 w5_blip
 						PRINT_NOW ( WUZ4_01 ) 7000 1 //Make your way down into the hull of the ship.
 					ENDIF
-				ENDIF
-				IF w5_goals = 4
+				BREAK
+				CASE 4
 					IF w5_control_flag < 4
 						IF NOT IS_CHAR_DEAD w5_goons[9]
 							ADD_BLIP_FOR_CHAR w5_goons[9] w5_blip	
@@ -2816,8 +2862,8 @@ WAIT 0
 							PRINT_NOW ( WUZ4_09 ) 11000 1 //Shoot the padlock on the front of the container.
 						ENDIF
 					ENDIF
-				ENDIF
-				IF w5_goals = 5
+				BREAK
+				CASE 5
 					IF NOT IS_CHAR_DEAD w5_head_honcho
 						ADD_BLIP_FOR_CHAR w5_head_honcho w5_blip
 						CHANGE_BLIP_SCALE w5_blip 1
@@ -2830,15 +2876,16 @@ WAIT 0
 					ENDIF
 					*/
 					PRINT_NOW ( BRIDGE ) 7000 1 //Leave no one alive on the bridge!
-				ENDIF
+				BREAK
 
-				IF w5_goals = 6
+				CASE 6
 					IF NOT IS_CHAR_DEAD w5_refugees[3]
 						ADD_BLIP_FOR_CHAR w5_refugees[3] w5_blip
 						SET_BLIP_AS_FRIENDLY w5_blip TRUE
 					ENDIF  
 					PRINT_NOW ( WUZ4_11 ) 4000 1 //Go back and meet the refugees.  They will lower some dinghys into the water.
-				ENDIF
+				BREAK
+				ENDSWITCH
 
 				MARK_MODEL_AS_NO_LONGER_NEEDED kmb_container_red
 				HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE scplayer FALSE		
@@ -2850,14 +2897,10 @@ WAIT 0
 				w5_water_flag = 0
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
-	///ingame dialogue///
-	GOSUB w5_overall_dialogue
-
-
-GOTO mission_wuzi5_loop
+//GOTO mission_wuzi5_loop
 
 
 	
@@ -3586,7 +3629,8 @@ RETURN//////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 w5_dialogue_setup://///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-IF w5_speech_goals = 1
+SWITCH w5_speech_goals
+CASE 1
 	$w5_print_label[0] = &WUZ4_KA // Hey CJ, what you doing here?
 	$w5_print_label[1] = &WUZ4_KB // Just bumped into Woozie on his way out.
 	$w5_print_label[2] = &WUZ4_KC // He filled me in, thought I'd roll along with you!
@@ -3599,9 +3643,9 @@ IF w5_speech_goals = 1
 	w5_audio_label[3] = SOUND_WUZ4_KD
 	w5_audio_label[4] = SOUND_WUZ4_KE
 	w5_last_label = 5
-ENDIF
+BREAK
 
-IF w5_speech_goals = 2
+CASE 2
 	$w5_print_label[0] = &WUZ4_LA // Where we headed?
 	$w5_print_label[1] = &WUZ4_LB // It's moored out in the bay!
 	$w5_print_label[2] = &WUZ4_LC // Oh yeah, I see it!
@@ -3614,9 +3658,9 @@ IF w5_speech_goals = 2
 	w5_audio_label[3] = SOUND_WUZ4_LD
 	w5_audio_label[4] = SOUND_WUZ4_LE
 	w5_last_label = 5
-ENDIF
+BREAK
 
-IF w5_speech_goals = 3
+CASE 3
 	$w5_print_label[0] = &WUZ4_MA // Holy fuck, they're gunning for us already!
 	$w5_print_label[1] = &WUZ4_MB // I see 'em!
 	$w5_print_label[2] = &WUZ4_MC // They're all over the containers!
@@ -3629,9 +3673,9 @@ IF w5_speech_goals = 3
 	w5_audio_label[3] = SOUND_WUZ4_MD
 	w5_audio_label[4] = SOUND_WUZ4_ME
 	w5_last_label = 5
-ENDIF
+BREAK
 
-IF w5_speech_goals = 4
+CASE 4
 	$w5_print_label[0] = &WUZ4_NA // RPG! RPG!
 	$w5_print_label[1] = &WUZ4_NB // Where? Which side?	//debug - doesn't print atm... check when dialogue is in
 	$w5_print_label[2] = &WUZ4_NC // We're hit!
@@ -3644,50 +3688,50 @@ IF w5_speech_goals = 4
 	w5_audio_label[3] = SOUND_WUZ4_NE
 	w5_audio_label[4] = SOUND_WUZ4_NF
 	w5_last_label = w5_random_last_label
-ENDIF
+BREAK
 
-IF w5_speech_goals = 5
+CASE 5
 	$w5_print_label[0] = &WUZ4_AA // Can you see any survivors?
 	$w5_print_label[1] = &WUZ4_AB // No. Nobody's getting out of that alive!
 
 	w5_audio_label[0] = SOUND_WUZ4_AA
 	w5_audio_label[1] = SOUND_WUZ4_AB
 	w5_last_label = w5_random_last_label
-ENDIF
+BREAK
 
-IF w5_speech_goals = 6
+CASE 6
 	$w5_print_label[0] = &WUZ4_FA // Keep it down, you want to bring the snakehead down here?
 
 	w5_audio_label[0] = SOUND_WUZ4_FA
 	w5_last_label = 1
-ENDIF
+BREAK
 
-IF w5_speech_goals = 7
+CASE 7
 	$w5_print_label[0] = &WUZ4_CA // Not long until we're drinking cola in the free West, eh!
 	$w5_print_label[1] = &WUZ4_CB // Hey, who the fuck are you?
 
 	w5_audio_label[0] = SOUND_WUZ4_CA
 	w5_audio_label[1] = SOUND_WUZ4_CB
 	w5_last_label = w5_random_last_label
-ENDIF
+BREAK
 
-IF w5_speech_goals = 8
+CASE 8
 	$w5_print_label[0] = &WUZ4_HA // Stick this up your ass!
 
 	w5_audio_label[0] = SOUND_WUZ4_HA
 	w5_last_label = 1
-ENDIF
+BREAK
 
-IF w5_speech_goals = 9
+CASE 9
 	$w5_print_label[0] = &WUZ4_JA // Hey you, help us!
 	$w5_print_label[1] = &WUZ4_JB // Hey, please, help us!
 
 	w5_audio_label[0] = SOUND_WUZ4_JA
 	w5_audio_label[1] = SOUND_WUZ4_JB
 	w5_last_label = w5_random_last_label
-ENDIF
+BREAK
 
-IF w5_speech_goals = 10
+CASE 10
 	$w5_print_label[0] = &WUZ4_JC // Please, the snakehead tricked us, we're virtual prisoners.
 	$w5_print_label[1] = &WUZ4_JD // Please help us escape!
 	$w5_print_label[2] = &WUZ4_JE // The Snakehead is up on the bridge...
@@ -3696,30 +3740,28 @@ IF w5_speech_goals = 10
 	w5_audio_label[1] = SOUND_WUZ4_JD
 	w5_audio_label[2] = SOUND_WUZ4_JE
 	w5_last_label = w5_random_last_label
-ENDIF
+BREAK
 
-IF w5_speech_goals = 11
+CASE 11
 	$w5_print_label[0] = &WUZ4_JF // Thank you for everything!
-
 	w5_audio_label[0] = SOUND_WUZ4_JF
 	w5_last_label = 1
-ENDIF
+BREAK
 
-IF w5_speech_goals = 12
+CASE 12
 	$w5_print_label[0] = &WUZ4_OA // Oh, man, I hurt!
 	$w5_print_label[1] = &WUZ4_ZA // Damn, lost everything but my blade!
-
 	w5_audio_label[0] = SOUND_WUZ4_OA
 	w5_audio_label[1] = SOUND_WUZ4_ZA
 	w5_last_label = 2
-ENDIF
+BREAK
 
-IF w5_speech_goals = 13
+CASE 13
 	$w5_print_label[0] = &WUZ4_PA // Enough! We settle this here!
-
 	w5_audio_label[0] = SOUND_WUZ4_PA
 	w5_last_label = 1
-ENDIF
+BREAK
+ENDSWITCH
 
 //REMOVED DIALOGUE
 //[WUZ4_BA:WUZI4]Keep it down, you want to bring the snakehead down here?

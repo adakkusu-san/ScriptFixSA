@@ -371,9 +371,53 @@ WAIT 0
 	GET_TIME_OF_DAY m3_hours minutes
 
 
+SWITCH m3_goals
+CASE 0
+	GOSUB m3_goals_eq_0
+	IF warning_text = 0
+		GOSUB warning_text_eq_0
+	ENDIF
+BREAK
+CASE 1
+	GOSUB m3_goals_eq_1
+	IF warning_text = 0
+		GOSUB warning_text_eq_0
+	ENDIF
+BREAK
+CASE 2
+	GOSUB m3_goals_eq_2
+BREAK
+CASE 3
+	GOSUB m3_goals_eq_3
+BREAK
+CASE 4
+	GOSUB m3_goals_eq_4
+BREAK
+CASE 5
+	GOSUB m3_goals_eq_5
+BREAK
+CASE 6
+	GOSUB m3_goals_eq_6
+BREAK
+CASE 7
+	GOSUB m3_goals_eq_7
+BREAK
+CASE 9
+	GOSUB m3_goals_eq_9
+BREAK
+CASE 10
+	GOSUB m3_goals_eq_10
+BREAK
+ENDSWITCH
+
+	//ingame dialogue
+	GOSUB m3_overall_dialogue
+
+GOTO mission_music3_loop
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// waiting for player to steal the humvee  ///////////////////////////////////////////////////////
-	IF m3_goals = 0
+	m3_goals_eq_0:
 		////debug////
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 			SET_CHAR_COORDINATES scplayer 1179.5 -920.3 42.2
@@ -383,7 +427,8 @@ WAIT 0
 		
 		////////////SPEECH FOR THIS SECTION////////////////////
 		//dialogue once player is near the car to tell the player to damage it
-		IF m3_speech_flag = 0		    
+		SWITCH m3_speech_flag
+		CASE 0		    
 			IF m3_control_flag = 1
 			OR m3_control_flag = 2 
 				IF LOCATE_CHAR_ANY_MEANS_CAR_3D scplayer m3_dgcar1[1] 25.0 25.0 25.0 FALSE 
@@ -397,9 +442,9 @@ WAIT 0
 					m3_speech_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m3_speech_flag = 1
+		CASE 1
 			//clearing that fucking damage print
 			IF NOT IS_CHAR_DEAD m3_dgcar1_driver[1]
 				IF NOT IS_CHAR_SITTING_IN_CAR m3_dgcar1_driver[1] m3_dgcar1[1]
@@ -417,9 +462,9 @@ WAIT 0
 			ELSE
 				m3_speech_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF m3_speech_flag = 2 
+		CASE 2 
 			IF m3_speech_goals = 0 
 				IF NOT IS_CAR_DEAD m3_dgcar1[1] 
 					IF NOT IS_CHAR_IN_CAR scplayer m3_dgcar1[1] 
@@ -431,7 +476,8 @@ WAIT 0
 					ENDIF 
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 		
 		/// WAITING FOR PLAYER TO TRIGGER MC STRAP PHONE CALL
 		IF m3_control_flag = 0
@@ -500,7 +546,8 @@ WAIT 0
 			ENDIF
 		ENDIF
 
-		IF m3_phone_cutscene = 1 
+		SWITCH m3_phone_cutscene
+		CASE 1 
 			IF timera > 2000
 				IF m3_speech_goals = 0 
 					//mc strap phoning player
@@ -511,9 +558,9 @@ WAIT 0
 					m3_phone_cutscene = 2
 				ENDIF
 			ENDIF
-		ENDIF					
+		BREAK					
 	
-		IF m3_phone_cutscene = 2
+		CASE 2
 			IF m3_speech_goals = 0 
 				//mc strap phoning player
 				m3_speech_goals = 7
@@ -547,9 +594,9 @@ WAIT 0
 				SWITCH_WIDESCREEN OFF
 				m3_phone_cutscene = 3
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m3_phone_cutscene = 3
+		CASE 3
 			IF m3_speech_goals = 0
 				GET_SCRIPT_TASK_STATUS scplayer TASK_USE_MOBILE_PHONE task_status
 				IF task_status = PERFORMING_TASK
@@ -570,10 +617,12 @@ WAIT 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
 				m3_phone_cutscene = 4
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		//car is on it's way to meet the other cars 
-		IF m3_control_flag = 1
+		SWITCH m3_control_flag
+		CASE 1
 			IF NOT IS_CHAR_DEAD m3_dgcar1_driver[1]
 				IF IS_CHAR_IN_CAR m3_dgcar1_driver[1] m3_dgcar1[1]
 					IF m3_hours > 20 //i.e. 9 pm
@@ -582,10 +631,10 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 		//waiting for car to reach other cars and then fail the mission
-		IF m3_control_flag = 2 
+		CASE 2 
 			IF NOT IS_CHAR_DEAD m3_dgcar1_driver[1]
 				IF IS_CHAR_IN_CAR m3_dgcar1_driver[1] m3_dgcar1[1]
 					IF LOCATE_CAR_2D m3_dgcar1[1] 1316.4 -1136.5 5.0 5.0 FALSE
@@ -595,7 +644,8 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		//checking if enemy should attack player
 		IF m3_control_flag > 0
@@ -666,13 +716,13 @@ WAIT 0
 				m3_goals = 1
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
 			
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// waiting for player to arrive next to other drivers ////////////////////////////////////////////
-	IF m3_goals = 1 
+	m3_goals_eq_1:
 		////debug////
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 			SET_CHAR_COORDINATES scplayer 1306.4 -1137.5 22.5
@@ -686,9 +736,17 @@ WAIT 0
 			m3_how_many_cars_flag = 0
 			m3_goals = 9
 		ENDIF
+
+		IF m3_paynspray_text_flag = 0
+			IF m3_paynspray_text_duration > 4000
+				PRINT ( STP3_33 ) 7000 1 //Go and meet up with the other drivers.  Don't damage your car!
+				m3_paynspray_text_flag = 1
+			ENDIF
+		ENDIF
 		
 		//getting the car repaired if it is damaged
-		IF m3_control_flag = 0
+		SWITCH m3_control_flag
+		CASE 0
 			IF IS_CHAR_IN_CAR scplayer m3_dgcar1[1]
 				IF NOT IS_CAR_HEALTH_GREATER m3_dgcar1[1] 700
 				OR IS_CAR_VISIBLY_DAMAGED m3_dgcar1[1]
@@ -715,17 +773,10 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m3_paynspray_text_flag = 0
-			IF m3_paynspray_text_duration > 4000
-				PRINT ( STP3_33 ) 7000 1 //Go and meet up with the other drivers.  Don't damage your car!
-				m3_paynspray_text_flag = 1
-			ENDIF
-		ENDIF
-		
 		//waiting for player to get to the other cars and get in correct position
-		IF m3_control_flag = 1
+		CASE 1
 			IF IS_CHAR_IN_CAR scplayer m3_dgcar1[1] 
 			
 				//waiting for player to get to the other cars
@@ -774,7 +825,8 @@ WAIT 0
 					m3_control_flag = 0	
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		//player has acheived the correct position
 		IF IS_CAR_HEALTH_GREATER m3_dgcar1[1] 700
@@ -791,21 +843,22 @@ WAIT 0
 		ENDIF
 
 		GOSUB m3_blippage
-	ENDIF
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// FAIL CUTSCENE /////////////////////////////////////////////////////////////////////////////////
-	IF m3_goals = 9 ///this is used to stop control_flag from resetting other stuff within m3_goals = 0 and m3_goals = 1 
+	m3_goals_eq_9: ///this is used to stop control_flag from resetting other stuff within m3_goals = 0 and m3_goals = 1 
 		m3_control_flag = 0
 		m3_goals = 10
-	ENDIF
-	IF m3_goals = 10 
+	RETURN
+	m3_goals_eq_10: 
 		GOSUB check_player_is_safe
-		IF player_is_completely_safe = 1
+		SWITCH m3_control_flag
+		CASE 0
+			IF player_is_completely_safe = 1
 			//m3_how_many_cars_flag = 0 //show two cars pulling away 
 			//m3_how_many_cars_flag = 1 //show three cars pulling away 
-			IF m3_control_flag = 0
 				CLEAR_PRINTS
 			
 				DO_FADE 500 FADE_OUT		
@@ -901,9 +954,9 @@ WAIT 0
 				timera = 0
 				m3_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m3_control_flag = 1
+		CASE 1
 			IF timera > 1000 
 				IF NOT IS_CAR_DEAD m3_dgcar1[2] 
 					IF NOT IS_CHAR_DEAD m3_dgcar1_driver[2] 
@@ -912,9 +965,9 @@ WAIT 0
 				ENDIF
 				m3_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m3_control_flag = 2
+		CASE 2
 			IF NOT IS_CHAR_DEAD m3_dgcar1_driver[2]
 				GET_SCRIPT_TASK_STATUS m3_dgcar1_driver[2] TASK_ENTER_CAR_AS_DRIVER task_status 
 				IF task_status = FINISHED_TASK
@@ -954,9 +1007,9 @@ WAIT 0
 					m3_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF m3_control_flag = 3
+		CASE 3
 			IF NOT IS_CAR_DEAD m3_dgcar1[0] 
 				IF NOT IS_CAR_ON_SCREEN m3_dgcar1[0]
 					DO_FADE 500 FADE_OUT		
@@ -990,14 +1043,15 @@ WAIT 0
 					GOTO mission_music3_failed
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// playing the MOOTV awards cutscene /////////////////////////////////////////////////////////////
-	IF m3_goals = 2
+	m3_goals_eq_2:
 		IF m3_cutscene_goals_flag = 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1	 
@@ -1352,14 +1406,14 @@ WAIT 0
 				m3_goals = 3
 			ENDIF
 		ENDIF
-	ENDIF		
+	RETURN		
 	
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Waiting for the cars to arrive at the awards////////////////////////////////////////////////////
 
 	//waiting for cars to arrive at awards 
-	IF m3_goals = 3 
+	m3_goals_eq_3:
 
 		
 
@@ -1431,13 +1485,13 @@ WAIT 0
 				GOTO mission_music3_failed
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 		
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////GOAL 1 - Waiting for Doc G to enter the car and telling the cars to start heading to the mansion///////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF m3_goals = 4
+	m3_goals_eq_4:
 		IF m3_control_flag = 0
 			CLEAR_PRINTS
 			SET_PLAYER_CONTROL player1 OFF
@@ -1805,12 +1859,12 @@ WAIT 0
 	
 		GOSUB m3_cameras
 
-	ENDIF										 
+	RETURN										 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////GOAL 2 - Drowning Doc G's Manager//////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF m3_goals = 5
+	m3_goals_eq_5:
 		
 		/*
 		IF NOT IS_CAR_DEAD m3_dgcar1[1]
@@ -2036,14 +2090,14 @@ WAIT 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF 
+	RETURN 
 		
 	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////// Manager is dead, waiting to kill bodyguards //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF m3_goals = 6
+	m3_goals_eq_6:
 
 		GOSUB m3_controlling_enemy_cars
 
@@ -2126,14 +2180,14 @@ WAIT 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 	
 		
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////GOAL 3 - Waiting for doc g to drown////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	IF m3_goals = 7
+	m3_goals_eq_7:
 		IF timera > 3000	
 			SET_PLAYER_CONTROL player1 ON
 			MAKE_PLAYER_GANG_REAPPEAR
@@ -2142,36 +2196,21 @@ WAIT 0
 			RESTORE_CAMERA_JUMPCUT
 			GOTO mission_music3_passed
 		ENDIF
-	ENDIF 
-
-	
+	RETURN 
 
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////// MISC /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+m3_warning_text_eq_0:
 	//prompting player that he doesn't have long left
-	IF m3_warning_text = 0
-		IF m3_goals = 0
-		OR m3_goals = 1
 			IF m3_hours = 21
 				IF minutes > 30
 					PRINT ( STP3_28 ) 7000 1 //Hurry up, you have to meet the other drivers before 10pm!
 					m3_warning_text = 1
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+RETURN
 
 
-	//ingame dialogue
-	GOSUB m3_overall_dialogue
-
-
-GOTO mission_music3_loop
+//GOTO mission_music3_loop
 
 
 
@@ -2577,7 +2616,8 @@ RETURN//////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 m3_crowd_death_checks://///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-IF m3_shit_hit_fan = 0
+SWITCH m3_shit_hit_fan
+CASE 0
 	//checking crowd or cops 
 	IF crowd_flag_death_check < 20
 		IF IS_CHAR_DEAD crowd[crowd_flag_death_check] 
@@ -2606,15 +2646,15 @@ IF m3_shit_hit_fan = 0
 	ELSE
 		cop_death_check = 0
 	ENDIF
-ENDIF
+BREAK
 
-IF m3_shit_hit_fan = 1
+CASE 1
 	crowd_flag_death_check = 0
 	cop_death_check = 0
 	m3_shit_hit_fan = 2
-ENDIF	
+BREAK	
 	 
-IF m3_shit_hit_fan = 2 	
+CASE 2 	
 	IF crowd_flag_death_check < 20
 		IF NOT IS_CHAR_DEAD crowd[crowd_flag_death_check] 
 			GET_SCRIPT_TASK_STATUS crowd[crowd_flag_death_check] TASK_FLEE_CHAR task_status
@@ -2633,9 +2673,9 @@ IF m3_shit_hit_fan = 2
 	ELSE
 		m3_shit_hit_fan = 3
 	ENDIF
-ENDIF
+BREAK
 
-IF m3_shit_hit_fan = 3 
+CASE 3 
 	IF cop_death_check < 8
 		IF NOT IS_CHAR_DEAD m3_cop[cop_death_check]
 			GET_SCRIPT_TASK_STATUS m3_cop[cop_death_check] TASK_CHAR_ARREST_CHAR task_status
@@ -2648,7 +2688,8 @@ IF m3_shit_hit_fan = 3
 	ELSE
 		m3_shit_hit_fan = 4
 	ENDIF
-ENDIF
+BREAK
+ENDSWITCH
 ///////////////////////////////////////////////////////////////////////////////////////////
 RETURN/////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2656,7 +2697,8 @@ RETURN//////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 m3_removing_crowd_after_ceremony://////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-IF m3_removing_crowd = 0 
+SWITCH m3_removing_crowd
+CASE 0 
 	IF m3_removing_cop_flag < 8
 		IF NOT IS_CHAR_DEAD m3_cop[m3_removing_cop_flag]
 			IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_2D m3_cop[m3_removing_cop_flag] scplayer 80.0 80.0 FALSE
@@ -2669,9 +2711,9 @@ IF m3_removing_crowd = 0
 	ELSE
 		m3_removing_crowd = 1
 	ENDIF
-ENDIF
+BREAK
 
-IF m3_removing_crowd = 1 
+CASE 1 
 	IF m3_removing_crowd_flag < 8
 		IF NOT IS_CHAR_DEAD m3_cop[m3_removing_crowd_flag]
 			IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_2D m3_cop[m3_removing_crowd_flag] scplayer 80.0 80.0 FALSE
@@ -2684,9 +2726,9 @@ IF m3_removing_crowd = 1
 	ELSE
 		m3_removing_crowd = 2
 	ENDIF
-ENDIF
+BREAK
 
-IF m3_removing_crowd = 2 
+CASE 2 
 	IF NOT LOCATE_CHAR_ANY_MEANS_2D scplayer 1015.1 -1139.2 80.0 80.0 FALSE
 		MARK_OBJECT_AS_NO_LONGER_NEEDED right_barrier1 
 		MARK_OBJECT_AS_NO_LONGER_NEEDED right_barrier2 
@@ -2716,7 +2758,8 @@ IF m3_removing_crowd = 2
 		SWITCH_AUDIO_ZONE AWARDS FALSE
 		m3_removing_crowd = 3
 	ENDIF
-ENDIF
+BREAK
+ENDSWITCH
 ///////////////////////////////////////////////////////////////////////////////////////////
 RETURN/////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2899,7 +2942,8 @@ RETURN//////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 m3_damaging_other_cars:////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-IF m3_speech_flag = 0
+SWITCH m3_speech_flag
+CASE 0
 	IF NOT IS_CAR_HEALTH_GREATER m3_dgcar1[0] 950
 		PRINT_NOW ( STP3_30 ) 4000 1 // Don't damage the car!
 		m3_speech_flag = 1
@@ -2909,8 +2953,8 @@ IF m3_speech_flag = 0
 		PRINT_NOW ( STP3_30 ) 4000 1 // Don't damage the car!
 		m3_speech_flag = 1
 	ENDIF
-ENDIF
-IF m3_speech_flag = 1	
+BREAK
+CASE 1	
 	IF NOT IS_CAR_HEALTH_GREATER m3_dgcar1[0] 850
 		CLEAR_PRINTS
 		PRINT ( STP3_23 ) 4000 1 //You alerted the other drivers with your bad driving. 
@@ -2922,8 +2966,8 @@ IF m3_speech_flag = 1
 		PRINT ( STP3_23 ) 4000 1 //You alerted the other drivers with your bad driving.   
 		m3_speech_flag = 2
 	ENDIF
-ENDIF 	
-IF m3_speech_flag = 2
+BREAK 	
+CASE 2
 	IF NOT IS_CHAR_DEAD m3_dgcar1_driver[0]
 		TASK_KILL_CHAR_ON_FOOT m3_dgcar1_driver[0] scplayer
 	ENDIF  
@@ -2932,13 +2976,14 @@ IF m3_speech_flag = 2
 	ENDIF  
 	timera = 0 
 	m3_speech_flag = 3
-ENDIF 
+BREAK 
 
-IF m3_speech_flag = 3
+CASE 3
 	IF timera > 3000 
 		m3_deathcheck_flag = 1
 	ENDIF 
-ENDIF 
+BREAK 
+ENDSWITCH
 ///////////////////////////////////////////////////////////////////////////////////////////
 RETURN/////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -3286,14 +3331,14 @@ RETURN//////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 m3_dialogue_setup://///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
-IF m3_speech_goals = 1
+SWITCH m3_speech_goals
+CASE 1
 	$m3_print_label[0] = &LOC3_AA // Hey, what the fuck are you playing at?
-
 	m3_audio_label[0] = SOUND_LOC3_AA
 	m3_last_label = 1
-ENDIF
+BREAK
 
-IF m3_speech_goals = 2
+CASE 2
 	$m3_print_label[0] = &LOC3_BA // Hey, man.
 	$m3_print_label[1] = &LOC3_BB // Take me back to Dogg's mansion.
 	$m3_print_label[2] = &LOC3_BC // Not today, asshole.
@@ -3306,18 +3351,18 @@ IF m3_speech_goals = 2
 	m3_audio_label[3] = SOUND_LOC3_BD
 	m3_audio_label[4] = SOUND_LOC3_BE
 	m3_last_label = 5
-ENDIF
+BREAK
 
-IF m3_speech_goals = 3
+CASE 3
 	$m3_print_label[0] = &LOC3_CA // Security team, the Principle is being kidnapped!
 	$m3_print_label[1] = &LOC3_CB // Rescue him at all costs!
 
 	m3_audio_label[0] = SOUND_LOC3_CA
 	m3_audio_label[1] = SOUND_LOC3_CB
 	m3_last_label = 2
-ENDIF
+BREAK
 
-IF m3_speech_goals = 4
+CASE 4
 	$m3_print_label[0] = &LOC3_DA // Who the fuck are you?
 	$m3_print_label[1] = &LOC3_DB // Where's my usual driver?
 	$m3_print_label[2] = &LOC3_DC // Unlock this fucking door!
@@ -3330,9 +3375,9 @@ IF m3_speech_goals = 4
 	m3_audio_label[3] = SOUND_LOC3_DD
 	m3_audio_label[4] = SOUND_LOC3_EA
 	m3_last_label = 5
-ENDIF					
+BREAK					
 
-IF m3_speech_goals = 5
+CASE 5
 	$m3_print_label[0] = &LOC3_EB // What you want, fool, money?
 	$m3_print_label[1] = &LOC3_EC // I got bitches, loads o'fine -bitches take 'em.
 	$m3_print_label[2] = &LOC3_ED // They'll do anything you want!
@@ -3359,16 +3404,16 @@ IF m3_speech_goals = 5
 	//m3_audio_label[10] = SOUND_LOC3_EM
 	//m3_audio_label[11] = SOUND_LOC3_EN
 	m3_last_label = 10
-ENDIF
+BREAK
 
-IF m3_speech_goals = 6
+CASE 6
 	$m3_print_label[0] = &LOC3_EO // Holy FUUUUUUUUUUCK!
 
 	m3_audio_label[0] = SOUND_LOC3_EO
 	m3_last_label = 1
-ENDIF
+BREAK
 
-IF m3_speech_goals = 7
+CASE 7
 	$m3_print_label[0] = &MOBRING // Phone Ringing
 	$m3_print_label[1] = &MLOC04A // Yo, Loc? Whatttup now?
 	$m3_print_label[2] = &MLOC04B // One of Madd Dogg's chaufeurs just left the Burger Shot across town.
@@ -3381,9 +3426,9 @@ IF m3_speech_goals = 7
 	m3_audio_label[3] = SOUND_MLOC04C
 	m3_audio_label[4] = SOUND_MLOC04D
 	m3_last_label = m3_random_last_label
-ENDIF
+BREAK
 
-IF m3_speech_goals = 8
+CASE 8
 	$m3_print_label[0] = &LOC3_FA // Hey, what kept you?
 	$m3_print_label[1] = &LOC3_FB // Come on we need to go and pick up the boss!
 	$m3_print_label[2] = &LOC3_FC // Hold position in the middle of the motorcade until we get to the Awards Show.
@@ -3398,9 +3443,9 @@ IF m3_speech_goals = 8
 	m3_audio_label[3] = SOUND_LOC3_FE
 	m3_audio_label[4] = SOUND_LOC3_FF
 	m3_last_label = m3_random_last_label
-ENDIF
+BREAK
 
-IF m3_speech_goals = 9
+CASE 9
 	$m3_print_label[0] = &LOC3_GA // Hey, watch what you're doing!
 	$m3_print_label[1] = &LOC3_GB // Watch the damn car!
 	$m3_print_label[2] = &LOC3_GC // You unprofessional asshole!
@@ -3411,28 +3456,26 @@ IF m3_speech_goals = 9
 	m3_audio_label[2] = SOUND_LOC3_GC
 	m3_audio_label[3] = SOUND_LOC3_GD
 	m3_last_label = m3_random_last_label
-ENDIF
+BREAK
 
-IF m3_speech_goals = 10
+CASE 10
 	$m3_print_label[0] = &RYD1_BE // Shut up!
-
 	m3_audio_label[0] = SOUND_RYD1_BE
 	m3_last_label = 1
-ENDIF
+BREAK
 
-IF m3_speech_goals = 11
+CASE 11
 	$m3_print_label[0] = &LOC3_JA // Congratulations on your award, you must be thrilled! 
-
 	m3_audio_label[0] = SOUND_LOC3_JA
 	m3_last_label = 1
-ENDIF
+BREAK
 
-IF m3_speech_goals = 12
+CASE 12
 	$m3_print_label[0] = &LOC3_JB // Yeah, yeah, yeah, yeah, I'd like to thank my fans, my momma and my dealer.
-	
 	m3_audio_label[0] = SOUND_LOC3_JB
 	m3_last_label = 1
-ENDIF
+BREAK
+ENDSWITCH
 		  
 m3_slot_load = m3_speech_control_flag
 m3_slot1 = 0

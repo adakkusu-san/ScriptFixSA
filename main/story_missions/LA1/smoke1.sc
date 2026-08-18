@@ -337,12 +337,108 @@ WAIT 0
 		GOTO mission_twar7_failed
 	ENDIF
 
+SWITCH tw7_goals
+CASE 0
+	GOSUB tw7_goals_lt_2
+	GOSUB tw7_goals_eq_0
+BREAK
+CASE 1
+	GOSUB tw7_goals_lt_2
+	GOSUB tw7_goals_eq_1
+BREAK
+CASE 2
+	GOSUB tw7_goals_eq_2
+BREAK
+CASE 3
+	GOSUB tw7_goals_eq_3
+BREAK
+ENDSWITCH
+
+IF tw7_goals > 3
+AND tw7_goals < 15 
+	IF NOT IS_CHAR_DEAD tw7_ass_bandit
+		SWITCH tw7_goals
+		CASE 4
+			GOSUB tw7_goals_eq_4
+		BREAK
+		CASE 5
+			GOSUB tw7_goals_eq_5
+		BREAK
+		CASE 6
+			GOSUB tw7_goals_eq_6
+		BREAK
+		CASE 7
+			GOSUB tw7_goals_eq_7
+		BREAK
+		CASE 8
+			GOSUB tw7_goals_eq_8
+		BREAK
+		CASE 9
+			GOSUB tw7_goals_eq_9
+		BREAK
+		CASE 10
+			GOSUB tw7_goals_eq_10
+		BREAK
+		CASE 11
+			GOSUB tw7_goals_eq_11
+		BREAK
+		CASE 12
+			GOSUB tw7_goals_eq_12
+		BREAK
+		CASE 13
+			GOSUB tw7_goals_eq_13
+		BREAK
+		CASE 14
+			GOSUB tw7_goals_eq_14
+		BREAK
+		ENDSWITCH
+	ELSE
+		GOSUB tw7_ass_bandit_checkup
+	ENDIF
+ENDIF
+
+SWITCH tw7_goals
+CASE 15
+	GOSUB tw7_goals_eq_15
+BREAK
+CASE 16
+	GOSUB tw7_goals_eq_16
+BREAK
+CASE 17
+	GOSUB tw7_goals_eq_17
+BREAK
+CASE 20
+	GOSUB tw7_goals_eq_20
+BREAK
+ENDSWITCH
+
+IF tw7_goals > 3
+AND tw7_goals < 14
+	GOSUB tw7_goals_gt_3_lt_14
+ENDIF
+
+IF tw7_goals > 3 
+AND tw7_goals < 15  
+	GOSUB tw7_goals_gt_3_lt_15
+ENDIF
+
+IF tw7_goals > 2
+AND tw7_goals < 13
+	GOSUB tw7_car_recordings
+ENDIF
+
+GOSUB tw7_blippage_checkup
+
+	///ingame dialogue///
+	GOSUB tw7_overall_dialogue
+
+GOTO twar7mainloop
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// FIXING SPECIAL SKIP ///////////////////////////////////////////////////////////////////////////
 
 
-	IF tw7_goals = 0
-	OR tw7_goals = 1
+	tw7_goals_lt_2:
 		IF tw7_special_trip_skip = 1
 			IF IS_SKIP_WAITING_FOR_SCRIPT_TO_FADE_IN
 				SET_PLAYER_CONTROL player1 OFF
@@ -378,11 +474,11 @@ WAIT 0
 				tw7_goals = 1
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////entering Smokes car////////////////////////////////////////////////////////////////////////////
-	IF tw7_goals = 0
+	tw7_goals_eq_0:
 		IF IS_CHAR_IN_CAR scplayer tw7_smokes_car 
 			IF IS_CHAR_IN_CAR big_smoke tw7_smokes_car 
 				IF IS_CHAR_IN_CAR sweet tw7_smokes_car 
@@ -453,15 +549,16 @@ WAIT 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////going to pick up strap//////////////////////////////////////////////////////////////////////////
 	//waiting for player to reach strap and getting him in the car
-	IF tw7_goals = 1
-		IF tw7_control_flag = 0 
+	tw7_goals_eq_1:
+		SWITCH tw7_control_flag
+		CASE 0 
 
 			//initial bit of dialogue
 			IF tw7_speech_goals = 0 
@@ -500,9 +597,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 1 
+		CASE 1 
 			SET_PLAYER_CONTROL player1 OFF
 
 			CLEAR_PRINTS
@@ -652,10 +749,10 @@ WAIT 0
 			timerb = 0
 			tw7_speech_flag = 0
 			tw7_control_flag = 2
-		ENDIF
+		BREAK
 	
 		//waiting for player to reach ass bandit house
-		IF tw7_control_flag = 2 
+		CASE 2 
 			//initial bit of dialogue
 			IF tw7_speech_goals = 0 
 				IF tw7_speech_flag = 0
@@ -702,13 +799,15 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 						
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////// at Mexican's house ////////////////////////////////////////////////////////////////////////////
-	IF tw7_goals = 2
-		IF tw7_control_flag = 0
+	tw7_goals_eq_2:
+		SWITCH tw7_control_flag
+		CASE 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -739,24 +838,24 @@ WAIT 0
 			timera = 0 
 			tw7_control_flag = 1
 
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 1
+		CASE 1
 			IF tw7_speech_control_flag = 1
 				TASK_PLAY_ANIM scplayer CAR_Sc1_FL CAR_CHAT 6.0 FALSE FALSE FALSE TRUE -1
 				TASK_PLAY_ANIM sweet CAR_Sc1_BL CAR_CHAT 6.0 FALSE FALSE FALSE FALSE -1
 				tw7_control_flag = 2
 			ENDIF
-		ENDIF
-			
-		IF tw7_control_flag = 2
+		BREAK
+
+		CASE 2
 			IF tw7_speech_control_flag = 4
 				TASK_PLAY_ANIM big_smoke CAR_Sc1_FR CAR_CHAT 6.0 FALSE FALSE FALSE FALSE -1
 				tw7_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 3 
+		CASE 3 
 
 			IF tw7_speech_goals = 0 
 				IF IS_CAR_STOPPED tw7_smokes_car 
@@ -777,8 +876,8 @@ WAIT 0
 					tw7_control_flag = 4
 				ENDIF
 			ENDIF
-		ENDIF
-		IF tw7_control_flag = 4 
+		BREAK
+		CASE 4 
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status	
 			IF task_status = FINISHED_TASK	
 				
@@ -792,8 +891,8 @@ WAIT 0
 				timera = 0
 				tw7_control_flag = 5
 			ENDIF
-		ENDIF
-		IF tw7_control_flag = 5
+		BREAK
+		CASE 5
 			IF timera > 3000   //////DEBUG - THIS CAN BE CHANGED BACK TO 3000 IF YOU WANT TO SEE SMOKE PULLING AWAY // FIXEDGROVE: changed back to 3000
 										   
 				tw7_skip_cutscene_flag = 0
@@ -876,21 +975,23 @@ WAIT 0
 				tw7_control_flag = 0
 				tw7_goals = 3
 			ENDIF  
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// At the Mexican's house ////////////////////////////////////////////////////////////////////////
 	
-	IF tw7_goals = 3
-		IF tw7_control_flag = 0
+	tw7_goals_eq_3:
+		SWITCH tw7_control_flag
+		CASE 0
 			IF LOCATE_STOPPED_CHAR_ON_FOOT_3D scplayer 2468.8 -1278.2 29.1 1.2 1.2 3.0 TRUE
 				tw7_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF tw7_control_flag = 1 	
+		CASE 1 	
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -1011,9 +1112,9 @@ WAIT 0
 			ENDIF
 
 			tw7_control_flag = 2
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 2
+		CASE 2
 			IF IS_CHAR_PLAYING_ANIM scplayer CRIB_Use_Switch 
 				GET_CHAR_ANIM_CURRENT_TIME scplayer CRIB_Use_Switch tw7_anim_time
 				IF tw7_anim_time > 0.65 
@@ -1021,10 +1122,10 @@ WAIT 0
 					tw7_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF	 
+		BREAK	 
 
 
-		IF tw7_control_flag = 3 
+		CASE 3 
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status
 			IF task_status = FINISHED_TASK
 				OPEN_SEQUENCE_TASK tw7_seq
@@ -1044,9 +1145,9 @@ WAIT 0
 				GOSUB tw7_dialogue_setup 
 				tw7_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 4
+		CASE 4
 			IF tw7_speech_control_flag > 2
 				OPEN_SEQUENCE_TASK tw7_seq
 					TASK_TURN_CHAR_TO_FACE_CHAR -1 mc_strap
@@ -1056,9 +1157,9 @@ WAIT 0
 				CLEAR_SEQUENCE_TASK tw7_seq	
 				tw7_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 5
+		CASE 5
 			//loading up the window banging sound
 			IF tw7_speech_goals = 0
 				OPEN_SEQUENCE_TASK tw7_seq
@@ -1085,9 +1186,9 @@ WAIT 0
 				timera = 0 
 				tw7_control_flag = 6
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 6 
+		CASE 6 
 			IF IS_CHAR_PLAYING_ANIM mc_strap bng_wndw 
 				GET_CHAR_ANIM_CURRENT_TIME mc_strap bng_wndw tw7_anim_time
 				IF tw7_anim_time > 0.4 
@@ -1095,11 +1196,13 @@ WAIT 0
 					tw7_control_flag = 7
 				ENDIF
 			ENDIF
-		ENDIF	 
+		BREAK	 
+		ENDSWITCH
 
 		IF NOT IS_CHAR_DEAD tw7_ass_bandit 
 			IF NOT IS_CAR_DEAD tw7_ass_bandit_bike 
-				IF tw7_control_flag = 7 
+				SWITCH tw7_control_flag
+				CASE 7 
 					
 					/*
 					IF timera > 8700
@@ -1128,17 +1231,17 @@ WAIT 0
 						POINT_CAMERA_AT_POINT 2479.2 -1272.5 30.5 JUMP_CUT
 						tw7_control_flag = 8
 					ENDIF
-				ENDIF
+				BREAK
 
-				IF tw7_control_flag = 8
+				CASE 8
 					IF IS_CHAR_IN_CAR tw7_ass_bandit tw7_ass_bandit_bike	   
 						START_PLAYBACK_RECORDED_CAR tw7_ass_bandit_bike 30 //leaving the house and stopping just before the alleyways
 						timera = 0
 						tw7_control_flag = 9
 					ENDIF
-				ENDIF
-				
-				IF tw7_control_flag = 9
+				BREAK
+
+				CASE  9
 					IF timera > 2000
 						IF NOT IS_CAR_DEAD tw7_players_bike 
 							CLEAR_AREA 2468.4 -1282.4 28.8 1.0 TRUE
@@ -1173,9 +1276,9 @@ WAIT 0
 
 						ENDIF	
 					ENDIF
-				ENDIF
+				BREAK
 
-				IF tw7_control_flag = 10
+				CASE 10
 					IF tw7_speech_goals = 0 
 						IF NOT IS_CHAR_DEAD mc_strap
 							IF NOT IS_CAR_DEAD tw7_players_bike  
@@ -1301,20 +1404,18 @@ WAIT 0
 							ENDIF									 
 						ENDIF 
 					ENDIF
-				ENDIF
+				BREAK
+				ENDSWITCH
 			ENDIF	
 		ENDIF
-	ENDIF										 
+	RETURN										 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Triggering the Mexican car recordings /////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// 31 - through the alleyways ////////////////////////////////////////////////////////////////////
-	IF tw7_goals > 3
-		IF tw7_goals < 15 
-			IF NOT IS_CHAR_DEAD tw7_ass_bandit
-				IF tw7_goals = 4
+				tw7_goals_eq_4:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF tw7_speech_goals = 0 
@@ -1335,7 +1436,8 @@ WAIT 0
 
 				
 					////// car nodes jiggery pokery ///////
-					IF tw7_car_nodes = 0
+					SWITCH tw7_car_nodes
+					CASE 0
 						//road at end of first alleyway 
 						SWITCH_ROADS_OFF 2563.7 -1435.0 10.0 2580.3 -1266.4 100.6
 
@@ -1353,31 +1455,32 @@ WAIT 0
 						SET_CHAR_HEADING tw7_friend_of_lying_down_ped 260.0  
 						TASK_PLAY_ANIM tw7_friend_of_lying_down_ped weapon_crouch PED 4.0 FALSE FALSE FALSE TRUE -1	 
 						tw7_car_nodes = 1							 
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 1
+					CASE 1
 						//switching on road at end of first alleyway 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2582.6 -1351.8 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2563.7 -1435.0 10.0 2580.3 -1266.4 100.6
 							tw7_car_nodes = 2	
 						ENDIF
-					ENDIF
+					BREAK
 						
-					IF tw7_car_nodes = 2
+					CASE 2
 						//switching on road at end of second alleyway 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2653.0 -1329.8 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2635.0 -1434.4 10.0 2652.0 -1263.6 100.0
 							tw7_car_nodes = 3	
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 3
+					CASE 3
 						//switching on road at end of second alleyway 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2748.3 -1320.3 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2714.9 -1501.6 10.0 2746.1 -1266.4 100.0
 							tw7_car_nodes = 4	
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 					///// main bit ////////
 					IF tw7_control_flag = 0									 
@@ -1405,14 +1508,14 @@ WAIT 0
 					GOSUB tw7_sorting_speed
 					GOSUB tw7_mc_strap_group
 					
-				ENDIF
+				RETURN
 
 
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 32 - up the steep alleyway ////////////////////////////////////////////////////////////////////
 
-				IF tw7_goals = 5
+				tw7_goals_eq_5:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -1434,7 +1537,8 @@ WAIT 0
 
 
 					////// car nodes jiggery pokery ///////
-					IF tw7_car_nodes = 0
+					SWITCH tw7_car_nodes
+					CASE 0
 						//first left road 
 						SWITCH_ROADS_OFF 2713.9 -1499.3 10.0 2746.6 -1266.3 100.0
 
@@ -1450,18 +1554,18 @@ WAIT 0
 						//second straight on road
 						SWITCH_ROADS_OFF 2651.5 -1263.8 10.0 2579.5 -1248.7 100.0
 						tw7_car_nodes = 1							 
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 1
+					CASE 1
 						//switching on road at end of first road 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2712.7 -1265.7 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2713.9 -1499.3 10.0 2746.6 -1266.3 100.0
 							SWITCH_ROADS_ON 2714.6 -1249.9 10.0 2744.7 -1332.9 100.0
 							tw7_car_nodes = 2	
 						ENDIF
-					ENDIF
+					BREAK
 						
-					IF tw7_car_nodes = 2
+					CASE 2
 						//switching on road at end of second road 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2630.5 -1248.3 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2634.6 -1396.6 10.0 2651.0 -1264.2 100.0
@@ -1469,7 +1573,8 @@ WAIT 0
 							SWITCH_ROADS_ON 2651.5 -1263.8 10.0 2579.5 -1248.7 100.0
 							tw7_car_nodes = 3	
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 					///// main bit ////////
 					IF tw7_control_flag = 0	
@@ -1508,12 +1613,12 @@ WAIT 0
 					GOSUB tw7_sorting_speed
 					GOSUB tw7_mc_strap_group
 				
-				ENDIF
+				RETURN
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 33 - fast road section and stops just before the wee hill                                  ///
 
-				IF tw7_goals = 6
+				tw7_goals_eq_6:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						//IF IS_CHAR_RESPONDING_TO_EVENT mc_strap EVENT_ACQUAINTANCE_PED_HATE
@@ -1537,7 +1642,8 @@ WAIT 0
 					
 					
 					////// car nodes jiggery pokery ///////
-					IF tw7_car_nodes = 0
+					SWITCH tw7_car_nodes
+					CASE 0
 						//first left road 
 						SWITCH_ROADS_OFF 2563.7 -1248.6 10.0 2578.9 -1192.2 100.0
 
@@ -1555,39 +1661,40 @@ WAIT 0
 
 
 						tw7_car_nodes = 1							 
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 1
+					CASE 1
 						//switching on first left road 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2563.2 -1191.8 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2563.7 -1248.6 10.0 2578.9 -1192.2 100.6
 							tw7_car_nodes = 2	
 						ENDIF
-					ENDIF
+					BREAK
 						
-					IF tw7_car_nodes = 2
+					CASE 2
 						//switching on second left road 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2442.4 -1191.4 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2443.7 -1249.2 10.0 2459.1 -1191.9 100.0
 							tw7_car_nodes = 3	
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 3
+					CASE 3
 						//switching on third left road
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2360.1 -1164.8 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2363.5 -1253.4 10.0 2378.7 -1145.5 100.0
 							tw7_car_nodes = 4	
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 4
+					CASE 4
 						//switching on road next to railway 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2315.0 -1145.9 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2311.2 -1144.7 10.0 2379.1 -1162.1 100.0
 							tw7_car_nodes = 5	
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 					///// main bit ////////
 					IF tw7_control_flag = 0	
@@ -1616,12 +1723,12 @@ WAIT 0
 
 					GOSUB tw7_sorting_speed
 					GOSUB tw7_mc_strap_group
-				ENDIF
+				RETURN
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 34 - the wee hill just before the BIG road bit (bike start @ 2224.0 -1125.8 24.2, 347.0) /////
 
-				IF tw7_goals = 7
+				tw7_goals_eq_7:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -1683,13 +1790,13 @@ WAIT 0
 					GOSUB tw7_sorting_speed
 					GOSUB tw7_mc_strap_group
 				
-				ENDIF
+				RETURN
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 35 - THE big road bit (bike start @ 1942.5 -1016.2 31.8, 87.4) ///////////////////////////
 
-				IF tw7_goals = 8
+				tw7_goals_eq_8:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -1710,32 +1817,35 @@ WAIT 0
 					ENDIF
 				
 					////// car nodes jiggery pokery ///////
-					IF tw7_car_nodes = 0
+					SWITCH tw7_car_nodes
+					CASE 0
 						//whole of freeway
 						SWITCH_ROADS_OFF 1879.6 -1024.3 10.0 1600.0 -1521.7 100.0
 
 						tw7_car_nodes = 1							 
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 1
+					CASE 1
 						//switching on road straight ahead 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 1819.4 -1034.0 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 1930.6 -1031.9 10.0 1574.4 -879.9 100.0
 							tw7_car_nodes = 2	
 						ENDIF
-					ENDIF
+					BREAK
 						
-					IF tw7_car_nodes = 2
+					CASE 2
 						//switching on whole of freeway 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 1755.3 -1489.1 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 1879.6 -1024.3 10.0 1552.0 -1521.7 100.0
 							tw7_car_nodes = 3	
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 
 					///// main bit ////////
-					IF tw7_control_flag = 0
+					SWITCH tw7_control_flag
+					CASE 0
 						IF LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer tw7_ass_bandit 30.0 30.0 FALSE 
 						OR HAS_CHAR_BEEN_DAMAGED_BY_CHAR tw7_ass_bandit scplayer 
 						OR HAS_CAR_BEEN_DAMAGED_BY_CHAR tw7_ass_bandit_bike scplayer 
@@ -1839,9 +1949,9 @@ WAIT 0
 							START_PLAYBACK_RECORDED_CAR tw7_ass_bandit_bike 35
 							tw7_control_flag = 1
 						ENDIF
-					ENDIF
+					BREAK
 								  
-					IF tw7_control_flag = 1
+					CASE 1
 						IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR tw7_ass_bandit_bike
 							tw7_control_flag = 2
 						ENDIF
@@ -1856,9 +1966,9 @@ WAIT 0
 								tw7_control_flag = 2
 							ENDIF
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_control_flag = 2
+					CASE 2
 						IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR tw7_ass_bandit_bike
 							SWITCH_ROADS_ON 1930.6 -1031.9 10.0 1574.4 -879.9 100.0
 							SWITCH_ROADS_ON 1879.6 -1024.3 10.0 1552.0 -1521.7 100.0
@@ -1868,16 +1978,17 @@ WAIT 0
 							tw7_control_flag = 0
 							tw7_goals = 9
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 					GOSUB tw7_sorting_speed
 					GOSUB tw7_mc_strap_group
-				ENDIF
+				RETURN
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////// 36 - Through Little School bit with snogging peeps (bike start @ 1762.6 -1474.1 12.0, 0.0) ///
 
-				IF tw7_goals = 9
+				tw7_goals_eq_9:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -1968,13 +2079,13 @@ WAIT 0
 					GOSUB tw7_mc_strap_group
 				
 				
-				ENDIF
+				RETURN
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 37 - Through Skate Park (bike start @ 1828.8 -1342.5 13.0, 276.3) ////////////////////////
 
-				IF tw7_goals = 10
+				tw7_goals_eq_10:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -1996,7 +2107,8 @@ WAIT 0
 					ENDIF
 				
 					////// car nodes jiggery pokery ///////
-					IF tw7_car_nodes = 0
+					SWITCH tw7_car_nodes
+					CASE 0
 						//road straight ahead 
 						SWITCH_ROADS_OFF 1838.4 -1453.6 10.0 1853.7 -1303.4 100.0
 
@@ -2008,23 +2120,24 @@ WAIT 0
 
 
 						tw7_car_nodes = 1							 
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 1
+					CASE 1
 						//switching on road straight ahead 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 1855.7 -1379.0 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 1838.4 -1453.6 10.0 1853.7 -1303.4 100.0
 							tw7_car_nodes = 2	
 						ENDIF
-					ENDIF
+					BREAK
 						
-					IF tw7_car_nodes = 2
+					CASE 2
 						//switching on road that you jump over 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 1971.5 -1474.6 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 1979.3 -1468.7 10.0 1853.5 -1452.5 100.0
 							tw7_car_nodes = 3	
 						ENDIF
-					ENDIF
+					BREAK
+					ENDSWITCH
 
 					///// main bit ////////
 					IF tw7_control_flag = 0	
@@ -2055,13 +2168,13 @@ WAIT 0
 					GOSUB tw7_mc_strap_group
 				
 				
-				ENDIF			  
+				RETURN			  
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 38 - Through Taco Bell (bike start @ 2333.3 -1551.2 22.6, 344.6) /////////////////////////
 
-				IF tw7_goals = 11
+				tw7_goals_eq_11:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -2127,13 +2240,13 @@ WAIT 0
 					GOSUB tw7_mc_strap_group
 				
 				
-				ENDIF
+				RETURN
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// 39 - Past Chris Police Bit (bike start @ 2424.5 -1483.3 22.6, 354.8) /////////////////////
 
-				IF tw7_goals = 12
+				tw7_goals_eq_12:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -2197,13 +2310,13 @@ WAIT 0
 					GOSUB tw7_mc_strap_group
 				
 				
-				ENDIF
+				RETURN
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////// 40 - Last bit, stop at basketball courts (phew) (bike start @ 2408.7 -1260.7 22.5, 96.2) /////
 
-				IF tw7_goals = 13
+				tw7_goals_eq_13:
 					GOSUB tw7_sorting_speed
 					GOSUB tw7_mc_strap_group
 				
@@ -2229,7 +2342,8 @@ WAIT 0
 				
 				
 					////// car nodes jiggery pokery ///////
-					IF tw7_car_nodes = 0
+					SWITCH tw7_car_nodes
+					CASE 0
 						//road just before the jump through the persons backyard 
 						SWITCH_ROADS_OFF 2363.5 -1291.7 10.0 2379.5 -1181.2 100.0
 
@@ -2244,33 +2358,33 @@ WAIT 0
 						  
 
 						tw7_car_nodes = 1							 
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 1
+					CASE 1
 						//switching on road just before the jump through the persons backyard 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2362.8 -1259.3 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2363.5 -1291.7 10.0 2379.5 -1181.2 100.0
 							tw7_car_nodes = 2	
 						ENDIF
-					ENDIF
+					BREAK
 						
-					IF tw7_car_nodes = 2
+					CASE 2
 						//switching on road just after the jump through the persons backyard 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2294.5 -1263.5 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2295.9 -1291.5 10.0 2311.5 -1162.3 100.0
 							tw7_car_nodes = 3	
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 3
+					CASE 3
 						//switching on road just after the jump over the railway thing 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2284.2 -1393.8 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2333.9 -1392.1 10.0 2220.2 -1377.1 100.0
 							tw7_car_nodes = 4	
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_car_nodes = 4
+					CASE 4
 						//switching on last road 
 						IF LOCATE_CAR_2D tw7_ass_bandit_bike 2293.8 -1491.7 5.0 5.0 FALSE 
 							SWITCH_ROADS_ON 2334.6 -1493.6 10.0 2219.8 -1475.2 100.0
@@ -2279,7 +2393,8 @@ WAIT 0
 					ENDIF
 										   
 					///// main bit ////////
-					IF tw7_control_flag = 0	
+					SWITCH tw7_control_flag
+					CASE 0	
 						IF LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer tw7_ass_bandit 30.0 30.0 FALSE 
 						OR HAS_CHAR_BEEN_DAMAGED_BY_CHAR tw7_ass_bandit scplayer 
 						OR HAS_CAR_BEEN_DAMAGED_BY_CHAR tw7_ass_bandit_bike scplayer 
@@ -2312,9 +2427,9 @@ WAIT 0
 							START_PLAYBACK_RECORDED_CAR tw7_ass_bandit_bike 40 
 							tw7_control_flag = 1
 						ENDIF
-					ENDIF			   
+					BREAK			   
 				
-					IF tw7_control_flag = 1
+					CASE 1
 						IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR tw7_ass_bandit_bike
 							SWITCH_ROADS_ON 2363.5 -1291.7 10.0 2379.5 -1181.2 100.0
 							SWITCH_ROADS_ON 2295.9 -1291.5 10.0 2311.5 -1162.3 100.0
@@ -2333,9 +2448,9 @@ WAIT 0
 							ENDIF
 							tw7_control_flag = 2
 						ENDIF
-					ENDIF
+					BREAK
 
-					IF tw7_control_flag = 2 
+					CASE 2 
 						IF LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer tw7_ass_bandit 30.0 30.0 FALSE 
 						OR HAS_CHAR_BEEN_DAMAGED_BY_CHAR tw7_ass_bandit scplayer 
 						OR HAS_CAR_BEEN_DAMAGED_BY_CHAR tw7_ass_bandit_bike scplayer 
@@ -2358,13 +2473,14 @@ WAIT 0
 							tw7_control_flag = 0
 							tw7_goals = 14
 						ENDIF
-					ENDIF
-				ENDIF
+					BREAK
+					ENDSWITCH
+				RETURN
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////// guys at the basketball court /////////////////////////////////////////////////////////////
-				IF tw7_goals = 14
+				tw7_goals_eq_14:
 					/////////////////// SPEECH FOR THIS SECTION //////////////////////
 					IF tw7_speech_flag = 0	
 						IF HAS_CHAR_SPOTTED_CHAR mc_strap tw7_ass_bandit
@@ -2423,7 +2539,9 @@ WAIT 0
 						tw7_control_flag = 1
 					ENDIF	
 				ENDIF			   
-			ELSE
+			RETURN
+			
+			tw7_ass_bandit_checkup:
 				REMOVE_BLIP tw7_control_blip
 				IF NOT IS_CHAR_DEAD tw7_goon[0]
 					TASK_FLEE_CHAR tw7_goon[0] scplayer 20.0 -2
@@ -2445,15 +2563,13 @@ WAIT 0
 				ELSE
 					tw7_goals = 50 // FIXEDGROVE: new stage that skips the cutscene and plays its dialogue while freeroaming instead
 				ENDIF
-			ENDIF
-		ENDIF
-	ENDIF
-				
+			RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////ASS BANDIT DEAD CUTSCENE ///////////////////////////////////////////////////////////////////////
-	IF tw7_goals = 15
-		IF tw7_control_flag = 0
+	tw7_goals_eq_15:
+		SWITCH tw7_control_flag
+		CASE 0
 			IF timera > 2000
 	            GOSUB check_player_is_safe
 	            IF player_is_completely_safe = 1
@@ -2584,9 +2700,9 @@ WAIT 0
 					SKIP_CUTSCENE_START 
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 1 
+		CASE 1 
 			GET_SCRIPT_TASK_STATUS scplayer TASK_GO_STRAIGHT_TO_COORD task_status	
 			IF task_status = FINISHED_TASK
 				TASK_TURN_CHAR_TO_FACE_CHAR mc_strap scplayer  
@@ -2598,49 +2714,49 @@ WAIT 0
 				CLEAR_SEQUENCE_TASK tw7_seq
 				tw7_control_flag = 2
 			ENDIF
-		ENDIF 
+		BREAK 
 		
-		IF tw7_control_flag = 2 
+		CASE 2 
 			IF tw7_speech_control_flag > 2
 				CLEAR_CHAR_TASKS scplayer
 				TASK_PLAY_ANIM mc_strap IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE -1  
 				tw7_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 3
+		CASE 3
 			IF tw7_speech_control_flag > 3
 				CLEAR_CHAR_TASKS mc_strap
 				TASK_PLAY_ANIM scplayer IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE -1  
 				tw7_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 4 
+		CASE 4 
 			IF tw7_speech_control_flag > 4
 				CLEAR_CHAR_TASKS scplayer
 				TASK_PLAY_ANIM mc_strap IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE -1  
 				tw7_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 5
+		CASE 5
 			IF tw7_speech_control_flag > 5
 				CLEAR_CHAR_TASKS mc_strap
 				TASK_PLAY_ANIM scplayer IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE -1  
 				tw7_control_flag = 6
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 6 
+		CASE 6 
 			IF tw7_speech_control_flag > 6
 				CLEAR_CHAR_TASKS scplayer
 				TASK_PLAY_ANIM mc_strap IDLE_CHAT PED 4.0 TRUE FALSE FALSE FALSE -1
 				tw7_control_flag = 7
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 7
+		CASE 7
 			IF tw7_speech_goals = 0 
 				tw7_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -2730,13 +2846,14 @@ WAIT 0
 				tw7_goals = 16
 				timerb = 0	
 			ENDIF	
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Driving OG Loc back to the burger shot /////////////////////////////////////////////////////////
-	IF tw7_goals = 16
+	tw7_goals_eq_16:
 		IF tw7_speech_goals = 0 
 			IF tw7_speech_flag = 0
 				tw7_speech_goals = 9
@@ -2767,11 +2884,11 @@ WAIT 0
 		ENDIF
 		
 		GOSUB tw7_mc_strap_group 	
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// final cutscene at the burger shot /////////////////////////////////////////////////////////////
-	IF tw7_goals = 17
+	tw7_goals_eq_17:
 		IF tw7_control_flag = 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
@@ -2835,11 +2952,12 @@ WAIT 0
 				GOTO mission_twar7_passed
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 // FIXEDGROVE: START: ass bandit was killed before he reached his destination
-	IF tw7_goals = 50
-		IF tw7_control_flag = 0
+	tw7_goals_eq_50:
+		SWITCH tw7_control_flag
+		CASE 0
 			CLEAR_PRINTS
 
 			CLEAR_MISSION_AUDIO 1
@@ -2893,9 +3011,9 @@ WAIT 0
 
 			timera = 0
 			tw7_control_flag = 1
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 1
+		CASE 1
 			IF timera > 1500
 				ADD_BLIP_FOR_COORD 783.2 -1630.3 12.2 tw7_control_blip
 				SET_BLIP_AS_FRIENDLY tw7_control_blip TRUE	
@@ -2903,9 +3021,9 @@ WAIT 0
 				timera = 0
 				tw7_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 2
+		CASE 2
 			IF TIMERA > 5300
 				IF tw7_speech_goals = 0 
 					IF tw7_speech_flag = 0
@@ -2932,32 +3050,29 @@ WAIT 0
 				ENDIF
 			ENDIF
 		
-		ENDIF
+		BREAK
 
 		GOSUB tw7_mc_strap_group 	
 		
-	ENDIF
+	RETURN
 // FIXEDGROVE: END
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////setting up the drive-by shooting////////////////////////////////////////////////////////////////
-	IF tw7_goals > 3
-		IF tw7_goals < 14
+	tw7_goals_gt_3_lt_14:
 			IF NOT IS_CHAR_DEAD tw7_ass_bandit 	
 				GET_SCRIPT_TASK_STATUS tw7_ass_bandit TASK_DRIVE_BY task_status
 				IF task_status = FINISHED_TASK
 					TASK_DRIVE_BY tw7_ass_bandit scplayer -1 0.0 0.0 0.0 300.0 DRIVEBY_AI_ALL_DIRN FALSE 100
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF
+	RETURN
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////failing mission/////////////////////////////////////////////////////////////////////////////////
-	IF tw7_goals > 3 
-		IF tw7_goals < 15  
+	tw7_goals_gt_3_lt_15:
 			IF NOT IS_CHAR_DEAD tw7_ass_bandit
 				IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer tw7_ass_bandit 250.0 250.0 FALSE
 					IF NOT IS_CHAR_ON_SCREEN tw7_ass_bandit 
@@ -2966,11 +3081,11 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
-	ENDIF	  
+	RETURN
 
-	IF tw7_goals = 20
-		IF tw7_control_flag = 0
+	tw7_goals_eq_20:
+		SWITCH tw7_control_flag
+		CASE 0
 			IF NOT IS_CHAR_DEAD mc_strap
 				IF NOT IS_CAR_DEAD tw7_players_bike  
 					IF IS_CHAR_IN_CAR mc_strap tw7_players_bike  
@@ -3012,8 +3127,8 @@ WAIT 0
 			IF NOT IS_CHAR_IN_CAR mc_strap tw7_players_bike  
 				tw7_control_flag = 2
 			ENDIF	
-		ENDIF
-		IF tw7_control_flag = 1
+		BREAK
+		CASE 1
 			IF timera > 3000  
 				DO_FADE 500 FADE_OUT	
 				WHILE GET_FADING_STATUS
@@ -3038,44 +3153,47 @@ WAIT 0
 				ENDWHILE 
 				tw7_control_flag = 2
 			ENDIF	
-		ENDIF
+		BREAK
 
-		IF tw7_control_flag = 2
+		CASE 2
 			CLEAR_PRINTS
 			PRINT_NOW ( SMK1_12 ) 4000 1 //Freddy got away!
 			GOTO mission_twar7_failed	
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Streaming in the car_recordings/////////////////////////////////////////////////////////////////
-	IF tw7_goals = 3
+tw7_car_recordings:
+	SWITCH tw7_goals
+	CASE 3
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 30
 			REQUEST_CAR_RECORDING 30
 		ENDIF
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 31
 			REQUEST_CAR_RECORDING 31
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 4
+	BREAK 
+	CASE 4
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 32
 			REQUEST_CAR_RECORDING 32
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 5
+	BREAK 
+	CASE 5
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 33
 			REQUEST_CAR_RECORDING 33
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 6
+	BREAK 
+	CASE 6
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 34
 			REQUEST_CAR_RECORDING 34
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 7
+	BREAK 
+	CASE 7
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 35
 			REQUEST_CAR_RECORDING 35
 		ENDIF
@@ -3111,39 +3229,42 @@ WAIT 0
 		ENDIF
 		
 		REQUEST_MODEL MANANA
-	ENDIF 
-	IF tw7_goals = 8
+	BREAK 
+	CASE 8
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 36
 			REQUEST_CAR_RECORDING 36
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 9
+	BREAK 
+	CASE 9
 		MARK_MODEL_AS_NO_LONGER_NEEDED MANANA 
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 37
 			REQUEST_CAR_RECORDING 37
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 10
+	BREAK 
+	CASE 10
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 38
 			REQUEST_CAR_RECORDING 38
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 11
+	BREAK 
+	CASE 11
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 39
 			REQUEST_CAR_RECORDING 39
 		ENDIF
-	ENDIF 
-	IF tw7_goals = 12
+	BREAK 
+	CASE 12
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 40
 			REQUEST_CAR_RECORDING 40
 		ENDIF
 
 		REQUEST_MODEL LSV3
-	ENDIF 
+	BREAK 
+	ENDSWITCH
+RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////blips///////////////////////////////////////////////////////////////////////////////////////////
+tw7_blippage_checkup:
 	IF tw7_goals > 0 
 		IF tw7_goals < 3 
 			GOSUB tw7_blippage 
@@ -3154,12 +3275,10 @@ WAIT 0
 			GOSUB tw7_blippage_part2
 		ENDIF
 	ENDIF
+RETURN
 
 
-	///ingame dialogue///
-	GOSUB tw7_overall_dialogue
-
-GOTO twar7mainloop
+// GOTO twar7mainloop
 
 
 
@@ -3732,7 +3851,8 @@ IF tw7_goals = 1
 		ENDIF
 	ENDIF	
 
-	IF tw7_speech_goals = 11 //carl is out of car
+	SWITCH tw7_speech_goals
+	CASE 11 //carl is out of car
 		IF NOT IS_CHAR_IN_CAR scplayer tw7_smokes_car
 			IF tw7_speech_control_flag < tw7_last_label
 				GOSUB tw7_loading_dialogue
@@ -3777,18 +3897,18 @@ IF tw7_goals = 1
 			CLEAR_PRINTS 
 			//GOSUB tw7_dialogue_setup
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF tw7_speech_goals = 12 //carl has been out of car and has returned
+	CASE 12 //carl has been out of car and has returned
 		IF IS_CHAR_SITTING_IN_CAR scplayer tw7_smokes_car 
 			tw7_speech_goals = 13
 			tw7_speech_control_flag = 0
 			CLEAR_PRINTS 
 			//GOSUB tw7_dialogue_setup
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF tw7_speech_goals = 13 //where player has returned to the car
+	CASE 13 //where player has returned to the car
 		IF IS_CHAR_SITTING_IN_CAR scplayer tw7_smokes_car 	
 			timerb = 0 
 			tw7_speech_goals = tw7_storing_speech_goals_number
@@ -3811,7 +3931,8 @@ IF tw7_goals = 1
 			tw7_random_last_label = tw7_speech_control_flag + 1 
 			GOSUB tw7_dialogue_setup
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 
 ENDIF
 
@@ -3894,7 +4015,8 @@ IF tw7_goals > 3
 		ENDIF
 
 
-		IF tw7_speech_goals = 14 //mc_strap is out of the group
+		SWITCH tw7_speech_goals
+		CASE 14 //mc_strap is out of the group
 			IF NOT IS_GROUP_MEMBER mc_strap Players_Group
 				IF tw7_speech_control_flag < tw7_last_label
 					GOSUB tw7_loading_dialogue
@@ -3916,18 +4038,18 @@ IF tw7_goals > 3
 				PRINT_NOW ( SMK1_09 ) 7000 1 //You have left OG Loc behind.
 				tw7_speech_goals = 15
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_speech_goals = 15 //mc_strap has been out of the group and has returned
+		CASE 15 //mc_strap has been out of the group and has returned
 			IF IS_GROUP_MEMBER mc_strap Players_Group 
 				tw7_speech_goals = 16
 				tw7_speech_control_flag = 0
 				CLEAR_PRINTS
 				//GOSUB tw7_dialogue_setup
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF tw7_speech_goals = 16 //mc_strap is back in group
+		CASE 16 //mc_strap is back in group
 			IF IS_GROUP_MEMBER mc_strap Players_Group 	
 				timerb = 0
 				tw7_speech_goals = tw7_storing_speech_goals_number
@@ -3953,7 +4075,8 @@ IF tw7_goals > 3
 				tw7_random_last_label = tw7_speech_control_flag + 1 
 				GOSUB tw7_dialogue_setup
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	ENDIF
 ENDIF
 
@@ -4003,7 +4126,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 tw7_dialogue_setup://///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 // FIXEDGROVE: assigned speakers
-IF tw7_speech_goals = 1
+SWITCH tw7_speech_goals
+CASE 1
 	$tw7_print_label[0] = &SMO1_AA // Good to hang with you, brother. I'm sorry I can get a little tense.
 	$tw7_print_label[1] = &SMO1_AC // Don't worry about it.
 	$tw7_print_label[2] = &SMO1_AD // And it ain't Jeffery no more. It's OG Loc
@@ -4031,8 +4155,8 @@ IF tw7_speech_goals = 1
 	tw7_speaker[6] = big_smoke
 	tw7_speaker[7] = big_smoke
 	tw7_last_label = 8 
-ENDIF
-IF tw7_speech_goals = 2
+BREAK
+CASE 2
 	$tw7_print_label[0] = &SMO1_BA // What are your plans, homie, now you're a free man.
 	$tw7_print_label[1] = &SMO1_BB // I ain't free, my parole officer lined me up with a job!
 	$tw7_print_label[2] = &SMO1_BC // Motherfucker! Always keeping a guy down.
@@ -4057,8 +4181,8 @@ IF tw7_speech_goals = 2
 	tw7_speaker[5] = sweet
 	tw7_speaker[6] = mc_strap
 	tw7_last_label = 7
-ENDIF
-IF tw7_speech_goals = 3
+BREAK
+CASE 3
 	$tw7_print_label[0] = &SMO1_CA // This is the place
 	$tw7_print_label[1] = &SMO1_CB // Ain't this a Vagos' 'hood?
 	$tw7_print_label[2] = &SMO1_CC // Don't give a shit.
@@ -4083,15 +4207,14 @@ IF tw7_speech_goals = 3
 	tw7_speaker[5] = sweet
 	tw7_speaker[6] = sweet
 	tw7_last_label = 7
-ENDIF
+BREAK
 
-IF tw7_speech_goals = 4
+CASE 4
 	$tw7_print_label[0] = &SMO1_CH // Freddy! I've come for you, motherfucker!
 	$tw7_print_label[1] = &SMO1_DB // Hey, Loc, wait a second!
 	$tw7_print_label[2] = &SMO1_CJ // Jeffery, you got the wrong idea, man - that was just a prison thing!
 	$tw7_print_label[3] = &SMO1_CK // I got me plenty of muchachas on the outside, 
 	$tw7_print_label[4] = &SMO1_CL // don't need your scrawny ass!
-
 	$tw7_print_label[5] = &SMO1_CM // Ignore him, CJ, I don't know what he's talking about!
 	$tw7_print_label[6] = &SMO1_CN // GIMME BACK MY RHYMES!
 	$tw7_print_label[7] = &SMO1_CO // You dropped the soap, sugar, 
@@ -4123,8 +4246,8 @@ IF tw7_speech_goals = 4
 	tw7_speaker[8] = 0
 	tw7_speaker[9] = mc_strap
 	tw7_last_label = tw7_random_last_label
-ENDIF
-IF tw7_speech_goals = 5
+BREAK
+CASE 5
 	$tw7_print_label[0] = &SMO1_EA // Hey Loc, you gone crazy?!							   
 	$tw7_print_label[1] = &SMO1_EB // Back off, CJ, I gotta protect my rep!	
 	
@@ -4134,8 +4257,8 @@ IF tw7_speech_goals = 5
 	tw7_speaker[0] = scplayer
 	tw7_speaker[1] = mc_strap
 	tw7_last_label = 2
-ENDIF
-IF tw7_speech_goals = 6
+BREAK
+CASE 6
 	$tw7_print_label[0] = &SMO1_FA // Oooo! Chase me! Chase me!
 	$tw7_print_label[1] = &SMO1_FB // C'mon, honey, I'm losing my patience!
 	$tw7_print_label[2] = &SMO1_FC // I like a fast ass, not a slow ass!
@@ -4173,7 +4296,7 @@ IF tw7_speech_goals = 6
 	tw7_speaker[8] = tw7_ass_bandit
 	tw7_speaker[9] = tw7_ass_bandit
 	tw7_last_label = tw7_random_last_label
-ENDIF
+BREAK
 IF tw7_speech_goals = 7
 	$tw7_print_label[0] = &SMO1_GA // He's broken my heart!
 	$tw7_print_label[1] = &SMO1_GB // Get him, boys!
@@ -4184,20 +4307,15 @@ IF tw7_speech_goals = 7
 	tw7_speaker[0] = tw7_ass_bandit
 	tw7_speaker[1] = tw7_ass_bandit
 	tw7_last_label = 2
-ENDIF
-IF tw7_speech_goals = 8
+BREAK
+CASE 8
 	$tw7_print_label[0] = &SMO1_HA // Don't say a damn thing.
 	$tw7_print_label[1] = &SMO1_HB // Was you lonely, Loc?
 	$tw7_print_label[2] = &SMO1_HC // Hey, I like a nice moustache myself!
-
 	$tw7_print_label[3] = &SMO1_HD // I kept it real, unlike you fake ass motherfucker.
-	
 	$tw7_print_label[4] = &SMO1_HE // C'mon let's get back to the Grove.
-	
 	$tw7_print_label[5] = &SMO1_HF // Nah, I gotta go and sign in for this damn job.
-	
 	$tw7_print_label[6] = &SMO1_HG // Whatever, you want a ride anyway?
-	
 	$tw7_print_label[7] = &SMO1_HH // Sure thing. Let's roll.
 						  
 	tw7_audio_label[0] = SOUND_SMO1_HA
@@ -4218,8 +4336,8 @@ IF tw7_speech_goals = 8
 	tw7_speaker[6] = scplayer
 	tw7_speaker[7] = mc_strap
 	tw7_last_label = 8
-ENDIF
-IF tw7_speech_goals = 9
+BREAK
+CASE 9
 	$tw7_print_label[0] = &SMO1_JA // It's the Burger Shot, Verona Beach. 
 	$tw7_print_label[1] = &SMO1_JB // You're the boss
 	$tw7_print_label[2] = &SMO1_JC // Coz I'm keen With the hygiene,
@@ -4253,8 +4371,8 @@ IF tw7_speech_goals = 9
 	tw7_speaker[8] = mc_strap
 	tw7_speaker[9] = scplayer
 	tw7_last_label = 10
-ENDIF
-IF tw7_speech_goals = 10
+BREAK
+CASE 10
 	$tw7_print_label[0] = &SMO1_KA // Thanks for the ride, CJ.
 	$tw7_print_label[1] = &SMO1_KB // Don't be a stranger.
 	$tw7_print_label[2] = &SMO1_KC // Sure thing, I'll see you around
@@ -4273,9 +4391,9 @@ IF tw7_speech_goals = 10
 	tw7_speaker[3] = mc_strap
 	tw7_speaker[4] = mc_strap
 	tw7_last_label = 5
-ENDIF
+BREAK
 
-IF tw7_speech_goals = 11
+CASE 11
 	$tw7_print_label[0] = &SMOX_AA // Get in
 	$tw7_print_label[1] = &SMOX_AB // In the ride!
 	$tw7_print_label[2] = &SMOX_AC // Get in the car!
@@ -4297,9 +4415,9 @@ IF tw7_speech_goals = 11
 	tw7_speaker[4] = big_smoke
 	tw7_speaker[5] = big_smoke
  	tw7_last_label = tw7_random_last_label 
-ENDIF
+BREAK
 
-IF tw7_speech_goals = 14
+CASE 14
 	$tw7_print_label[0] = &LOCX_AA // Hold up, CJ!
 	$tw7_print_label[1] = &LOCX_AB // Hey, wait up, dog!
 	$tw7_print_label[2] = &LOCX_AC // Hold it, CJ!
@@ -4312,9 +4430,9 @@ IF tw7_speech_goals = 14
 	tw7_speaker[1] = mc_strap
 	tw7_speaker[2] = mc_strap
  	tw7_last_label = tw7_random_last_label 
-ENDIF
+BREAK
 
-IF tw7_speech_goals = 17   
+CASE 17   
 	$tw7_print_label[0] = SMO1_GC // I'm gonna kill that cheeky motherfucker!
 	$tw7_print_label[1] = SMO1_GD // Your ass is mine!
 	$tw7_print_label[2] = SMO1_GE // No, I didn't mean it like that!
@@ -4330,7 +4448,8 @@ IF tw7_speech_goals = 17
 	tw7_speaker[2] = mc_strap
 	tw7_speaker[3] = mc_strap
 	tw7_last_label = 4 
-ENDIF
+BREAK
+ENDSWITCH
 
 tw7_slot_load = tw7_speech_control_flag
 tw7_slot1 = 0

@@ -76,50 +76,10 @@ t2_control_flag = 0
 t2_skip_cutscene_flag = 0 
 t2_deathcheck_flag = 0 
 
-t2_weed_burnt[0] = 0 
-t2_weed_burnt[1] = 0 
-t2_weed_burnt[2] = 0 
-t2_weed_burnt[3] = 0 
-t2_weed_burnt[4] = 0 
-t2_weed_burnt[5] = 0 
-t2_weed_burnt[6] = 0 
-t2_weed_burnt[7] = 0 
-t2_weed_burnt[8] = 0 
-t2_weed_burnt[9] = 0 
-t2_weed_burnt[10] = 0 
-t2_weed_burnt[11] = 0 
-t2_weed_burnt[12] = 0 
-t2_weed_burnt[13] = 0 
-t2_weed_burnt[14] = 0 
-t2_weed_burnt[15] = 0 
-t2_weed_burnt[16] = 0 
-t2_weed_burnt[17] = 0 
-t2_weed_burnt[18] = 0 
-t2_weed_burnt[19] = 0 
-t2_weed_burnt[20] = 0 
-t2_weed_burnt[21] = 0 
-t2_weed_burnt[22] = 0 
-t2_weed_burnt[23] = 0 
-t2_weed_burnt[24] = 0 
-t2_weed_burnt[25] = 0 
-t2_weed_burnt[26] = 0 
-t2_weed_burnt[27] = 0 
-t2_weed_burnt[28] = 0 
-t2_weed_burnt[29] = 0 
-t2_weed_burnt[30] = 0 
-t2_weed_burnt[31] = 0 
-t2_weed_burnt[32] = 0 
-t2_weed_burnt[33] = 0 
-t2_weed_burnt[34] = 0 
-t2_weed_burnt[35] = 0 
-t2_weed_burnt[36] = 0 
-t2_weed_burnt[37] = 0 
-t2_weed_burnt[38] = 0 
-t2_weed_burnt[39] = 0 
-t2_weed_burnt[40] = 0 
-t2_weed_burnt[41] = 0 
-t2_weed_burnt[42] = 0 
-t2_weed_burnt[43] = 0 
+WHILE t2_seq < 44
+t2_weed_blips[t2_seq] = 0
+t2_seq++
+ENDWHILE
 t2_total_weed_burnt = 44
 
 t2_one_cop_alive_in_area = 0
@@ -475,11 +435,11 @@ WAIT 0
 	
 	//clear the wanted level on our way to san fierro, slow ride....
 	CLEAR_WANTED_LEVEL player1
-
+/*
 	IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
         GOTO mission_truth2_passed  
 	ENDIF
-
+*/
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// DEATHCHECKS ///////////////////////////////////////////////////////////////////////////////////
@@ -488,10 +448,39 @@ WAIT 0
 		GOTO mission_truth2_failed
 	ENDIF
 
+SWITCH t2_goals
+CASE 0
+	GOSUB t2_goals_eq_0
+BREAK
+CASE 1
+	GOSUB t2_goals_eq_1
+BREAK
+CASE 2
+	GOSUB t2_goals_eq_2
+BREAK
+CASE 3
+	GOSUB t2_goals_eq_3
+BREAK
+CASE 4
+	GOSUB t2_goals_eq_4
+BREAK
+CASE 5
+	GOSUB t2_goals_eq_5
+BREAK
+ENDSWITCH
+IF t2_goals < 2
+	GOSUB t2_goals_lt_2
+ENDIF
+
+	///ingame dialogue///
+	GOSUB t2_overall_dialogue
+
+GOTO mission_truth2_loop
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// WAITING FOR PLAYER TO BURN WEED ////////////////////////////////////////
-	IF t2_goals = 0  
+	t2_goals_eq_0:  
 		//////////////////DEBUG////////////////////
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 			t2_speech_goals = 0
@@ -503,7 +492,8 @@ WAIT 0
 			t2_total_weed_burnt = 0
 		ENDIF	
 		
-		IF t2_control_flag = 0	
+		SWITCH t2_control_flag 
+		CASE 0	
 			IF t2_total_weed_burnt < 20
 				CLEAR_PRINTS 
 				t2_speech_goals = 1
@@ -512,14 +502,15 @@ WAIT 0
 				t2_control_flag = 1				
 				timera = 0 
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF t2_control_flag = 1
+		CASE 1
 			IF t2_speech_goals = 0  
 				TASK_ENTER_CAR_AS_DRIVER truth t2_mothership -1
 				t2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 		////////checking if player has used up all his flamethrower////////////////
 		GOSUB t2_flamethrower
@@ -893,13 +884,14 @@ WAIT 0
 			t2_control_flag = 0
 			t2_goals = 1
 		ENDIF	
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// Blowing up the cop helicopter //////////////////////////////////////////
-	IF t2_goals = 1 
+	t2_goals_eq_1:
 		//waiting for the player to get the rocket launcher from the mothership in cutscene
-		IF t2_control_flag = 0
+		SWITCH t2_control_flag
+		CASE 0
 			IF NOT IS_CAR_DEAD t2_chopper 
 				IF LOCATE_STOPPED_CHAR_ON_FOOT_3D scplayer -1075.5 -1648.0 75.1 1.2 1.2 2.0 TRUE     
 					CLEAR_PRINTS
@@ -945,17 +937,17 @@ WAIT 0
 				TASK_CAR_DRIVE_TO_COORD truth t2_mothership -939.5 -1718.8 76.7 10.0 MODE_NORMAL 0 DRIVINGMODE_AVOIDCARS //at gate
 				t2_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF t2_control_flag = 1
+		CASE 1
 			IF t2_speech_goals =  0  
 				CLEAR_CHAR_TASKS scplayer
 				TASK_GO_STRAIGHT_TO_COORD scplayer -1081.4 -1650.3 75.4 PEDMOVE_WALK -1
 				t2_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF t2_control_flag = 2
+		CASE 2
 			GET_SCRIPT_TASK_STATUS scplayer TASK_GO_STRAIGHT_TO_COORD task_status		
 			IF task_status = FINISHED_TASK
 				GIVE_WEAPON_TO_CHAR scplayer WEAPONTYPE_ROCKETLAUNCHER 10  
@@ -964,16 +956,16 @@ WAIT 0
 				GOSUB t2_dialogue_setup
 				t2_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF t2_control_flag = 3
+		CASE 3
 			IF t2_speech_control_flag = 1  
 				TASK_GO_STRAIGHT_TO_COORD scplayer -1075.5 -1648.0 75.1 PEDMOVE_WALK -1
 				t2_control_flag = 4
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF t2_control_flag = 4
+		CASE 4
 			IF t2_speech_goals =  0  
 				t2_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -1037,10 +1029,10 @@ WAIT 0
 				timerb = 0
 				t2_control_flag = 5
 			ENDIF
-		ENDIF
+		BREAK
 
 		//Waiting for player to destroy chopper
-		IF t2_control_flag = 5
+		CASE 5
 			//////////////////DEBUG////////////////////
 			IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 				IF NOT IS_CAR_DEAD t2_chopper
@@ -1092,12 +1084,13 @@ WAIT 0
 			ELSE
 				GOSUB t2_rocket_ammo 
 			ENDIF	 	 
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// WAITING FOR PLAYER TO GET INSIDE COPCAR /////////////////////////////////////
-	IF t2_goals = 2 
+	t2_goals_eq_2: 
 		////WAITING for player to get into mothership
 		IF t2_control_flag = 0 
 			IF IS_CHAR_IN_CAR scplayer t2_mothership
@@ -1124,13 +1117,13 @@ WAIT 0
 			t2_control_flag = 0
 			t2_goals = 4
 		ENDIF
-	ENDIF
+	RETURN
 		
 			
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// PLAYER DRIVING MOTHERSHIP //////////////////////////////////////////////
 
-	IF t2_goals = 3 
+	t2_goals_eq_3: 
 		//cancelling phone call
 		IF t2_speech_goals = 3
 			IF t2_speech_control_flag = 6
@@ -1161,33 +1154,35 @@ WAIT 0
 			IF t2_speech_goals = 0
 				IF timerb > 7000
 					GENERATE_RANDOM_INT_IN_RANGE 4 8 t2_speech_goals
-					IF t2_speech_goals = 4
+					SWITCH t2_speech_goals
+					CASE 4
 						IF t2_played_random_speech[0] = 1
 							t2_speech_goals = 0
 						ENDIF
 						t2_played_random_speech[0] = 1	
-					ENDIF	 	
+					BREAK	 	
 					
-					IF t2_speech_goals = 5
+					CASE 5
 						IF t2_played_random_speech[1] = 1
 							t2_speech_goals = 0
 						ENDIF
 						t2_played_random_speech[1] = 1
-					ENDIF	 	
+					BREAK	 	
 				
-					IF t2_speech_goals = 6
+					CASE 6
 						IF t2_played_random_speech[2] = 1
 							t2_speech_goals = 0
 						ENDIF
 						t2_played_random_speech[2] = 1
-					ENDIF	 	
+					BREAK	 	
 				
-					IF t2_speech_goals = 7
+					CASE 7
 						IF t2_played_random_speech[3] = 1
 							t2_speech_goals = 0
 						ENDIF
 						t2_played_random_speech[3] = 1
-					ENDIF	 	
+					BREAK
+					ENDSWITCH	 	
 				
 					IF t2_played_random_speech[4] = 0
 						GET_CITY_PLAYER_IS_IN player1 t2_city   
@@ -1245,15 +1240,16 @@ WAIT 0
 		ENDIF
 
 		GOSUB t2_blippage
-	ENDIF
+	RETURN
 
 													
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// Cutscene showing truth getting arrested ////////////////////////////////
-	IF t2_goals = 4 
+	t2_goals_eq_4: 
 		GOSUB check_player_is_safe
-		IF player_is_completely_safe = 1
-			IF t2_control_flag = 0	
+		SWITCH t2_control_flag
+		CASE 0	
+			IF player_is_completely_safe = 1
 				CLEAR_PRINTS
 				DO_FADE 500 FADE_OUT	
 				WHILE GET_FADING_STATUS
@@ -1311,9 +1307,9 @@ WAIT 0
 				timera = 0
 				t2_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF t2_control_flag = 1
+		CASE 1
 			IF timera > 7000
 				DO_FADE 500 FADE_OUT		
 				WHILE GET_FADING_STATUS
@@ -1345,22 +1341,24 @@ WAIT 0
 
 				GOTO mission_truth2_failed
 			ENDIF 
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// Completion cutscene ////////////////////////////////////////////////////
 
 
-	IF t2_goals = 5 
-		IF t2_control_flag = 0
+	t2_goals_eq_5:
+		SWITCH t2_control_flag
+		CASE 0
 			IF timera > 1500
 				t2_control_flag = 1	
 			ENDIF
-		ENDIF 
+		BREAK 
 		
-		IF t2_control_flag = 1						
+		CASE 1						
 			DO_FADE 500 FADE_OUT		
 			WHILE GET_FADING_STATUS
 			   WAIT 0
@@ -1426,16 +1424,16 @@ WAIT 0
 			t2_speech_control_flag = 0
 			GOSUB t2_dialogue_setup
 			t2_control_flag = 2
-		ENDIF
+		BREAK
 
-	 	IF t2_control_flag = 2 
+	 	CASE 2 
 	 		IF t2_speech_goals = 0 
 				t2_control_flag = 3
 				timera = 0 
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF t2_control_flag = 3
+		CASE 3
 			IF timera > 1000 
 				DO_FADE 500 FADE_OUT		
 				WHILE GET_FADING_STATUS
@@ -1468,14 +1466,15 @@ WAIT 0
 					
 				GOTO mission_truth2_passed
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// MISC ///////////////////////////////////////////////////////////////////
 	//checking time has run out 
-	IF t2_goals < 2
+	t2_goals_lt_2:
 		IF t2_cop_timer = 0
 			t2_goals = 4 
 			t2_control_flag = 0
@@ -1483,13 +1482,11 @@ WAIT 0
 			//GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS truth 0.0 -12.0 0.0 t2_x t2_y t2_z
 			//CREATE_CHAR PEDTYPE_MISSION1 CSHER t2_x t2_y t2_z t2_cop
 		ENDIF
-	ENDIF
-
-	///ingame dialogue///
-	GOSUB t2_overall_dialogue
+	RETURN
 
 
-GOTO mission_truth2_loop
+
+//GOTO mission_truth2_loop
 
 
 	
@@ -1580,50 +1577,11 @@ IF NOT IS_CHAR_DEAD scplayer
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
 ENDIF
 SHUT_ALL_CHARS_UP FALSE
-REMOVE_BLIP t2_weed_blips[0]
-REMOVE_BLIP t2_weed_blips[1]
-REMOVE_BLIP t2_weed_blips[2]
-REMOVE_BLIP t2_weed_blips[3]
-REMOVE_BLIP t2_weed_blips[4]
-REMOVE_BLIP t2_weed_blips[5]
-REMOVE_BLIP t2_weed_blips[6]
-REMOVE_BLIP t2_weed_blips[7]
-REMOVE_BLIP t2_weed_blips[8]
-REMOVE_BLIP t2_weed_blips[9]
-REMOVE_BLIP t2_weed_blips[10]
-REMOVE_BLIP t2_weed_blips[11]
-REMOVE_BLIP t2_weed_blips[12]
-REMOVE_BLIP t2_weed_blips[13]
-REMOVE_BLIP t2_weed_blips[14]
-REMOVE_BLIP t2_weed_blips[15]
-REMOVE_BLIP t2_weed_blips[16]
-REMOVE_BLIP t2_weed_blips[17]
-REMOVE_BLIP t2_weed_blips[18]
-REMOVE_BLIP t2_weed_blips[19]
-REMOVE_BLIP t2_weed_blips[20]
-REMOVE_BLIP t2_weed_blips[21]
-REMOVE_BLIP t2_weed_blips[22]
-REMOVE_BLIP t2_weed_blips[23]
-REMOVE_BLIP t2_weed_blips[24]
-REMOVE_BLIP t2_weed_blips[25]
-REMOVE_BLIP t2_weed_blips[26]
-REMOVE_BLIP t2_weed_blips[27]
-REMOVE_BLIP t2_weed_blips[28]
-REMOVE_BLIP t2_weed_blips[29]
-REMOVE_BLIP t2_weed_blips[30]
-REMOVE_BLIP t2_weed_blips[31]
-REMOVE_BLIP t2_weed_blips[32]
-REMOVE_BLIP t2_weed_blips[33]
-REMOVE_BLIP t2_weed_blips[34]
-REMOVE_BLIP t2_weed_blips[35]
-REMOVE_BLIP t2_weed_blips[36]
-REMOVE_BLIP t2_weed_blips[37]
-REMOVE_BLIP t2_weed_blips[38]
-REMOVE_BLIP t2_weed_blips[39]
-REMOVE_BLIP t2_weed_blips[40]
-REMOVE_BLIP t2_weed_blips[41]
-REMOVE_BLIP t2_weed_blips[42]
-REMOVE_BLIP t2_weed_blips[43]
+t2_seq = 0
+WHILE t2_seq < 44
+REMOVE_BLIP t2_weed_blips[t2_seq]
+t2_seq++
+ENDWHILE
 GET_GAME_TIMER timer_mobile_start
 flag_player_on_mission = 0
 MISSION_HAS_FINISHED
@@ -1667,28 +1625,10 @@ t2_flamethrower:////////////////////////////////////////////////////////////
 IF t2_flamethrower_control_flag = 0
 	GET_AMMO_IN_CHAR_WEAPON scplayer WEAPONTYPE_FLAMETHROWER t2_flame_ammo
 	IF t2_flame_ammo = 0 
-		REMOVE_BLIP t2_weed_blips[0]
-		REMOVE_BLIP t2_weed_blips[1]
-		REMOVE_BLIP t2_weed_blips[2]
-		REMOVE_BLIP t2_weed_blips[3]
-		REMOVE_BLIP t2_weed_blips[4]
-		REMOVE_BLIP t2_weed_blips[5]
-		REMOVE_BLIP t2_weed_blips[6]
-		REMOVE_BLIP t2_weed_blips[7]
-		REMOVE_BLIP t2_weed_blips[8]
-		REMOVE_BLIP t2_weed_blips[9]
-		REMOVE_BLIP t2_weed_blips[10]
-		REMOVE_BLIP t2_weed_blips[11]
-		REMOVE_BLIP t2_weed_blips[12]
-		REMOVE_BLIP t2_weed_blips[13]
-		REMOVE_BLIP t2_weed_blips[14]
-		REMOVE_BLIP t2_weed_blips[15]
-		REMOVE_BLIP t2_weed_blips[16]
-		REMOVE_BLIP t2_weed_blips[17]
-		REMOVE_BLIP t2_weed_blips[18]
-		REMOVE_BLIP t2_weed_blips[19]
-		REMOVE_BLIP t2_weed_blips[20]
-		REMOVE_BLIP t2_weed_blips[21]
+		WHILE t2_seq < 22
+		REMOVE_BLIP t2_weed_blips[t2_seq]
+		t2_seq++
+		ENDWHILE
 		REMOVE_BLIP t2_truths_farm_blip
 		CREATE_PICKUP_WITH_AMMO flame PICKUP_ONCE 3000 -1100.3 -1640.4 76.4 t2_flame_pickup
 		ADD_BLIP_FOR_PICKUP t2_flame_pickup t2_truths_farm_blip 
@@ -1939,7 +1879,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 t2_dialogue_setup://////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF t2_speech_goals = 1
+SWITCH t2_speech_goals
+CASE 1
 	$t2_print_label[0] = &TRU2_AA // Assholes! Republican assholes!		
 	$t2_print_label[1] = &TRU2_AB // I don't feel too good..
 	$t2_print_label[2] = &TRU2_AC // It's a crying shame, ain't it.
@@ -1958,18 +1899,18 @@ IF t2_speech_goals = 1
 	t2_audio_label[6] = SOUND_TRU2_BB 
 	t2_audio_label[7] = SOUND_TRU2_BC 
 	t2_last_label = 8
-ENDIF
+BREAK
 
-IF t2_speech_goals = 2
+CASE 2
 	$t2_print_label[0] =  &TRU2_CA // Hey, I'm kinda busy, lemme get back at you. 
 	$t2_print_label[1] =  &TRU2_CB // Carl, it's me! Get those cops off my damned tail!
 	
 	t2_audio_label[0] = SOUND_TRU2_CA 
 	t2_audio_label[1] = SOUND_TRU2_CB 
 	t2_last_label = 2 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 3
+CASE 3
 	$t2_print_label[0] = &TRU2_DA // What you pulled over for?   	
 	$t2_print_label[1] = &TRU2_DB // You better drive. I haven't driven in 15 years. 
 	$t2_print_label[2] = &TRU2_DC // You were doing alright!   
@@ -1994,9 +1935,9 @@ IF t2_speech_goals = 3
 	t2_audio_label[9] = SOUND_TRU2_OE 
 	t2_audio_label[10] = SOUND_TRU2_OF 
 	t2_last_label = 11 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 4
+CASE 4
 	$t2_print_label[0] = &TRU2_EA // Jesus, we're screwed, when did you get this?
 	$t2_print_label[1] = &TRU2_EB // 1967 
 	$t2_print_label[2] = &TRU2_EC // How do you get around if you don't drive?
@@ -2011,9 +1952,9 @@ IF t2_speech_goals = 4
 	t2_audio_label[4] = SOUND_TRU2_EF 												  
 	t2_audio_label[5] = SOUND_TRU2_EG 
 	t2_last_label = 6 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 5
+CASE 5
 	$t2_print_label[0] = &TRU2_FA // Hey, you want a hit on this? A little Temple Charis  
 	$t2_print_label[1] = &TRU2_FB // in a cocktail with some Nepalese munga munga.
 	$t2_print_label[2] = &TRU2_FC // Put that thing out, I can't see. 
@@ -2036,9 +1977,9 @@ IF t2_speech_goals = 5
 	t2_audio_label[8] = SOUND_TRU2_FJ 
 	t2_audio_label[9] = SOUND_TRU2_FK 
 	t2_last_label = 10 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 6
+CASE 6
 	$t2_print_label[0] = &TRU2_GA // Hey, does this thing go any faster?
 	$t2_print_label[1] = &TRU2_GB // Man, we got 3 tonnes of grass on board,
 	$t2_print_label[2] = &TRU2_GC // the engine block is held together with a macrame hammock and it's running on 15-year-old cooking oil. 
@@ -2057,9 +1998,9 @@ IF t2_speech_goals = 6
 	t2_audio_label[6] = SOUND_TRU2_GH 
 	t2_audio_label[7] = SOUND_TRU2_GJ 
 	t2_last_label = 8 
-ENDIF
+BREAK
 				
-IF t2_speech_goals = 7
+CASE 7
 	$t2_print_label[0] = &TRU2_HA // What's with all the aluminium foil, man?
 	$t2_print_label[1] = &TRU2_HB // Protection from mind control, dude.
 	$t2_print_label[2] = &TRU2_HC // Mind control?
@@ -2090,18 +2031,18 @@ IF t2_speech_goals = 7
 	t2_audio_label[12] = SOUND_TRU2_HN 
 	t2_audio_label[13] = SOUND_TRU2_HO 
 	t2_last_label = 14 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 8
+CASE 8
 	$t2_print_label[0] = &TRU2_JA // We got a chopper on our tail, we'll never shake 'em now.
 	$t2_print_label[1] = &TRU2_JB // Hold on, I got a little something back here I was saving for a rainy day..
 
 	t2_audio_label[0] = SOUND_TRU2_JA 
 	t2_audio_label[1] = SOUND_TRU2_JB 
 	t2_last_label = 2 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 9
+CASE 9
 	$t2_print_label[0] = &TRU2_KA // Holy motherfucker!
 	$t2_print_label[1] = &TRU2_KB // Where'd you get this?
 	$t2_print_label[2] = &TRU2_KC // Found it in a bail of Thai Sticks.
@@ -2112,9 +2053,9 @@ IF t2_speech_goals = 9
 	t2_audio_label[2] = SOUND_TRU2_KC 
 	t2_audio_label[3] = SOUND_TRU2_KD 
 	t2_last_label = 4 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 10
+CASE 10
 	$t2_print_label[0] = &TRU2_LA // There she is, brother; San Fierro: the City of Psychadelic Wonders!
 	$t2_print_label[1] = &TRU2_LB // I'm amazed I've never been before.
 	$t2_print_label[2] = &TRU2_LC // There ain't a better place to escape the man, man.
@@ -2129,18 +2070,18 @@ IF t2_speech_goals = 10
 	t2_audio_label[4] = SOUND_TRU2_MB 
 	t2_audio_label[5] = SOUND_TRU2_MC 
 	t2_last_label = 6 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 11
+CASE 11
 	$t2_print_label[0] = &TRU2_NA // This is the place. 	
 	$t2_print_label[1] = &TRU2_NB // Jesus, dude, you've been fed a bummer! 
 
 	t2_audio_label[0] = SOUND_TRU2_NA 
 	t2_audio_label[1] = SOUND_TRU2_NB 
 	t2_last_label = 2 
-ENDIF
+BREAK
 
-IF t2_speech_goals = 12
+CASE 12
 	$t2_print_label[0] = &TRUX_AA // Get in the car, quick!
 	$t2_print_label[1] = &TRUX_AB // Get in the car, it's a Faraday cage!
 	$t2_print_label[2] = &TRUX_AC // C'mon, Carl, get in!
@@ -2149,7 +2090,8 @@ IF t2_speech_goals = 12
 	t2_audio_label[1] = SOUND_TRUX_AB 
 	t2_audio_label[2] = SOUND_TRUX_AC 
  	t2_last_label = t2_random_last_label 
-ENDIF
+BREAK
+ENDSWITCH
 
 t2_slot_load = t2_speech_control_flag
 t2_slot1 = 0
@@ -2252,7 +2194,8 @@ OR t2_goals = 4
 ENDIF
 
 IF t2_goals < 4
-	IF t2_speech_goals = 12 //carl is out of car
+	SWITCH t2_speech_goals
+	CASE 12 //carl is out of car
 		IF NOT IS_CHAR_IN_CAR scplayer t2_mothership
 			IF t2_speech_control_flag < t2_last_label
 				GOSUB t2_loading_dialogue
@@ -2280,18 +2223,18 @@ IF t2_goals < 4
 			CLEAR_PRINTS 
 			//GOSUB t2_dialogue_setup
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF t2_speech_goals = 13 //carl has been out of car and has returned
+	CASE 13 //carl has been out of car and has returned
 		IF IS_CHAR_SITTING_IN_CAR scplayer t2_mothership 
 			t2_speech_goals = 14
 			t2_speech_control_flag = 0
 			CLEAR_PRINTS 
 			//GOSUB t2_dialogue_setup
 		ENDIF
-	ENDIF
+	BREAK
 
-	IF t2_speech_goals = 14 //where player has returned to the car
+	CASE 14 //where player has returned to the car
 		IF IS_CHAR_SITTING_IN_CAR scplayer t2_mothership 	
 			timerb = 0
 			t2_speech_goals = t2_storing_speech_goals_number
@@ -2310,7 +2253,8 @@ IF t2_goals < 4
 			t2_random_last_label = t2_speech_control_flag + 1 
 			GOSUB t2_dialogue_setup
 		ENDIF
-	ENDIF
+	BREAK
+	ENDSWITCH
 ENDIF	
 ////////////////////////////////////////////////////////////////////////////
 RETURN//////////////////////////////////////////////////////////////////////

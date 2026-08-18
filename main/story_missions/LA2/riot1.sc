@@ -196,7 +196,29 @@ WAIT 0
 		GOTO mission_riot1_failed
 	ENDIF
 
-	IF r1_goals = 0 
+SWITCH r1_goals
+CASE 0
+	GOSUB r1_goals_eq_0
+BREAK
+CASE 1
+	GOSUB r1_goals_eq_1
+BREAK
+CASE 2
+	GOSUB r1_goals_eq_2
+BREAK
+ENDSWITCH
+
+	//blippage
+	IF r1_goals > 0
+		GOSUB r1_blippage
+	ENDIF
+
+	//dialogue
+	GOSUB r1_overall_dialogue
+
+GOTO mission_riot1_loop
+
+	r1_goals_eq_0: 
 		IF r1_control_flag = 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
@@ -297,10 +319,10 @@ WAIT 0
 				ENDIF
 			ENDIF
 		ENDIF
-	ENDIF
+	RETURN
 
 	//waiting for player to reach sweets house 
-	IF r1_goals = 1
+	r1_goals_eq_1:
 		////////////DEBUG//////////////////
 			IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
 				IF IS_CHAR_IN_CAR scplayer r1_sweets_car 
@@ -313,7 +335,8 @@ WAIT 0
 		
 		
 		// PLAYING RANDOM SPEECH
-		IF r1_speech_flag = 0
+		SWITCH r1_speech_flag
+		CASE 0
 			IF r1_speech_goals = 0
 				IF timerb > 10000
 					SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer TRUE
@@ -325,9 +348,9 @@ WAIT 0
 					r1_speech_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF r1_speech_flag = 1
+		CASE 1
 			IF r1_speech_goals = 0
 				IF timerb > 7000
 					// So who's the weird brit?
@@ -337,9 +360,9 @@ WAIT 0
 					r1_speech_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF r1_speech_flag = 2
+		CASE 2
 			IF IS_CHAR_IN_CAR scplayer r1_sweets_car
 				IF IS_CHAR_IN_AREA_2D scplayer 2955.5 -1240.1 1192.2 -1855.3 FALSE 
 					IF r1_speech_goals = 0
@@ -355,9 +378,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF r1_speech_flag = 3
+		CASE 3
 			IF IS_CHAR_IN_CAR scplayer r1_sweets_car
 				IF IS_CHAR_IN_AREA_2D scplayer 2955.5 -1240.1 1192.2 -1855.3 FALSE 
 					IF r1_speech_goals = 0
@@ -371,9 +394,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF r1_speech_flag = 4
+		CASE 4
 			IF IS_CHAR_IN_CAR scplayer r1_sweets_car
 				IF IS_CHAR_IN_AREA_2D scplayer 2955.5 -1240.1 1192.2 -1855.3 FALSE 
 					IF r1_speech_goals = 0
@@ -387,15 +410,16 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF r1_speech_flag = 5 	
+		CASE 5 	
 			IF r1_speech_goals = 0
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE
 				SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH sweet FALSE
 				r1_speech_flag = 6
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 
 		// MAIN BIT 
@@ -408,11 +432,12 @@ WAIT 0
 				ENDIF
 			ENDIF
 		ENDIF   
-	ENDIF 
+	RETURN 
 
 	//end cutscene
-	IF r1_goals = 2
-		IF r1_control_flag = 0
+	r1_goals_eq_2:
+		SWITCH r1_control_flag
+		CASE 0
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1
 			CLEAR_MISSION_AUDIO 2
@@ -430,10 +455,10 @@ WAIT 0
 			r1_control_flag = 1
 			
 			r1_control_flag = 1
-		ENDIF
+		BREAK
 
 
-		IF r1_control_flag = 1 
+		CASE 1 
 			IF r1_speech_goals = 0
 				OPEN_SEQUENCE_TASK r1_seq
 					TASK_LEAVE_ANY_CAR -1 
@@ -444,9 +469,9 @@ WAIT 0
 				timera = 0 
 				r1_control_flag = 2
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF r1_control_flag = 2
+		CASE 2
 			IF timera > 4000
 				DO_FADE 500 FADE_OUT		
 				WHILE GET_FADING_STATUS
@@ -469,19 +494,12 @@ WAIT 0
 				ENDWHILE 
 				GOTO mission_riot1_passed
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
-	//blippage
-	IF r1_goals > 0
-		GOSUB r1_blippage
-	ENDIF
-
-	//dialogue
-	GOSUB r1_overall_dialogue
-
-GOTO mission_riot1_loop 
+//GOTO mission_riot1_loop 
 
 
 // **************************************** Mission riot1 failed ************************
@@ -718,15 +736,16 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 r1_dialogue_setup://///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF r1_speech_goals = 1
+SWITCH r1_speech_goals
+CASE 1
 	$r1_print_label[0] = &ROT1_AA // Shit's real fucked up, man.
 	$r1_print_label[1] = &ROT1_AB // Yeah, but we gonna handle this ourselves.
 	
 	r1_audio_label[0] = SOUND_ROT1_AA 
 	r1_audio_label[1] = SOUND_ROT1_AB 
 	r1_last_label = 2 
-ENDIF
-IF r1_speech_goals = 2
+BREAK
+CASE 2
 	$r1_print_label[0] = &ROT1_BA // There ain't no justice, man.
 	$r1_print_label[1] = &ROT1_BB // How does scum like Tenpennny stay on the streets?
 	$r1_print_label[2] = &ROT1_BC // Man, I dunno, just the way shit stacked I guess.
@@ -739,8 +758,8 @@ IF r1_speech_goals = 2
 	r1_audio_label[3] = SOUND_ROT1_BD 
 	r1_audio_label[4] = SOUND_ROT1_BE 
 	r1_last_label = 5
-ENDIF
-IF r1_speech_goals = 3
+BREAK
+CASE 3
 	$r1_print_label[0] = &ROT1_EA // So who's the weird brit?
 	$r1_print_label[1] = &ROT1_EB // What? Oh, Maccer!
 	$r1_print_label[2] = &ROT1_EC // He got a little problem he can't control.
@@ -769,8 +788,8 @@ IF r1_speech_goals = 3
 	r1_audio_label[11] = SOUND_ROT1_EM
 	r1_audio_label[12] = SOUND_ROT1_EN
 	r1_last_label = 13
-ENDIF
-IF r1_speech_goals = 4
+BREAK
+CASE 4
 	$r1_print_label[0] = &ROT1_DA // Shit, look at this place, even old ladies robbing shit!
 	$r1_print_label[1] = &ROT1_DB // I guess it's better than staying home and watching the shopping channel.
 	$r1_print_label[2] = &ROT1_DC // Yeah, go out there and get yourself a bargain!
@@ -779,9 +798,9 @@ IF r1_speech_goals = 4
 	r1_audio_label[1] = SOUND_ROT1_DB
 	r1_audio_label[2] = SOUND_ROT1_DC
 	r1_last_label = 3
-ENDIF
+BREAK
 
-IF r1_speech_goals = 5
+CASE 5
 	$r1_print_label[0] = &ROT1_FA // Shit, man, people real mad!
 	$r1_print_label[1] = &ROT1_FB // Tenpenny's responsible for ALL of this!
 	$r1_print_label[2] = &ROT1_FC // As if the ghetto ain't wrecked enough!
@@ -798,8 +817,8 @@ IF r1_speech_goals = 5
 	r1_audio_label[5] = SOUND_ROT1_FF
 	r1_audio_label[6] = SOUND_ROT1_FG
 	r1_last_label = 7
-ENDIF
-IF r1_speech_goals = 6
+BREAK
+CASE 6
 	$r1_print_label[0] = &ROT1_GL // Everything's burning.					  
 	$r1_print_label[1] = &ROT1_GA // Put your foot down!	
 	$r1_print_label[2] = &ROT1_FH // Man, the ghetto's tearing itself apart!
@@ -828,9 +847,9 @@ IF r1_speech_goals = 6
 	//r1_audio_label[9] = SOUND_ROT1_GK
 	//r1_audio_label[11] = SOUND_ROT1_GM
 	r1_last_label = 3
-ENDIF
+BREAK
 
-IF r1_speech_goals = 7
+CASE 7
 	//$r1_print_label[0] = &ROT1_HA // Shit don't look too bad...
 	//$r1_print_label[1] = &ROT1_HB // It only takes one fool to spread this shit to the Grove.
 	$r1_print_label[0] = &ROT1_HC // I'm gonna gather up some homies, and get the hood locked down.
@@ -845,9 +864,9 @@ IF r1_speech_goals = 7
 	r1_audio_label[2] = SOUND_ROT1_HE
 	r1_audio_label[3] = SOUND_ROT1_HF
 	r1_last_label = 4
-ENDIF
+BREAK
 
-IF r1_speech_goals = 11
+CASE 11
 	$r1_print_label[0] = &SWE1_BG // CJ, GET IN!
 	$r1_print_label[1] = &SWE1_BK // CJ, c'mon man, hop in.
 	$r1_print_label[2] = &SWE1_BL // C'mon, let's roll, let's step on it.
@@ -858,7 +877,9 @@ IF r1_speech_goals = 11
 	r1_audio_label[2] = SOUND_SWE1_BL
 	r1_audio_label[3] = SOUND_SWE1_BM
  	r1_last_label = r1_random_last_label 
-ENDIF
+BREAK
+ENDSWITCH
+
 
 r1_slot_load = r1_speech_control_flag
 r1_slot1 = 0

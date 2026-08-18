@@ -300,12 +300,41 @@ WAIT 0
 		GOTO mission_syn5_failed
 	ENDIF
 
+SWITCH syn5_goals
+CASE 0
+	GOSUB syn5_goals_eq_0
+BREAK
+CASE 1
+	GOSUB syn5_goals_eq_1
+BREAK
+CASE 3
+	GOSUB syn5_goals_eq_3
+BREAK
+CASE 4
+	GOSUB syn5_goals_eq_4
+BREAK
+CASE 5
+	GOSUB syn5_goals_eq_5
+BREAK
+CASE 6
+	GOSUB syn5_goals_eq_6
+BREAK
+CASE 7
+	GOSUB syn5_goals_eq_7
+BREAK
+ENDSWITCH
+
+	//ingame dialogue
+	GOSUB syn5_overall_dialogue
+
+GOTO mission_syn5_loop
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////Waiting for player to reach cesar///////////////////////////////////////////////////////////////
-	IF syn5_goals = 0
+	syn5_goals_eq_0
 		/////////// INITIAL CUTSCENE /////////////////
-		IF syn5_control_flag = 0
+		SWITCH syn5_control_flag
+		CASE 0
 			IF timera > 500
 				//speech of cesar telling player he is above him
 				IF syn5_speech_flag = 0
@@ -322,16 +351,16 @@ WAIT 0
 					syn5_control_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 1 
+		CASE 1 
 			IF syn5_speech_goals = 0
 				timera = 0 
 				syn5_control_flag = 2	 
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF syn5_control_flag = 2
+		CASE 2
 			IF timera > 1000
 				syn5_skip_cutscene_flag = 0	
 				SKIP_CUTSCENE_END
@@ -373,11 +402,11 @@ WAIT 0
 				syn5_control_flag = 3
 
 			ENDIF
-		ENDIF
+		BREAK
 		
 		
 		// PLAYER ARRIVING AND WALKING OVER TO CESAR /////////////////              
-		IF syn5_control_flag = 3 
+		CASE 3 
 			
 			//player has reached cesar
 			IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer cesar 4.0 4.0 4.0 FALSE 
@@ -460,8 +489,9 @@ WAIT 0
 				RESTORE_CAMERA_JUMPCUT
 			ENDIF
 			//////////////////////////////////DEBUG////////////////////////
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,10 +502,11 @@ WAIT 0
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Cutscene showing guards /////////////////////////////////////////////////////////////////////// 
-	IF syn5_goals = 1
+	syn5_goals_eq_1
 	
 		//cesar coming to give player the gun
-		IF syn5_control_flag = 0
+		SWITCH syn5_control_flag
+		CASE 0
 			GET_SCRIPT_TASK_STATUS scplayer PERFORM_SEQUENCE_TASK task_status		 
 			IF task_status = FINISHED_TASK
 				TASK_TURN_CHAR_TO_FACE_CHAR scplayer cesar
@@ -499,10 +530,10 @@ WAIT 0
 				ENDIF	
 				syn5_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
 		//Waiting for cesar to finish passing the gun to the player
-		IF syn5_control_flag = 1
+		CASE 1
 			IF syn5_speech_goals = 0
 				GET_SCRIPT_TASK_STATUS cesar PERFORM_SEQUENCE_TASK task_status
 				IF task_status = FINISHED_TASK
@@ -525,9 +556,9 @@ WAIT 0
 					syn5_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 2
+		CASE 2
 			//if player didn't have sniper at start of scene
 			IF syn5_does_player_have_sniperrifle = 0
 				GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS cesar 0.0 0.5 0.0 syn5_x syn5_y syn5_z 
@@ -545,9 +576,9 @@ WAIT 0
 					syn5_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF syn5_control_flag = 3
+		CASE 3
 			//if player didn't have sniper at start of scene
 			IF syn5_does_player_have_sniperrifle = 0
 				IF DOES_OBJECT_EXIST syn5_sniper_anim
@@ -573,9 +604,9 @@ WAIT 0
 			ELSE
 				syn5_control_flag = 4
 			ENDIF	
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 4
+		CASE 4
 			//if player didn't have sniper at start of scene
 			IF syn5_does_player_have_sniperrifle = 0
 				DELETE_OBJECT syn5_sniper_anim
@@ -597,10 +628,10 @@ WAIT 0
 
 			timera = 0
 			syn5_control_flag = 5
-		ENDIF
+		BREAK
 			  
 		//showing player roof goons
-		IF syn5_control_flag = 5 
+		CASE 5 
 			IF timera > 2000
 				IF syn5_speech_goals = 0
 
@@ -637,10 +668,10 @@ WAIT 0
 					syn5_control_flag = 6
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
 		//showing player more roof goons  
-		IF syn5_control_flag  = 6
+		CASE 6
 			IF timera > 5000
 				IF NOT IS_CHAR_DEAD syn5_tbone_goons[3] 
 					OPEN_SEQUENCE_TASK syn5_seq
@@ -668,10 +699,10 @@ WAIT 0
 				timera = 0					  
 				syn5_control_flag = 7
 			ENDIF
-		ENDIF
+		BREAK
 
 		// getting phone call from wuzi (creating wuzi's men)
-		IF syn5_control_flag = 7
+		CASE 7
 			IF timera > 4000
 				IF syn5_speech_goals = 0
 				 
@@ -709,10 +740,10 @@ WAIT 0
 					syn5_control_flag = 9
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 		//cesar to stop using the mobile phone and wuzi's men move in place
-		IF syn5_control_flag = 9
+		CASE 9
 			IF syn5_speech_goals = 0
 				GET_SCRIPT_TASK_STATUS cesar TASK_USE_MOBILE_PHONE task_status
 				IF task_status = PERFORMING_TASK
@@ -726,10 +757,10 @@ WAIT 0
 				GOSUB syn5_dialogue_setup 
 				syn5_control_flag = 10
 			ENDIF
-		ENDIF
+		BREAK
 
 		//cesar to stop using the mobile phone and wuzi's men move in place
-		IF syn5_control_flag = 10
+		CASE 10
 			IF syn5_speech_goals = 0
 				GET_SCRIPT_TASK_STATUS cesar TASK_USE_MOBILE_PHONE task_status
 				IF task_status = PERFORMING_TASK	  
@@ -782,10 +813,10 @@ WAIT 0
 				timera = 0 
 				syn5_control_flag = 11
 			ENDIF
-		ENDIF
+		BREAK
 
 		//looking close cut at wuzi's men
-		IF syn5_control_flag = 11 
+		CASE 11 
 			IF timera > 3000 
 
 				IF NOT IS_CHAR_DEAD wuzi
@@ -842,11 +873,11 @@ WAIT 0
 				GOSUB syn5_dialogue_setup 
 				syn5_control_flag = 12 
 			ENDIF
-		ENDIF
+		BREAK
 
 	
 		//finish up
-		IF syn5_control_flag = 12
+		CASE 12
 			IF syn5_speech_goals = 0
 				syn5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -1056,13 +1087,14 @@ WAIT 0
 				syn5_control_flag = 0
 				syn5_goals = 3
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// Player shooting the rest of the guards //////////////////////////////////////////////////////// 
-	IF syn5_goals = 3	
+	syn5_goals_eq_3	
 
 		///////////////////DEBUG//////////////////////////////////////
 		IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_Q
@@ -1105,7 +1137,8 @@ WAIT 0
 			
 			IF syn5_speech_goals = 0 
 				////// GOOD SPEECH ///////////////
-				IF syn5_killing_wuzi_men_flag = 0
+				SWITCH syn5_killing_wuzi_men_flag
+				CASE 0
 					IF timera > 7000 
 						// Shit they've walked right into it!
 						syn5_speech_goals = 3
@@ -1114,9 +1147,9 @@ WAIT 0
 						GOSUB syn5_dialogue_setup  
 						syn5_killing_wuzi_men_flag = 1
 					ENDIF
-				ENDIF	
+				BREAK	
 
-				IF syn5_killing_wuzi_men_flag = 1
+				CASE 1
 					IF syn5_wuzi_men_count < 3
 						// One of those Triad boys is down!
 						syn5_speech_goals = 3
@@ -1125,9 +1158,9 @@ WAIT 0
 						GOSUB syn5_dialogue_setup  
 						syn5_killing_wuzi_men_flag = 2
 					ENDIF
-				ENDIF	
+				BREAK	
 
-				IF syn5_killing_wuzi_men_flag = 2
+				CASE 2
 					IF syn5_wuzi_men_count < 2
 						// Scratch one more Mountain Cloud Boy!
 						syn5_speech_goals = 3
@@ -1136,10 +1169,10 @@ WAIT 0
 						GOSUB syn5_dialogue_setup  
 						syn5_killing_wuzi_men_flag = 3
 					ENDIF
-				ENDIF	
+				BREAK	
 
-				IF syn5_speech_goals = 0
-					IF syn5_killing_wuzi_men_flag = 3
+				CASE 3
+					IF syn5_speech_goals = 0
 						// Take 'em out, CJ, they're in the thick of it!
 						syn5_speech_goals = 3
 						syn5_speech_control_flag = 2
@@ -1147,9 +1180,9 @@ WAIT 0
 						GOSUB syn5_dialogue_setup  
 						syn5_killing_wuzi_men_flag = 4
 					ENDIF
-				ENDIF	
+				BREAK	
 				 
-				IF syn5_killing_wuzi_men_flag = 4
+				CASE 4
 					IF syn5_wuzi_men_count < 1
 						// They're getting cut to pieces, CJ, shoot those damn Rifas!
 						syn5_speech_goals = 3
@@ -1158,7 +1191,8 @@ WAIT 0
 						GOSUB syn5_dialogue_setup  
 						syn5_killing_wuzi_men_flag = 5
 					ENDIF
-				ENDIF
+				BREAK
+				ENDSWITCH
 		
 				////// BAD SPEECH ///////////////
 				
@@ -1370,18 +1404,19 @@ WAIT 0
 			ENDIF
 		ENDIF
 
-	ENDIF
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////// CUTSCENE OF WUZI DYING  //////////////////////////////////////////////////////////////////////// 
 	syn_goals10:
 	 
-	IF syn5_goals = 10
+	syn5_goals_eq_10:
 		GOSUB check_player_is_safe
 
 		//WRITE_DEBUG_WITH_INT player_is_completely_safe player_is_completely_safe
-		IF player_is_completely_safe = 1
-			IF syn5_control_flag = 0
+		SWITCH syn5_control_flag
+		CASE 0
+			IF player_is_completely_safe = 1
 				DO_FADE 500 FADE_OUT
 				WHILE GET_FADING_STATUS
 				    WAIT 0
@@ -1441,9 +1476,9 @@ WAIT 0
 				timerb = 0
 				syn5_control_flag = 1
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 1 
+		CASE 1 
 			IF syn5_speech_goals = 0 
 				IF timerb > 4000
 					DO_FADE 500 FADE_OUT
@@ -1472,13 +1507,15 @@ WAIT 0
 					GOTO mission_syn5_failed
 				ENDIF 
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////// CUTSCENE SHOWING MEET TAKING PLACE ///////////////////////////////////////////////////////////// 
-	IF syn5_goals = 4  
-		IF syn5_control_flag = 0
+	syn5_goals_eq_4  
+		SWITCH syn5_control_flag
+		CASE 0
 
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1	
@@ -1601,9 +1638,9 @@ WAIT 0
 			SKIP_CUTSCENE_START
 			timera = 0 
 			syn5_control_flag = 1
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 1
+		CASE 1
 			IF syn5_speech_goals = 0
 				IF timera > 4000
 					DO_FADE 500 FADE_OUT
@@ -1722,10 +1759,10 @@ WAIT 0
 					syn5_control_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
 		//showing ryder pulling up
-		IF syn5_control_flag = 2
+		CASE 2
 			IF timera > 4000
 
 				GOSUB syn5_creating_toreno
@@ -1742,11 +1779,11 @@ WAIT 0
 				timera = 0
 				syn5_control_flag = 3
 			ENDIF
-		ENDIF
+		BREAK
 
 		
 		//waiting until ryder has exited the car
-		IF syn5_control_flag = 3
+		CASE 3
 			IF syn5_speech_goals = 0
 				IF NOT IS_CHAR_DEAD ryder 
 					IF NOT IS_CHAR_IN_ANY_CAR ryder 
@@ -1763,10 +1800,10 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
 		//fade out, moving everyone to the end of the pier and fade back in and show meet taking place
-		IF syn5_control_flag = 4 
+		CASE 4 
 			DO_FADE 1000 FADE_OUT
 			WHILE GET_FADING_STATUS
 			    WAIT 0
@@ -1874,9 +1911,9 @@ WAIT 0
 
 			timera = 0					  
 			syn5_control_flag = 5
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 5
+		CASE 5
 			IF timera > 3500
 				IF NOT IS_CAR_DEAD syn5_toreno_chopper
 					START_PLAYBACK_RECORDED_CAR syn5_toreno_chopper 28
@@ -1884,11 +1921,11 @@ WAIT 0
 					syn5_control_flag = 6
 				ENDIF
 			ENDIF		
-		ENDIF
+		BREAK
 
 
 		//attaching camera to the helicopter
-		IF syn5_control_flag = 6
+		CASE 6
 			IF timera > 6000 
 				DO_FADE 500 FADE_OUT
 				WHILE GET_FADING_STATUS
@@ -1941,7 +1978,7 @@ WAIT 0
 		ENDIF
 		
 		//setting heli orientation so the chopper fucks off
-		IF syn5_control_flag = 7 
+		CASE 7 
 			IF NOT IS_CAR_DEAD syn5_toreno_chopper 
 				IF LOCATE_CAR_2D syn5_toreno_chopper -1629.1 1429.5 3.0 3.0 FALSE
 					IF IS_PLAYBACK_GOING_ON_FOR_CAR syn5_toreno_chopper 
@@ -1958,9 +1995,9 @@ WAIT 0
 					syn5_control_flag = 8
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 8 
+		CASE 8 
 			IF syn5_speech_goals = 0 
 				CAMERA_RESET_NEW_SCRIPTABLES
 				IF NOT IS_CAR_DEAD syn5_toreno_chopper
@@ -1972,10 +2009,10 @@ WAIT 0
 					syn5_control_flag = 9
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 			
 		//having guys run off and through tear gas
-		IF syn5_control_flag = 9
+		CASE 9
 			IF timera > 1000
 				IF NOT IS_CHAR_DEAD syn5_tbone 
 					CLEAR_CHAR_TASKS syn5_tbone  
@@ -2049,9 +2086,9 @@ WAIT 0
 				timera = 0 
 				syn5_control_flag = 10
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 10 
+		CASE 10 
 			//throwing the second canister
 			IF NOT IS_CHAR_DEAD syn5_ryder_goons[0]
 				GET_SCRIPT_TASK_STATUS syn5_ryder_goons[0] PERFORM_SEQUENCE_TASK task_status	
@@ -2060,11 +2097,11 @@ WAIT 0
 					syn5_control_flag = 11
 				ENDIF
 			ENDIF	
-		ENDIF		
+		BREAK		
 
 
 		//creating teargas in correct position 
-		IF syn5_control_flag = 11
+		CASE 11
 			IF syn5_speech_goals = 0 
 				IF timera > 2000
 					IF NOT IS_CHAR_DEAD ryder
@@ -2091,9 +2128,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF syn5_control_flag = 12
+		CASE 12
 			IF timera > 1500 
 				CREATE_FX_SYSTEM teargasAD -1656.5 1398.0 6.2 TRUE syn5_teargas[0] //ryders
 				PLAY_FX_SYSTEM syn5_teargas[0]
@@ -2102,10 +2139,10 @@ WAIT 0
 				PLAY_FX_SYSTEM syn5_teargas[1]
 				syn5_control_flag = 13
 			ENDIF
-		ENDIF
+		BREAK
 
 		//finish
-		IF syn5_control_flag = 13
+		CASE 13
 			IF timera > 5000
 				syn5_skip_cutscene_flag = 0
 				SKIP_CUTSCENE_END
@@ -2518,8 +2555,9 @@ WAIT 0
 				syn5_control_flag = 0
 				syn5_goals = 5
 			ENDIF
-		ENDIF		
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
@@ -2527,8 +2565,9 @@ WAIT 0
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////// WAITING FOR THE PLAYER TO KILL RYDER /////////////////////////////////////////////////////////// 
 
-	IF syn5_goals = 5
-		IF syn5_control_flag = 0 
+	syn5_goals_eq_5
+		SWITCH syn5_control_flag
+		CASE 0 
 
 			//debug to stop cunting chars getting created for no reason
 			/* 
@@ -2583,9 +2622,9 @@ WAIT 0
 					syn5_control_flag = 1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 1  
+		CASE 1  
 			CLEAR_PRINTS
 			CLEAR_MISSION_AUDIO 1	
 			CLEAR_MISSION_AUDIO 2
@@ -2821,9 +2860,9 @@ WAIT 0
 			timera = 0
 
 			syn5_control_flag = 2
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 2
+		CASE 2
 			IF NOT IS_CHAR_DEAD syn5_tbone
 				IF LOCATE_CHAR_ANY_MEANS_2D syn5_tbone -1626.6 1421.8 1.0 1.0 FALSE
 					CLEAR_CHAR_TASKS_IMMEDIATELY syn5_tbone
@@ -2836,9 +2875,9 @@ WAIT 0
 					syn5_control_flag = 3
 				ENDIF
 			ENDIF
-		ENDIF		
+		BREAK		
 
-		IF syn5_control_flag = 3
+		CASE 3
 			IF NOT IS_CHAR_DEAD syn5_tbone 
 				IF IS_CHAR_PLAYING_ANIM syn5_tbone RYD_Die_PT2 
 					GET_CHAR_ANIM_CURRENT_TIME syn5_tbone RYD_Die_PT2 syn5_animtime
@@ -2848,9 +2887,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 4 				
+		CASE 4 				
 			IF syn5_speech_goals = 0
 				IF NOT IS_CHAR_DEAD syn5_tbone
 					OPEN_SEQUENCE_TASK syn5_seq	  
@@ -2874,9 +2913,9 @@ WAIT 0
 					syn5_control_flag = 5
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 5
+		CASE 5
 			IF NOT IS_CHAR_DEAD syn5_tbone  
 				IF IS_CHAR_PLAYING_ANIM syn5_tbone RYD_Die_PT2 
 					GET_CHAR_ANIM_CURRENT_TIME syn5_tbone RYD_Die_PT2 syn5_animtime 
@@ -2888,9 +2927,9 @@ WAIT 0
 					ENDIF
 				ENDIF 
 			ENDIF
-		ENDIF						
+		BREAK						
 
-		IF syn5_control_flag = 6 
+		CASE 6 
 			IF timera > 2000
 				IF NOT IS_CHAR_DEAD ryder 
 					OPEN_SEQUENCE_TASK syn5_seq	  
@@ -2909,9 +2948,9 @@ WAIT 0
 				timera = 0
 				syn5_control_flag = 7
 			ENDIF
-		ENDIF
+		BREAK
 		
-		IF syn5_control_flag = 7 
+		CASE 7 
 			IF NOT IS_CHAR_DEAD ryder 
 				GET_SCRIPT_TASK_STATUS ryder PERFORM_SEQUENCE_TASK task_status
 				IF task_status = FINISHED_TASK
@@ -2931,9 +2970,9 @@ WAIT 0
 					syn5_control_flag = 8
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 8
+		CASE 8
 			IF syn5_speech_goals = 0	 
 				// He's headed for those boats and I can't swim. | 	Don't worry, he's mine!
 				syn5_speech_goals = 8
@@ -2942,9 +2981,9 @@ WAIT 0
 				GOSUB syn5_dialogue_setup 
 				syn5_control_flag = 9
 			ENDIF
-		ENDIF 
+		BREAK 
 
-		IF syn5_control_flag = 9 
+		CASE 9 
 			IF NOT IS_CHAR_DEAD ryder  
 				IF IS_CHAR_PLAYING_ANIM ryder run_dive 
 					GET_CHAR_ANIM_CURRENT_TIME ryder run_dive syn5_animtime 
@@ -2954,23 +2993,23 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 10
+		CASE 10
 			IF timera > 500
 				REPORT_MISSION_AUDIO_EVENT_AT_POSITION -1609.2 1401.7 5.8 SOUND_PED_HIT_WATER_SPLASH
 				timera = 0
 				syn5_control_flag = 11
 			ENDIF
-		ENDIF				 
+		BREAK				 
 
-		IF syn5_control_flag = 11
+		CASE 11
 			IF timera > 1000
 				syn5_control_flag = 12	
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 12
+		CASE 12
 			syn5_skip_cutscene_flag = 0
 			SKIP_CUTSCENE_END
 			GOSUB syn5_death_checks
@@ -3065,8 +3104,9 @@ WAIT 0
 			syn5_speech_flag = 0
 			syn5_control_flag = 0
 			syn5_goals = 6
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
 
@@ -3075,19 +3115,20 @@ WAIT 0
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////// WAITING FOR THE PLAYER TO GET TO BOAT AND KILL T-BONE /////////////////////////////////////////// 
 
-	IF syn5_goals = 6
+	syn5_goals_eq_6
 		
 		// help text
-		IF syn5_speech_flag = 0
+		SWITCH syn5_speech_flag
+		CASE 0
 			IF IS_CHAR_IN_WATER scplayer
 				CLEAR_THIS_PRINT SYN5_07
 				PRINT_NOW ( SYN5_08 ) 7000 1 //Kill T-Bone.
 				syn5_speech_flag = 1
 			ENDIF  
-		ENDIF
+		BREAK
 
 		// telling player to get in the boat
-		IF syn5_speech_flag = 1
+		CASE 1
 			IF NOT IS_CAR_DEAD syn5_boat[1]
 				IF LOCATE_CHAR_ANY_MEANS_CAR_2D scplayer syn5_boat[1] 10.0 10.0 FALSE   
 					ADD_BLIP_FOR_CAR syn5_boat[1] syn5_boat_blip
@@ -3096,10 +3137,10 @@ WAIT 0
 					syn5_speech_flag = 2
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 		
 		// waiting for player to get in the boat 
-		IF syn5_speech_flag = 2
+		CASE 2
 			IF NOT IS_CAR_DEAD syn5_boat[1]
 				IF IS_CHAR_IN_CAR scplayer syn5_boat[1]
 					IF NOT IS_CHAR_DEAD syn5_party_dudes[0]
@@ -3117,18 +3158,16 @@ WAIT 0
 				REMOVE_BLIP syn5_boat_blip
 				syn5_speech_flag = 3
 			ENDIF	
-		ENDIF
+		BREAK
 
-		IF syn5_speech_flag = 3
+		CASE 3
 			IF syn5_speech_goals = 0
-				IF syn5_speech_goals = 0 
 					PRINT_NOW ( SYN5_12 ) 7000 1 //~s~Kill ~r~Ryder~s~.  You can do a drive-by on his boat.
 					syn5_speech_flag = 4
-				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 	
-		IF syn5_speech_flag = 4
+		CASE 4
 			IF syn5_speech_goals = 0	  
 				IF NOT IS_CHAR_DEAD ryder 
 					IF NOT IS_CAR_DEAD syn5_boat[0]
@@ -3149,10 +3188,12 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	
 		// main bit
-		IF syn5_control_flag = 0
+		SWITCH syn5_control_flag
+		CASE 0
 			IF NOT IS_CHAR_DEAD ryder
 				IF NOT IS_CAR_DEAD syn5_boat[0] 
 					IF NOT LOCATE_CHAR_ANY_MEANS_2D ryder syn5_x syn5_y 2.0 2.0 FALSE 
@@ -3168,9 +3209,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 1
+		CASE 1
 			IF NOT IS_CHAR_DEAD ryder 
 				IF LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer ryder 20.0 20.0 FALSE
 				OR HAS_CHAR_BEEN_DAMAGED_BY_CHAR ryder scplayer 	 	
@@ -3182,9 +3223,9 @@ WAIT 0
 					ENDIF
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 2
+		CASE 2
 			IF syn5_controlling_tbone = 4
 				IF NOT IS_CHAR_DEAD ryder 
 					IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer ryder 250.0 250.0 FALSE	
@@ -3196,7 +3237,8 @@ WAIT 0
 				 	ENDIF
 				ENDIF
 			ENDIF  
-		ENDIF 
+		BREAK
+		ENDSWITCH
 
 
 		//Boat AI
@@ -3243,16 +3285,17 @@ WAIT 0
 			syn5_control_flag = 0
 			syn5_goals = 7	
 		ENDIF
-	ENDIF
+	RETURN
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////// END CUTSCENE /////////////////////////////////////////////////////////////////////////////////// 
 
-	IF syn5_goals = 7
-		IF timera > 2000
-			IF syn5_control_flag = 0
+	syn5_goals_eq_7
+		SWITCH syn5_control_flag
+		CASE 0
+			IF timera > 2000
 				IF IS_CHAR_IN_ANY_BOAT scplayer
 					CLEAR_PRINTS
 					CLEAR_MISSION_AUDIO 1	
@@ -3275,9 +3318,9 @@ WAIT 0
 					GOTO mission_syn5_passed
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_control_flag = 1
+		CASE 1
 			IF syn5_speech_goals = 0
 				SHUT_ALL_CHARS_UP FALSE
 				SWITCH_WIDESCREEN OFF	
@@ -3285,14 +3328,12 @@ WAIT 0
 				SET_PLAYER_CONTROL player1 ON
 				GOTO mission_syn5_passed
 			ENDIF
-		ENDIF
-	ENDIF
+		BREAK
+		ENDSWITCH
+	RETURN
 
 
-	//ingame dialogue
-	GOSUB syn5_overall_dialogue
-
-GOTO mission_syn5_loop
+// GOTO mission_syn5_loop
 
 
 	
@@ -4232,14 +4273,15 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 syn5_dialogue_setup://////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF syn5_speech_goals = 1
+SWITCH syn5_speech_goals
+CASE 1
 	$syn5_print_label[0] = &SYN5_AA // Hey, holmes, I'm  up here. Go around back!
 
 	syn5_audio_label[0] = SOUND_SYN5_AA
 	syn5_last_label = 1
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 2
+CASE 2
 	$syn5_print_label[0] = &SYN5_BA // Hey man.
 	$syn5_print_label[1] = &SYN5_BB // Nice job getting that phone message, man.
 
@@ -4276,9 +4318,9 @@ IF syn5_speech_goals = 2
 	syn5_audio_label[12] = SOUND_SYN5_BM
 	syn5_audio_label[13] = SOUND_SYN5_BN
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 3
+CASE 3
 	//$syn5_print_label[0] = &SYN5_CA // Take the shot, CJ, they'll be up there any moment!
 	$syn5_print_label[1] = &SYN5_CB // Shit they've walked right into it!
 	$syn5_print_label[2] = &SYN5_CC // Take 'em out, CJ, they're in the thick of it!
@@ -4293,9 +4335,9 @@ IF syn5_speech_goals = 3
 	syn5_audio_label[4] = SOUND_SYN5_CE
 	syn5_audio_label[5] = SOUND_SYN5_CF
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 4
+CASE 4
 	$syn5_print_label[0] = &SYN5_DA // One down...
 	$syn5_print_label[1] = &SYN5_DB // That's it, CJ, keep icing those Rifa!
 	$syn5_print_label[2] = &SYN5_DC // Just a few more, holmes...
@@ -4309,9 +4351,9 @@ IF syn5_speech_goals = 4
 	syn5_audio_label[3] = SOUND_SYN5_DD
 	syn5_audio_label[4] = SOUND_SYN5_DE
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 5
+CASE 5
 	$syn5_print_label[0] = &SYN5_EA // Oh, man, you let them get wiped out!
 	$syn5_print_label[1] = &SYN5_EB // CJ, what happened? You let them get cut to pieces!
 	$syn5_print_label[2] = &SYN5_EC // We can't do this without Woozie's boys, man...
@@ -4322,20 +4364,20 @@ IF syn5_speech_goals = 5
 	syn5_audio_label[2] = SOUND_SYN5_EC
 	syn5_audio_label[3] = SOUND_SYN5_ED
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
 /*
-IF syn5_speech_goals = 6
+CASE 6
 	$syn5_print_label[0] = &SYN5_FA // Nice one, CJ!
 	$syn5_print_label[1] = &SYN5_FB // Let's head on over and see what we can see.
 
 	syn5_audio_label[0] = SOUND_SYN5_FA
 	syn5_audio_label[1] = SOUND_SYN5_FB
 	syn5_last_label = 2
-ENDIF
+BREAK
 */
 
-IF syn5_speech_goals = 7
+CASE 7
 	$syn5_print_label[0] = &SYN5_GZ // Man, my shooting was fresh! 
 	//$syn5_print_label[1] = &SYN5_GB // We should be able to see everything from up here.
 	$syn5_print_label[2] = &SYN5_GC // Here comes T-Bone....
@@ -4372,9 +4414,9 @@ IF syn5_speech_goals = 7
 	
 	syn5_audio_label[13] = SOUND_SYN5_GW
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 8
+CASE 8
 	$syn5_print_label[0] = &SYN5_HH // Mendez, I see you, Rifa motherfucker!
 
 	$syn5_print_label[1] = &SYN5_HA // Ryder, you sherm-head assshole, 
@@ -4399,9 +4441,9 @@ IF syn5_speech_goals = 8
 	//syn5_audio_label[9] = SOUND_SYN5_HD	
 	//syn5_audio_label[10] = SOUND_SYN5_HG
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 9
+CASE 9
 	$syn5_print_label[0] = &SYN5_JA // Hey, that's my boat!
 	$syn5_print_label[1] = &SYN5_JB // Oh my god, my boat!
 	$syn5_print_label[2] = &SYN5_JC // Stop, you thieving bastard!
@@ -4410,9 +4452,9 @@ IF syn5_speech_goals = 9
 	syn5_audio_label[1] = SOUND_SYN5_JB	
 	syn5_audio_label[2] = SOUND_SYN5_JC	
 	syn5_last_label = syn5_random_last_label
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 10
+CASE 10
 	$syn5_print_label[0] = &MOBRING // Phone ringing
 	$syn5_print_label[1] = &SYN5_KA // yo
 	$syn5_print_label[2] = &SYN5_KB // You ok, holmes, we been watching from the pier with binoculars!
@@ -4427,18 +4469,18 @@ IF syn5_speech_goals = 10
 	syn5_audio_label[4] = SOUND_SYN5_KD	
 	syn5_audio_label[5] = SOUND_SYN5_KE	
 	syn5_last_label = 6
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 11 
+CASE 11 
 	$syn5_print_label[0] = &SYN5_HE // You sold us out, Ryder, you fucked us all!
 	$syn5_print_label[1] = &SYN5_HF // I'm a... I'm a motherfucking genius!
 
 	syn5_audio_label[0] = SOUND_SYN5_HE	
 	syn5_audio_label[1] = SOUND_SYN5_HF	
 	syn5_last_label = 2
-ENDIF
+BREAK
 
-IF syn5_speech_goals = 14
+CASE 14
 	$syn5_print_label[0] = &CESX_BA // Wait up, CJ!
 	$syn5_print_label[1] = &CESX_BB // Hang ten, CJ!
 	$syn5_print_label[2] = &CESX_BC // Hold up!
@@ -4449,7 +4491,8 @@ IF syn5_speech_goals = 14
 	syn5_audio_label[2] = SOUND_CESX_BC 
 	syn5_audio_label[3] = SOUND_CESX_BD 
  	syn5_last_label = syn5_random_last_label 
-ENDIF
+BREAK
+ENDSWITCH
 
 syn5_slot_load = syn5_speech_control_flag
 syn5_slot1 = 0
@@ -4534,9 +4577,7 @@ ENDIF
 
 IF syn5_goals = 5
 	IF syn5_control_flag = 0
-		IF IS_GROUP_MEMBER cesar Players_Group 
-			//no actual dialogue during this bit
-		ELSE		  
+		IF NOT IS_GROUP_MEMBER cesar Players_Group 
 			IF syn5_speech_goals < 14 
 				IF syn5_speech_control_flag < syn5_last_label
 					syn5_speech_control_flag ++
@@ -4552,9 +4593,12 @@ IF syn5_goals = 5
 				syn5_random_last_label = syn5_speech_control_flag + 1 
 				GOSUB syn5_dialogue_setup
 			ENDIF
+		//ELSE		  
+			//no actual dialogue during this bit
 		ENDIF
 		
-		IF syn5_speech_goals = 14 //cesar is out of the group
+		SWITCH syn5_speech_goals
+		CASE 14 //cesar is out of the group
 			IF NOT IS_GROUP_MEMBER cesar Players_Group
 				IF syn5_speech_control_flag < syn5_last_label
 					GOSUB syn5_loading_dialogue
@@ -4576,18 +4620,18 @@ IF syn5_goals = 5
 				PRINT ( SYN5_10 ) 7000 1 //You have left Cesar behind.
 				syn5_speech_goals = 15	
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_speech_goals = 15 //cesar has been out of the group and has returned
+		CASE 15 //cesar has been out of the group and has returned
 			IF IS_GROUP_MEMBER cesar Players_Group 
 				syn5_speech_goals = 16
 				syn5_speech_control_flag = 0
 				CLEAR_PRINTS
 				//GOSUB syn5_dialogue_setup
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF syn5_speech_goals = 16 //cesar is back in group
+		CASE 16 //cesar is back in group
 			IF IS_GROUP_MEMBER cesar Players_Group 	
 				timerb = 0
 				syn5_speech_goals = syn5_storing_speech_goals_number
@@ -4606,7 +4650,8 @@ IF syn5_goals = 5
 				syn5_random_last_label = syn5_speech_control_flag + 1 
 				GOSUB syn5_dialogue_setup
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 	ENDIF
 ENDIF
 

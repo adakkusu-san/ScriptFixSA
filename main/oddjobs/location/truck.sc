@@ -239,6 +239,8 @@ LVAR_TEXT_LABEL		tlMissionDestination
 // ...area variables 		(xlo, ylo, zlo, xhi, yhi, zhi)
 // ...position variables	(xpos, ypos, zpos)
 LVAR_FLOAT	xposDestination		yposDestination		zposDestination
+LVAR_FLOAT	xposGateOriginal	yposGateOriginal	zposGateOriginal // FIXEDGROVE
+LVAR_FLOAT	xposGateTarget		yposGateTarget		zposGateTarget // FIXEDGROVE
 // ...heading variables		(head)
 
 
@@ -254,6 +256,7 @@ LVAR_INT	flagDisplayCashCutVeryLate
 LVAR_INT	flagDisplayLastChance
 LVAR_INT	flagArrived
 LVAR_INT	flagShowAssetAcquired
+LVAR_INT	flagGateOpen // FIXEDGROVE
 // ...bit flags				(bits)
 // ...exists flags			(exists)
 //...clear exists flags
@@ -266,6 +269,7 @@ LVAR_INT	flagShowAssetAcquired
 flagFailureConditionsApply	= FALSE
 flagOutOfDepot				= FALSE
 flagShowAssetAcquired		= FALSE
+flagGateOpen				= FALSE // FIXEDGROVE
 
 
 
@@ -657,6 +661,7 @@ Truck_Stage_PerformMission:
 	GOSUB Truck_Regulate_Cab_And_Trailer_Health
 	GOSUB Truck_Maintain_Mission_Timer
 	GOSUB Truck_Update_Cash
+	GOSUB Truck_Open_Gate // FIXEDGROVE
 
 	IF flagOutOfDepot = TRUE
 		GOSUB Truck_Maintain_Wanted_Level
@@ -1648,6 +1653,38 @@ Truck_Update_Cash:
 	g_Truck_cashKM = countCash
 
 RETURN
+
+
+// FIXEDGROVE: START - Open the Ocean Docks gate
+
+Truck_Open_Gate:
+
+	IF nDestinationArea = TRUCK_LOS_SANTOS_DESTINATION
+	AND nDestinationLocation = 1
+	AND DOES_OBJECT_EXIST gates_r2[0]
+
+		// 0 = closed, 1 = opening, 2 = open
+		IF flagGateOpen = 0
+			IF LOCATE_CHAR_ANY_MEANS_OBJECT_2D scplayer gates_r2[0] 18.0 18.0 FALSE
+				GET_OBJECT_COORDINATES gates_r2[0] xposGateOriginal yposGateOriginal zposGateOriginal
+
+				GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS gates_r2[0] 0.0 10.0 0.0 xposGateTarget yposGateTarget zposGateTarget
+
+				REPORT_MISSION_AUDIO_EVENT_AT_OBJECT gates_r2[0] SOUND_MESH_GATE_OPEN_START
+				flagGateOpen = 1
+			ENDIF
+		ENDIF
+
+		IF flagGateOpen = 1
+			IF SLIDE_OBJECT gates_r2[0] xposGateTarget yposGateTarget zposGateTarget 0.0 0.2 0.0 FALSE
+				REPORT_MISSION_AUDIO_EVENT_AT_OBJECT gates_r2[0] SOUND_MESH_GATE_OPEN_STOP
+				flagGateOpen = 2
+ 			ENDIF
+		ENDIF
+	ENDIF
+
+RETURN
+// FIXEDGROVE: END
 
 
 // ****************************************
@@ -3546,6 +3583,14 @@ mission_cleanup_Truck:
 	// Return the oddjob 'title over fade' status back to default
 	DRAW_ODDJOB_TITLE_BEFORE_FADE TRUE
 
+	// FIXEDGROVE: START - restore gate's position
+	IF nDestinationArea = TRUCK_LOS_SANTOS_DESTINATION
+    AND nDestinationLocation = 1
+    AND flagGateOpen > 0
+    AND DOES_OBJECT_EXIST gates_r2[0]
+        SET_OBJECT_COORDINATES gates_r2[0] xposGateOriginal yposGateOriginal zposGateOriginal
+    ENDIF
+	// FIXEDGROVE: END
 
 	flag_player_on_oddjob	= FALSE
 	flag_player_on_mission	= FALSE

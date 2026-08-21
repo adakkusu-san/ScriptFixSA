@@ -450,6 +450,7 @@ Extract the downloaded .zip file and replace main.scm and scripts.img inside dat
 - Fixed player not being set in their original coordinates correctly after Sweet's gym call
 - Fixed phone ringing immediately after 'Valet'
 - Fixed exercise bike exit animation not playing
+- Fixed boxers inside the LS gym standing still after fighting the instructor
 - Fixed gym glitch by using 'Days Passed' stat instead of calendar date
 - Fixed basketball glitch
 - Fixed Quadruple Insane Stunt

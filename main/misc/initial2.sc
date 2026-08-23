@@ -2759,5 +2759,20 @@ gym_day_fitness = 0.0
 
 VAR_INT burglary_male_decision	 burglary_female_decision  burglary_gang_decision
 
+// FIXEDGROVE: START - moved from the start of main to minimize the offset of global variables, increases mod compatibility
+VAR_INT BUTTON_ACCEPT BUTTON_CANCEL BUTTON_BET_UP BUTTON_BET_DOWN
+
+IF IS_JAPANESE_VERSION
+	BUTTON_ACCEPT = CIRCLE
+	BUTTON_CANCEL = CROSS
+	BUTTON_BET_UP = TRIANGLE
+	BUTTON_BET_DOWN = SQUARE
+ELSE
+	BUTTON_ACCEPT = CROSS
+	BUTTON_CANCEL = TRIANGLE
+	BUTTON_BET_UP = SQUARE
+	BUTTON_BET_DOWN = CIRCLE
+ENDIF
+// FIXEDGROVE: END
 
 MISSION_END												

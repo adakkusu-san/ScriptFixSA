@@ -20,6 +20,7 @@ SET_MAX_WANTED_LEVEL 6
 SET_DEATHARREST_STATE OFF
 SET_TIME_OF_DAY 08 00 
 
+/* FIXEDGROVE: moved to initial2 to increase mod compatibility
 VAR_INT BUTTON_ACCEPT BUTTON_CANCEL BUTTON_BET_UP BUTTON_BET_DOWN
 
 IF IS_JAPANESE_VERSION
@@ -33,6 +34,7 @@ ELSE
 	BUTTON_BET_UP = SQUARE
 	BUTTON_BET_DOWN = CIRCLE
 ENDIF
+*/
 
 // *****************************************CREATE PLAYER***********************************   
 

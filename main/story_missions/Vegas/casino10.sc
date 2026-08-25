@@ -166,6 +166,8 @@ LVAR_INT cutscene_car2_casino10 car2_driver_casino10
 LVAR_INT dummy1_casino10 dummy2_casino10 dummy3_casino10 dummy4_casino10 dummy5_casino10
 LVAR_INT dummy6_casino10 dummy7_casino10 dummy8_casino10 dummy9_casino10 dummy10_casino10
 
+LVAR_INT trip_skip_vehicle_casino10 // FIXEDGROVE
+
 // *************************************** MISSION DIALOGUE ***************************************
 
 casino10_chat_switch:
@@ -935,11 +937,31 @@ WHILE NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 1707.828 1606.639 9.055 4.0 4.0 3.0 
 
 	WAIT 0
 
+	// FIXEDGROVE: START - added trip skip
+	IF trip_skip_flag_casino10 = 1
+		IF IS_CHAR_IN_ANY_CAR scplayer
+			STORE_CAR_CHAR_IS_IN_NO_SAVE scplayer trip_skip_vehicle_casino10
+			SET_UP_SKIP_FOR_VEHICLE_FINISHED_BY_SCRIPT 2163.2490 1679.9757 9.8125 0.0 trip_skip_vehicle_casino10
+			trip_skip_flag_casino10 = 2
+		ENDIF
+	ENDIF
+	IF trip_skip_flag_casino10 = 2
+		IF IS_SKIP_WAITING_FOR_SCRIPT_TO_FADE_IN
+			GOTO trip_skip_destination
+		ENDIF
+		IF NOT IS_CHAR_IN_ANY_CAR scplayer
+			trip_skip_flag_casino10 = 1
+		ENDIF
+	ENDIF
+	// FIXEDGROVE: END
+
 	IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
     	GOTO mission_casino10_passed  
 	ENDIF
 
 ENDWHILE
+
+CLEAR_SKIP // FIXEDGROVE
 
 REMOVE_BLIP airport_blip2_casino10
  		 
@@ -1078,6 +1100,12 @@ WHILE casino10_index <= cell_index_end
 	ENDIF
 
 ENDWHILE
+// FIXEDGROVE: END
+
+// FIXEDGROVE: START - added trip skip
+trip_skip_destination:
+trip_skip_flag_casino10 = 1
+CLEAR_SKIP
 // FIXEDGROVE: END
 
 SET_FADING_COLOUR 0 0 0

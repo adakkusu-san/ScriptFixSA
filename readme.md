@@ -310,6 +310,7 @@ Extract the downloaded .zip file and replace main.scm and scripts.img inside dat
 - Increased upper bound in a random number generator, bringing back an unintentionally unused random car plate
 
 **Black Project:**
+- Restored the inaccessible post-mission SPAS-12 pickup so it actually spawns during the mission
 - Restored 'To hover in the jetpack...' message from consoles
 
 **Green Goo:**
@@ -480,14 +481,16 @@ Extract the downloaded .zip file and replace main.scm and scripts.img inside dat
 - Fixed body armour inside Madd Dogg's mansion not respawning after being picked up
 - Fixed a country rifle pickup that was inside the stadium in SF
 - Fixed a knife pickup that was under the ground near an underpass in SF
-- Moved AK47 pickup in film studios closer to the ground
+- Fixed several freeroam pickups that were clipping into nearby geometry or floating too much
+- Moved AK47 and Sawn-Off pickups in film studios closer to the ground
+- Moved an armour pickup in Area 69 closer to the ground
 - Moved bribe pickup inside a building in Doherty to an alley nearby based on comment and Bradygames guide position
 - Improved Forbidden Area switches
 - Added population properties to a tiny alleway zone in East Los Santos
 - Added italian mafia turf to Caligula's Palace and a little bit of The Strip next to it
 - Added triad turf to the Four Dragons Casino after Woozie's phonecall about it
 - Made Ryder's car stop spawning after 'Pier 69'
-- Disable spawning of Sweet's car after 'Reuniting the Families' and don't enable it until 'Home Coming' is completd
+- Disable spawning of Sweet's car after 'Reuniting the Families' and don't enable it until 'Home Coming' is completed
 - Changed 'Customs Fast Track' reward vehicle to a Jester instead of a Savanna
 - Changed Maverick in San Fierro police helipad to a police Maverick
 - Moved Hunter and Leviathan spawn coords in the abandoned airstrip to allow both of them to spawn simultaneously

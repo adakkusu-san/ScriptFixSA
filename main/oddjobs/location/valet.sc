@@ -154,16 +154,16 @@ valet_vg_x[1] = 2027.6661
 valet_vg_x[2] = 2026.3937
 
 valet_vg_y[0] = 1905.9434
-//valet_vg_y[1] = 1907.6700
-//valet_vg_y[2] = 1905.8102
+valet_vg_y[1] = 1907.6700
+valet_vg_y[2] = 1905.8102
 
-//valet_vg_z[0] = 11.3315
-//valet_vg_z[1] = 11.3349
-//valet_vg_z[2] =	11.3313
+valet_vg_z[0] = 11.3315
+valet_vg_z[1] = 11.3349
+valet_vg_z[2] =	11.3313
 
-//valet_vg_h[0] = 331.7047
-//valet_vg_h[1] = 297.1161
-//valet_vg_h[2] = 288.6038
+valet_vg_h[0] = 331.7047
+valet_vg_h[1] = 297.1161
+valet_vg_h[2] = 288.6038
 
 VAR_FLOAT valet_drop_off_area_x1[4] valet_drop_off_area_x2[4] valet_drop_off_area_y1[4] valet_drop_off_area_y2[4]
 VAR_FLOAT car_park_area_x1[4] car_park_area_x2[4] car_park_area_y1[4] car_park_area_y2[4] car_park_area_z1[4] car_park_area_z2[4]
@@ -570,10 +570,10 @@ check_player_location:
 
 		val_area = 0
 
-//		IF IS_CHAR_IN_AREA_2D scplayer 215.3643	-1651.7264 440.7311	-1369.3921 FALSE
-//
-//			val_Area = 1
-//		ENDIF
+		IF IS_CHAR_IN_AREA_2D scplayer 215.3643	-1651.7264 440.7311	-1369.3921 FALSE
+
+			val_Area = 1
+		ENDIF
 				
 
 		IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
@@ -582,10 +582,10 @@ check_player_location:
 
 		ENDIF
 		
-//		IF IS_CHAR_IN_AREA_2D scplayer 2205.5503 1772.4938 1830.5140 2086.0610 FALSE
-//
-//			val_Area = 3
-//		ENDIF
+		IF IS_CHAR_IN_AREA_2D scplayer 2205.5503 1772.4938 1830.5140 2086.0610 FALSE
+
+			val_Area = 3
+		ENDIF
 
 
 

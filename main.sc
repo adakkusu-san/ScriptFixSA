@@ -4636,23 +4636,11 @@ IF IS_PLAYER_PLAYING player1
 			        flag_courier_trigger = 1
 				ENDIF
 			ENDIF
-	        IF IS_CHAR_IN_MODEL scplayer BMX
-			    IF flag_courier_trigger = 0
-			        PRINT_BIG ( COUR1 ) 1000 2 //COURIER MISSION LA
-					LOAD_AND_LAUNCH_MISSION courier.sc  
-					flag_courier_trigger = 1          
-				ENDIF
-			ENDIF
-			IF IS_CHAR_IN_MODEL scplayer FREEWAY
+	        IF IS_CHAR_IN_MODEL scplayer BMX //COURIER MISSION LA
+			OR IS_CHAR_IN_MODEL scplayer FREEWAY //COURIER MISSION SF
+			OR IS_CHAR_IN_MODEL scplayer FAGGIO //COURIER MISSION LV
 				IF flag_courier_trigger = 0
-			        PRINT_BIG ( COUR1 ) 1000 2 //COURIER MISSION SF
-					LOAD_AND_LAUNCH_MISSION courier.sc 
-					flag_courier_trigger = 1           
-				ENDIF
-			ENDIF
-			IF IS_CHAR_IN_MODEL scplayer FAGGIO   
-				IF flag_courier_trigger = 0
-			        PRINT_BIG ( COUR1 ) 1000 2 //COURIER MISSION LV
+			        PRINT_BIG ( COUR1 ) 1000 2
 					LOAD_AND_LAUNCH_MISSION courier.sc 
 					flag_courier_trigger = 1               
 				ENDIF
@@ -4924,32 +4912,14 @@ impound_loop_inner:
 
 	IF IS_PLAYER_PLAYING player1						
 		
-		IF im_players_city = LEVEL_LOSANGELES
+		IF im_players_city > 0 // LS or SF or LV
 			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
 			IF number_of_instances_of_streamed_script = 0
 				IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1579.4248 -1636.4630 14.5812 120.0 120.0 80.0 FALSE
-					impound_area = 1
-
-					STREAM_SCRIPT impound.sc
-
-					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-						START_NEW_STREAMED_SCRIPT impound.sc
-					ENDIF												
-				ELSE
-					IF impound_Area = 1
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-			
-		IF im_players_city = LEVEL_SANFRANCISCO
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -1624.7710 679.6637 8.5690 120.0 120.0 80.0 FALSE
+				OR LOCATE_CHAR_ANY_MEANS_3D scplayer -1624.7710 679.6637 8.5690 120.0 120.0 80.0 FALSE
+				OR LOCATE_CHAR_ANY_MEANS_3D scplayer 2284.5920 2466.8379 12.2306 120.0 120.0 80.0 FALSE
 					IF tlf_underway = 0
-						impound_area = 2
+						impound_area = im_players_city // 0 or 1 or 2
 
 						STREAM_SCRIPT impound.sc
 
@@ -4961,7 +4931,7 @@ impound_loop_inner:
 					IF tlf_underway = 2 //set in Steve’s mission cleanup
 						tlf_underway = 0
 					ENDIF
-					IF impound_Area = 2
+					IF impound_Area > 0
 						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
 						impound_Area = 0
 					ENDIF
@@ -4969,45 +4939,6 @@ impound_loop_inner:
 			ENDIF
 		ENDIF
 
-		IF im_players_city = LEVEL_SANFRANCISCO
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -1624.7710 679.6637 8.5690 120.0 120.0 80.0 FALSE
-					impound_area = 2
-
-					STREAM_SCRIPT impound.sc
-
-					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-						START_NEW_STREAMED_SCRIPT impound.sc
-					ENDIF												
-				ELSE
-					IF impound_Area = 2
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-		
-		IF im_players_city = LEVEL_LASVEGAS
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer 2284.5920 2466.8379 12.2306 120.0 120.0 80.0 FALSE
-					impound_area = 3
-
-					STREAM_SCRIPT impound.sc
-
-					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-						START_NEW_STREAMED_SCRIPT impound.sc
-					ENDIF												
-				ELSE
-					IF impound_Area = 3
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
 	ENDIF
 	
 
@@ -5033,20 +4964,21 @@ valet_loop_inner:
 	WAIT 0
 
 	IF valet_unlocked = 1 
-		IF im_players_city = LEVEL_SANFRANCISCO
+		IF im_players_city > 0 // LS or SF or LV
 			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT valet.sc number_of_instances_of_streamed_script
 			IF number_of_instances_of_streamed_script = 0
 				IF IS_PLAYER_PLAYING player1								
-					IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
-	   
-						val_Area = 2
+					IF IS_CHAR_IN_AREA_2D scplayer 215.3643	-1651.7264 440.7311	-1369.3921 FALSE
+					OR IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
+					OR IS_CHAR_IN_AREA_2D scplayer 2205.5503 1772.4938 1830.5140 2086.0610 FALSE
+						val_Area = im_players_city
 
 						STREAM_SCRIPT valet.sc
 						IF HAS_STREAMED_SCRIPT_LOADED valet.sc
 							START_NEW_STREAMED_SCRIPT valet.sc
 						ENDIF												
 					ELSE
-						IF val_Area = 2
+						IF val_Area > 0
 							MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED valet.sc
 							val_Area = 0
 						ENDIF
@@ -5117,16 +5049,38 @@ planes_loop_inner:
 	IF IS_PLAYER_PLAYING player1
 		IF flag_player_on_mission = 0
 
-			IF im_players_city = LEVEL_LOSANGELES
+			IF im_players_city > 0
+			SWITCH im_players_city
+			CASE LEVEL_LOSANGELES
+				tempf1 = 1685.7
+				tempf2 = -2238.9
+				tempf3 = 1214.0
+				tempf4 = 12.5
+			BREAK
+			CASE LEVEL_SANFRANCISCO
+				tempf1 = 1685.7
+				tempf2 = -2238.9
+				tempf3 = 14.0
+				tempf4 = 12.5
+			BREAK
+			CASE LEVEL_LASVEGAS
+				tempf1 = -1421.5
+				tempf2 = -287.2
+				tempf3 = 14.6
+				tempf4 = 14.6
+			BREAK
+			ENDSWITCH
+			sr_i = 0
+			WHILE sr_i < 4
 				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS 
 					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
 					IF number_of_instances_of_streamed_script = 0
-						IF created_marker[0] = 0
-							CREATE_USER_3D_MARKER 1685.7 -2238.9 14.0 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[0] //LEVEL_LOSANGELES
-							created_marker[0] = 1
+						IF created_marker[sr_i] = 0
+							CREATE_USER_3D_MARKER tempf1 tempf2 tempf3 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[sr_i] //LEVEL_LOSANGELES
+							created_marker[sr_i] = 1
 						ENDIF
 						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer 1685.7 -2238.9 12.5 1.2 1.2 1.2 FALSE
+							IF LOCATE_CHAR_ON_FOOT_3D scplayer tempf1 tempf2 tempf4 1.2 1.2 1.2 FALSE
 								SET_PLAYER_CONTROL player1 Off
 								GOSUB mini_fade
 								STREAM_SCRIPT planes.sc
@@ -5134,83 +5088,6 @@ planes_loop_inner:
 							//ELSE
 								//MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED planes.sc
 							ENDIF
-							
-							IF HAS_STREAMED_SCRIPT_LOADED planes.sc
-							AND flag_dozer_passed_1stime = 1
-								START_NEW_STREAMED_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 0
-							ENDIF
-						ENDIF												
-					ENDIF
-				ELSE
-					IF created_marker[0] = 1
-						REMOVE_USER_3D_MARKER airport_marker[0]
-						created_marker[0] = 0
-					ENDIF
-				ENDIF
-			ELSE
-				IF created_marker[0] = 1
-					REMOVE_USER_3D_MARKER airport_marker[0]
-					created_marker[0] = 0
-				ENDIF
-			ENDIF
-
-			IF im_players_city = LEVEL_SANFRANCISCO
-				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS 
-					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
-					IF number_of_instances_of_streamed_script = 0
-						IF created_marker[1] = 0
-							CREATE_USER_3D_MARKER -1421.5 -287.2 14.6 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[1] //LEVEL_SANFRANCISCO
-							created_marker[1] = 1
-						ENDIF
-						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer -1421.5 -287.2 14.6 1.2 1.2 1.2 FALSE
-								SET_PLAYER_CONTROL player1 Off
-								GOSUB mini_fade
-								STREAM_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 1
-							//ELSE
-								//MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED planes.sc
-							ENDIF
-
-							IF HAS_STREAMED_SCRIPT_LOADED planes.sc
-							AND flag_dozer_passed_1stime = 1
-								START_NEW_STREAMED_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 0
-							ENDIF
-						ENDIF												
-					ENDIF
-				ELSE
-					IF created_marker[1] = 1
-						REMOVE_USER_3D_MARKER airport_marker[1]
-						created_marker[1] = 0
-					ENDIF
-				ENDIF
-			ELSE
-				IF created_marker[1] = 1
-					REMOVE_USER_3D_MARKER airport_marker[1]
-					created_marker[1] = 0
-				ENDIF
-			ENDIF
-
-			IF im_players_city = LEVEL_LASVEGAS
-				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS 
-					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
-					IF number_of_instances_of_streamed_script = 0
-						IF created_marker[2] = 0
-							CREATE_USER_3D_MARKER 1663.0 1423.6 11.2 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[2] //LEVEL_LASVEGAS
-							created_marker[2] = 1
-						ENDIF
-						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer 1663.0 1423.6 11.2 1.2 1.2 1.2 FALSE
-								SET_PLAYER_CONTROL player1 Off
-								GOSUB mini_fade
-								STREAM_SCRIPT planes.sc	
-								flag_dozer_passed_1stime = 1								
-							//ELSE
-								//MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED planes.sc
-							ENDIF
-
 							IF HAS_STREAMED_SCRIPT_LOADED planes.sc
 							AND flag_dozer_passed_1stime = 1
 								START_NEW_STREAMED_SCRIPT planes.sc
@@ -5219,17 +5096,19 @@ planes_loop_inner:
 						ENDIF
 					ENDIF
 				ELSE
-					IF created_marker[2] = 1
-						REMOVE_USER_3D_MARKER airport_marker[2]
-						created_marker[2] = 0
+					IF created_marker[sr_i] = 1
+						REMOVE_USER_3D_MARKER airport_marker[sr_i]
+						created_marker[sr_i] = 0
 					ENDIF
 				ENDIF
 			ELSE
-				IF created_marker[2] = 1
-					REMOVE_USER_3D_MARKER airport_marker[2]
-					created_marker[2] = 0
+				IF created_marker[sr_i] = 1
+					REMOVE_USER_3D_MARKER airport_marker[sr_i]
+					created_marker[sr_i] = 0
 				ENDIF
 			ENDIF
+			sr_i++
+			ENDWHILE
 
 		ENDIF
 	ENDIF

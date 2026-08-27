@@ -310,7 +310,7 @@ LVAR_INT policecar7_f1blip
 LVAR_INT policecar8_f1blip
 
 //flags
-VAR_INT difficulty_f1flag //do not reset this // FIXEDGROVE: made difficulty flag global
+//LVAR_INT difficulty_f1flag //do not reset this // FIXEDGROVE: made difficulty flag global
 
 LVAR_INT rails_f1flag
 LVAR_INT motelchase_f1flag

@@ -1273,8 +1273,7 @@ VAR_INT bball_shot_dist	bball_shot_dist_decimal
 VAR_INT bball_active
 VAR_INT points_scored
 VAR_INT bball_throw_active
-VAR_INT bball_ball // FIXEDGROVE: global handle for the ball
-bball_ball = -1 // FIXEDGROVE
+// FIXEDGROVE: added bball_ball
 
 
 // KEITH ODDJOB CASH PICKUP GLOBALS
@@ -1606,8 +1605,8 @@ VAR_INT flag_bce2_passed_1stime
 VAR_INT flag_syn1_passed_1stime
 VAR_INT flag_cas1_passed_1stime
 VAR_INT flag_bikeschool_passed_1stime
-//VAR_INT flag_shtr_passed_1stime // FIXEDGROVE: unused
-//VAR_INT flag_grav_passed_1stime // FIXEDGROVE: unused
+VAR_INT flag_shtr_passed_1stime // FIXEDGROVE: unused
+VAR_INT flag_grav_passed_1stime // FIXEDGROVE: unused
 
 VAR_INT flag_on_courier_mission	respect_help_played
 
@@ -2288,9 +2287,7 @@ VAR_INT shopkeeper_model_shops
 CONST_INT SHOP_TIME_BEFORE_CHAT 8000 // FIXEDGROVE: used for the SHOP_CHAT speech context
 
 VAR_INT switch_the_gym_interiors_off
-VAR_INT switch_the_ammu_interiors_off // FIXEDGROVE: used to switch off ammunation interiors while the player is on a phonecall
 switch_the_gym_interiors_off = 0
-switch_the_ammu_interiors_off = 0 // FIXEDGROVE
 
 VAR_INT cost_menu_shops cost_menu_drawn_shops main_menu_shops main_menu_drawn_shops 
 VAR_INT bought_menu_shops bought_menu_drawn_shops sub_menu_shops sub_menu_drawn_shops
@@ -2407,7 +2404,7 @@ flag_on_doberman_mission = 0
 VAR_INT flag_gang_war_active
 flag_gang_war_active = 0
 
-VAR_INT ammu_shop_blip[10] mod_garage_blips[3] barbers_blips[6] pizza_blips[9] burger_blips[10] chicken_blips[12] tattoo_blips[4] gym_blips[2] clothes_blips[16] spray_shop[6] // FIXEDGROVE: increased pizza_blips array size for extra blip and reduced clothes_blips array size by one
+VAR_INT ammu_shop_blip[10] mod_garage_blips[3] barbers_blips[5] pizza_blips[8] burger_blips[10] chicken_blips[12] tattoo_blips[4] gym_blips[2] clothes_blips[16] unused_1 spray_shop[6] // FIXEDGROVE: added unused var
 
 
 ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
@@ -2797,7 +2794,6 @@ CREATE_OBJECT_NO_OFFSET shutter_vegas 1055.629 2087.67 12.469 ca3_loadingbay
 DONT_REMOVE_OBJECT ca3_loadingbay
 
 // FIXEDGROVE: START - gates for the compound in ocean docks
-VAR_INT gates_r2[2]
 CREATE_OBJECT_NO_OFFSET KMB_FRONTGATE 2720.623 -2405.432 13.989 gates_r2[0]
 DONT_REMOVE_OBJECT gates_r2[0]
 
@@ -2814,7 +2810,6 @@ SET_OBJECT_PROOFS g_BD_DOOR TRUE TRUE TRUE TRUE TRUE
 DONT_REMOVE_OBJECT g_BD_DOOR
 
 // FIXEDGROVE: START - Windows for Burning Desire house
-VAR_INT g_BD_WINDOW[8]
 
 // Front Downstairs Right Window
 CREATE_OBJECT_NO_OFFSET bd_window 2345.914 -1188.633 28.969 g_BD_WINDOW[0]
@@ -2941,6 +2936,7 @@ DONT_REMOVE_OBJECT h9_door_c
 //TRIP SKIP VARIABLE FOR SMOKE1
 VAR_INT tw7_trip_skip_flag
 tw7_trip_skip_flag = 0
+VAR_INT unused_2 // FIXEDGROVE: unused
 
 
 ///////doors for riot2 mission
@@ -3029,7 +3025,6 @@ FREEZE_OBJECT_POSITION carterwall TRUE
 DONT_REMOVE_OBJECT carterwall
 
 // FIXEDGROVE: START - storm drain grate
-VAR_INT grate_s4
 CREATE_OBJECT_NO_OFFSET storm_drain_cover 2631.852 -1482.75 18.109 grate_s4
 SET_OBJECT_HEALTH grate_s4 150
 DONT_REMOVE_OBJECT grate_s4
@@ -3037,19 +3032,16 @@ DONT_REMOVE_OBJECT grate_s4
 
 // FIXEDGROVE: START - jefferson motel objects
 // skylight
-VAR_INT g_skylite
 CREATE_OBJECT_NO_OFFSET imy_skylight 2246.07 -1191.242 1037.234 g_skylite
 DONT_REMOVE_OBJECT g_skylite
 
 // vent 1 
-VAR_INT g_vent1
 CREATE_OBJECT_NO_OFFSET lxr_motelvent 2217.072 -1188.664 1032.276 g_vent1
 SET_OBJECT_HEADING g_vent1 180.0
 FREEZE_OBJECT_POSITION g_vent1 TRUE
 DONT_REMOVE_OBJECT g_vent1
 
 // vent 2
-VAR_INT g_vent2
 CREATE_OBJECT lxr_motelvent 2193.188 -1164.511 1032.276 g_vent2
 SET_OBJECT_HEADING g_vent2 90.0
 DONT_REMOVE_OBJECT g_vent2
@@ -3058,53 +3050,45 @@ FREEZE_OBJECT_POSITION g_vent2 TRUE
 // TROLLEYS
 
 // trolley 1
-VAR_INT g_trolley1
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2242.433 -1166.712 1029.304 g_trolley1
 SET_OBJECT_HEALTH g_trolley1 150
 DONT_REMOVE_OBJECT g_trolley1
 
 // trolley 2
-VAR_INT g_trolley2
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2240.11 -1174.919 1029.304 g_trolley2
 SET_OBJECT_HEALTH g_trolley2 250
 DONT_REMOVE_OBJECT g_trolley2
 
 // trolley 3
-VAR_INT g_trolley3
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2229.87 -1189.845 1029.304 g_trolley3
 SET_OBJECT_HEADING g_trolley3 90.0
 SET_OBJECT_HEALTH g_trolley3 150
 DONT_REMOVE_OBJECT g_trolley3
 
 // trolley 4
-VAR_INT g_trolley4
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2217.569  -1187.528 1029.304 g_trolley4
 SET_OBJECT_HEADING g_trolley4 90.0
 SET_OBJECT_HEALTH g_trolley4 250
 DONT_REMOVE_OBJECT g_trolley4
 
 // trolley 5
-VAR_INT g_trolley5
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2204.649 -1187.544 1029.304 g_trolley5
 SET_OBJECT_HEADING g_trolley5 90.0
 SET_OBJECT_HEALTH g_trolley5 150
 DONT_REMOVE_OBJECT g_trolley5
 
 // trolley 6
-VAR_INT g_trolley6
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2194.345 -1171.269 1029.304 g_trolley6
 SET_OBJECT_HEALTH g_trolley6 250
 DONT_REMOVE_OBJECT g_trolley6
 
 // trolley 7
-VAR_INT g_trolley7
 CREATE_OBJECT_NO_OFFSET KMB_TROLLEY 2192.079 -1166.364 1029.304 g_trolley7
 SET_OBJECT_HEALTH g_trolley7 150
 DONT_REMOVE_OBJECT g_trolley7
 // FIXEDGROVE: END
 
 // FIXEDGROVE: START - crack lab front gate
-VAR_INT crackfact_front_gate
 CREATE_OBJECT_NO_OFFSET wongs_gate -2127.18 -80.8 38.24 crackfact_front_gate
 SET_OBJECT_HEADING crackfact_front_gate 180.0
 DONT_REMOVE_OBJECT crackfact_front_gate
@@ -3928,6 +3912,7 @@ CREATE_COLLECTABLE1	2689.0583 -2516.2615 16.3672
 CREATE_COLLECTABLE1	1168.6608 -891.5475 42.0859
 */ 
 
+VAR_INT switch_the_ammu_interiors_off  // FIXEDGROVE: repurposed unused variable, used to switch off ammunation interiors while the player is on a phonecall
 
 // ****************************************ENTRY-EXITS RESERVED FOR DATES***********************************************
 //--- The restaurants reserved for cut scenes are switched on and off by the date script

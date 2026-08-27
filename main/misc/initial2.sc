@@ -2726,18 +2726,16 @@ CONST_INT DANCE_WAIT_TO_START_BEATDISPLAY	10000
 
 // - Pauld gym stuff ---------------------------------------------------------------------------
  
-VAR_INT gym_day gym_final_day 
-//VAR INT gym_month gym_final_month // FIXEDGROVE: these variables are no longer used
+VAR_INT gym_day  
+VAR_INT gym_help // FIXEDGROVE: gym help flag, repurposes unused var
+VAR_INT gym_final_day
+VAR_INT unused_3 // FIXEDGROVE: unused
 
 VAR_FLOAT gym_day_fitness
 
 gym_day = -1
 
-//gym_month = -1 // FIXEDGROVE: these variables are no longer used
-
 gym_final_day = -1
-
-//gym_final_month = -1 // FIXEDGROVE: these variables are no longer used
 
 gym_day_fitness = 0.0
 
@@ -2750,20 +2748,5 @@ gym_day_fitness = 0.0
 
 VAR_INT burglary_male_decision	 burglary_female_decision  burglary_gang_decision
 
-// FIXEDGROVE: START - moved from the start of main to minimize the offset of global variables, increases mod compatibility
-VAR_INT BUTTON_ACCEPT BUTTON_CANCEL BUTTON_BET_UP BUTTON_BET_DOWN
-
-IF IS_JAPANESE_VERSION
-	BUTTON_ACCEPT = CIRCLE
-	BUTTON_CANCEL = CROSS
-	BUTTON_BET_UP = TRIANGLE
-	BUTTON_BET_DOWN = SQUARE
-ELSE
-	BUTTON_ACCEPT = CROSS
-	BUTTON_CANCEL = TRIANGLE
-	BUTTON_BET_UP = SQUARE
-	BUTTON_BET_DOWN = CIRCLE
-ENDIF
-// FIXEDGROVE: END
 
 MISSION_END												

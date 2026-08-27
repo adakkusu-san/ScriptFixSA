@@ -318,7 +318,7 @@ VAR_FLOAT in_carX in_carY in_carZ
 //HELP MESSAGE VARS
 VAR_INT	bike_help drive_by_help
 VAR_INT	print_first_help car_help_played
-VAR_INT gym_help // FIXEDGROVE
+// FIXEDGROVE: added gym_help
 
 VAR_INT driving_test_passed pilot_test_passed
 
@@ -938,7 +938,7 @@ REGISTER_STREAMED_SCRIPT PHOTO.sc
 REGISTER_STREAMED_SCRIPT PRISONR.sc
 REGISTER_STREAMED_SCRIPT camera.sc 
 REGISTER_STREAMED_SCRIPT debt.sc
-REGISTER_STREAMED_SCRIPT hotdog.sc
+REGISTER_STREAMED_SCRIPT hotdog.sc // FIXEDGROVE: stores all new globals to avoid offsetting vanilla ones
 
 CONST_INT CASINO_OBJECT_BRAIN	1
 

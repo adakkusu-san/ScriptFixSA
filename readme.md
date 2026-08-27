@@ -540,7 +540,8 @@ At this point it's incompatible with old save files made with original script. I
 
 ## Mod compatibility
 
-This mod adds 34 new global variables.
+This mod adds some global variables at the end of the list, so you may need to be careful with CLEO scripts
+that add new global variables.
 
 If using SilentPatch, it's recommended to set `EnableScriptFixes` to `-1` in its .ini file, although not strictly necessary because SP is designed to bail out any script fixes if the code doesn't match. Doing so also stops the save pickup inside Madd Dogg's mansion from being relocated since a different method is used to fix the "Basketball Glitch".
 

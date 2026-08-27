@@ -516,9 +516,6 @@ race_selection = 0
 //STATS*****************************************************************************************
 
 VAR_FLOAT fatstat_gym
-                                    
-//BEACH
-//CREATE_PICKUP bribe PICKUP_ON_STREET_SLOW 393.9 -60.2 11.5 beach_bribe1  //Not far from Construction Site behind some houses
 
 // ***************************************MISSION VARS**********************************************
 

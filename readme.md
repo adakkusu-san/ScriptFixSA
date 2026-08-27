@@ -502,7 +502,7 @@ Extract the downloaded .zip file and replace main.scm and scripts.img inside dat
 - Turn taxi lights off when the taxi submission ends
 - Made Bike Shool and Boat School use blank 'no medal' sprite in languages other than english
 - Made food carts use corresponding ped models
-- Swapped NOT HAS_MISSION_AUDIO_LOADED check for 'At least it was before I fucked everything up' voice line to before the actual audio plays
+- Tourists will drop their camera when killed
 - Made triad members spawn as bouncers in Four Dragons casino
 - Pool now increases previously unused 'Wins in Pool', 'Losses in Pool', and '8-Balls in Pool' stats
 - Increased weekday check for Kick Start by one, now its avaliable on sundays, tuesdays and thursdays, instead of mondays and wednesdays (previously the first check was, if weekday = 0, which is impossible since the valid range for "weekday" is 1 thru 7)

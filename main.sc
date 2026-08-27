@@ -5022,6 +5022,7 @@ valet_loop:
 
 {
 
+// FIXEDGROVE: refactored a bit, now also enabled for LA and LV
 
 SCRIPT_NAME VALET_L
 
@@ -5029,30 +5030,54 @@ valet_loop_inner:
 
 	WAIT 0
 
-	IF valet_unlocked = 1 
-		IF im_players_city = LEVEL_SANFRANCISCO
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT valet.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF IS_PLAYER_PLAYING player1								
-					IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
-	   
-						val_Area = 2
 
-						STREAM_SCRIPT valet.sc
-						IF HAS_STREAMED_SCRIPT_LOADED valet.sc
-							START_NEW_STREAMED_SCRIPT valet.sc
-						ENDIF												
-					ELSE
-						IF val_Area = 2
-							MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED valet.sc
-							val_Area = 0
-						ENDIF
+//	IF valet_unlocked = 1 // FIXEDGROVE: commented, checked in valet.sc
+	IF IS_PLAYER_PLAYING player1
+		GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT valet.sc number_of_instances_of_streamed_script
+		
+		IF number_of_instances_of_streamed_script = 0
+			
+			LVAR_INT valet_current_zone
+			valet_current_zone = 0
+
+			SWITCH im_players_city
+				CASE LEVEL_LOSANGELES
+					IF IS_CHAR_IN_AREA_2D scplayer 215.3643 -1651.7264 440.7311 -1369.3921 FALSE
+						valet_current_zone = im_players_city
 					ENDIF
+				BREAK
+
+				CASE LEVEL_SANFRANCISCO
+					IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
+						valet_current_zone = im_players_city
+					ENDIF
+				BREAK
+
+				CASE LEVEL_LASVEGAS
+					IF IS_CHAR_IN_AREA_2D scplayer 2205.5503 1710.5160 1830.5140 2086.0610 FALSE
+						valet_current_zone = im_players_city
+					ENDIF
+				BREAK
+			ENDSWITCH
+
+			IF valet_current_zone > 0
+
+				val_Area = valet_current_zone
+
+				STREAM_SCRIPT valet.sc
+				IF HAS_STREAMED_SCRIPT_LOADED valet.sc
+					START_NEW_STREAMED_SCRIPT valet.sc
+				ENDIF
+			ELSE
+				IF val_Area > 0
+					// Player is not in any valid zone, clean up if needed
+					MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED valet.sc
+					val_Area = 0
 				ENDIF
 			ENDIF
+
 		ENDIF
 	ENDIF
-
 
 GOTO valet_loop_inner 
 

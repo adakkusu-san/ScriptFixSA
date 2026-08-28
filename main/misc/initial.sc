@@ -1273,7 +1273,7 @@ VAR_INT bball_shot_dist	bball_shot_dist_decimal
 VAR_INT bball_active
 VAR_INT points_scored
 VAR_INT bball_throw_active
-// FIXEDGROVE: added bball_ball
+bball_ball = -1 // FIXEDGROVE
 
 
 // KEITH ODDJOB CASH PICKUP GLOBALS

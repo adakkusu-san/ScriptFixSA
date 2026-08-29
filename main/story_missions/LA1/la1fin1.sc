@@ -838,7 +838,6 @@ IF moteldeal_f1flag = 1
 							SET_PLAYER_CONTROL PLAYER1 OFF
 							SET_MAX_WANTED_LEVEL 0
 							CLEAR_WANTED_LEVEL PLAYER1
-							CLEAR_AREA 2223.769 -1141.832 200.0 200.0 TRUE
 							SET_CAR_DENSITY_MULTIPLIER 0.0
 							SET_PED_DENSITY_MULTIPLIER 0.0
 							SET_WANTED_MULTIPLIER 0.0
@@ -861,7 +860,7 @@ IF moteldeal_f1flag = 2
 			WAIT 0
 		ENDWHILE
 
-		CLEAR_AREA 2223.971 -1149.75 200.0 200.0 FALSE
+		CLEAR_AREA 2223.971 -1141.832 200.0 200.0 TRUE // FIXEDGROVE: combined with the clear in the above block 
 		SWITCH_WIDESCREEN ON
 
 		CLEAR_MISSION_AUDIO 1
@@ -8131,9 +8130,11 @@ RETURN
 mission_drugs4_failed:
 PRINT_BIG ( M_FAIL ) 5000 1 //"Mission Failed"
 // FIXEDGROVE: START - give 4 stars if the player fails the mission after arriving to the motel
-IF moteldeal_f1flag > 0
-	SET_MAX_WANTED_LEVEL 4
-	ALTER_WANTED_LEVEL player1 4
+IF IS_PLAYER_PLAYING player1
+	IF moteldeal_f1flag > 0
+		SET_MAX_WANTED_LEVEL 4
+		ALTER_WANTED_LEVEL player1 4
+	ENDIF
 ENDIF
 // FIXEDGROVE: END
 DELETE_OBJECT advert_f1
@@ -8342,11 +8343,12 @@ DELETE_CAR extpoliceheli_f1
 IF IS_PLAYER_PLAYING PLAYER1
 	SET_PLAYER_DUCK_BUTTON PLAYER1 TRUE
 	SET_PLAYER_FIRE_BUTTON PLAYER1 TRUE
-	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE // FIXEDGROVE: changed from SHUT_CHAR_UP
-	STOP_CHAR_FACIAL_TALK scplayer // FIXEDGROVE: added for edge cases
 	//SET_PLAYER_FAST_RELOAD PLAYER1 FALSE
 	//Interior
 ENDIF
+
+SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE // FIXEDGROVE: changed from SHUT_CHAR_UP, moved out of above check
+STOP_CHAR_FACIAL_TALK scplayer // FIXEDGROVE: added for edge cases
 
 //detach bad guys
 IF NOT IS_CHAR_DEAD bikerjumper3_f1

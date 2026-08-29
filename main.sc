@@ -20,6 +20,7 @@ SET_MAX_WANTED_LEVEL 6
 SET_DEATHARREST_STATE OFF
 SET_TIME_OF_DAY 08 00 
 
+/* FIXEDGROVE: variable declaration moved to Hotdog.sc, initialization moved further down in main
 VAR_INT BUTTON_ACCEPT BUTTON_CANCEL BUTTON_BET_UP BUTTON_BET_DOWN
 
 IF IS_JAPANESE_VERSION
@@ -33,6 +34,7 @@ ELSE
 	BUTTON_BET_UP = SQUARE
 	BUTTON_BET_DOWN = CIRCLE
 ENDIF
+*/
 
 // *****************************************CREATE PLAYER***********************************   
 
@@ -316,6 +318,7 @@ VAR_FLOAT in_carX in_carY in_carZ
 //HELP MESSAGE VARS
 VAR_INT	bike_help drive_by_help
 VAR_INT	print_first_help car_help_played
+// FIXEDGROVE: added gym_help
 
 VAR_INT driving_test_passed pilot_test_passed
 
@@ -513,9 +516,6 @@ race_selection = 0
 //STATS*****************************************************************************************
 
 VAR_FLOAT fatstat_gym
-                                    
-//BEACH
-//CREATE_PICKUP bribe PICKUP_ON_STREET_SLOW 393.9 -60.2 11.5 beach_bribe1  //Not far from Construction Site behind some houses
 
 // ***************************************MISSION VARS**********************************************
 
@@ -778,7 +778,7 @@ VAR_INT busted_help1
 
 // *****************************************SWITCH ROADS OFF****************************************
 
-SWITCH_ROADS_OFF 2500.0 -1677.0 20.0 2430.0 -1653.0 0.0	 //REMOVE (SPEAK TO JOHN)
+//SWITCH_ROADS_OFF 2500.0 -1677.0 20.0 2430.0 -1653.0 0.0	 //REMOVE (SPEAK TO JOHN) // FIXEDGROVE: not needed since the nodes are turned off anyway
 
 
 // *****************************************SHOPS******************************************************
@@ -935,7 +935,7 @@ REGISTER_STREAMED_SCRIPT PHOTO.sc
 REGISTER_STREAMED_SCRIPT PRISONR.sc
 REGISTER_STREAMED_SCRIPT camera.sc 
 REGISTER_STREAMED_SCRIPT debt.sc
-REGISTER_STREAMED_SCRIPT hotdog.sc
+REGISTER_STREAMED_SCRIPT hotdog.sc // FIXEDGROVE: stores all new globals to avoid offsetting vanilla ones
 
 CONST_INT CASINO_OBJECT_BRAIN	1
 
@@ -1103,6 +1103,18 @@ LAUNCH_MISSION audio_controller.sc //SL
 LAUNCH_MISSION hj.sc //CR
 LAUNCH_MISSION mobile.sc //CF
 
+// FIXEDGROVE: moved from top of main
+IF IS_JAPANESE_VERSION
+	BUTTON_ACCEPT = CIRCLE
+	BUTTON_CANCEL = CROSS
+	BUTTON_BET_UP = TRIANGLE
+	BUTTON_BET_DOWN = SQUARE
+ELSE
+	BUTTON_ACCEPT = CROSS
+	BUTTON_CANCEL = TRIANGLE
+	BUTTON_BET_UP = SQUARE
+	BUTTON_BET_DOWN = CIRCLE
+ENDIF
 
 DO_FADE 0 FADE_OUT
 DISPLAY_ZONE_NAMES FALSE
@@ -3485,6 +3497,20 @@ WAIT 125
 
 IF IS_PLAYER_PLAYING player1
     IF flag_player_on_mission = 0  
+		// FIXEDGROVE: START - open the ammu interiors if the player is not on a call
+		IF flag_sweet_mission_counter > 7 // if player has unlocked ammunation
+			IF flag_cell_nation = 0 // a call is not ongoing
+				IF switch_the_ammu_interiors_off = 0
+					SWITCH_ENTRY_EXIT ammun1 TRUE
+					SWITCH_ENTRY_EXIT ammun2 TRUE
+					SWITCH_ENTRY_EXIT ammun3 TRUE
+					SWITCH_ENTRY_EXIT ammun4 TRUE
+					SWITCH_ENTRY_EXIT ammun5 TRUE
+					switch_the_ammu_interiors_off = 1
+				ENDIF
+			ENDIF
+		ENDIF
+		// FIXEDGROVE: END
     	IF NOT main_visible_area = 0
 	    	IF flag_shooting_range_mission = 0                  
 		    	//find which range the player is in
@@ -3504,6 +3530,23 @@ IF IS_PLAYER_PLAYING player1
 			ENDIF
 		ENDIF
     ELSE
+		// FIXEDGROVE: START - shut the ammu interiors while on a call
+		IF flag_sweet_mission_counter > 7 // if player has unlocked ammunation
+			IF main_visible_area = 0
+				IF NOT flag_cell_nation = 0 // a call is ongoing
+					IF switch_the_ammu_interiors_off = 1
+						SWITCH_ENTRY_EXIT ammun1 FALSE
+						SWITCH_ENTRY_EXIT ammun2 FALSE
+						SWITCH_ENTRY_EXIT ammun3 FALSE
+						SWITCH_ENTRY_EXIT ammun4 FALSE
+						SWITCH_ENTRY_EXIT ammun5 FALSE
+						switch_the_ammu_interiors_off = 0
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+		// FIXEDGROVE: END
+
 		IF NOT main_visible_area = 0
         	IF flag_dont_start_shooting_range = 0
 				flag_dont_start_shooting_range = 1	
@@ -4991,6 +5034,7 @@ valet_loop:
 
 {
 
+// FIXEDGROVE: refactored a bit, now also enabled for LA and LV
 
 SCRIPT_NAME VALET_L
 
@@ -4998,30 +5042,54 @@ valet_loop_inner:
 
 	WAIT 0
 
-	IF valet_unlocked = 1 
-		IF im_players_city = LEVEL_SANFRANCISCO
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT valet.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF IS_PLAYER_PLAYING player1								
-					IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
-	   
-						val_Area = 2
 
-						STREAM_SCRIPT valet.sc
-						IF HAS_STREAMED_SCRIPT_LOADED valet.sc
-							START_NEW_STREAMED_SCRIPT valet.sc
-						ENDIF												
-					ELSE
-						IF val_Area = 2
-							MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED valet.sc
-							val_Area = 0
-						ENDIF
+//	IF valet_unlocked = 1 // FIXEDGROVE: commented, checked in valet.sc
+	IF IS_PLAYER_PLAYING player1
+		GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT valet.sc number_of_instances_of_streamed_script
+		
+		IF number_of_instances_of_streamed_script = 0
+			
+			LVAR_INT valet_current_zone
+			valet_current_zone = 0
+
+			SWITCH im_players_city
+				CASE LEVEL_LOSANGELES
+					IF IS_CHAR_IN_AREA_2D scplayer 215.3643 -1651.7264 440.7311 -1369.3921 FALSE
+						valet_current_zone = im_players_city
 					ENDIF
+				BREAK
+
+				CASE LEVEL_SANFRANCISCO
+					IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
+						valet_current_zone = im_players_city
+					ENDIF
+				BREAK
+
+				CASE LEVEL_LASVEGAS
+					IF IS_CHAR_IN_AREA_2D scplayer 2205.5503 1710.5160 1830.5140 2086.0610 FALSE
+						valet_current_zone = im_players_city
+					ENDIF
+				BREAK
+			ENDSWITCH
+
+			IF valet_current_zone > 0
+
+				val_Area = valet_current_zone
+
+				STREAM_SCRIPT valet.sc
+				IF HAS_STREAMED_SCRIPT_LOADED valet.sc
+					START_NEW_STREAMED_SCRIPT valet.sc
+				ENDIF
+			ELSE
+				IF val_Area > 0
+					// Player is not in any valid zone, clean up if needed
+					MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED valet.sc
+					val_Area = 0
 				ENDIF
 			ENDIF
+
 		ENDIF
 	ENDIF
-
 
 GOTO valet_loop_inner 
 
@@ -6660,6 +6728,28 @@ game_help_loop_inner:
 										ENDIF
 									ENDIF
 								ENDIF
+
+								// FIXEDGROVE: START - play the gym tutorial help while freeroaming
+								// if the player answered sweet's call while on an interior
+								IF IS_PLAYER_PLAYING player1
+									IF flag_mob_la1[6] = 1
+										IF gym_help = 0		
+											WAIT 2000
+                    				    	PRINT_HELP GYMHELP  
+											WAIT 5000
+											PRINT_HELP DUMBELL
+											FLASH_HUD_OBJECT HUD_FLASH_RADAR
+
+											WAIT 5000
+
+											FLASH_HUD_OBJECT -1
+
+											gym_help = 1
+										ENDIF
+									ENDIF
+								ENDIF
+								// FIXEDGROVE: END
+
 							ENDIF
 						ENDIF
 					ENDIF
@@ -6673,7 +6763,9 @@ game_help_loop_inner:
 				IF car_help_played = 1
 					IF voice_over_at_hub = 1
 						IF chat_help1_flag = 1
-							TERMINATE_THIS_SCRIPT
+							IF gym_help = 1 // FIXEDGROVE: new help
+								TERMINATE_THIS_SCRIPT
+							ENDIF
 						ENDIF
 					ENDIF
 				ENDIF
@@ -7395,7 +7487,8 @@ VAR_TEXT_LABEL entry_exit_name
 
 		IF IS_PLAYER_PLAYING player1
 			IF flag_player_on_mission = 0
-				IF main_visible_area = 0
+				//IF main_visible_area = 0 // FIXEDGROVE: removed to allow phonecalls while in interiors
+				IF IS_PLAYER_CONTROL_ON player1 // FIXEDGROVE: extra check needed for some cases
 					IF flag_cell_nation = 0 //phone call not in progress
 						IF player_fall_state = 0 //Parachute
 							IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS	

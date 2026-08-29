@@ -436,7 +436,7 @@ IF sc3_flag = 1
 			DELETE_CHAR valet[1]
 			DELETE_CHAR valet[2]
 
-			valet_unlocked = 1
+//			valet_unlocked = 1 // FIXEDGROVE: unused
 
 			
 			STREAM_SCRIPT valet.sc
@@ -953,7 +953,7 @@ IF sc3_flag = 5
 		IF NOT GET_FADING_STATUS
 			REMOVE_CAR_RECORDING 155
 
-			SWITCH_ROADS_ON 2793.8140 -1987.9346 15.3045 2754.3240 -1900.3694 9.8752
+//			SWITCH_ROADS_ON 2793.8140 -1987.9346 15.3045 2754.3240 -1900.3694 9.8752 // FIXEDGROVE: comment out, copypasted from sweet5
 			IF NOT IS_CAR_DEAD sc3_missioncar
 			AND NOT IS_CHAR_DEAD sc3_missionchar
 				IF IS_PLAYBACK_GOING_ON_FOR_CAR sc3_missioncar
@@ -2750,7 +2750,7 @@ mission_scrash3_failed:
 
 		PRINT_BIG M_FAIL 5000 1
 		valet_mission_terminate = 1
-		valet_unlocked = 0
+//		valet_unlocked = 0 // FIXEDGROVE: unused
 
 RETURN
 
@@ -2762,7 +2762,7 @@ mission_scrash3_passed:
 	//flag_wuzi1_mission1_passed = 1
 
 	SET_INT_STAT PASSED_ZERO1 1
-	valet_unlocked = 1
+//	valet_unlocked = 1 // FIXEDGROVE: unused
 	valet_oddjob_opened = 1
 	PRINT_WITH_NUMBER_BIG ( M_PASSD ) 0 5000 1 //"Mission Passed!"
 	SET_INT_STAT PASSED_SCRASH1 1
@@ -2801,7 +2801,7 @@ SET_WANTED_MULTIPLIER 1.0
 SET_CAR_DENSITY_MULTIPLIER 1.0
 SET_PED_DENSITY_MULTIPLIER 1.0
 
-SWITCH_ROADS_ON 2793.8140 -1987.9346 15.3045 2754.3240 -1900.3694 9.8752
+//SWITCH_ROADS_ON 2793.8140 -1987.9346 15.3045 2754.3240 -1900.3694 9.8752 // FIXEDGROVE: comment out, copypasted from sweet5
 
 CLEAR_ONSCREEN_TIMER sc3_countdown
 

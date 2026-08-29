@@ -33,6 +33,8 @@ LVAR_INT bmx_bikes[3] bmx_gang_finished[3] drive_to_hub1 bmx_rider_on_bike1 bmx_
 LVAR_INT smokes_decision sweets_decision ryders_decision skip_funeral_cutscene switch_traffic_back_on intro1_audio_chat[14]	num_bikes_in_chase play_catch_up_audio_smoke
 LVAR_INT intro1_cutscene_flag chars_decision drive_to_hub_smoke	set_up_smokes_audio flag_the_drive_by_car_is_dead killed_the_baller_cunts play_catch_up_audio
 LVAR_FLOAT int1X int1Y int1Z  ClosestX ClosestY ClosestZ int1_driveX int1_driveY int1_driveZ player_bmxX player_bmxY player_bmxZ
+LVAR_INT int1_char_model[3] int1_char_select // FIXEDGROVE
+LVAR_INT timer_start timer_end // FIXEDGROVE
 VAR_TEXT_LABEL $intro1_chat[14]
 
 intro1_chat_switch:
@@ -478,6 +480,8 @@ REQUEST_MODEL BMX
 REQUEST_MODEL micro_uzi
 REQUEST_MODEL VOODOO
 REQUEST_MODEL ballas1 
+REQUEST_MODEL ballas2 // FIXEDGROVE
+REQUEST_MODEL ballas3 // FIXEDGROVE
 REQUEST_MODEL COLT45
 REQUEST_CAR_RECORDING 201
 
@@ -495,12 +499,19 @@ ENDWHILE
 	  
 WHILE NOT HAS_MODEL_LOADED micro_uzi
 OR NOT HAS_MODEL_LOADED	ballas1
+OR NOT HAS_MODEL_LOADED	ballas2 // FIXEDGROVE
+OR NOT HAS_MODEL_LOADED	ballas3 // FIXEDGROVE
 OR NOT HAS_MODEL_LOADED COLT45
 OR NOT HAS_CAR_RECORDING_BEEN_LOADED 201
 	WAIT 0
 
 ENDWHILE
-	 
+
+	// FIXEDGROVE: START - random model variation
+	int1_char_model[0] = BALLAS1
+	int1_char_model[1] = BALLAS2
+	int1_char_model[2] = BALLAS3
+	// FIXEDGROVE: END
 
  	SWITCH_WIDESCREEN ON
 	SET_PLAYER_CONTROL player1 OFF
@@ -518,8 +529,10 @@ ENDWHILE
 	CHANGE_CAR_COLOUR drive_by_car 22 22
 
 	SET_LOAD_COLLISION_FOR_CAR_FLAG drive_by_car FALSE
-	CREATE_CHAR_INSIDE_CAR drive_by_car PEDTYPE_MISSION2 ballas1 drive_by_char1 
-	CREATE_CHAR_AS_PASSENGER drive_by_car PEDTYPE_MISSION2 ballas1 0 drive_by_char2
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 int1_char_select // FIXEDGROVE
+	CREATE_CHAR_INSIDE_CAR drive_by_car PEDTYPE_MISSION2 int1_char_model[int1_char_select] drive_by_char1 // FIXEDGROVE: was ballas1
+	GENERATE_RANDOM_INT_IN_RANGE 0 3 int1_char_select // FIXEDGROVE
+	CREATE_CHAR_AS_PASSENGER drive_by_car PEDTYPE_MISSION2 int1_char_model[int1_char_select] 0 drive_by_char2 // FIXEDGROVE: was ballas1
 	LOAD_CHAR_DECISION_MAKER DM_PED_MISSION_EMPTY chars_decision
 	SET_CHAR_ACCURACY drive_by_char1 25
 	SET_CHAR_ACCURACY drive_by_char2 25
@@ -533,6 +546,8 @@ ENDWHILE
 
 
 	MARK_MODEL_AS_NO_LONGER_NEEDED ballas1
+	MARK_MODEL_AS_NO_LONGER_NEEDED ballas2 // FIXEDGROVE
+	MARK_MODEL_AS_NO_LONGER_NEEDED ballas3 // FIXEDGROVE
 	GIVE_WEAPON_TO_CHAR drive_by_char2 WEAPONTYPE_MICRO_UZI 30000
 	SET_CURRENT_CHAR_WEAPON drive_by_char2 WEAPONTYPE_MICRO_UZI
 	GIVE_WEAPON_TO_CHAR drive_by_char1 WEAPONTYPE_MICRO_UZI 30000
@@ -1248,38 +1263,50 @@ OR NOT LOCATE_CHAR_ANY_MEANS_3D bmx_gang[2] 1644.7734 -1051.3339 22.8984 10.0 12
 	// ***************************************************************************************************************
 	// ***************************************BMX HELP TEXT***********************************************************
 	
-	IF IS_CHAR_IN_MODEL scplayer BMX 
-		
-		IF been_in_a_bmx = 0
-			PRINT_HELP INTRO2C 
-			
-			TIMERA = 0
-			been_in_a_bmx = 1
-		
-		ELSE
-			IF been_in_a_bmx = 1
-				IF TIMERA > 10000
-					
-					PRINT_HELP INTRO2D  
-					
-					TIMERA = 0
+	IF IS_CHAR_IN_MODEL scplayer BMX
+	// FIXEDGROVE: START - change to switch-case and don't use TIMERA
+		SWITCH been_in_a_bmx
+		CASE 0
+			IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
+				PRINT_HELP INTRO2C
+				been_in_a_bmx = 1
+				GET_GAME_TIMER timer_start
+				timer_start = timer_start + 10000
+			ENDIF
+		BREAK
+		CASE 1
+			IF timer_end > timer_start //IF TIMERA > 10000
+				IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
+					PRINT_HELP INTRO2D
 					been_in_a_bmx = 2
+					GET_GAME_TIMER timer_start
+					timer_start = timer_start + 10000
 				ENDIF
 			ENDIF
-			
-			IF been_in_a_bmx = 2
-				IF TIMERA > 20000
+		BREAK
+		CASE 2
+			IF timer_end > timer_start //IF TIMERA > 20000
+				IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
 					PRINT_HELP HELP3B // You can only cycle fast or sprint for a limited amount of time. 
 					been_in_a_bmx = 3
-					ENDIF
+					GET_GAME_TIMER timer_start
+					timer_start = timer_start + 8000
+				ENDIF
 			ENDIF
-			IF been_in_a_bmx = 3
-				IF TIMERA > 28000
+		BREAK
+		CASE 3
+			IF timer_end > timer_start //IF TIMERA > 28000
+				IF NOT IS_HELP_MESSAGE_BEING_DISPLAYED
 					PRINT_HELP HELP3B2  // The more exercise you get the higher your ~h~stamina~w~ will become, allowing you to exert yourself for longer.  
 					been_in_a_bmx = 4
 				ENDIF
 			ENDIF
+		BREAK
+		ENDSWITCH
+		IF been_in_a_bmx < 4
+			GET_GAME_TIMER timer_end
 		ENDIF
+	// FIXEDGROVE: END
 	ENDIF
 
 
@@ -2465,6 +2492,8 @@ mission_cleanup_intro1:
 	MARK_MODEL_AS_NO_LONGER_NEEDED PEREN
 	MARK_MODEL_AS_NO_LONGER_NEEDED BMX
 	MARK_MODEL_AS_NO_LONGER_NEEDED ballas1
+	MARK_MODEL_AS_NO_LONGER_NEEDED ballas2 // FIXEDGROVE
+	MARK_MODEL_AS_NO_LONGER_NEEDED ballas3 // FIXEDGROVE
 	MARK_MODEL_AS_NO_LONGER_NEEDED micro_uzi
 	MARK_MODEL_AS_NO_LONGER_NEEDED VOODOO
 	DONT_SUPPRESS_CAR_MODEL VOODOO
@@ -2484,7 +2513,7 @@ mission_cleanup_intro1:
 	REMOVE_CAR_RECORDING 206
 	REMOVE_ANIMATION MISC
 	REMOVE_ANIMATION GANGS
-	SWITCH_PED_ROADS_ON 1782.8021 -1203.4969 0.0 1788.2726 -1236.1504 20.0
+	SWITCH_PED_ROADS_BACK_TO_ORIGINAL 1782.8021 -1203.4969 0.0 1788.2726 -1236.1504 20.0 // FIXEDGROVE: remove rather than turn on
 	IF NOT IS_CAR_DEAD drive_by_car
 		STOP_PLAYBACK_RECORDED_CAR drive_by_car
 	ELSE

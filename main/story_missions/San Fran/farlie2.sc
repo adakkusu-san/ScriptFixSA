@@ -80,6 +80,8 @@ LVAR_INT d2_package_immovable[4]
 
 LVAR_INT d2_fake_creates
 
+LVAR_INT d2_player_cant_driveby d2_player_near_package // FIXEDGROVE
+
 // blips
 
 LVAR_INT d2_package_blips[4] /*d2_player_bike_blip*/ d2_ambushed_van_blip d2_player_dest_blip
@@ -290,7 +292,12 @@ ENDIF
 //SWITCH_ROADS_OFF -2130.87 903.39 45.48 -2013.14 959.18 80.03
 // stop traffic jams at location of ambush
 //SWITCH_ROADS_OFF -1859.24 349.43 13.18 -1792.44 418.63 21.34
-SWITCH_ROADS_OFF -2014.82 181.4 -13.0 -1614.82 581.4 47.0
+//SWITCH_ROADS_OFF -2014.82 181.4 -13.0 -1614.82 581.4 47.0 // FIXEDGROVE: comment out, far too big
+// FIXEDGROVE: START - new smaller zones, fixes the traffic going through the barriers after removing the zones
+SWITCH_ROADS_OFF -1847.130 407.370 13.18 -1832.90 393.0 18.34
+SWITCH_ROADS_OFF -1823.80 384.0 13.18 -1813.4 373.63 18.34 
+SWITCH_ROADS_OFF -1815.041 354.075 13.18 -1787.209 366.525 18.34
+// FIXEDGROVE: END
 
 ADD_BLIP_FOR_COORD -1814.82 381.40 17.09 d2_ambushed_van_blip
 SET_COORD_BLIP_APPEARANCE d2_ambushed_van_blip COORD_BLIP_APPEARANCE_FRIEND
@@ -533,6 +540,12 @@ WAIT 0
 			ADD_BLIP_FOR_COORD d2_player_dest_x d2_player_dest_y d2_player_dest_z d2_player_dest_blip
 			PRINT_NOW ( DRV3_10 ) 7000 0
 			d2_all_packages_collected = 1
+			// FIXEDGROVE: START - re-enable drive-by
+			IF d2_player_cant_driveby = 1
+				SET_PLAYER_CAN_DO_DRIVE_BY player1 TRUE
+				d2_player_cant_driveby = 0
+			ENDIF
+			// FIXEDGROVE: END
 		ENDIF
 
 		// mission pass/fail conditions
@@ -701,7 +714,41 @@ GOTO driv2_loop
 // ************************************************************
 
 	d2_package_collect_check:
-
+	// FIXEDGROVE: START - disable drive-by if player is near package
+	// allows the animation to play and prevents accidentally blowing up the bike
+	d2_player_near_package = 0
+	d2_index = 0
+	WHILE d2_index < d2_num_of_packages
+		IF d2_player_near_package = 0
+			IF DOES_OBJECT_EXIST d2_packages[d2_index]
+			AND NOT d2_package_collected[d2_index] = 1
+				IF IS_OBJECT_ATTACHED d2_packages[d2_index]
+					IF LOCATE_CHAR_ANY_MEANS_OBJECT_3D scplayer d2_packages[d2_index] 6.0 6.0 6.0 FALSE
+						d2_player_near_package = 1
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+		d2_index++
+	ENDWHILE
+	IF d2_player_near_package = 1
+		IF d2_player_cant_driveby = 0
+			SET_PLAYER_CAN_DO_DRIVE_BY player1 FALSE
+			d2_player_cant_driveby = 1
+		ENDIF
+	ELSE
+		IF d2_player_cant_driveby = 1
+			IF NOT IS_CHAR_PLAYING_ANIM scplayer pickup_box
+			AND NOT IS_CHAR_PLAYING_ANIM scplayer BIKEs_Snatch_L
+			AND NOT IS_CHAR_PLAYING_ANIM scplayer BIKEs_Snatch_R
+			AND NOT IS_CHAR_PLAYING_ANIM scplayer GRAB_L
+			AND NOT IS_CHAR_PLAYING_ANIM scplayer GRAB_R
+				SET_PLAYER_CAN_DO_DRIVE_BY player1 TRUE
+				d2_player_cant_driveby = 0
+			ENDIF
+		ENDIF
+	ENDIF
+	// FIXEDGROVE: END
 		d2_index = 0
 		WHILE d2_index < d2_num_of_packages
 			IF DOES_OBJECT_EXIST d2_packages[d2_index]
@@ -829,7 +876,7 @@ GOTO driv2_loop
 							ENDIF
 
 						ENDIF
- 
+
 					ENDIF
 
 					IF NOT d2_package_collected[d2_index] = 1
@@ -1360,7 +1407,12 @@ GOTO driv2_loop
 
 		WAIT 1000
 
-		SWITCH_ROADS_BACK_TO_ORIGINAL -2014.82 181.4 -13.0 -1614.82 581.4 47.0
+//		SWITCH_ROADS_BACK_TO_ORIGINAL -2014.82 181.4 -13.0 -1614.82 581.4 47.0 // FIXEDGROVE: comment out
+		// FIXEDGROVE: START - new smaller zones, fixes the traffic going through the barriers after removing the zones
+		SWITCH_ROADS_BACK_TO_ORIGINAL -1847.130 407.370 13.18 -1832.90 393.0 18.34
+		SWITCH_ROADS_BACK_TO_ORIGINAL -1823.80 384.0 13.18 -1813.4 373.63 18.34 
+		SWITCH_ROADS_BACK_TO_ORIGINAL -1815.041 354.075 13.18 -1787.209 366.525 18.34
+		// FIXEDGROVE: END
 		
 		SET_FIXED_CAMERA_POSITION -1832.36 380.48 18.71 0.0 0.0 0.0
 		IF NOT IS_CAR_DEAD d2_gang_bikes[0]
@@ -1435,7 +1487,12 @@ GOTO driv2_loop
 		IF d2_cutscene_skipped = 1
 
 			// if cutscene skipped, set conditions to those at the end of the cutscene
-			SWITCH_ROADS_BACK_TO_ORIGINAL -2014.82 181.4 -13.0 -1614.82 581.4 47.0
+//			SWITCH_ROADS_BACK_TO_ORIGINAL -2014.82 181.4 -13.0 -1614.82 581.4 47.0 // FIXEDGROVE: comment out
+			// FIXEDGROVE: START - new smaller zones, fixes the traffic going through the barriers after removing the zones
+			SWITCH_ROADS_BACK_TO_ORIGINAL -1847.130 407.370 13.18 -1832.90 393.0 18.34
+			SWITCH_ROADS_BACK_TO_ORIGINAL -1823.80 384.0 13.18 -1813.4 373.63 18.34 
+			SWITCH_ROADS_BACK_TO_ORIGINAL -1815.041 354.075 13.18 -1787.209 366.525 18.34
+			// FIXEDGROVE: END
 
 			IF NOT IS_CHAR_DEAD d2_gang_bikers[0]
 			AND NOT IS_CAR_DEAD d2_gang_bikes[0]
@@ -1803,6 +1860,7 @@ RETURN
 
 mission_cleanup_driv2:
 
+SET_PLAYER_CAN_DO_DRIVE_BY player1 TRUE // FIXEDGROVE: revert to default
 MARK_MODEL_AS_NO_LONGER_NEEDED BOXVILLE
 MARK_MODEL_AS_NO_LONGER_NEEDED FCR900
 MARK_MODEL_AS_NO_LONGER_NEEDED kmb_packet
@@ -1843,7 +1901,12 @@ REMOVE_DECISION_MAKER d2_gang_biker_decisions
 CLEAR_SEQUENCE_TASK d2_final_cutscene_seq
 CLEAR_HELP
 //SWITCH_ROADS_BACK_TO_ORIGINAL -2130.87 903.39 45.48 -2013.14 959.18 80.03
-SWITCH_ROADS_BACK_TO_ORIGINAL -2014.82 181.4 -13.0 -1614.82 581.4 47.0
+//SWITCH_ROADS_BACK_TO_ORIGINAL -2014.82 181.4 -13.0 -1614.82 581.4 47.0 // FIXEDGROVE: comment out
+// FIXEDGROVE: START - new smaller zones, fixes the traffic going through the barriers after removing the zones
+SWITCH_ROADS_BACK_TO_ORIGINAL -1847.130 407.370 13.18 -1832.90 393.0 18.34
+SWITCH_ROADS_BACK_TO_ORIGINAL -1823.80 384.0 13.18 -1813.4 373.63 18.34 
+SWITCH_ROADS_BACK_TO_ORIGINAL -1815.041 354.075 13.18 -1787.209 366.525 18.34
+// FIXEDGROVE: END
 IF IS_PLAYER_PLAYING player1
 	HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE scplayer FALSE
 ENDIF

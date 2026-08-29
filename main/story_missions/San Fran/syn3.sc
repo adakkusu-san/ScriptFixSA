@@ -120,6 +120,10 @@ LVAR_INT s3_player_entered_any_car
 
 LVAR_INT s3_fake_creates
 
+LVAR_INT s3_gate_stop // FIXEDGROVE
+
+LVAR_INT s3_char_model[3] s3_char_select // FIXEDGROVE
+
 // blips
 
 LVAR_INT s3_meet_car_blip s3_van_location_blip s3_player_bike_blip
@@ -241,6 +245,12 @@ s3_audio_index = 0
 s3_started_talking = 0
 
 s3_fake_creates = 0
+
+// FIXEDGROVE: START - random model variations
+s3_char_model[0] = dnb1
+s3_char_model[1] = dnb2
+s3_char_model[2] = dnb3
+// FIXEDGROVE: END
 
 // ****************************************START OF CUTSCENE*******************************
 
@@ -952,6 +962,25 @@ WAIT 0
 				ENDIF
 			ENDIF
 
+			// FIXEDGROVE: START - open crackfact gate when paste van gets close
+			IF s3_current_roadblock = -1
+			AND s3_gate_stop = 0
+				IF LOCATE_CAR_2D s3_paste_van -2128.1201 -83.3848 12.0 18.0 FALSE
+					IF DOES_OBJECT_EXIST crackfact_front_gate
+						GET_OBJECT_COORDINATES crackfact_front_gate x y z
+						IF x < -2117.0 
+							SLIDE_OBJECT crackfact_front_gate -2117.0 -80.8 38.24 0.2 0.0 0.0 FALSE
+						ELSE
+							IF s3_gate_stop = 0
+								REPORT_MISSION_AUDIO_EVENT_AT_OBJECT crackfact_front_gate SOUND_MESH_GATE_OPEN_STOP
+								s3_gate_stop = 1
+							ENDIF
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+			// FIXEDGROVE: END
+
 			// get handle for last car player is in before cutscene at factory
 			IF IS_CHAR_IN_ANY_CAR scplayer
 				STORE_CAR_CHAR_IS_IN scplayer s3_last_player_car_before_van_cutscene
@@ -1170,19 +1199,24 @@ GOTO syn3_loop
 		REQUEST_MODEL GREENWOO
 		REQUEST_MODEL DNB3
 		REQUEST_MODEL DNB2
+		REQUEST_MODEL DNB1 // FIXEDGROVE
 		REQUEST_MODEL MP5LNG
 		WHILE NOT HAS_MODEL_LOADED GREENWOO
 		   OR NOT HAS_MODEL_LOADED DNB3
 		   OR NOT HAS_MODEL_LOADED DNB2
+		   OR NOT HAS_MODEL_LOADED DNB1 // FIXEDGROVE
 		   OR NOT HAS_MODEL_LOADED MP5LNG
 			WAIT 0
 		ENDWHILE
 
 		REMOVE_BLIP s3_temp_first_roadblock_blip
 		// first roadblock
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2000.75 537.24 33.91 s3_first_roadblock_peds[0]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2007.75 543.24 33.91 s3_first_roadblock_peds[1]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2012.75 537.24 33.91 s3_first_roadblock_peds[2]
+		GENERATE_RANDOM_INT_IN_RANGE 0 3 s3_char_select // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2000.75 537.24 33.91 s3_first_roadblock_peds[0] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2007.75 543.24 33.91 s3_first_roadblock_peds[1] // FIXEDGROVE: was DNB2
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2012.75 537.24 33.91 s3_first_roadblock_peds[2] // FIXEDGROVE: was DNB3
 		// set up decision maker for all roadblock peds
 		COPY_CHAR_DECISION_MAKER -1 s3_roadblock_ped_decisions
 		CLEAR_CHAR_DECISION_MAKER_EVENT_RESPONSE s3_roadblock_ped_decisions EVENT_GUN_AIMED_AT
@@ -1257,12 +1291,18 @@ GOTO syn3_loop
 			s3_index++
 		ENDWHILE
 
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2075.74 314.74 33.97 s3_second_roadblock_peds[0]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2069.24 323.74 33.97 s3_second_roadblock_peds[1]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2075.74 326.74 33.97 s3_second_roadblock_peds[2]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2076.97 309.56 40.99 s3_second_roadblock_peds[3]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2073.97 309.56 40.99 s3_second_roadblock_peds[4]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2063.46 309.56 40.99 s3_second_roadblock_peds[5]
+		GENERATE_RANDOM_INT_IN_RANGE 0 3 s3_char_select // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2075.74 314.74 33.97 s3_second_roadblock_peds[0] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2069.24 323.74 33.97 s3_second_roadblock_peds[1] // FIXEDGROVE: was DNB2
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2075.74 326.74 33.97 s3_second_roadblock_peds[2] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2076.97 309.56 40.99 s3_second_roadblock_peds[3] // FIXEDGROVE: was DNB2
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2073.97 309.56 40.99 s3_second_roadblock_peds[4] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2063.46 309.56 40.99 s3_second_roadblock_peds[5] // FIXEDGROVE: was DNB2
 		s3_index = 0
 		WHILE s3_index < 6
 			SET_CHAR_DECISION_MAKER s3_second_roadblock_peds[s3_index] s3_roadblock_ped_decisions
@@ -1321,12 +1361,18 @@ GOTO syn3_loop
 			s3_index++
 		ENDWHILE
 
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2141.12 156.06 34.07 s3_third_roadblock_peds[0]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2149.62 162.06 34.07 s3_third_roadblock_peds[1]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2153.12 156.06 34.07 s3_third_roadblock_peds[2]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2135.68 164.20 41.29 s3_third_roadblock_peds[3]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2135.69 160.93 41.29 s3_third_roadblock_peds[4]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2135.24 153.77 40.72 s3_third_roadblock_peds[5]
+		GENERATE_RANDOM_INT_IN_RANGE 0 3 s3_char_select // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2141.12 156.06 34.07 s3_third_roadblock_peds[0] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2149.62 162.06 34.07 s3_third_roadblock_peds[1] // FIXEDGROVE: was DNB2
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2153.12 156.06 34.07 s3_third_roadblock_peds[2] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2135.68 164.20 41.29 s3_third_roadblock_peds[3] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2135.69 160.93 41.29 s3_third_roadblock_peds[4] // FIXEDGROVE: was DNB2
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2135.24 153.77 40.72 s3_third_roadblock_peds[5] // FIXEDGROVE: was DNB3
 		s3_index = 0
 		WHILE s3_index < 6
 			SET_CHAR_DECISION_MAKER s3_third_roadblock_peds[s3_index] s3_roadblock_ped_decisions
@@ -1378,9 +1424,12 @@ GOTO syn3_loop
 			s3_index++
 		ENDWHILE
 
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2161.42 58.75 35.04 s3_fourth_roadblock_peds[0]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB2 -2169.42 64.75 35.04 s3_fourth_roadblock_peds[1]
-		CREATE_CHAR PEDTYPE_MISSION2 DNB3 -2173.42 58.75 35.04 s3_fourth_roadblock_peds[2]
+		GENERATE_RANDOM_INT_IN_RANGE 0 3 s3_char_select // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2161.42 58.75 35.04 s3_fourth_roadblock_peds[0] // FIXEDGROVE: was DNB3
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2169.42 64.75 35.04 s3_fourth_roadblock_peds[1] // FIXEDGROVE: was DNB2
+		GOSUB s3_random_char // FIXEDGROVE
+		CREATE_CHAR PEDTYPE_MISSION2 s3_char_model[s3_char_select] -2173.42 58.75 35.04 s3_fourth_roadblock_peds[2] // FIXEDGROVE: was DNB3
 		s3_index = 0
 		WHILE s3_index < 3
 			SET_CHAR_DECISION_MAKER s3_fourth_roadblock_peds[s3_index] s3_roadblock_ped_decisions
@@ -2358,17 +2407,23 @@ GOTO syn3_loop
 		DELETE_CAR s3_paste_van
 		DELETE_CHAR s3_paste_van_driver
 
-		CLEAR_AREA -2127.08 -87.75 35.32 20.0 FALSE
-		REQUEST_COLLISION -2127.08 -87.75
-		LOAD_SCENE -2127.08 -87.75 35.32
+//		CLEAR_AREA -2127.08 -87.75 35.32 20.0 FALSE // FIXEDGROVE: comment out, use new coords now
+//		REQUEST_COLLISION -2127.08 -87.75 // FIXEDGROVE: comment out, use new coords now
+//		LOAD_SCENE -2127.08 -87.75 35.32 // FIXEDGROVE: comment out, use new coords now
 		IF s3_player_currently_has_car = 1
 		AND NOT IS_CAR_DEAD s3_last_player_car_before_van_cutscene
-			SET_CAR_COORDINATES	s3_last_player_car_before_van_cutscene -2127.08 -87.75 -100.0
-			SET_CAR_HEADING s3_last_player_car_before_van_cutscene 0.0
+			CLEAR_AREA -2122.4110 -72.8736 34.9463 8.0 FALSE // FIXEDGROVE
+			REQUEST_COLLISION -2122.4110 -72.8736 // FIXEDGROVE
+			LOAD_SCENE -2122.4110 -72.8736 34.9463 // FIXEDGROVE
+			SET_CAR_COORDINATES	s3_last_player_car_before_van_cutscene -2122.4110 -72.8736 34.9463 // FIXEDGROVE: coords were -2127.08 -87.75 -100.0
+			SET_CAR_HEADING s3_last_player_car_before_van_cutscene 270.0 // FIXEDGROVE: heading was 0.0
 			WARP_CHAR_INTO_CAR scplayer s3_last_player_car_before_van_cutscene
 		ELSE
-			SET_CHAR_COORDINATES scplayer -2127.08 -87.75 -100.0
-			SET_CHAR_HEADING scplayer 0.0
+			CLEAR_AREA -2119.1200 -78.1022 35.3203 1.0 FALSE // FIXEDGROVE
+			REQUEST_COLLISION -2119.1200 -78.1022 // FIXEDGROVE
+			LOAD_SCENE -2119.1200 -78.1022 35.3203 // FIXEDGROVE
+			SET_CHAR_COORDINATES scplayer -2119.1200 -78.1022 35.3203 // FIXEDGROVE: coords were -2127.08 -87.75 -100.0
+			SET_CHAR_HEADING scplayer 270.0 // FIXEDGROVE: heading was 0.0
 		ENDIF
 
 		REMOVE_BLIP s3_player_bike_blip
@@ -2387,6 +2442,12 @@ GOTO syn3_loop
 		SWITCH_ROADS_BACK_TO_ORIGINAL -2150.18 138.75 33.0 -2145.71 160.84 36.0
 		SWITCH_ROADS_BACK_TO_ORIGINAL -2168.24 42.13  33.0 -2165.99 61.70 36.0
 		SWITCH_RANDOM_TRAINS ON
+
+		// FIXEDGROVE: START - reset front gate
+		IF DOES_OBJECT_EXIST crackfact_front_gate
+			SET_OBJECT_COORDINATES crackfact_front_gate -2127.18 -80.8 38.24
+		ENDIF
+		// FIXEDGROVE: END
 
 		HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE scplayer FALSE
 
@@ -2625,6 +2686,13 @@ GOTO syn3_loop
 		ENDWHILE
 
 	RETURN
+
+s3_random_char:
+s3_char_select++
+IF s3_char_select = 3
+	s3_char_select = 0
+ENDIF
+RETURN
 
 // ***************************************************************
 // 						  Mission audio
@@ -2865,6 +2933,7 @@ MARK_MODEL_AS_NO_LONGER_NEEDED SNIPER
 MARK_MODEL_AS_NO_LONGER_NEEDED GREENWOO
 MARK_MODEL_AS_NO_LONGER_NEEDED DNB3
 MARK_MODEL_AS_NO_LONGER_NEEDED DNB2
+MARK_MODEL_AS_NO_LONGER_NEEDED DNB1 // FIXEDGROVE
 MARK_MODEL_AS_NO_LONGER_NEEDED MP5LNG
 MARK_MODEL_AS_NO_LONGER_NEEDED AK47
 MARK_MODEL_AS_NO_LONGER_NEEDED cellphone
@@ -2894,6 +2963,13 @@ UNLOAD_SPECIAL_CHARACTER 2
 REMOVE_CHAR_ELEGANTLY s3_toreno
 REMOVE_CHAR_ELEGANTLY s3_tbone
 REMOVE_ANIMATION CAR_CHAT
+
+// FIXEDGROVE: START - reset front gate
+IF DOES_OBJECT_EXIST crackfact_front_gate
+	SET_OBJECT_COORDINATES crackfact_front_gate -2127.18 -80.8 38.24
+ENDIF
+// FIXEDGROVE: END
+
 SWITCH_ROADS_BACK_TO_ORIGINAL -2005.23 517.16 33.0 -2002.69 554.12 36.0
 SWITCH_ROADS_BACK_TO_ORIGINAL -2097.80 319.42 33.0 -2035.57 321.05 36.0
 SWITCH_ROADS_BACK_TO_ORIGINAL -2150.18 138.75 33.0 -2145.71 160.84 36.0

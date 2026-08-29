@@ -2845,6 +2845,12 @@ mission_syn7_passed:
 
 	REMOVE_IPL Barriers2
 
+	// FIXEDGROVE: START - leave front gate open
+	IF DOES_OBJECT_EXIST crackfact_front_gate
+		SET_OBJECT_COORDINATES crackfact_front_gate -2117.0 -80.8 38.24
+	ENDIF
+	// FIXEDGROVE: END
+
 	PRINT_WITH_NUMBER_BIG ( M_PASSS ) 25000 5000 1 //"Mission Passed!" //100 being the amount of cash
 	ADD_SCORE player1 25000//amount of cash
 
@@ -2947,6 +2953,12 @@ mission_syn7_failed:
 
 	ENDIF
 
+	// FIXEDGROVE: START - reset front gate
+	IF DOES_OBJECT_EXIST crackfact_front_gate
+		SET_OBJECT_COORDINATES crackfact_front_gate -2127.18 -80.8 38.24
+	ENDIF
+	// FIXEDGROVE: END
+
 RETURN
 
 // ******************************************************************************************************
@@ -2962,12 +2974,6 @@ mission_cleanup_syn7:
 		STOP_CHAR_FACIAL_TALK scplayer
 
 	ENDIF
-
-	// FIXEDGROVE: START - reset front gate
-	IF DOES_OBJECT_EXIST crackfact_front_gate
-		SET_OBJECT_COORDINATES crackfact_front_gate -2127.18 -80.8 38.24
-	ENDIF
-	// FIXEDGROVE: END
 
 	// Density Multipliers
 	REMOVE_CAR_RECORDING 483

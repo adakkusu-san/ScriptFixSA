@@ -524,7 +524,7 @@ WAIT 0
 						SET_OBJECT_COLLISION st2_object[4] TRUE
 						SET_OBJECT_DYNAMIC st2_object[4] TRUE
 
-						// FIXEDGROVE: START - uncomment
+						/*
 						//car 1 - stopped
 						GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 						IF st2_model >= 0 
@@ -538,7 +538,7 @@ WAIT 0
 							SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[1] TRUE
 							SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[1] FALSE  
 						ENDIF
-						// FIXEDGROVE: END
+						*/
 						//car 2
 						GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 						IF st2_model >= 0 
@@ -664,7 +664,7 @@ WAIT 0
 							SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[10] TRUE
 							SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[10] FALSE  
 						ENDIF
-						// FIXEDGROVE: START - uncomment
+						/*
 						//car 11
 						GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 						IF st2_model >= 0 
@@ -678,7 +678,7 @@ WAIT 0
 							SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[11] TRUE
 							SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[11] FALSE  
 						ENDIF
-						// FIXEDGROVE: END
+						*/
 						//car 12
 						GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 						IF st2_model >= 0 
@@ -956,12 +956,12 @@ WAIT 0
 				SET_CAR_CRUISE_SPEED st2_cars[10] 15.0
 				CAR_WANDER_RANDOMLY st2_cars[10]
 			ENDIF
-			// FIXEDGROVE: START - uncomment
+			/*
 			IF NOT IS_CAR_DEAD st2_cars[11]  
 				SET_CAR_CRUISE_SPEED st2_cars[11] 15.0
 				CAR_WANDER_RANDOMLY st2_cars[11]
 			ENDIF
-			// FIXEDGROVE: END
+			*/
 			IF NOT IS_CAR_DEAD st2_cars[12]  
 				SET_CAR_CRUISE_SPEED st2_cars[12] 15.0
 				CAR_WANDER_RANDOMLY st2_cars[12]
@@ -1001,7 +1001,7 @@ WAIT 0
 
 				//deleting the stuff from recording 1
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0]
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[1] // FIXEDGROVE: uncomment
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[1] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[2] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[3] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[4] 
@@ -1011,11 +1011,11 @@ WAIT 0
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[8] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[9] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[10] 
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[11] // FIXEDGROVE: uncomment
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[11] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[12] 
 				
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[0] 
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[1] // FIXEDGROVE: uncomment
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[1] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[2] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[3] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[4] 
@@ -1025,7 +1025,7 @@ WAIT 0
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[8] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[9] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[10] 
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[11] // FIXEDGROVE: uncomment
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[11] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[12] 
 			
 				MARK_OBJECT_AS_NO_LONGER_NEEDED st2_object[0] 
@@ -1098,7 +1098,7 @@ WAIT 0
 		IF st2_control_flag = 1 
 		////// streaming in stuff for next recording ///////
 			
-			// FIXEDGROVE: START - uncomment
+			/*
 			//creating the stuff needed for recording 3
 			//car 0 - recorded 
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
@@ -1114,7 +1114,7 @@ WAIT 0
 				SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[0] TRUE
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[0] FALSE  
 			ENDIF
-			// FIXEDGROVE: END
+			*/
 			//car 1 - told where to go
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 			IF st2_model >= 0 
@@ -1128,7 +1128,7 @@ WAIT 0
 				SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[1] TRUE
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[1] FALSE  
 			ENDIF
-			// FIXEDGROVE: START - uncomment
+			/*
 			//car 2
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 			IF st2_model >= 0 
@@ -1142,7 +1142,7 @@ WAIT 0
 				SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[2] TRUE
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[2] FALSE  
 		   	ENDIF
-			// FIXEDGROVE: END
+			*/										
 			//car 3
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 			IF st2_model >= 0 
@@ -1170,7 +1170,7 @@ WAIT 0
 				SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[4] TRUE
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[4] FALSE  
 			ENDIF
-			// FIXEDGROVE: START - uncomment
+			/*
 			//car 5
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 			IF st2_model >= 0 
@@ -1184,7 +1184,7 @@ WAIT 0
 				SET_LOAD_COLLISION_FOR_CAR_FLAG st2_cars[5] TRUE
 				SET_CHAR_CAN_BE_SHOT_IN_VEHICLE st2_peds[5] FALSE  
 			ENDIF
-			// FIXEDGROVE: END
+			*/
 			//car 6
 			GET_RANDOM_CAR_MODEL_IN_MEMORY TRUE st2_model st2_class
 			IF st2_model >= 0 
@@ -1343,23 +1343,23 @@ WAIT 0
 				IF NOT IS_CAR_DEAD st2_tram 
 					START_PLAYBACK_RECORDED_CAR st2_tram 80
 				ENDIF
-				// FIXEDGROVE: START - uncomment
+				/*
 				IF NOT IS_CAR_DEAD st2_cars[0] 
 					START_PLAYBACK_RECORDED_CAR st2_cars[0] 82
 				ENDIF
-				// FIXEDGROVE: END
+				*/
 				IF NOT IS_CAR_DEAD st2_cars[1] 
 					SET_CAR_FORWARD_SPEED st2_cars[1] 15.0 
 					SET_CAR_CRUISE_SPEED st2_cars[1] 15.0	 
 					CAR_GOTO_COORDINATES st2_cars[1] -1881.4 853.7 35.7
 				ENDIF
-				// FIXEDGROVE: START - uncomment
+				/*
 				IF NOT IS_CAR_DEAD st2_cars[2] 
 					SET_CAR_FORWARD_SPEED st2_cars[2] 15.0 
 					SET_CAR_CRUISE_SPEED st2_cars[2] 15.0	 
 					CAR_GOTO_COORDINATES st2_cars[2] -1717.8 746.3 24.8
 				ENDIF
-				// FIXEDGROVE: END
+				*/
 				IF NOT IS_CAR_DEAD st2_cars[3] 
 					SET_CAR_FORWARD_SPEED st2_cars[3] 15.0 
 					SET_CAR_CRUISE_SPEED st2_cars[3] 15.0	 
@@ -1423,12 +1423,12 @@ WAIT 0
 		IF st2_control_flag = 1
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting the stuff from recording 3
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0] // FIXEDGROVE: uncomment
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[0]
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[1] 
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[2] // FIXEDGROVE: uncomment
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[2] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[3] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[4] 
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[5] // FIXEDGROVE: uncomment
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[5] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[6] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[7] 
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[8] 
@@ -1436,12 +1436,12 @@ WAIT 0
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[10]
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[11]
 				
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[0] // FIXEDGROVE: uncomment
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[0] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[1] 
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[2] // FIXEDGROVE: uncomment
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[2] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[3] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[4] 
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[5] // FIXEDGROVE: uncomment
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[5] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[6] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[7] 
 				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[8] 
@@ -1720,10 +1720,10 @@ WAIT 0
 			
 			IF NOT IS_PLAYBACK_GOING_ON_FOR_CAR st2_cesars_car	
 				//deleting the cars from recording 2
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[11] // FIXEDGROVE: START - uncomment
-				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[12] 
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[11]
-				MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[12] // FIXEDGROVE: END
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[11]
+				//MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[12] 
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[11]
+				//MARK_CAR_AS_NO_LONGER_NEEDED st2_cars[12]
 		
 				//deleting the cars from recording 4
 				MARK_CHAR_AS_NO_LONGER_NEEDED st2_peds[21] 
@@ -3508,11 +3508,11 @@ WAIT 0
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 81 
 			REQUEST_CAR_RECORDING 81
 		ENDIF	
-		// FIXEDGROVE: START - uncomment
+		/*
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 82 
 			REQUEST_CAR_RECORDING 82
 		ENDIF	
-		// FIXEDGROVE: END
+		*/
 		//recording 4
 		IF NOT HAS_CAR_RECORDING_BEEN_LOADED 83 
 			REQUEST_CAR_RECORDING 83
@@ -3912,13 +3912,13 @@ IF steal2_goals = 1
 	ENDIF
 ENDIF
 
-// FIXEDGROVE: START - uncomment
+/*
 IF steal2_goals = 3
 	IF NOT IS_CAR_DEAD st2_cars[0] 
 		SET_PLAYBACK_SPEED st2_cars[0] st2_playback_speed
 	ENDIF
 ENDIF
-// FIXEDGROVE: END
+*/
 IF steal2_goals = 4
 	IF NOT IS_CAR_DEAD st2_cars[15] 
 		SET_PLAYBACK_SPEED st2_cars[15] st2_playback_speed
@@ -3966,117 +3966,120 @@ RETURN//////////////////////////////////////////////////////////////////////
 st2_my_number_plates:///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 	GENERATE_RANDOM_INT_IN_RANGE 1 38 st2_no_plates_flag // FIXEDGROVE: increassed upper limit since its exclusive
-	IF st2_no_plates_flag = 1 
+// FIXEDGROVE: swapped if chain with switch case
+SWITCH st2_no_plates_flag
+	CASE 1
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates got_m00_
-	ENDIF 
-	IF st2_no_plates_flag = 2 
+		BREAK
+	CASE 2
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates m00tv_4u 
-	ENDIF
-	IF st2_no_plates_flag = 3 
+		BREAK
+	CASE 3
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates mathew_2 
-	ENDIF 
-	IF st2_no_plates_flag = 4 
+		BREAK
+	CASE 4
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates d4_dew0r 
-	ENDIF 
-	IF st2_no_plates_flag = 5 
+		BREAK
+	CASE 5
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates d0de_777 
-	ENDIF 
-	IF st2_no_plates_flag = 6 
+		BREAK
+	CASE 6
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates dam0_666 
-	ENDIF 
-	IF st2_no_plates_flag = 7 
+		BREAK
+	CASE 7
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates C0NEY_88 
-	ENDIF 
-	IF st2_no_plates_flag = 8 
+		BREAK
+	CASE 8
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates pre4cher 
-	ENDIF 
-	IF st2_no_plates_flag = 9 
+		BREAK
+	CASE 9
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates dbp_4ndy 
-	ENDIF 
-	IF st2_no_plates_flag = 10 
+		BREAK
+	CASE 10
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates ev1l_sly 
-	ENDIF 
-	IF st2_no_plates_flag = 11 
+		BREAK
+	CASE 11
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates n1_r4v3n 
-	ENDIF 
-	IF st2_no_plates_flag = 12 
+		BREAK
+	CASE 12
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates d1vx_z00 
-	ENDIF 
-	IF st2_no_plates_flag = 13 
+		BREAK
+	CASE 13
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates mr_b3nn 
-	ENDIF 
-	IF st2_no_plates_flag = 14 
+		BREAK
+	CASE 14
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates r3d_r4sp 
-	ENDIF 
-	IF st2_no_plates_flag = 15 
+		BREAK
+	CASE 15
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates La_B0mba 
-	ENDIF 
-	IF st2_no_plates_flag = 16 
+		BREAK
+	CASE 16
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates L3337_0g 
-	ENDIF 
-	IF st2_no_plates_flag = 17 
+		BREAK
+	CASE 17
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates budd4h_X 
-	ENDIF 
-	IF st2_no_plates_flag = 18 
+		BREAK
+	CASE 18
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates t3h_buck 
-	ENDIF 
-	IF st2_no_plates_flag = 19 
+		BREAK
+	CASE 19
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates CHUNKY_1 
-	ENDIF 
-	IF st2_no_plates_flag = 20 
+		BREAK
+	CASE 20
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates ev1l_bnz 
-	ENDIF 
-	IF st2_no_plates_flag = 21 
+		BREAK
+	CASE 21
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates S4ND_M4N 
-	ENDIF 
-	IF st2_no_plates_flag = 22 
+		BREAK
+	CASE 22
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates RKK_DBP1 
-	ENDIF 
-	IF st2_no_plates_flag = 23 
+		BREAK
+	CASE 23
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates RE1_K0KU 
-	ENDIF 
-	IF st2_no_plates_flag = 24 
+		BREAK
+	CASE 24
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates s3xy_jud 
-	ENDIF 
-	IF st2_no_plates_flag = 25 
+		BREAK
+	CASE 25
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates sunra_93 
-	ENDIF 
-	IF st2_no_plates_flag = 26 
+		BREAK
+	CASE 26
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates UG_FuX69 
-	ENDIF 
-	IF st2_no_plates_flag = 27 
+		BREAK
+	CASE 27
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates Li0n_Cum 
-	ENDIF 
-	IF st2_no_plates_flag = 28 
+		BREAK
+	CASE 28
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates rkk_pwnd 
-	ENDIF 
-	IF st2_no_plates_flag = 29 
+		BREAK
+	CASE 29
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates haze_b0b 
-	ENDIF 
-	IF st2_no_plates_flag = 30 
+		BREAK
+	CASE 30
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates t3h_fluf 
-	ENDIF 
-	IF st2_no_plates_flag = 31 
+		BREAK
+	CASE 31
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates BM_4NDY_ 
-	ENDIF 
-	IF st2_no_plates_flag = 32 
+		BREAK
+	CASE 32
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates BM_D34N_ 
-	ENDIF 
-	IF st2_no_plates_flag = 33 
+		BREAK
+	CASE 33
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates BM_L4C3Y 
-	ENDIF 
-	IF st2_no_plates_flag = 34 
+		BREAK
+	CASE 34
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates BM_D3V__ 
-	ENDIF 
-	IF st2_no_plates_flag = 35 
+		BREAK
+	CASE 35
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates NU_SK00L 
-	ENDIF 
-	IF st2_no_plates_flag = 36 
+		BREAK
+	CASE 36
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates G4L_AVET 
-	ENDIF 
-	IF st2_no_plates_flag = 37 
+		BREAK
+	DEFAULT // CASE 37
 		CUSTOM_PLATE_FOR_NEXT_CAR st2_no_plates M0j0_j0j 
-	ENDIF 
+		BREAK
+ENDSWITCH
 ////////////////////////////////////////////////////////////////////////////
 RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

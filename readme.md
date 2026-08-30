@@ -35,8 +35,9 @@ Extract the downloaded .zip file and replace main.scm and scripts.img inside dat
 - Corrected 'missions attempted' and 'missions passed' stats.
 
 **Intro cutscene:**
-- Restored pre-JP size for text
+- Fixed text fading to be independent of framerate
 - Fixed stretched text
+- Restored pre-JP size for text
 - Restored console train speed
 
 **Big Smoke/Sweet & Kendl:**

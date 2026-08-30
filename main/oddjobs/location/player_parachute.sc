@@ -11,7 +11,7 @@ LVAR_FLOAT player_height
 VAR_FLOAT para_max_Vz
 LVAR_FLOAT para_Voldx para_Voldy
 
-LVAR_INT para_v1 para_v2 para_v3 para_v4 para_Seq para_fall_anim parachute_pack paraC 
+LVAR_INT para_v1 para_v2 para_v3 para_v4 para_fall_anim parachute_pack paraC 
 LVAR_INT para_time_check para_time_start para_col
 LVAR_FLOAT para_f1 para_f2 para_f3
 
@@ -108,10 +108,8 @@ jump_loop:
 //	fake_code_flag = code_flag
 //	VIEW_INTEGER_VARIABLE fake_code_flag fake_code_flag
 
-	// FIXEDGROVE: START - emergency cleanup, manual check because 
-	//					   HAS_DEATHARREST_BEEN_EXECUTED doesn't work on streamed scripts	 
-	IF IS_CHAR_DEAD scplayer
-	OR HAS_CHAR_BEEN_ARRESTED scplayer
+	// FIXEDGROVE: START - emergency cleanup
+	IF NOT IS_PLAYER_PLAYING player1
 		MARK_MODEL_AS_NO_LONGER_NEEDED PARACHUTE
 		REMOVE_ANIMATION PARACHUTE
 		IF DOES_OBJECT_EXIST parac
@@ -132,9 +130,6 @@ jump_loop:
 			IF NOT player_fall_state = 0
 				SET_PLAYER_CYCLE_WEAPON_BUTTON Player1 FALSE
 			ENDIF
-		
-
-
 
 	//		IF IS_CHAR_SITTING_IN_ANY_CAR scplayer
 	//			IF blah = 0
@@ -201,9 +196,6 @@ jump_loop:
 	//			ENDIF
 			ENDIF
 
-
-
-
 			// player is on ground
 			IF player_fall_state = 0
 			AND player_has_parachute > 0
@@ -267,11 +259,11 @@ jump_loop:
 					// to get 30 deegrees roll either way (+- 30 deg) as a maximum roll - ie 256/4.267 = 60
 					para_f1 /= 4.267
 					para_f1 -= para_roll
-					para_f1 /= 20.0
-					para_roll += para_f1
+					para_f1 /= 40.0 // FIXEDGROVE: was 20.0
+					para_roll +=@ para_f1 // FIXEDGROVE: apply delta-time
 
-					para_f1 = para_roll / 5.0 //was 15.0
-					para_yaw -= para_f1
+					para_f1 = para_roll / 10.0 //was 15.0 // FIXEDGOVE: was 5.0
+					para_yaw -=@ para_f1 // FIXEDGROVE: apply delta-time
 
 					IF para_yaw > 180.0
 						para_yaw -= 360.0
@@ -284,8 +276,8 @@ jump_loop:
 					para_f2 =# para_v2
 					para_f2 /= 4.267
 					para_f2 -= para_pitch
-					para_f2 /= 20.0
-					para_pitch += para_f2
+					para_f2 /= 40.0 // FIXEDGROVE: was 20.0
+					para_pitch +=@ para_f2 // FIXEDGROVE: apply delta-time
 
 
 	  				GET_CHAR_VELOCITY scplayer para_Voldx para_Voldy para_Vz
@@ -338,17 +330,16 @@ jump_loop:
 				
 					// this bit acts as a kind of momentum
 					para_f1 = para_Voldx - para_Vx
-					para_f1 *= 0.01
-					para_Vx = para_Voldx - para_f1
+					para_f1 *= 0.005 // FIXEDGROVE: was 0.01
+					para_Vx = para_Voldx
+					para_Vx -=@ para_f1 // FIXEDGROVE: apply delta-time
 
 					para_f1 = para_Voldy - para_Vy
-					para_f1 *= 0.01
-					para_Vy = para_Voldy - para_f1
+					para_f1 *= 0.005 // FIXEDGROVE: was '0.01'
+					para_Vy = para_Voldy
+					para_Vy -=@ para_f1 // FIXEDGROVE: apply delta-time
 
 					
-
-
-
 					// SET ANIM TO PLAY DURING FREEFALL
 
 					para_v3 = para_v1
@@ -531,11 +522,11 @@ jump_loop:
 					// to get 30 deegrees roll either way (+- 30 deg) as a maximum roll - ie 256/4.267 = 60
 					para_f1 /= 4.267
 					para_f1 -= para_roll
-					para_f1 /= 20.0
-					para_roll += para_f1
+					para_f1 /= 40.0 // FIXEDGROVE: was '20.0'
+					para_roll +=@ para_f1 // FIXEDGROVE: apply delta-time
 
-					para_f1 = para_roll / 15.0
-					para_yaw -= para_f1
+					para_f1 = para_roll / 30.0 // FIXEDGROVE: was '15.0'
+					para_yaw -=@ para_f1 // FIXEDGROVE: apply delta-time
 
 					IF para_yaw > 180.0
 						para_yaw -= 360.0
@@ -544,9 +535,7 @@ jump_loop:
 					IF para_yaw < -180.0
 						para_yaw += 360.0
 					ENDIF
-					 
 
-			   
 
 					SIN para_yaw para_Vx 
 					COS para_yaw para_Vy
@@ -570,9 +559,7 @@ jump_loop:
 					OR para_v4 > 40
 
 						IF para_v3 > para_v4
-							para_f1 = para_float_Vz - para_Vz
-							para_f1 /= 20.0
-							para_Vz += para_f1
+							GOSUB parachute_set_Vz // FIXEDGROVE: duplicated code into subroutine
 							
 							IF para_v1 >= 0
 								IF NOT para_fall_anim = 2
@@ -591,9 +578,7 @@ jump_loop:
 
 						ELSE
 							IF para_v2 >= 0
-								para_f1 = para_flare_Vz - para_Vz
-								para_f1 /= 20.0
-								para_Vz += para_f1
+							GOSUB parachute_set_Vz // FIXEDGROVE: duplicated code into subroutine
 
 								IF NOT para_fall_anim = 4								
 									TASK_PLAY_ANIM_NON_INTERRUPTABLE scplayer PARA_decel PARACHUTE 1.0 1 0 0 1 -2		 
@@ -614,9 +599,7 @@ jump_loop:
 
 						ENDIF
 					ELSE
-						para_f1 = para_float_Vz - para_Vz
-						para_f1 /= 20.0
-						para_Vz += para_f1
+						GOSUB parachute_set_Vz // FIXEDGROVE: duplicated code into subroutine
 						IF NOT para_fall_anim = 5
 							IF NOT para_fall_anim = 1
 								TASK_PLAY_ANIM_NON_INTERRUPTABLE scplayer PARA_float PARACHUTE 1.0 1 0 0 1 -2
@@ -643,10 +626,7 @@ jump_loop:
 				ENDIF
 
 
-
-
-
-					// slow player down as parachute opens - speed during freefall adjust to speeds with parachute open
+				// slow player down as parachute opens - speed during freefall adjust to speeds with parachute open
 				IF DOES_OBJECT_EXIST parac
 					IF IS_OBJECT_PLAYING_ANIM parac para_open_o
 						GET_OBJECT_ANIM_CURRENT_TIME parac para_open_o para_f1
@@ -786,6 +766,13 @@ jump_loop:
   
 GOTO jump_loop
 
+// FIXEDGROVE: made duplicate code into subroutine
+parachute_set_Vz:
+	para_f1 = para_float_Vz - para_Vz
+	para_f1 /= 40.0 // FIXEDGROVE: was 20.0
+	para_Vz +=@ para_f1 // FIXEDGROVE: applied delta-time
+RETURN
+
 parachute_cleanup_keep_chute:
 
 	player_fall_state = 0
@@ -799,31 +786,27 @@ RETURN
 	   
 parachute_cleanup:
 
+	DETACH_OBJECT parac 0.0 0.0 0.0 FALSE
 
-						DETACH_OBJECT parac 0.0 0.0 0.0 FALSE
+	REMOVE_OBJECT_ELEGANTLY parac
 
-						REMOVE_OBJECT_ELEGANTLY parac
+	DELETE_OBJECT para_col
 
-						DELETE_OBJECT para_col
+	REMOVE_WEAPON_FROM_CHAR scplayer WEAPONTYPE_PARACHUTE
 
-						REMOVE_WEAPON_FROM_CHAR scplayer WEAPONTYPE_PARACHUTE
+	player_fall_state = 0
+	player_has_parachute = 0
+	code_flag = 0
 
-						player_fall_state = 0
-						player_has_parachute = 0
-						code_flag = 0
-
-						MARK_MODEL_AS_NO_LONGER_NEEDED PARACHUTE
-						REMOVE_ANIMATION PARACHUTE
-						MARK_MODEL_AS_NO_LONGER_NEEDED gun_para
-						//SET_CHAR_ROTATION scplayer 0.0 0.0 para_yaw // FIXEDGROVE: now is only set when necessary in other places in the script
-						SET_PLAYER_CYCLE_WEAPON_BUTTON Player1 TRUE
-
-
-
-MISSION_END
-
+	MARK_MODEL_AS_NO_LONGER_NEEDED PARACHUTE
+	REMOVE_ANIMATION PARACHUTE
+	MARK_MODEL_AS_NO_LONGER_NEEDED gun_para
+	//SET_CHAR_ROTATION scplayer 0.0 0.0 para_yaw // FIXEDGROVE: now is only set when necessary in other places in the script
+	SET_PLAYER_CYCLE_WEAPON_BUTTON Player1 TRUE
 
 //	RETURN
+
+MISSION_END
 
 }
 

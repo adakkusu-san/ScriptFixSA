@@ -439,6 +439,7 @@ Extract the downloaded .zip file and replace main.scm and scripts.img inside dat
   - Now the excitement bar is hidden during an ending
 
 **Parachute:**
+- Fixed physics to be independent of framerate
 - Fixed landing animation
 - Fixed a bug where the parachute "fails to open" if you have the "keep weapons after death" bonus and you die with a parachute in your inventory
 - Fixed weird twitch after landing

@@ -29,60 +29,45 @@ MISSION_END
 LVAR_INT mansioninterior_s2
 LVAR_INT drgcar1_s2
 LVAR_INT drgcar2_s2
-LVAR_INT guard1_s2
-LVAR_INT guard2_s2
-LVAR_INT guard3_s2
-LVAR_INT guard4_s2
-LVAR_INT guard5_s2
-LVAR_INT guard6_s2
-LVAR_INT guard7_s2
-LVAR_INT guard8_s2
+LVAR_INT guard_s2[8] // FIXEDGROVE: array
 LVAR_INT strap2_DM //decision makers
 LVAR_INT strap2empty_DM //decision makers
 LVAR_INT drink_s2
-LVAR_INT enemy_s2
+//LVAR_INT enemy_s2 // FIXEDGROVE: comment unused
 LVAR_INT drinkvend_s2seq
 LVAR_INT console_s2seq
 LVAR_INT guard4_s2seq
 LVAR_INT ogloc_s2
 LVAR_INT mtbike_s2
 //sequences
+/* // FIXEDGROVE: START - comment unused
 LVAR_INT guard2_s2seq
 LVAR_INT guard7_s2seq
 LVAR_INT guard1_s2seq
 LVAR_INT sequencetask_s2
+*/ // FIXEDGROVE: END
 LVAR_INT guard3_s2seq
 //pickups
 LVAR_INT rhymebook_s2
 LVAR_INT pickupgun_s2
 //blips
 LVAR_INT rhymebook_s2blip
-LVAR_INT guard1_s2blip
-LVAR_INT guard2_s2blip
-LVAR_INT guard3_s2blip
-LVAR_INT guard4_s2blip
-LVAR_INT guard5_s2blip
-LVAR_INT guard6_s2blip
-LVAR_INT guard7_s2blip
-LVAR_INT guard8_s2blip
+LVAR_INT guard_s2blip[8] // FIXEDGROVE: array
 
 //flags
 LVAR_INT rhymebook_s2flag
 LVAR_INT helptext_s2flag
-LVAR_INT guard2_s2flag
-LVAR_INT guard3_s2flag
-LVAR_INT guard4_s2flag
-LVAR_INT guard5_s2flag
-LVAR_INT guard6_s2flag
-LVAR_INT guard7_s2flag
-LVAR_INT guard8_s2flag
+LVAR_INT guard_s2flag[8] // FIXEDGROVE: array
 LVAR_INT hudflash_s2flag
+/* // FIXEDGROVE: START - comment unused
 LVAR_INT guard1text_s2flag
 LVAR_INT guard2text_s2flag
 LVAR_INT guard3text_s2flag
 LVAR_INT guard4text_s2flag
 LVAR_INT guard5text_s2flag
+*/ // FIXEDGROVE: END
 LVAR_INT pickupcollect_s2flag
+/* // FIXEDGROVE: START - comment unused
 LVAR_INT playerseenstate_s2
 LVAR_INT guard1playerseenstate_s2
 LVAR_INT guard2playerseenstate_s2
@@ -91,6 +76,7 @@ LVAR_INT guard4playerseenstate_s2
 LVAR_INT guard5playerseenstate_s2
 LVAR_INT guard6playerseenstate_s2
 LVAR_INT guard7playerseenstate_s2
+*/ // FIXEDGROVE: END
 LVAR_INT bararea_s2flag
 LVAR_INT missionaudio_s2flag
 LVAR_INT playerducking_s2flag
@@ -197,17 +183,17 @@ DO_FADE 1500 FADE_IN
 
 // ****************************** Declare Variables Values ***********************************
 
-
+/*
 //flags
 rhymebook_s2flag = 0
 helptext_s2flag = 0
-guard2_s2flag = 0
-guard3_s2flag = 0
-guard4_s2flag = 0
-guard5_s2flag = 0
-guard6_s2flag = 0
-guard7_s2flag = 0
-guard8_s2flag = 0
+guard_s2flag[1] = 0
+guard_s2flag[2] = 0
+guard_s2flag[3] = 0
+guard_s2flag[4] = 0
+guard_s2flag[5] = 0
+guard_s2flag[6] = 0
+guard_s2flag[7] = 0
 hudflash_s2flag = 0
 guard1text_s2flag = 0
 guard2text_s2flag = 0
@@ -227,6 +213,7 @@ bararea_s2flag = 0
 missionaudio_s2flag = 0 
 playerducking_s2flag = 0
 mountainbike_s2flag = 0
+*/
 // ************************************** Main mission ******************************************
 
 
@@ -315,18 +302,18 @@ IF rhymebook_s2flag = 1
 		
 
 		//1st guard
-		CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1301.98 -785.31 1083.05 guard1_s2//piano guy
-		SET_CHAR_HAS_USED_ENTRY_EXIT guard1_s2 1298.78 -798.2 1.0
-		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard1_s2 2.0
-		SET_CHAR_HEADING guard1_s2 358.83
-		SET_CHAR_DECISION_MAKER guard1_s2 strap2_DM
-		ADD_BLIP_FOR_CHAR guard1_s2	guard1_s2blip
-		CHANGE_BLIP_DISPLAY guard1_s2blip BLIP_ONLY
-//		SET_BLIP_ENTRY_EXIT guard1_s2blip 1298.78 -798.2 1.0
-		GIVE_WEAPON_TO_CHAR guard1_s2 WEAPONTYPE_MICRO_UZI 9999
-		SET_CHAR_ACCURACY guard1_s2 90
-		SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard1_s2 FALSE
-		SET_CHAR_AREA_VISIBLE guard1_s2 5
+		CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1301.98 -785.31 1083.05 guard_s2[0]//piano guy
+		SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[0] 1298.78 -798.2 1.0
+		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[0] 2.0
+		SET_CHAR_HEADING guard_s2[0] 358.83
+		SET_CHAR_DECISION_MAKER guard_s2[0] strap2_DM
+		ADD_BLIP_FOR_CHAR guard_s2[0]	guard_s2blip[0]
+		CHANGE_BLIP_DISPLAY guard_s2blip[0] BLIP_ONLY
+//		SET_BLIP_ENTRY_EXIT guard_s2blip[0] 1298.78 -798.2 1.0
+		GIVE_WEAPON_TO_CHAR guard_s2[0] WEAPONTYPE_MICRO_UZI 9999
+		SET_CHAR_ACCURACY guard_s2[0] 90
+		SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[0] FALSE
+		SET_CHAR_AREA_VISIBLE guard_s2[0] 5
 
 
 		PRINT_NOW STP2_3 7000 1 //~s~The rhyme book is in Mad Dogg's recording studio.
@@ -341,17 +328,17 @@ IF rhymebook_s2flag = 1
 
 		WAIT 1000
 
-		CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1249.0631 -769.8262 1083.0234 guard2_s2
-		SET_CHAR_HAS_USED_ENTRY_EXIT guard2_s2 1298.78 -798.2 1.0
-		SET_CHAR_AREA_VISIBLE guard2_s2 5
-		SET_CHAR_HEADING guard2_s2 270.5520
-		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard2_s2 5.0
-		SET_CHAR_DECISION_MAKER guard2_s2 strap2_DM
+		CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1249.0631 -769.8262 1083.0234 guard_s2[1]
+		SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[1] 1298.78 -798.2 1.0
+		SET_CHAR_AREA_VISIBLE guard_s2[1] 5
+		SET_CHAR_HEADING guard_s2[1] 270.5520
+		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[1] 5.0
+		SET_CHAR_DECISION_MAKER guard_s2[1] strap2_DM
 		
 		WAIT 3500
 
-		IF NOT IS_CHAR_DEAD guard2_s2
-			TASK_GO_STRAIGHT_TO_COORD guard2_s2 1262.0562 -769.9772 1083.9878 PEDMOVE_WALK -1
+		IF NOT IS_CHAR_DEAD guard_s2[1]
+			TASK_GO_STRAIGHT_TO_COORD guard_s2[1] 1262.0562 -769.9772 1083.9878 PEDMOVE_WALK -1
 		ENDIF
 
 		WAIT 500
@@ -373,7 +360,7 @@ IF rhymebook_s2flag = 1
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////
 
-		DELETE_CHAR guard2_s2
+		DELETE_CHAR guard_s2[1]
 		//rhyme book
 		CREATE_PICKUP kmb_rhymesbook PICKUP_ONCE 1256.871 -801.048 1084.063 rhymebook_s2
 		ADD_BLIP_FOR_PICKUP rhymebook_s2 rhymebook_s2blip
@@ -428,7 +415,7 @@ IF pickupcollect_s2flag = 0
 			ENDIF
 		ENDIF
 
-		IF NOT IS_CHAR_DEAD guard1_s2
+		IF NOT IS_CHAR_DEAD guard_s2[0]
 
 			IF helptext_s2flag = 1
 				IF TIMERA > 5000
@@ -440,8 +427,8 @@ IF pickupcollect_s2flag = 0
 			ENDIF
 
 			IF helptext_s2flag = 2
-				IF NOT IS_CHAR_DEAD guard1_s2
-					IF LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer guard1_s2 5.0 5.0 FALSE
+				IF NOT IS_CHAR_DEAD guard_s2[0]
+					IF LOCATE_CHAR_ANY_MEANS_CHAR_2D scplayer guard_s2[0] 5.0 5.0 FALSE
 					OR TIMERA > 9500
 						TIMERA = 0
 						helptext_s2flag = 3
@@ -452,7 +439,7 @@ IF pickupcollect_s2flag = 0
 			IF helptext_s2flag = 3
 				IF TIMERA > 10000
 				OR IS_CHAR_PLAYING_ANIM scplayer KILL_PARTIAL
-				OR IS_PLAYER_TARGETTING_CHAR PLAYER1 guard1_s2 
+				OR IS_PLAYER_TARGETTING_CHAR PLAYER1 guard_s2[0] 
 					
 					PRINT_HELP STP2_10  // Perform the stealth kill by moving slowly towards the guard while targeting him.
 					
@@ -472,7 +459,7 @@ IF pickupcollect_s2flag = 0
 		ENDIF
 
 		//swimming pool
-		IF guard2_s2flag = 0
+		IF guard_s2flag[1] = 0
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1290.907 -781.423 1083.59 4.3 4.3 6.0 FALSE
 
 				IF IS_CHAR_DUCKING scplayer
@@ -485,18 +472,18 @@ IF pickupcollect_s2flag = 0
 				SET_NEAR_CLIP 0.1
 				CLEAR_AREA 1290.907 -781.423 100.0 100.0 FALSE
 
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard2_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard2_s2 1298.78 -798.2 1.0
-				SET_CHAR_AREA_VISIBLE guard2_s2 5
-				SET_CHAR_HEADING guard2_s2 350.1510
-				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard2_s2 5.0
-				SET_CHAR_DECISION_MAKER guard2_s2 strap2_DM
-				ADD_BLIP_FOR_CHAR guard2_s2	guard2_s2blip
-				CHANGE_BLIP_DISPLAY guard2_s2blip BLIP_ONLY
-//				SET_BLIP_ENTRY_EXIT guard2_s2blip 1298.78 -798.2 1.0
-				GIVE_WEAPON_TO_CHAR guard2_s2 WEAPONTYPE_MICRO_UZI 9999
-				SET_CHAR_ACCURACY guard2_s2 90
-				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard2_s2 FALSE
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard_s2[1]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[1] 1298.78 -798.2 1.0
+				SET_CHAR_AREA_VISIBLE guard_s2[1] 5
+				SET_CHAR_HEADING guard_s2[1] 350.1510
+				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[1] 5.0
+				SET_CHAR_DECISION_MAKER guard_s2[1] strap2_DM
+				ADD_BLIP_FOR_CHAR guard_s2[1]	guard_s2blip[1]
+				CHANGE_BLIP_DISPLAY guard_s2blip[1] BLIP_ONLY
+//				SET_BLIP_ENTRY_EXIT guard_s2blip[1] 1298.78 -798.2 1.0
+				GIVE_WEAPON_TO_CHAR guard_s2[1] WEAPONTYPE_MICRO_UZI 9999
+				SET_CHAR_ACCURACY guard_s2[1] 90
+				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[1] FALSE
 
 				FLUSH_PATROL_ROUTE
 				EXTEND_PATROL_ROUTE 1289.988 -766.581 1084.063 NONE NONE
@@ -504,7 +491,7 @@ IF pickupcollect_s2flag = 0
 				EXTEND_PATROL_ROUTE 1270.074 -782.155 1084.063 NONE NONE
 				EXTEND_PATROL_ROUTE 1290.246 -782.463 1084.056 ROADCROSS PED
 
-				TASK_FOLLOW_PATROL_ROUTE guard2_s2 PEDMOVE_WALK FOLLOW_ROUTE_LOOP
+				TASK_FOLLOW_PATROL_ROUTE guard_s2[1] PEDMOVE_WALK FOLLOW_ROUTE_LOOP
 				
 				SET_CHAR_COORDINATES scplayer 1297.599 -781.234 1083.0477
 				SET_CHAR_HEADING scplayer 89.58
@@ -515,20 +502,20 @@ IF pickupcollect_s2flag = 0
 				/////////////////////////////////////////////////////////////////////////////////////
 				/////////////////////////////////////////////////////////////////////////////////////
 				/////////////////////////////////////////////////////////////////////////////////////
-				IF NOT IS_CHAR_DEAD guard1_s2
-					DELETE_CHAR guard1_s2
-					CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1304.1895 -785.871 1084.0477 guard1_s2//piano guy
-					SET_CHAR_HAS_USED_ENTRY_EXIT guard1_s2 1298.78 -798.2 1.0
-					SET_CHAR_AREA_VISIBLE guard1_s2 5
-					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard1_s2 2.0
-					SET_CHAR_HEADING guard1_s2 311.2134
-					SET_CHAR_DECISION_MAKER guard1_s2 strap2_DM
-					ADD_BLIP_FOR_CHAR guard1_s2	guard1_s2blip
-					CHANGE_BLIP_DISPLAY guard1_s2blip BLIP_ONLY
-//					SET_BLIP_ENTRY_EXIT guard1_s2blip 1298.78 -798.2 1.0
-					GIVE_WEAPON_TO_CHAR guard1_s2 WEAPONTYPE_MICRO_UZI 9999
-					SET_CHAR_ACCURACY guard1_s2 90
-					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard1_s2 FALSE
+				IF NOT IS_CHAR_DEAD guard_s2[0]
+					DELETE_CHAR guard_s2[0]
+					CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1304.1895 -785.871 1084.0477 guard_s2[0]//piano guy
+					SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[0] 1298.78 -798.2 1.0
+					SET_CHAR_AREA_VISIBLE guard_s2[0] 5
+					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[0] 2.0
+					SET_CHAR_HEADING guard_s2[0] 311.2134
+					SET_CHAR_DECISION_MAKER guard_s2[0] strap2_DM
+					ADD_BLIP_FOR_CHAR guard_s2[0]	guard_s2blip[0]
+					CHANGE_BLIP_DISPLAY guard_s2blip[0] BLIP_ONLY
+//					SET_BLIP_ENTRY_EXIT guard_s2blip[0] 1298.78 -798.2 1.0
+					GIVE_WEAPON_TO_CHAR guard_s2[0] WEAPONTYPE_MICRO_UZI 9999
+					SET_CHAR_ACCURACY guard_s2[0] 90
+					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[0] FALSE
 				ENDIF
 				/////////////////////////////////////////////////////////////////////////////////////
 				/////////////////////////////////////////////////////////////////////////////////////
@@ -560,7 +547,7 @@ IF pickupcollect_s2flag = 0
 				PRINT_NOW STP2_14 5000 1 //There are lots of shadows in this area to hide in. Hiding in shadows makes it difficult for a guard to spot you. 
 				TIMERA = 0
 				TIMERB = 0
-				guard2_s2flag = 1
+				guard_s2flag[1] = 1
 				helptext_s2flag = 6
 			ENDIF
 		ENDIF
@@ -572,7 +559,7 @@ IF pickupcollect_s2flag = 0
 		ENDIF
 
 		//changing room area
-		IF guard3_s2flag = 0
+		IF guard_s2flag[2] = 0
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1260.104 -769.51 1083.06 5.0 5.0 6.0 FALSE
 
 				IF IS_CHAR_DUCKING scplayer
@@ -585,14 +572,14 @@ IF pickupcollect_s2flag = 0
 				CLEAR_PRINTS 
 				CLEAR_AREA 1260.104 -769.51 100.0 100.0 FALSE
 
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1249.598 -780.06 1083.063 guard3_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard3_s2 1298.78 -798.2 1.0
-				SET_CHAR_AREA_VISIBLE guard3_s2 5
-				SET_CHAR_ACCURACY guard3_s2 90
-				SET_CHAR_HEADING guard3_s2 355.188
-				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard3_s2 5.0
-				SET_CHAR_DECISION_MAKER guard3_s2 strap2_DM
-				TASK_GO_STRAIGHT_TO_COORD guard3_s2 1250.092 -769.277 1083.064 PEDMOVE_WALK -1
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1249.598 -780.06 1083.063 guard_s2[2]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[2] 1298.78 -798.2 1.0
+				SET_CHAR_AREA_VISIBLE guard_s2[2] 5
+				SET_CHAR_ACCURACY guard_s2[2] 90
+				SET_CHAR_HEADING guard_s2[2] 355.188
+				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[2] 5.0
+				SET_CHAR_DECISION_MAKER guard_s2[2] strap2_DM
+				TASK_GO_STRAIGHT_TO_COORD guard_s2[2] 1250.092 -769.277 1083.064 PEDMOVE_WALK -1
 
 				SET_FIXED_CAMERA_POSITION 1249.8562 -766.8402 1084.7775 0.0 0.0 0.0
 				POINT_CAMERA_AT_POINT 1249.8140 -767.8293 1084.6366 JUMP_CUT
@@ -602,25 +589,25 @@ IF pickupcollect_s2flag = 0
 
 				///////////////////////////////////////////////////////////////////////
 				///////////////////////////////////////////////////////////////////////
-				IF NOT IS_CHAR_DEAD guard2_s2
-					DELETE_CHAR guard2_s2 //delete guard
-					CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard2_s2
-					SET_CHAR_HAS_USED_ENTRY_EXIT guard2_s2 1298.78 -798.2 1.0
-					SET_CHAR_HEADING guard2_s2 350.1510
-					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard2_s2 2.0
-					SET_CHAR_DECISION_MAKER guard2_s2 strap2_DM
-					ADD_BLIP_FOR_CHAR guard2_s2	guard2_s2blip
-					CHANGE_BLIP_DISPLAY guard2_s2blip BLIP_ONLY
-//					SET_BLIP_ENTRY_EXIT guard2_s2blip 1298.78 -798.2 1.0
-					GIVE_WEAPON_TO_CHAR guard2_s2 WEAPONTYPE_MICRO_UZI 9999
-					SET_CHAR_ACCURACY guard2_s2 90
-					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard2_s2 FALSE
+				IF NOT IS_CHAR_DEAD guard_s2[1]
+					DELETE_CHAR guard_s2[1] //delete guard
+					CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard_s2[1]
+					SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[1] 1298.78 -798.2 1.0
+					SET_CHAR_HEADING guard_s2[1] 350.1510
+					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[1] 2.0
+					SET_CHAR_DECISION_MAKER guard_s2[1] strap2_DM
+					ADD_BLIP_FOR_CHAR guard_s2[1]	guard_s2blip[1]
+					CHANGE_BLIP_DISPLAY guard_s2blip[1] BLIP_ONLY
+//					SET_BLIP_ENTRY_EXIT guard_s2blip[1] 1298.78 -798.2 1.0
+					GIVE_WEAPON_TO_CHAR guard_s2[1] WEAPONTYPE_MICRO_UZI 9999
+					SET_CHAR_ACCURACY guard_s2[1] 90
+					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[1] FALSE
 					FLUSH_PATROL_ROUTE
 					EXTEND_PATROL_ROUTE 1289.988 -766.581 1084.063 NONE NONE
 					EXTEND_PATROL_ROUTE 1270.314 -766.564 1084.063 ROADCROSS PED
 					EXTEND_PATROL_ROUTE 1270.074 -782.155 1084.063 NONE NONE
 					EXTEND_PATROL_ROUTE 1290.246 -782.463 1084.056 ROADCROSS PED
-					TASK_FOLLOW_PATROL_ROUTE guard2_s2 PEDMOVE_WALK FOLLOW_ROUTE_LOOP
+					TASK_FOLLOW_PATROL_ROUTE guard_s2[1] PEDMOVE_WALK FOLLOW_ROUTE_LOOP
 				ENDIF
 				///////////////////////////////////////////////////////////////////////
 				///////////////////////////////////////////////////////////////////////
@@ -640,9 +627,9 @@ IF pickupcollect_s2flag = 0
 				SET_FIXED_CAMERA_POSITION 1267.4048 -769.6973 1084.6667 0.0 0.0 0.0
 				POINT_CAMERA_AT_POINT 1266.4120 -769.6685 1084.5508 JUMP_CUT
 
-				IF NOT IS_CHAR_DEAD guard3_s2
-					SET_CHAR_COORDINATES guard3_s2 1249.598 -780.06 1083.063
-					SET_CHAR_HEADING guard3_s2 355.188
+				IF NOT IS_CHAR_DEAD guard_s2[2]
+					SET_CHAR_COORDINATES guard_s2[2] 1249.598 -780.06 1083.063
+					SET_CHAR_HEADING guard_s2[2] 355.188
 				ENDIF
 
 
@@ -655,26 +642,26 @@ IF pickupcollect_s2flag = 0
 				///////////////////////////////////////////////////////////////////////
 				SKIP_CUTSCENE_END
 				///////////////////////////////////////////////////////////////////////
-				DELETE_CHAR guard3_s2
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1249.634 -781.405 1083.5 guard3_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard3_s2 1298.78 -798.2 1.0
-				SET_CHAR_AREA_VISIBLE guard3_s2 5
-				SET_CHAR_HEADING guard3_s2 357.273
-				ADD_BLIP_FOR_CHAR guard3_s2	guard3_s2blip
-				CHANGE_BLIP_DISPLAY guard3_s2blip BLIP_ONLY
-//				SET_BLIP_ENTRY_EXIT guard3_s2blip 1298.78 -798.2 1.0
-				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard3_s2 5.0
-				SET_CHAR_DECISION_MAKER guard3_s2 strap2_DM
+				DELETE_CHAR guard_s2[2]
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1249.634 -781.405 1083.5 guard_s2[2]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[2] 1298.78 -798.2 1.0
+				SET_CHAR_AREA_VISIBLE guard_s2[2] 5
+				SET_CHAR_HEADING guard_s2[2] 357.273
+				ADD_BLIP_FOR_CHAR guard_s2[2]	guard_s2blip[2]
+				CHANGE_BLIP_DISPLAY guard_s2blip[2] BLIP_ONLY
+//				SET_BLIP_ENTRY_EXIT guard_s2blip[2] 1298.78 -798.2 1.0
+				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[2] 5.0
+				SET_CHAR_DECISION_MAKER guard_s2[2] strap2_DM
 			
 				OPEN_SEQUENCE_TASK guard3_s2seq
 				TASK_FOLLOW_PATH_NODES_TO_COORD -1 1267.96 -769.792 1084.06 PEDMOVE_WALK -2
 				SET_SEQUENCE_TO_REPEAT guard3_s2seq 1
 				CLOSE_SEQUENCE_TASK guard3_s2seq
-				PERFORM_SEQUENCE_TASK guard3_s2 guard3_s2seq
+				PERFORM_SEQUENCE_TASK guard_s2[2] guard3_s2seq
 				CLEAR_SEQUENCE_TASK guard3_s2seq
-				GIVE_WEAPON_TO_CHAR guard3_s2 WEAPONTYPE_MICRO_UZI 50
-				SET_CHAR_ACCURACY guard3_s2 90
-				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard3_s2 FALSE
+				GIVE_WEAPON_TO_CHAR guard_s2[2] WEAPONTYPE_MICRO_UZI 50
+				SET_CHAR_ACCURACY guard_s2[2] 90
+				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[2] FALSE
 
 				RESTORE_CAMERA_JUMPCUT
 				SET_CAMERA_BEHIND_PLAYER
@@ -687,13 +674,13 @@ IF pickupcollect_s2flag = 0
 
 				CLEAR_PRINTS
 				PRINT_HELP STP2_41 //If the white blip on the radar that represents your position turns blue it indicates that you are in the shadows and are hidden from patrolling guards.
-				guard3_s2flag = 1
+				guard_s2flag[2] = 1
 			ENDIF
 		ENDIF
 
 
 		// lounge and bar area
-		IF guard4_s2flag = 0
+		IF guard_s2flag[3] = 0
 			IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1249.466 -789.487 1083.0635 7.5 7.5 6.0 FALSE
 
 				IF HAS_MISSION_AUDIO_LOADED 3
@@ -713,16 +700,16 @@ IF pickupcollect_s2flag = 0
 				SET_CHAR_HEADING scplayer 180.659
 				CLEAR_PRINTS 
 				//drink guy
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1258.2712 -793.395 1083.289	guard4_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard4_s2 1298.78 -798.2 1.0
-				SET_CHAR_AREA_VISIBLE guard4_s2 5
-				SET_CHAR_HEADING guard4_s2 354.328
-				ADD_BLIP_FOR_CHAR guard4_s2	guard4_s2blip
-				CHANGE_BLIP_DISPLAY guard4_s2blip BLIP_ONLY
-//				SET_BLIP_ENTRY_EXIT guard4_s2blip 1298.78 -798.2 1.0
-				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard4_s2 5.0
-				SET_CHAR_DECISION_MAKER guard4_s2 strap2_DM
-				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard4_s2 FALSE
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1258.2712 -793.395 1083.289	guard_s2[3]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[3] 1298.78 -798.2 1.0
+				SET_CHAR_AREA_VISIBLE guard_s2[3] 5
+				SET_CHAR_HEADING guard_s2[3] 354.328
+				ADD_BLIP_FOR_CHAR guard_s2[3]	guard_s2blip[3]
+				CHANGE_BLIP_DISPLAY guard_s2blip[3] BLIP_ONLY
+//				SET_BLIP_ENTRY_EXIT guard_s2blip[3] 1298.78 -798.2 1.0
+				SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[3] 5.0
+				SET_CHAR_DECISION_MAKER guard_s2[3] strap2_DM
+				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[3] FALSE
 
 				CREATE_OBJECT_NO_OFFSET CJ_JUICE_CAN 1258.25 -792.64 1084.16 drink_s2
 				GET_MODEL_DIMENSIONS CJ_JUICE_CAN x y z x y z
@@ -730,19 +717,19 @@ IF pickupcollect_s2flag = 0
 				y += 0.027
 
 				//console
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1276.795 -792.368 1083.055 guard5_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard5_s2 1298.78 -798.2 1.0
-				SET_CHAR_ACCURACY guard5_s2 100
-				SET_CHAR_AREA_VISIBLE guard5_s2 5
-				SET_CHAR_HEADING guard5_s2 180.0
-				SET_CHAR_DECISION_MAKER guard5_s2 strap2_DM
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1276.795 -792.368 1083.055 guard_s2[4]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[4] 1298.78 -798.2 1.0
+				SET_CHAR_ACCURACY guard_s2[4] 100
+				SET_CHAR_AREA_VISIBLE guard_s2[4] 5
+				SET_CHAR_HEADING guard_s2[4] 180.0
+				SET_CHAR_DECISION_MAKER guard_s2[4] strap2_DM
 
-				IF NOT IS_CHAR_DEAD guard4_s2
+				IF NOT IS_CHAR_DEAD guard_s2[3]
 					OPEN_SEQUENCE_TASK drinkvend_s2seq
 					TASK_PICK_UP_OBJECT -1 drink_s2 0.062 y 0.0 PED_HANDL HOLD_ORIENTATE_BONE_FULL VEND_USE_PT2 VENDING FALSE//-0.05 0.15 0.0
 					TASK_PICK_UP_OBJECT -1 drink_s2 0.062 y 0.0 PED_HANDL HOLD_ORIENTATE_BONE_FULL VEND_DRINK2_P VENDING FALSE//-0.05 0.15 0.0
 					CLOSE_SEQUENCE_TASK drinkvend_s2seq
-					PERFORM_SEQUENCE_TASK guard4_s2 drinkvend_s2seq
+					PERFORM_SEQUENCE_TASK guard_s2[3] drinkvend_s2seq
 					CLEAR_SEQUENCE_TASK drinkvend_s2seq
 				ENDIF
 
@@ -754,40 +741,40 @@ IF pickupcollect_s2flag = 0
 				//////////////////////////////////////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////
 
-				IF NOT IS_CHAR_DEAD guard2_s2
-					DELETE_CHAR guard2_s2 //delete guard
-					CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard2_s2
-					SET_CHAR_HAS_USED_ENTRY_EXIT guard2_s2 1298.78 -798.2 1.0
-					SET_CHAR_HEADING guard2_s2 350.1510
-					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard2_s2 2.0
-					SET_CHAR_DECISION_MAKER guard2_s2 strap2_DM
-					ADD_BLIP_FOR_CHAR guard2_s2	guard2_s2blip
-					CHANGE_BLIP_DISPLAY guard2_s2blip BLIP_ONLY
-//					SET_BLIP_ENTRY_EXIT guard2_s2blip 1298.78 -798.2 1.0
-					GIVE_WEAPON_TO_CHAR guard2_s2 WEAPONTYPE_MICRO_UZI 9999
-					SET_CHAR_ACCURACY guard2_s2 100
-					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard2_s2 FALSE
+				IF NOT IS_CHAR_DEAD guard_s2[1]
+					DELETE_CHAR guard_s2[1] //delete guard
+					CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard_s2[1]
+					SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[1] 1298.78 -798.2 1.0
+					SET_CHAR_HEADING guard_s2[1] 350.1510
+					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[1] 2.0
+					SET_CHAR_DECISION_MAKER guard_s2[1] strap2_DM
+					ADD_BLIP_FOR_CHAR guard_s2[1]	guard_s2blip[1]
+					CHANGE_BLIP_DISPLAY guard_s2blip[1] BLIP_ONLY
+//					SET_BLIP_ENTRY_EXIT guard_s2blip[1] 1298.78 -798.2 1.0
+					GIVE_WEAPON_TO_CHAR guard_s2[1] WEAPONTYPE_MICRO_UZI 9999
+					SET_CHAR_ACCURACY guard_s2[1] 100
+					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[1] FALSE
 					FLUSH_PATROL_ROUTE
 					EXTEND_PATROL_ROUTE 1289.988 -766.581 1084.063 NONE NONE
 					EXTEND_PATROL_ROUTE 1270.314 -766.564 1084.063 ROADCROSS PED
 					EXTEND_PATROL_ROUTE 1270.074 -782.155 1084.063 NONE NONE
 					EXTEND_PATROL_ROUTE 1290.246 -782.463 1084.056 ROADCROSS PED
-					TASK_FOLLOW_PATROL_ROUTE guard2_s2 PEDMOVE_WALK FOLLOW_ROUTE_LOOP
+					TASK_FOLLOW_PATROL_ROUTE guard_s2[1] PEDMOVE_WALK FOLLOW_ROUTE_LOOP
 				ENDIF
 
-				IF NOT IS_CHAR_DEAD guard3_s2
-					DELETE_CHAR guard3_s2 //delete guard
-					CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1267.96 -769.792 1084.06 guard3_s2
-					SET_CHAR_HAS_USED_ENTRY_EXIT guard3_s2 1298.78 -798.2 1.0
-					SET_CHAR_HEADING guard3_s2 0.141
-					ADD_BLIP_FOR_CHAR guard3_s2	guard3_s2blip
-					CHANGE_BLIP_DISPLAY guard3_s2blip BLIP_ONLY
-//					SET_BLIP_ENTRY_EXIT guard3_s2blip 1298.78 -798.2 1.0
-					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard3_s2 5.0
-					SET_CHAR_DECISION_MAKER guard3_s2 strap2_DM
-					GIVE_WEAPON_TO_CHAR guard3_s2 WEAPONTYPE_MICRO_UZI 50
-					SET_CHAR_ACCURACY guard3_s2 100
-					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard3_s2 FALSE
+				IF NOT IS_CHAR_DEAD guard_s2[2]
+					DELETE_CHAR guard_s2[2] //delete guard
+					CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1267.96 -769.792 1084.06 guard_s2[2]
+					SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[2] 1298.78 -798.2 1.0
+					SET_CHAR_HEADING guard_s2[2] 0.141
+					ADD_BLIP_FOR_CHAR guard_s2[2]	guard_s2blip[2]
+					CHANGE_BLIP_DISPLAY guard_s2blip[2] BLIP_ONLY
+//					SET_BLIP_ENTRY_EXIT guard_s2blip[2] 1298.78 -798.2 1.0
+					SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[2] 5.0
+					SET_CHAR_DECISION_MAKER guard_s2[2] strap2_DM
+					GIVE_WEAPON_TO_CHAR guard_s2[2] WEAPONTYPE_MICRO_UZI 50
+					SET_CHAR_ACCURACY guard_s2[2] 100
+					SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[2] FALSE
 				ENDIF
 				//////////////////////////////////////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////
@@ -801,9 +788,9 @@ IF pickupcollect_s2flag = 0
 				WAIT 2000
 
 				//console gamers
-				IF NOT IS_CHAR_DEAD guard5_s2
-					TASK_PLAY_ANIM guard5_s2 PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
-					START_CHAR_FACIAL_TALK guard5_s2 10000
+				IF NOT IS_CHAR_DEAD guard_s2[4]
+					TASK_PLAY_ANIM guard_s2[4] PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
+					START_CHAR_FACIAL_TALK guard_s2[4] 10000
 				ENDIF
 
 				WAIT 500
@@ -825,12 +812,12 @@ IF pickupcollect_s2flag = 0
 				PRINT_NOW ( LOC2_BB ) 4000 1
 				PLAY_MISSION_AUDIO 2
 
-				IF NOT IS_CHAR_DEAD guard5_s2
+				IF NOT IS_CHAR_DEAD guard_s2[4]
 					OPEN_SEQUENCE_TASK console_s2seq
 					TASK_PLAY_ANIM -1 PED_CONSOLE_LOOSE CRIB 4.0 FALSE FALSE FALSE FALSE -1
 					TASK_PLAY_ANIM -1 PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
 					CLOSE_SEQUENCE_TASK console_s2seq
-					PERFORM_SEQUENCE_TASK guard5_s2 console_s2seq
+					PERFORM_SEQUENCE_TASK guard_s2[4] console_s2seq
 					CLEAR_SEQUENCE_TASK console_s2seq
 				ENDIF
 
@@ -842,47 +829,47 @@ IF pickupcollect_s2flag = 0
 				SKIP_CUTSCENE_END
 				///////////////////////////////////////////////////////////////////////
 
-				DELETE_CHAR guard4_s2
-				DELETE_CHAR guard5_s2
+				DELETE_CHAR guard_s2[3]
+				DELETE_CHAR guard_s2[4]
 
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1258.2712 -793.395 1083.289 guard4_s2 //
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard4_s2 1298.78 -798.2 1.0
-				SET_CHAR_HEADING guard4_s2 354.328 //
-				TASK_PLAY_ANIM guard4_s2 ATM PED 4.0 TRUE FALSE FALSE FALSE -1
-				ADD_BLIP_FOR_CHAR guard4_s2	guard4_s2blip
-				CHANGE_BLIP_DISPLAY guard4_s2blip BLIP_ONLY
-//				SET_BLIP_ENTRY_EXIT guard4_s2blip 1298.78 -798.2 1.0
-				SET_CHAR_DECISION_MAKER guard4_s2 strap2_DM
-				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard4_s2 FALSE
-				GIVE_WEAPON_TO_CHAR guard4_s2 WEAPONTYPE_MICRO_UZI 5000
-				SET_CHAR_ACCURACY guard4_s2 100
-				SET_INFORM_RESPECTED_FRIENDS guard4_s2 5.0 1
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1258.2712 -793.395 1083.289 guard_s2[3] //
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[3] 1298.78 -798.2 1.0
+				SET_CHAR_HEADING guard_s2[3] 354.328 //
+				TASK_PLAY_ANIM guard_s2[3] ATM PED 4.0 TRUE FALSE FALSE FALSE -1
+				ADD_BLIP_FOR_CHAR guard_s2[3]	guard_s2blip[3]
+				CHANGE_BLIP_DISPLAY guard_s2blip[3] BLIP_ONLY
+//				SET_BLIP_ENTRY_EXIT guard_s2blip[3] 1298.78 -798.2 1.0
+				SET_CHAR_DECISION_MAKER guard_s2[3] strap2_DM
+				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[3] FALSE
+				GIVE_WEAPON_TO_CHAR guard_s2[3] WEAPONTYPE_MICRO_UZI 5000
+				SET_CHAR_ACCURACY guard_s2[3] 100
+				SET_INFORM_RESPECTED_FRIENDS guard_s2[3] 5.0 1
 				//console
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1276.795 -792.368 1083.055 guard5_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard5_s2 1298.78 -798.2 1.0
-				SET_CHAR_HEADING guard5_s2 180.0
-				SET_CHAR_DECISION_MAKER guard5_s2 strap2_DM
-				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard5_s2 FALSE
-				GIVE_WEAPON_TO_CHAR guard5_s2 WEAPONTYPE_MICRO_UZI 5000
-				ADD_BLIP_FOR_CHAR guard5_s2	guard5_s2blip
-				CHANGE_BLIP_DISPLAY guard5_s2blip BLIP_ONLY
-//				SET_BLIP_ENTRY_EXIT guard5_s2blip 1298.78 -798.2 1.0
-				SET_CHAR_ACCURACY guard5_s2 100
-				SET_INFORM_RESPECTED_FRIENDS guard5_s2 5.0 1
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1276.795 -792.368 1083.055 guard_s2[4]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[4] 1298.78 -798.2 1.0
+				SET_CHAR_HEADING guard_s2[4] 180.0
+				SET_CHAR_DECISION_MAKER guard_s2[4] strap2_DM
+				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[4] FALSE
+				GIVE_WEAPON_TO_CHAR guard_s2[4] WEAPONTYPE_MICRO_UZI 5000
+				ADD_BLIP_FOR_CHAR guard_s2[4]	guard_s2blip[4]
+				CHANGE_BLIP_DISPLAY guard_s2blip[4] BLIP_ONLY
+//				SET_BLIP_ENTRY_EXIT guard_s2blip[4] 1298.78 -798.2 1.0
+				SET_CHAR_ACCURACY guard_s2[4] 100
+				SET_INFORM_RESPECTED_FRIENDS guard_s2[4] 5.0 1
 
-				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1262.533 -805.139 1083.0555 guard7_s2
-				SET_CHAR_HAS_USED_ENTRY_EXIT guard7_s2 1298.78 -798.2 1.0
-				SET_CHAR_HEADING guard7_s2 359.265
-				SET_CHAR_DECISION_MAKER guard7_s2 strap2_DM
-				ADD_BLIP_FOR_CHAR guard7_s2	guard7_s2blip
-				CHANGE_BLIP_DISPLAY guard7_s2blip BLIP_ONLY
-//				SET_BLIP_ENTRY_EXIT guard7_s2blip 1298.78 -798.2 1.0
-				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard7_s2 FALSE
-				GIVE_WEAPON_TO_CHAR guard7_s2 WEAPONTYPE_MICRO_UZI 5555
-				SET_CHAR_ACCURACY guard7_s2 100
+				CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1262.533 -805.139 1083.0555 guard_s2[6]
+				SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[6] 1298.78 -798.2 1.0
+				SET_CHAR_HEADING guard_s2[6] 359.265
+				SET_CHAR_DECISION_MAKER guard_s2[6] strap2_DM
+				ADD_BLIP_FOR_CHAR guard_s2[6]	guard_s2blip[6]
+				CHANGE_BLIP_DISPLAY guard_s2blip[6] BLIP_ONLY
+//				SET_BLIP_ENTRY_EXIT guard_s2blip[6] 1298.78 -798.2 1.0
+				SET_CHAR_DROPS_WEAPONS_WHEN_DEAD guard_s2[6] FALSE
+				GIVE_WEAPON_TO_CHAR guard_s2[6] WEAPONTYPE_MICRO_UZI 5555
+				SET_CHAR_ACCURACY guard_s2[6] 100
 
-				IF NOT IS_CHAR_DEAD guard5_s2
-					TASK_PLAY_ANIM guard5_s2 PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
+				IF NOT IS_CHAR_DEAD guard_s2[4]
+					TASK_PLAY_ANIM guard_s2[4] PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
 				ENDIF
 				CLEAR_PRINTS
 				CLEAR_MISSION_AUDIO 1
@@ -901,23 +888,23 @@ IF pickupcollect_s2flag = 0
 				TIMERB = 0
 				helptext_s2flag = 9
 				PRINT_HELP STP2_36 //Press ~h~L3 ~h~ to crouch. You can walk while crouched allowing you to move quietly and reduce the chances of you being spotted.							
-				guard4_s2flag = 1
+				guard_s2flag[3] = 1
 			ENDIF
 		ENDIF
 	
-		IF guard4_s2flag = 1
+		IF guard_s2flag[3] = 1
 			GET_CHAR_SPEED scplayer x
-			IF NOT IS_CHAR_DEAD guard4_s2
+			IF NOT IS_CHAR_DEAD guard_s2[3]
 				IF IS_CHAR_IN_AREA_3D scplayer 1246.77 -785.08 1083.26 1255.87 -797.69 1090.0 FALSE
 				OR x > 0.0
-					SET_CHAR_HEADING guard4_s2 168.503
+					SET_CHAR_HEADING guard_s2[3] 168.503
 					OPEN_SEQUENCE_TASK guard4_s2seq
 					TASK_GO_STRAIGHT_TO_COORD -1 1256.29 -795.6 1084.289 PEDMOVE_WALK -1
 					TASK_PLAY_ANIM -1 ATM PED 4.0 TRUE FALSE FALSE FALSE -1
 					CLOSE_SEQUENCE_TASK guard4_s2seq
-					PERFORM_SEQUENCE_TASK guard4_s2 guard4_s2seq
+					PERFORM_SEQUENCE_TASK guard_s2[3] guard4_s2seq
 					CLEAR_SEQUENCE_TASK guard4_s2seq
-					guard4_s2flag = 2
+					guard_s2flag[3] = 2
 				ENDIF
 			ENDIF
 		ENDIF
@@ -938,68 +925,68 @@ IF pickupcollect_s2flag = 0
 			pickupcollect_s2flag = 1
 		ENDIF
 
-		IF IS_CHAR_DEAD guard1_s2
-			IF DOES_BLIP_EXIST guard1_s2blip
-				REMOVE_BLIP guard1_s2blip
+		IF IS_CHAR_DEAD guard_s2[0]
+			IF DOES_BLIP_EXIST guard_s2blip[0]
+				REMOVE_BLIP guard_s2blip[0]
 			ENDIF
 		ENDIF
-		IF IS_CHAR_DEAD guard2_s2
-			IF DOES_BLIP_EXIST guard2_s2blip
-				REMOVE_BLIP guard2_s2blip
+		IF IS_CHAR_DEAD guard_s2[1]
+			IF DOES_BLIP_EXIST guard_s2blip[1]
+				REMOVE_BLIP guard_s2blip[1]
 			ENDIF
 		ENDIF
-		IF IS_CHAR_DEAD guard3_s2
-			IF DOES_BLIP_EXIST guard3_s2blip
-				REMOVE_BLIP guard3_s2blip
+		IF IS_CHAR_DEAD guard_s2[2]
+			IF DOES_BLIP_EXIST guard_s2blip[2]
+				REMOVE_BLIP guard_s2blip[2]
 			ENDIF
 		ENDIF
-		IF IS_CHAR_DEAD guard4_s2
-			IF DOES_BLIP_EXIST guard4_s2blip
-				REMOVE_BLIP guard4_s2blip
+		IF IS_CHAR_DEAD guard_s2[3]
+			IF DOES_BLIP_EXIST guard_s2blip[3]
+				REMOVE_BLIP guard_s2blip[3]
 			ENDIF
 		ENDIF
-		IF IS_CHAR_DEAD guard5_s2
-			IF DOES_BLIP_EXIST guard5_s2blip
-				REMOVE_BLIP guard5_s2blip
+		IF IS_CHAR_DEAD guard_s2[4]
+			IF DOES_BLIP_EXIST guard_s2blip[4]
+				REMOVE_BLIP guard_s2blip[4]
 			ENDIF
 		ENDIF
-		IF IS_CHAR_DEAD guard7_s2
-			IF DOES_BLIP_EXIST guard7_s2blip
-				REMOVE_BLIP guard7_s2blip
+		IF IS_CHAR_DEAD guard_s2[6]
+			IF DOES_BLIP_EXIST guard_s2blip[6]
+				REMOVE_BLIP guard_s2blip[6]
 			ENDIF
 		ENDIF
 
 //		//stealth dialogue
-//		IF NOT IS_CHAR_DEAD guard2_s2
-//			enemy_s2 = guard2_s2
+//		IF NOT IS_CHAR_DEAD guard_s2[1]
+//			enemy_s2 = guard_s2[1]
 //			playerseenstate_s2 = guard2playerseenstate_s2
 //			GOSUB alertstate_s2label
 //			guard2playerseenstate_s2 = playerseenstate_s2
 //		ENDIF
 //
-//		IF NOT IS_CHAR_DEAD guard3_s2
-//			enemy_s2 = guard3_s2
+//		IF NOT IS_CHAR_DEAD guard_s2[2]
+//			enemy_s2 = guard_s2[2]
 //			playerseenstate_s2 = guard3playerseenstate_s2
 //			GOSUB alertstate_s2label
 //			guard3playerseenstate_s2 = playerseenstate_s2
 //		ENDIF
 //
-//		IF NOT IS_CHAR_DEAD guard4_s2
-//			enemy_s2 = guard4_s2
+//		IF NOT IS_CHAR_DEAD guard_s2[3]
+//			enemy_s2 = guard_s2[3]
 //			playerseenstate_s2 = guard4playerseenstate_s2
 //			GOSUB alertstate_s2label
 //			guard4playerseenstate_s2 = playerseenstate_s2
 //		ENDIF
 //
-//		IF NOT IS_CHAR_DEAD guard5_s2
-//			enemy_s2 = guard5_s2
+//		IF NOT IS_CHAR_DEAD guard_s2[4]
+//			enemy_s2 = guard_s2[4]
 //			playerseenstate_s2 = guard5playerseenstate_s2
 //			GOSUB alertstate_s2label
 //			guard5playerseenstate_s2 = playerseenstate_s2
 //		ENDIF
 //
-//		IF NOT IS_CHAR_DEAD guard7_s2
-//			enemy_s2 = guard7_s2
+//		IF NOT IS_CHAR_DEAD guard_s2[6]
+//			enemy_s2 = guard_s2[6]
 //			playerseenstate_s2 = guard7playerseenstate_s2
 //			GOSUB alertstate_s2label
 //			guard7playerseenstate_s2 = playerseenstate_s2
@@ -1024,119 +1011,119 @@ IF rhymebook_s2flag = 3
 		//text - some of the guards are using
 		//if not console guys are dead create him
 		//if not bar guy is dead create him
-		DELETE_CHAR guard1_s2
-		DELETE_CHAR guard2_s2
-		DELETE_CHAR guard3_s2
+		DELETE_CHAR guard_s2[0]
+		DELETE_CHAR guard_s2[1]
+		DELETE_CHAR guard_s2[2]
 
-		CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1243.53 -812.19 1083.04 guard1_s2 //investigator
-		SET_CHAR_HAS_USED_ENTRY_EXIT guard1_s2 1298.78 -798.2 1.0
-		SET_CHAR_HEADING guard1_s2 270.948
-		SET_CHAR_DECISION_MAKER guard1_s2 strap2_DM
-		ADD_BLIP_FOR_CHAR guard1_s2	guard1_s2blip
-		CHANGE_BLIP_DISPLAY guard1_s2blip BLIP_ONLY
-//		SET_BLIP_ENTRY_EXIT guard1_s2blip 1298.78 -798.2 1.0
-		GIVE_WEAPON_TO_CHAR guard1_s2 WEAPONTYPE_PISTOL_SILENCED 99999
-		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard1_s2 2.0
-		TASK_FOLLOW_PATH_NODES_TO_COORD guard1_s2 1270.694 -802.518 1084.05 PEDMOVE_WALK -2
-		SET_INFORM_RESPECTED_FRIENDS guard1_s2 10.0 1
-		SET_CHAR_ACCURACY guard1_s2 100
+		CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1243.53 -812.19 1083.04 guard_s2[0] //investigator
+		SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[0] 1298.78 -798.2 1.0
+		SET_CHAR_HEADING guard_s2[0] 270.948
+		SET_CHAR_DECISION_MAKER guard_s2[0] strap2_DM
+		ADD_BLIP_FOR_CHAR guard_s2[0]	guard_s2blip[0]
+		CHANGE_BLIP_DISPLAY guard_s2blip[0] BLIP_ONLY
+//		SET_BLIP_ENTRY_EXIT guard_s2blip[0] 1298.78 -798.2 1.0
+		GIVE_WEAPON_TO_CHAR guard_s2[0] WEAPONTYPE_PISTOL_SILENCED 99999
+		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[0] 2.0
+		TASK_FOLLOW_PATH_NODES_TO_COORD guard_s2[0] 1270.694 -802.518 1084.05 PEDMOVE_WALK -2
+		SET_INFORM_RESPECTED_FRIENDS guard_s2[0] 10.0 1
+		SET_CHAR_ACCURACY guard_s2[0] 100
 
-		CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1280.02 -789.01 1083.05 guard2_s2 //outside recording room
-		SET_CHAR_HAS_USED_ENTRY_EXIT guard2_s2 1298.78 -798.2 1.0
-		SET_CHAR_HEADING guard2_s2 91.837
-		SET_CHAR_DECISION_MAKER guard2_s2 strap2_DM
-		ADD_BLIP_FOR_CHAR guard2_s2	guard2_s2blip
-		CHANGE_BLIP_DISPLAY guard2_s2blip BLIP_ONLY
-//		SET_BLIP_ENTRY_EXIT guard2_s2blip 1298.78 -798.2 1.0
-		GIVE_WEAPON_TO_CHAR guard2_s2 WEAPONTYPE_PISTOL_SILENCED 99999
-		SET_INFORM_RESPECTED_FRIENDS guard2_s2 5.0 1
-		SET_CHAR_ACCURACY guard2_s2 100
+		CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1280.02 -789.01 1083.05 guard_s2[1] //outside recording room
+		SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[1] 1298.78 -798.2 1.0
+		SET_CHAR_HEADING guard_s2[1] 91.837
+		SET_CHAR_DECISION_MAKER guard_s2[1] strap2_DM
+		ADD_BLIP_FOR_CHAR guard_s2[1]	guard_s2blip[1]
+		CHANGE_BLIP_DISPLAY guard_s2blip[1] BLIP_ONLY
+//		SET_BLIP_ENTRY_EXIT guard_s2blip[1] 1298.78 -798.2 1.0
+		GIVE_WEAPON_TO_CHAR guard_s2[1] WEAPONTYPE_PISTOL_SILENCED 99999
+		SET_INFORM_RESPECTED_FRIENDS guard_s2[1] 5.0 1
+		SET_CHAR_ACCURACY guard_s2[1] 100
 
-		CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1249.768 -780.616 1084.063 guard6_s2	//corridor and changing rooms
-		SET_CHAR_HAS_USED_ENTRY_EXIT guard6_s2 1298.78 -798.2 1.0
-		SET_CHAR_HEADING guard6_s2 3.43
-		ADD_BLIP_FOR_CHAR guard6_s2	guard6_s2blip
-		CHANGE_BLIP_DISPLAY guard6_s2blip BLIP_ONLY
-//		SET_BLIP_ENTRY_EXIT guard6_s2blip 1298.78 -798.2 1.0
-		SET_CHAR_DECISION_MAKER guard6_s2 strap2_DM
-		GIVE_WEAPON_TO_CHAR guard6_s2 WEAPONTYPE_PISTOL_SILENCED 99999
+		CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1249.768 -780.616 1084.063 guard_s2[5]	//corridor and changing rooms
+		SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[5] 1298.78 -798.2 1.0
+		SET_CHAR_HEADING guard_s2[5] 3.43
+		ADD_BLIP_FOR_CHAR guard_s2[5]	guard_s2blip[5]
+		CHANGE_BLIP_DISPLAY guard_s2blip[5] BLIP_ONLY
+//		SET_BLIP_ENTRY_EXIT guard_s2blip[5] 1298.78 -798.2 1.0
+		SET_CHAR_DECISION_MAKER guard_s2[5] strap2_DM
+		GIVE_WEAPON_TO_CHAR guard_s2[5] WEAPONTYPE_PISTOL_SILENCED 99999
 		FLUSH_PATROL_ROUTE
 		EXTEND_PATROL_ROUTE 1249.799 -769.679 1084.063 ROADCROSS PED
 		EXTEND_PATROL_ROUTE 1267.62 -769.651 1084.06 NONE NONE
 		EXTEND_PATROL_ROUTE 1249.799 -769.679 1084.063 NONE NONE
 		EXTEND_PATROL_ROUTE 1249.768 -780.616 1084.063 NONE NONE
-		TASK_FOLLOW_PATROL_ROUTE guard6_s2 PEDMOVE_WALK FOLLOW_ROUTE_LOOP
-		SET_INFORM_RESPECTED_FRIENDS guard6_s2 15.0 2
+		TASK_FOLLOW_PATROL_ROUTE guard_s2[5] PEDMOVE_WALK FOLLOW_ROUTE_LOOP
+		SET_INFORM_RESPECTED_FRIENDS guard_s2[5] 15.0 2
 
-		IF NOT IS_CHAR_DEAD guard5_s2
-			DELETE_CHAR guard5_s2
-			CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1276.795 -792.368 1083.055 guard5_s2	//console gaming
-			SET_CHAR_HAS_USED_ENTRY_EXIT guard5_s2 1298.78 -798.2 1.0
-			SET_CHAR_HEADING guard5_s2 180.0
-			SET_CHAR_DECISION_MAKER guard5_s2 strap2empty_DM
-			GIVE_WEAPON_TO_CHAR guard5_s2 WEAPONTYPE_PISTOL_SILENCED 99999
-			ADD_BLIP_FOR_CHAR guard5_s2	guard5_s2blip
-			CHANGE_BLIP_DISPLAY guard5_s2blip BLIP_ONLY
-//			SET_BLIP_ENTRY_EXIT guard5_s2blip 1298.78 -798.2 1.0
-			TASK_PLAY_ANIM guard5_s2 PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
-			SET_INFORM_RESPECTED_FRIENDS guard5_s2 20.0 1
+		IF NOT IS_CHAR_DEAD guard_s2[4]
+			DELETE_CHAR guard_s2[4]
+			CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1276.795 -792.368 1083.055 guard_s2[4]	//console gaming
+			SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[4] 1298.78 -798.2 1.0
+			SET_CHAR_HEADING guard_s2[4] 180.0
+			SET_CHAR_DECISION_MAKER guard_s2[4] strap2empty_DM
+			GIVE_WEAPON_TO_CHAR guard_s2[4] WEAPONTYPE_PISTOL_SILENCED 99999
+			ADD_BLIP_FOR_CHAR guard_s2[4]	guard_s2blip[4]
+			CHANGE_BLIP_DISPLAY guard_s2blip[4] BLIP_ONLY
+//			SET_BLIP_ENTRY_EXIT guard_s2blip[4] 1298.78 -798.2 1.0
+			TASK_PLAY_ANIM guard_s2[4] PED_CONSOLE_LOOP CRIB 4.0 TRUE FALSE FALSE FALSE -1
+			SET_INFORM_RESPECTED_FRIENDS guard_s2[4] 20.0 1
 		ELSE
-			REMOVE_CHAR_ELEGANTLY guard5_s2
-			CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1270.616 -792.298 1084.047 guard5_s2	//console gaming
-			SET_CHAR_HAS_USED_ENTRY_EXIT guard5_s2 1298.78 -798.2 1.0
-			SET_CHAR_HEADING guard5_s2 186.126
-			SET_CHAR_DECISION_MAKER guard5_s2 strap2empty_DM
-			GIVE_WEAPON_TO_CHAR guard5_s2 WEAPONTYPE_PISTOL_SILENCED 99999
-			ADD_BLIP_FOR_CHAR guard5_s2	guard5_s2blip
-			CHANGE_BLIP_DISPLAY guard5_s2blip BLIP_ONLY
-//			SET_BLIP_ENTRY_EXIT guard5_s2blip 1298.78 -798.2 1.0
-			TASK_SIT_DOWN guard5_s2 400000
-			SET_INFORM_RESPECTED_FRIENDS guard5_s2 20.0 1
+			REMOVE_CHAR_ELEGANTLY guard_s2[4]
+			CREATE_CHAR PEDTYPE_MISSION1 WBDYG1 1270.616 -792.298 1084.047 guard_s2[4]	//console gaming
+			SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[4] 1298.78 -798.2 1.0
+			SET_CHAR_HEADING guard_s2[4] 186.126
+			SET_CHAR_DECISION_MAKER guard_s2[4] strap2empty_DM
+			GIVE_WEAPON_TO_CHAR guard_s2[4] WEAPONTYPE_PISTOL_SILENCED 99999
+			ADD_BLIP_FOR_CHAR guard_s2[4]	guard_s2blip[4]
+			CHANGE_BLIP_DISPLAY guard_s2blip[4] BLIP_ONLY
+//			SET_BLIP_ENTRY_EXIT guard_s2blip[4] 1298.78 -798.2 1.0
+			TASK_SIT_DOWN guard_s2[4] 400000
+			SET_INFORM_RESPECTED_FRIENDS guard_s2[4] 20.0 1
 		ENDIF
 
-		IF NOT IS_CHAR_DEAD guard4_s2
-			DELETE_CHAR guard4_s2
-			CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1256.492 -795.662 1084.282 guard4_s2
-			SET_CHAR_HAS_USED_ENTRY_EXIT guard4_s2 1298.78 -798.2 1.0
-			SET_CHAR_HEADING guard4_s2 186.842
-			TASK_PLAY_ANIM guard4_s2 ATM PED 4.0 TRUE FALSE FALSE FALSE -1
-			ADD_BLIP_FOR_CHAR guard4_s2	guard4_s2blip
-			CHANGE_BLIP_DISPLAY guard4_s2blip BLIP_ONLY
-//			SET_BLIP_ENTRY_EXIT guard4_s2blip 1298.78 -798.2 1.0
-			SET_CHAR_DECISION_MAKER guard4_s2 strap2empty_DM
-			GIVE_WEAPON_TO_CHAR guard4_s2 WEAPONTYPE_PISTOL_SILENCED 99999
-			SET_INFORM_RESPECTED_FRIENDS guard4_s2 10.0 1
+		IF NOT IS_CHAR_DEAD guard_s2[3]
+			DELETE_CHAR guard_s2[3]
+			CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1256.492 -795.662 1084.282 guard_s2[3]
+			SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[3] 1298.78 -798.2 1.0
+			SET_CHAR_HEADING guard_s2[3] 186.842
+			TASK_PLAY_ANIM guard_s2[3] ATM PED 4.0 TRUE FALSE FALSE FALSE -1
+			ADD_BLIP_FOR_CHAR guard_s2[3]	guard_s2blip[3]
+			CHANGE_BLIP_DISPLAY guard_s2blip[3] BLIP_ONLY
+//			SET_BLIP_ENTRY_EXIT guard_s2blip[3] 1298.78 -798.2 1.0
+			SET_CHAR_DECISION_MAKER guard_s2[3] strap2empty_DM
+			GIVE_WEAPON_TO_CHAR guard_s2[3] WEAPONTYPE_PISTOL_SILENCED 99999
+			SET_INFORM_RESPECTED_FRIENDS guard_s2[3] 10.0 1
 		ELSE
-			REMOVE_CHAR_ELEGANTLY guard4_s2
-			CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1252.99 -795.461 1083.282 guard4_s2
-			SET_CHAR_HAS_USED_ENTRY_EXIT guard4_s2 1298.78 -798.2 1.0
-			SET_CHAR_HEADING guard4_s2 186.842
-			TASK_PLAY_ANIM guard4_s2 ATM PED 4.0 TRUE FALSE FALSE FALSE -1
-			ADD_BLIP_FOR_CHAR guard4_s2	guard4_s2blip
-			CHANGE_BLIP_DISPLAY guard4_s2blip BLIP_ONLY
-//			SET_BLIP_ENTRY_EXIT guard4_s2blip 1298.78 -798.2 1.0
-			SET_CHAR_DECISION_MAKER guard4_s2 strap2empty_DM
-			GIVE_WEAPON_TO_CHAR guard4_s2 WEAPONTYPE_PISTOL_SILENCED 99999
-			SET_INFORM_RESPECTED_FRIENDS guard4_s2 10.0 1
+			REMOVE_CHAR_ELEGANTLY guard_s2[3]
+			CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1252.99 -795.461 1083.282 guard_s2[3]
+			SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[3] 1298.78 -798.2 1.0
+			SET_CHAR_HEADING guard_s2[3] 186.842
+			TASK_PLAY_ANIM guard_s2[3] ATM PED 4.0 TRUE FALSE FALSE FALSE -1
+			ADD_BLIP_FOR_CHAR guard_s2[3]	guard_s2blip[3]
+			CHANGE_BLIP_DISPLAY guard_s2blip[3] BLIP_ONLY
+//			SET_BLIP_ENTRY_EXIT guard_s2blip[3] 1298.78 -798.2 1.0
+			SET_CHAR_DECISION_MAKER guard_s2[3] strap2empty_DM
+			GIVE_WEAPON_TO_CHAR guard_s2[3] WEAPONTYPE_PISTOL_SILENCED 99999
+			SET_INFORM_RESPECTED_FRIENDS guard_s2[3] 10.0 1
 		ENDIF
 
-		CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard8_s2 //swimming pool
-		SET_CHAR_HAS_USED_ENTRY_EXIT guard8_s2 1298.78 -798.2 1.0
-		SET_CHAR_HEADING guard8_s2 350.1510
-		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard8_s2 5.0
-		SET_CHAR_DECISION_MAKER guard8_s2 strap2empty_DM
-		ADD_BLIP_FOR_CHAR guard8_s2	guard8_s2blip
-		CHANGE_BLIP_DISPLAY guard8_s2blip BLIP_ONLY
-//		SET_BLIP_ENTRY_EXIT guard8_s2blip 1298.78 -798.2 1.0
-		GIVE_WEAPON_TO_CHAR guard8_s2 WEAPONTYPE_PISTOL_SILENCED 5000
-		SET_CHAR_ACCURACY guard8_s2 100
+		CREATE_CHAR PEDTYPE_MISSION1 WBDYG2 1290.6670 -778.9339 1083.0116 guard_s2[7] //swimming pool
+		SET_CHAR_HAS_USED_ENTRY_EXIT guard_s2[7] 1298.78 -798.2 1.0
+		SET_CHAR_HEADING guard_s2[7] 350.1510
+		SET_FOLLOW_NODE_THRESHOLD_DISTANCE guard_s2[7] 5.0
+		SET_CHAR_DECISION_MAKER guard_s2[7] strap2empty_DM
+		ADD_BLIP_FOR_CHAR guard_s2[7]	guard_s2blip[7]
+		CHANGE_BLIP_DISPLAY guard_s2blip[7] BLIP_ONLY
+//		SET_BLIP_ENTRY_EXIT guard_s2blip[7] 1298.78 -798.2 1.0
+		GIVE_WEAPON_TO_CHAR guard_s2[7] WEAPONTYPE_PISTOL_SILENCED 5000
+		SET_CHAR_ACCURACY guard_s2[7] 100
 		FLUSH_PATROL_ROUTE
 		EXTEND_PATROL_ROUTE 1289.988 -766.581 1084.063 NONE NONE
 		EXTEND_PATROL_ROUTE 1270.314 -766.564 1084.063 ROADCROSS PED
 		EXTEND_PATROL_ROUTE 1270.074 -782.155 1084.063 NONE NONE
 		EXTEND_PATROL_ROUTE 1290.246 -782.463 1084.056 ROADCROSS PED
-		TASK_FOLLOW_PATROL_ROUTE guard8_s2 PEDMOVE_WALK FOLLOW_ROUTE_LOOP
-		guard8_s2flag = 0
+		TASK_FOLLOW_PATROL_ROUTE guard_s2[7] PEDMOVE_WALK FOLLOW_ROUTE_LOOP
+		guard_s2flag[7] = 0
 
 		pickupcollect_s2flag = 2
 	ENDIF
@@ -1145,22 +1132,22 @@ IF rhymebook_s2flag = 3
 	IF bararea_s2flag = 0
 		IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1282.61 -787.389 1084.0635 6.0 6.0 6.0 FALSE
 
-			IF NOT IS_CHAR_DEAD guard4_s2
-				SET_CHAR_DECISION_MAKER guard4_s2 strap2_DM
+			IF NOT IS_CHAR_DEAD guard_s2[3]
+				SET_CHAR_DECISION_MAKER guard_s2[3] strap2_DM
 			ENDIF
-			IF NOT IS_CHAR_DEAD guard5_s2
-				SET_CHAR_DECISION_MAKER guard5_s2 strap2_DM
+			IF NOT IS_CHAR_DEAD guard_s2[4]
+				SET_CHAR_DECISION_MAKER guard_s2[4] strap2_DM
 			ENDIF
 
 			bararea_s2flag = 1
 		ENDIF
 	ENDIF
 
-	IF guard8_s2flag = 0
+	IF guard_s2flag[7] = 0
 		IF LOCATE_CHAR_ON_FOOT_3D scplayer 1249.61 -772.86 1083.46 7.0 7.0 5.0 FALSE
-			IF NOT IS_CHAR_DEAD guard8_s2
-				SET_CHAR_DECISION_MAKER guard8_s2 strap2_DM
-				guard8_s2flag = 1
+			IF NOT IS_CHAR_DEAD guard_s2[7]
+				SET_CHAR_DECISION_MAKER guard_s2[7] strap2_DM
+				guard_s2flag[7] = 1
 			ENDIF
 		ENDIF
 	ENDIF
@@ -1190,86 +1177,86 @@ IF rhymebook_s2flag = 3
 		rhymebook_s2flag = 4
 	ENDIF
 
-	IF IS_CHAR_DEAD guard1_s2
-		IF DOES_BLIP_EXIST guard1_s2blip
-			REMOVE_BLIP guard1_s2blip
+	IF IS_CHAR_DEAD guard_s2[0]
+		IF DOES_BLIP_EXIST guard_s2blip[0]
+			REMOVE_BLIP guard_s2blip[0]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard2_s2
-		IF DOES_BLIP_EXIST guard2_s2blip
-			REMOVE_BLIP guard2_s2blip
+	IF IS_CHAR_DEAD guard_s2[1]
+		IF DOES_BLIP_EXIST guard_s2blip[1]
+			REMOVE_BLIP guard_s2blip[1]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard3_s2
-		IF DOES_BLIP_EXIST guard3_s2blip
-			REMOVE_BLIP guard3_s2blip
+	IF IS_CHAR_DEAD guard_s2[2]
+		IF DOES_BLIP_EXIST guard_s2blip[2]
+			REMOVE_BLIP guard_s2blip[2]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard4_s2
-		IF DOES_BLIP_EXIST guard4_s2blip
-			REMOVE_BLIP guard4_s2blip
+	IF IS_CHAR_DEAD guard_s2[3]
+		IF DOES_BLIP_EXIST guard_s2blip[3]
+			REMOVE_BLIP guard_s2blip[3]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard5_s2
-		IF DOES_BLIP_EXIST guard5_s2blip
-			REMOVE_BLIP guard5_s2blip
+	IF IS_CHAR_DEAD guard_s2[4]
+		IF DOES_BLIP_EXIST guard_s2blip[4]
+			REMOVE_BLIP guard_s2blip[4]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard6_s2
-		IF DOES_BLIP_EXIST guard6_s2blip
-			REMOVE_BLIP guard6_s2blip
+	IF IS_CHAR_DEAD guard_s2[5]
+		IF DOES_BLIP_EXIST guard_s2blip[5]
+			REMOVE_BLIP guard_s2blip[5]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard7_s2
-		IF DOES_BLIP_EXIST guard7_s2blip
-			REMOVE_BLIP guard7_s2blip
+	IF IS_CHAR_DEAD guard_s2[6]
+		IF DOES_BLIP_EXIST guard_s2blip[6]
+			REMOVE_BLIP guard_s2blip[6]
 		ENDIF
 	ENDIF
-	IF IS_CHAR_DEAD guard8_s2
-		IF DOES_BLIP_EXIST guard8_s2blip
-			REMOVE_BLIP guard8_s2blip
+	IF IS_CHAR_DEAD guard_s2[7]
+		IF DOES_BLIP_EXIST guard_s2blip[7]
+			REMOVE_BLIP guard_s2blip[7]
 		ENDIF
 	ENDIF
 
 
 //	//stealth dialogue
-//	IF NOT IS_CHAR_DEAD guard2_s2
-//		enemy_s2 = guard2_s2
+//	IF NOT IS_CHAR_DEAD guard_s2[1]
+//		enemy_s2 = guard_s2[1]
 //		playerseenstate_s2 = guard2playerseenstate_s2
 //		GOSUB alertstate_s2label
 //		guard2playerseenstate_s2 = playerseenstate_s2
 //	ENDIF
 //
-//	IF NOT IS_CHAR_DEAD guard3_s2
-//		enemy_s2 = guard3_s2
+//	IF NOT IS_CHAR_DEAD guard_s2[2]
+//		enemy_s2 = guard_s2[2]
 //		playerseenstate_s2 = guard3playerseenstate_s2
 //		GOSUB alertstate_s2label
 //		guard3playerseenstate_s2 = playerseenstate_s2
 //	ENDIF
 //
-//	IF NOT IS_CHAR_DEAD guard4_s2
-//		enemy_s2 = guard4_s2
+//	IF NOT IS_CHAR_DEAD guard_s2[3]
+//		enemy_s2 = guard_s2[3]
 //		playerseenstate_s2 = guard4playerseenstate_s2
 //		GOSUB alertstate_s2label
 //		guard4playerseenstate_s2 = playerseenstate_s2
 //	ENDIF
 //
-//	IF NOT IS_CHAR_DEAD guard5_s2
-//		enemy_s2 = guard5_s2
+//	IF NOT IS_CHAR_DEAD guard_s2[4]
+//		enemy_s2 = guard_s2[4]
 //		playerseenstate_s2 = guard5playerseenstate_s2
 //		GOSUB alertstate_s2label
 //		guard5playerseenstate_s2 = playerseenstate_s2
 //	ENDIF
 //
-//	IF NOT IS_CHAR_DEAD guard6_s2
-//		enemy_s2 = guard6_s2
+//	IF NOT IS_CHAR_DEAD guard_s2[5]
+//		enemy_s2 = guard_s2[5]
 //		playerseenstate_s2 = guard6playerseenstate_s2
 //		GOSUB alertstate_s2label
 //		guard6playerseenstate_s2 = playerseenstate_s2
 //	ENDIF
 //
-//	IF NOT IS_CHAR_DEAD guard7_s2
-//		enemy_s2 = guard7_s2
+//	IF NOT IS_CHAR_DEAD guard_s2[6]
+//		enemy_s2 = guard_s2[6]
 //		playerseenstate_s2 = guard7playerseenstate_s2
 //		GOSUB alertstate_s2label
 //		guard7playerseenstate_s2 = playerseenstate_s2
@@ -1293,20 +1280,20 @@ IF pickupcollect_s2flag = 2
 		CREATE_CAR MTBIKE 1306.718 -797.24 83.66 mtbike_s2
 		SET_CAR_HEADING mtbike_s2 206.253
 
-		DELETE_CHAR guard1_s2
-		DELETE_CHAR guard2_s2
-		DELETE_CHAR guard3_s2
-		DELETE_CHAR guard4_s2
-		DELETE_CHAR guard5_s2
-		DELETE_CHAR guard6_s2
-		DELETE_CHAR guard7_s2
-		REMOVE_BLIP guard1_s2blip
-		REMOVE_BLIP guard2_s2blip
-		REMOVE_BLIP guard3_s2blip
-		REMOVE_BLIP guard4_s2blip
-		REMOVE_BLIP guard5_s2blip
-		REMOVE_BLIP guard6_s2blip
-		REMOVE_BLIP guard7_s2blip
+		DELETE_CHAR guard_s2[0]
+		DELETE_CHAR guard_s2[1]
+		DELETE_CHAR guard_s2[2]
+		DELETE_CHAR guard_s2[3]
+		DELETE_CHAR guard_s2[4]
+		DELETE_CHAR guard_s2[5]
+		DELETE_CHAR guard_s2[6]
+		REMOVE_BLIP guard_s2blip[0]
+		REMOVE_BLIP guard_s2blip[1]
+		REMOVE_BLIP guard_s2blip[2]
+		REMOVE_BLIP guard_s2blip[3]
+		REMOVE_BLIP guard_s2blip[4]
+		REMOVE_BLIP guard_s2blip[5]
+		REMOVE_BLIP guard_s2blip[6]
 
 		MARK_MODEL_AS_NO_LONGER_NEEDED WBDYG1
 		MARK_MODEL_AS_NO_LONGER_NEEDED WBDYG2
@@ -1319,13 +1306,13 @@ IF pickupcollect_s2flag = 2
 		REMOVE_ANIMATION VENDING
 		MARK_MODEL_AS_NO_LONGER_NEEDED KNIFECUR
 		SET_RADAR_ZOOM 0
-		REMOVE_BLIP guard1_s2blip
-		REMOVE_BLIP guard2_s2blip
-		REMOVE_BLIP guard3_s2blip
-		REMOVE_BLIP guard4_s2blip
-		REMOVE_BLIP guard5_s2blip
-		REMOVE_BLIP guard6_s2blip
-		REMOVE_BLIP guard7_s2blip
+		REMOVE_BLIP guard_s2blip[0]
+		REMOVE_BLIP guard_s2blip[1]
+		REMOVE_BLIP guard_s2blip[2]
+		REMOVE_BLIP guard_s2blip[3]
+		REMOVE_BLIP guard_s2blip[4]
+		REMOVE_BLIP guard_s2blip[5]
+		REMOVE_BLIP guard_s2blip[6]
 
 		PRINT_NOW STP2_30 7000 1 //~s~You need to take the rhymebook back to OG Loc he is at ~y~Burger Shot~s~.
 		
@@ -1610,13 +1597,13 @@ SET_RADAR_ZOOM 0
 //blips
 SHUT_CHAR_UP scplayer FALSE
 REMOVE_BLIP rhymebook_s2blip
-REMOVE_BLIP guard1_s2blip
-REMOVE_BLIP guard2_s2blip
-REMOVE_BLIP guard3_s2blip
-REMOVE_BLIP guard4_s2blip
-REMOVE_BLIP guard5_s2blip
-REMOVE_BLIP guard6_s2blip
-REMOVE_BLIP guard7_s2blip
+REMOVE_BLIP guard_s2blip[0]
+REMOVE_BLIP guard_s2blip[1]
+REMOVE_BLIP guard_s2blip[2]
+REMOVE_BLIP guard_s2blip[3]
+REMOVE_BLIP guard_s2blip[4]
+REMOVE_BLIP guard_s2blip[5]
+REMOVE_BLIP guard_s2blip[6]
 REMOVE_PICKUP rhymebook_s2
 //models & animations
 UNLOAD_SPECIAL_CHARACTER 1

@@ -917,6 +917,9 @@ ENDIF
 /////
 IF frame_counter = 0
 	IF NOT IS_CHAR_DEAD criminal1
+		IF NOT IS_CHAR_HEALTH_GREATER criminal1 0
+			GOTO criminal1_checkup
+		ENDIF
 		IF IS_CHAR_SITTING_IN_ANY_CAR criminal1
 			
 			MARK_CAR_AS_NO_LONGER_NEEDED criminal1_car
@@ -1074,6 +1077,7 @@ IF frame_counter = 0
 			ENDIF
 		ENDIF
 	ELSE
+		criminal1_checkup:
 		REMOVE_BLIP criminal1_blip
 		MARK_CHAR_AS_NO_LONGER_NEEDED criminal1
 		criminal1 = -1
@@ -1203,6 +1207,9 @@ ENDIF
 /////
 IF frame_counter = 1
 	IF NOT IS_CHAR_DEAD criminal2
+		IF NOT IS_CHAR_HEALTH_GREATER criminal2 0
+			GOTO criminal2_checkup
+		ENDIF
 		IF IS_CHAR_SITTING_IN_ANY_CAR criminal2
 			
 			MARK_CAR_AS_NO_LONGER_NEEDED criminal2_car
@@ -1422,6 +1429,7 @@ IF frame_counter = 1
 			ENDIF
 		ENDIF
 	ELSE
+		criminal2_checkup:
 		REMOVE_BLIP criminal2_blip
 		MARK_CHAR_AS_NO_LONGER_NEEDED criminal2
 		criminal2 = -1
@@ -1548,6 +1556,9 @@ ENDIF
 /////
 IF frame_counter = 2
 	IF NOT IS_CHAR_DEAD criminal3
+		IF NOT IS_CHAR_HEALTH_GREATER criminal3 0
+			GOTO criminal3_checkup
+		ENDIF
 		IF IS_CHAR_SITTING_IN_ANY_CAR criminal3
 			
 			MARK_CAR_AS_NO_LONGER_NEEDED criminal3_car
@@ -1767,6 +1778,7 @@ IF frame_counter = 2
 			ENDIF
 		ENDIF
 	ELSE
+		criminal3_checkup:
 		REMOVE_BLIP criminal3_blip
 		MARK_CHAR_AS_NO_LONGER_NEEDED criminal3
 		criminal3 = -1

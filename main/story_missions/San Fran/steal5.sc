@@ -1291,7 +1291,8 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 s5_dialogue_setup://////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF s5_speech_goals = 1
+SWITCH s5_speech_goals
+CASE 1
 	$s5_print_label[0] = &STL5_AA // Hey, CJ, how's it going with that crazy bitch?
 	$s5_print_label[1] = &STL5_AB // Popped her!
 	$s5_print_label[2] = &STL5_AC // Just about to fix the tyres, should be back any minute.
@@ -1304,23 +1305,24 @@ IF s5_speech_goals = 1
 	s5_audio_label[3] = SOUND_STL5_AD
 	s5_audio_label[4] = SOUND_STL5_AE
 	s5_last_label = 5
-ENDIF
+BREAK
 
-IF s5_speech_goals = 2
+CASE 2
 	$s5_print_label[0] = &STL5_AF // Man, this stuff is disgusting.
 	$s5_print_label[1] = &STL5_AG // Aw shit, all over my jeans!
 
 	s5_audio_label[0] = SOUND_STL5_AF
 	s5_audio_label[1] = SOUND_STL5_AG
 	s5_last_label = 2
-ENDIF
+BREAK
 
-IF s5_speech_goals = 3
+CASE 3
 	$s5_print_label[0] = &MOBRING // Phone Ringing
 
 	s5_audio_label[0] = SOUND_MOBRING
 	s5_last_label = 1
-ENDIF
+BREAK
+ENDSWITCH
 
 
 s5_slot_load = s5_speech_control_flag
@@ -1334,9 +1336,10 @@ RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 s5_overall_dialogue:////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-IF s5_speech_goals = 1 //playing over cutscene where player fixes wheels
-OR s5_speech_goals = 2 //playing over cutscene where player fixes wheels
-OR s5_speech_goals = 3
+SWITCH s5_speech_goals
+CASE 1 //playing over cutscene where player fixes wheels
+CASE 2 //playing over cutscene where player fixes wheels
+CASE 3
 	IF s5_speech_control_flag < s5_last_label
 		GOSUB s5_loading_dialogue
 		GOSUB s5_playing_dialogue
@@ -1344,7 +1347,8 @@ OR s5_speech_goals = 3
 	ELSE
 		s5_speech_goals = 0
 	ENDIF
-ENDIF	
+BREAK	
+ENDSWITCH
 ////////////////////////////////////////////////////////////////////////////
 RETURN//////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

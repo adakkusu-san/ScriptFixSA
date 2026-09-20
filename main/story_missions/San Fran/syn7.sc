@@ -484,7 +484,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 	ENDIF
 	IF s7_playing = 2
-	AND s7_start_call = 0
+	SWITCH s7_start_call
+	CASE 0
 
 		$s7_print = &MTG01B	// CJ?
 		s7_audio = SOUND_MTG01B
@@ -492,9 +493,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
  
 		s7_start_call = 1
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 1
+	BREAK
+	CASE 1
 				
 		IF NOT IS_CHAR_DEAD scplayer
 
@@ -508,9 +508,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 		s7_start_call = 2
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 2
+	BREAK
+	CASE 2
 								
 		IF NOT IS_CHAR_DEAD scplayer
 
@@ -524,9 +523,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
  
 		s7_start_call = 3
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 3
+	BREAK
+	CASE 3
 						
 		IF NOT IS_CHAR_DEAD scplayer
 
@@ -540,9 +538,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 		s7_start_call = 4
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 4
+	BREAK
+	CASE 4
 								
 		IF NOT IS_CHAR_DEAD scplayer
 
@@ -556,9 +553,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
  
 		s7_start_call = 5
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 5
+	BREAK
+	CASE 5
 
 		$s7_print = &MTG01G	// Drop 'round the garage Downtown.
 		s7_audio = SOUND_MTG01G
@@ -566,9 +562,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
  
 		s7_start_call = 6
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 6
+	BREAK
+	CASE 6
 						
 		IF NOT IS_CHAR_DEAD scplayer
 
@@ -582,9 +577,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 		s7_start_call = 7
 
-	ENDIF
-	IF s7_playing = 2
-	AND s7_start_call = 7
+	BREAK
+	CASE 7
 						
 		IF NOT IS_CHAR_DEAD scplayer
 
@@ -604,6 +598,8 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 		s7_start_call = 8
 
+	BREAK
+	ENDSWITCH
 	ENDIF
 
 	IF IS_PS2_KEYBOARD_KEY_JUST_PRESSED PS2_KEY_S
@@ -1328,56 +1324,26 @@ WHILE NOT IS_CHAR_DEAD scplayer
 			//SKIP_CUTSCENE_START
 
 			SWITCH s7_rnd_1
-
 				CASE 0
-					
-					CLEAR_MISSION_AUDIO 1
-
-				 	LOAD_MISSION_AUDIO 1 SOUND_SYN7_BA
-
-					WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
-						WAIT 0
-					ENDWHILE
-
-					PLAY_MISSION_AUDIO 1
-
-					PRINT_NOW ( SYN7_BA ) 4000 1 // Hey, some loco basta blasting on our boys!
-				
+				 	audio_sound_file SOUND_SYN7_BA
+					$audio_string = &SYN7_BA // Hey, some loco basta blasting on our boys!
 				BREAK
-				
 				CASE 1
-					
-					CLEAR_MISSION_AUDIO 1
-
-				 	LOAD_MISSION_AUDIO 1 SOUND_SYN7_BB
-
-					WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
-						WAIT 0
-					ENDWHILE
-
-					PLAY_MISSION_AUDIO 1
-			
-					PRINT_NOW ( SYN7_BB ) 4000 1 // It's a hit!
-				
+				 	audio_sound_file SOUND_SYN7_BB
+					$audio_string = &SYN7_BB // It's a hit!
 				BREAK
-				
 				CASE 2
-					
-					CLEAR_MISSION_AUDIO 1
-
-				 	LOAD_MISSION_AUDIO 1 SOUND_SYN7_BC
-
-					WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
-						WAIT 0
-					ENDWHILE
-
-					PLAY_MISSION_AUDIO 1
-			
-					PRINT_NOW ( SYN7_BC ) 4000 1 // We're being hit!
-				
+				 	audio_sound_file SOUND_SYN7_BC
+					$audio_string = &SYN7_BC // We're being hit!
 				BREAK				
-
 			ENDSWITCH
+			CLEAR_MISSION_AUDIO 1
+		 	LOAD_MISSION_AUDIO 1 audio_sound_file
+			WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
+				WAIT 0
+			ENDWHILE
+			PLAY_MISSION_AUDIO 1
+			PRINT_NOW ( $audio_string ) 4000 1
 
 			WAIT 4000
 
@@ -1478,56 +1444,26 @@ WHILE NOT IS_CHAR_DEAD scplayer
 			GENERATE_RANDOM_INT_IN_RANGE 0 3 s7_rnd_1
 
 			SWITCH s7_rnd_1
-
 				CASE 0
-
-					CLEAR_MISSION_AUDIO 1
-
-				 	LOAD_MISSION_AUDIO 1 SOUND_SYN7_CA
-
-					WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
-						WAIT 0
-					ENDWHILE
-
-					PLAY_MISSION_AUDIO 1
-			
-					PRINT_NOW ( SYN7_CA ) 4000 1 // Get out there and kill the fool!
-				
+				 	audio_sound_file = SOUND_SYN7_CA
+					$audio_string = &SYN7_CA // Get out there and kill the fool!
 				BREAK
-				
 				CASE 1
-
-					CLEAR_MISSION_AUDIO 1
-
-				 	LOAD_MISSION_AUDIO 1 SOUND_SYN7_CB
-
-					WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
-						WAIT 0
-					ENDWHILE
-
-					PLAY_MISSION_AUDIO 1
-			
-					PRINT_NOW ( SYN7_CB ) 4000 1 // Open the gates and waste the dumb fuck!
-				
+				 	audio_sound_file = SOUND_SYN7_CB
+					$audio_string = &SYN7_CB // Open the gates and waste the dumb fuck!
 				BREAK
-				
 				CASE 2
-
-					CLEAR_MISSION_AUDIO 1
-
-				 	LOAD_MISSION_AUDIO 1 SOUND_SYN7_CC
-
-					WHILE NOT HAS_MISSION_AUDIO_LOADED 1	 
-						WAIT 0
-					ENDWHILE
-
-					PLAY_MISSION_AUDIO 1
-			
-					PRINT_NOW ( SYN7_CC ) 4000 1 // Blast the moron, open the gate!
-				
+				 	audio_sound_file = SOUND_SYN7_CC
+					$audio_string = &SYN7_CC // Blast the moron, open the gate!
 				BREAK				
-
 			ENDSWITCH
+			CLEAR_MISSION_AUDIO 1
+		 	LOAD_MISSION_AUDIO 1 audio_sound_file
+			WHILE NOT HAS_MISSION_AUDIO_LOADED 1
+				WAIT 0
+			ENDWHILE
+			PLAY_MISSION_AUDIO 1
+			PRINT_NOW ( $audio_string ) 4000 1
 					 
 			WAIT 4000
 
@@ -1679,7 +1615,6 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 						$s7_print = &SYN7_DA	// Who the fuck are you!
 						s7_audio = SOUND_SYN7_DA
-						GOSUB s7_load_sample
 					
 					BREAK
 					
@@ -1687,7 +1622,6 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 						$s7_print = &SYN7_DB	// What the fuck is he doing?
 						s7_audio = SOUND_SYN7_DB
-						GOSUB s7_load_sample
 					
 					BREAK
 					
@@ -1695,7 +1629,6 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 						$s7_print = &SYN7_DC	// This ain't no carpark!
 						s7_audio = SOUND_SYN7_DC
-						GOSUB s7_load_sample				
 											
 					BREAK				
 					
@@ -1703,7 +1636,6 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 						$s7_print = &SYN7_DD	// Shit, I'm so fried I'm seeing shit!
 						s7_audio = SOUND_SYN7_DD
-						GOSUB s7_load_sample
 				
 					BREAK																		
 					
@@ -1711,11 +1643,12 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 						$s7_print = &SYN7_DE	// Have I missed something here?
 						s7_audio = SOUND_SYN7_DE
-						GOSUB s7_load_sample
 											
 					BREAK	
 
 				ENDSWITCH
+
+						GOSUB s7_load_sample
  
 				s7_desk_guy_txt = 1
 

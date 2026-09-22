@@ -2375,7 +2375,7 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 			s4_txt_display = 1
 
-		ENDIF
+		BREAK
 
 		CASE 1
 													

@@ -3027,6 +3027,7 @@ get_back_in_the_car_sweet2:
 	CASE 4   
 		audio_sound_file = SOUND_SMOX_AE //Come on, wise man, get in the car!
 	BREAK
+	ENDSWITCH
 		LOAD_MISSION_AUDIO 2 audio_sound_file
 
 	SHUT_CHAR_UP_FOR_SCRIPTED_SPEECH scplayer FALSE			 

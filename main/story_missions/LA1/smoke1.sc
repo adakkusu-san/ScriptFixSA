@@ -3678,6 +3678,44 @@ RETURN//////////////////////////////////////////////////////////////////////
 tw7_overall_dialogue:///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 IF tw7_goals = 1
+	IF IS_CHAR_SITTING_IN_CAR scplayer tw7_smokes_car
+		IF tw7_speech_goals = 1 //initial driving dialogue
+		OR tw7_speech_goals = 2 //dialogue on the way to the ass bandits house
+			IF tw7_speech_control_flag < tw7_last_label
+				GOSUB tw7_loading_dialogue
+				GOSUB tw7_playing_dialogue
+				IF tw7_control_flag = 0 
+					IF NOT IS_CHAR_DEAD big_smoke
+					OR NOT IS_CHAR_DEAD sweet
+						GOSUB tw7_finishing_dialogue  
+					ELSE
+						CLEAR_MISSION_AUDIO 1
+						CLEAR_MISSION_AUDIO 2
+						CLEAR_THIS_PRINT $tw7_print_label[tw7_speech_control_flag] 
+						tw7_slot1 = 0
+						tw7_slot2 = 0
+					ENDIF
+				ENDIF
+				IF tw7_control_flag = 1
+				OR tw7_control_flag = 2
+					IF NOT IS_CHAR_DEAD big_smoke
+					OR NOT IS_CHAR_DEAD sweet
+					OR NOT IS_CHAR_DEAD mc_strap
+						GOSUB tw7_finishing_dialogue  
+					ELSE
+						CLEAR_MISSION_AUDIO 1
+						CLEAR_MISSION_AUDIO 2
+						CLEAR_THIS_PRINT $tw7_print_label[tw7_speech_control_flag] 
+						tw7_slot1 = 0
+						tw7_slot2 = 0
+					ENDIF
+				ENDIF
+					
+			ELSE
+				tw7_speech_goals = 0
+			ENDIF
+		ENDIF
+	ENDIF
 	IF NOT IS_CHAR_IN_CAR scplayer tw7_smokes_car 
 		IF tw7_speech_goals < 11 
 			CLEAR_MISSION_AUDIO 1
@@ -3692,48 +3730,8 @@ IF tw7_goals = 1
 			tw7_random_last_label = tw7_speech_control_flag + 1 
 			GOSUB tw7_dialogue_setup
 		ENDIF
-	ENDIF	
-
+	ENDIF
 	SWITCH tw7_speech_goals
-	CASE 1 //initial driving dialogue
-	CASE 2 //dialogue on the way to the ass bandits house
-		IF IS_CHAR_SITTING_IN_CAR scplayer tw7_smokes_car
-			IF tw7_speech_control_flag < tw7_last_label
-				GOSUB tw7_loading_dialogue
-				GOSUB tw7_playing_dialogue
-				SWITCH tw7_control_flag
-				CASE 0 
-					IF NOT IS_CHAR_DEAD big_smoke
-					OR NOT IS_CHAR_DEAD sweet
-						GOSUB tw7_finishing_dialogue  
-					ELSE
-						CLEAR_MISSION_AUDIO 1
-						CLEAR_MISSION_AUDIO 2
-						CLEAR_THIS_PRINT $tw7_print_label[tw7_speech_control_flag] 
-						tw7_slot1 = 0
-						tw7_slot2 = 0
-					ENDIF
-				BREAK
-				CASE 1
-				CASE 2
-					IF NOT IS_CHAR_DEAD big_smoke
-					OR NOT IS_CHAR_DEAD sweet
-					OR NOT IS_CHAR_DEAD mc_strap
-						GOSUB tw7_finishing_dialogue  
-					ELSE
-						CLEAR_MISSION_AUDIO 1
-						CLEAR_MISSION_AUDIO 2
-						CLEAR_THIS_PRINT $tw7_print_label[tw7_speech_control_flag] 
-						tw7_slot1 = 0
-						tw7_slot2 = 0
-					ENDIF
-				BREAK
-				ENDSWITCH
-					
-			ELSE
-				tw7_speech_goals = 0
-			ENDIF
-		ENDIF
 	CASE 11 //carl is out of car
 		IF NOT IS_CHAR_IN_CAR scplayer tw7_smokes_car
 			IF tw7_speech_control_flag < tw7_last_label

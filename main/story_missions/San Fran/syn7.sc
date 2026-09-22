@@ -1325,15 +1325,15 @@ WHILE NOT IS_CHAR_DEAD scplayer
 
 			SWITCH s7_rnd_1
 				CASE 0
-				 	audio_sound_file SOUND_SYN7_BA
+				 	audio_sound_file = SOUND_SYN7_BA
 					$audio_string = &SYN7_BA // Hey, some loco basta blasting on our boys!
 				BREAK
 				CASE 1
-				 	audio_sound_file SOUND_SYN7_BB
+				 	audio_sound_file = SOUND_SYN7_BB
 					$audio_string = &SYN7_BB // It's a hit!
 				BREAK
 				CASE 2
-				 	audio_sound_file SOUND_SYN7_BC
+				 	audio_sound_file = SOUND_SYN7_BC
 					$audio_string = &SYN7_BC // We're being hit!
 				BREAK				
 			ENDSWITCH

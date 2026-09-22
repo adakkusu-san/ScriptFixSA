@@ -3559,7 +3559,7 @@ OR firstchase_s4flag = 1
 				CASE 19
 				CASE 21
 					GOSUB load_audio_s4
-				ENDIF
+				BREAK
 
 				CASE 2
 					IF truckaudio_s4flag = 1

@@ -1657,17 +1657,17 @@ IF finaleCchase_fcflag = 1
 									progressaudio_fcflag = 1
 								ENDIF
 							BREAK
-							IF stagechase_fcflag = 2
+							CASE 2
 								IF progressaudio_fcflag < 4
 									progressaudio_fcflag = 4
 								ENDIF
 							BREAK
-							IF stagechase_fcflag = 3
+							CASE 3
 								IF progressaudio_fcflag < 6
 									progressaudio_fcflag = 6
 								ENDIF
 							BREAK
-							IF stagechase_fcflag = 4
+							CASE 4
 								IF progressaudio_fcflag < 8
 									progressaudio_fcflag = 8
 								ENDIF

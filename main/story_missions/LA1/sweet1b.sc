@@ -2366,6 +2366,7 @@ RETURN
 
 stop_talking_sweet1b:
 
+	SWITCH sweet1b_audio_chat[sweet1b_index]
 	CASE SOUND_SWE1_SA
 	CASE SOUND_SWE1_SB
 		IF NOT IS_CHAR_DEAD	crackhead1

@@ -1583,7 +1583,8 @@ IF ca1_stage = 3
 						ca1_counter = 20 // JOHNNY SINDACCO: Ok, you’ve made your point – No More!
 					ENDIF
 					GOSUB ca1_dialogue_timer
-				ENDIF
+				BREAK
+				ENDSWITCH
 			ENDIF
 			IF ca1_dialogue_playing = 2
 				GOSUB ca1_dialogue_timer

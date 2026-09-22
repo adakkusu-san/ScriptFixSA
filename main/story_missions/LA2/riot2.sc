@@ -5272,9 +5272,10 @@ CASE 7 // Hazer!
 		r2_speech_goals = 0
 	ENDIF
 BREAK
+ENDSWITCH
 
 
-CASE 9 //Behind us!
+IF r2_speech_goals = 9 //Behind us!
 	IF r2_speech_control_flag < r2_last_label
 		GOSUB r2_loading_dialogue
 		GOSUB r2_playing_dialogue
@@ -5290,8 +5291,7 @@ CASE 9 //Behind us!
 	ELSE
 		r2_speech_goals = 0
 	ENDIF
-BREAK
-ENDSWITCH
+ENDIF
 
 IF r2_goals = 0
 	IF r2_control_flag > 2

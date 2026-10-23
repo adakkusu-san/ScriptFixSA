@@ -32,7 +32,9 @@ LVAR_INT new_visible_area print_help_intro2 print_into2_text played_ryder_freaki
 LVAR_INT ReturnStatus shopkeeper_goes_radge ryders_decision ryders_car_moved player_chats_a_bit	intro2_audio_chat[17] stats_help got_in_ryders_truck_first
 LVAR_INT get_in_counter_intro2
 LVAR_FLOAT intr2_vomitX intr2_vomitY intr2_vomitZ  return_animation_food_name
+LVAR_INT intro2_temp_int
 VAR_TEXT_LABEL $intro2_chat[17]	 
+LVAR_INT iwd_stored_str[6] // FIXEDGROVE: store original strength rather than relying on literals that could change
 
 // **************************************** Mission Start **********************************
 
@@ -53,38 +55,38 @@ SWITCH intro2_chat_switch
 		$intro2_chat[0] = &INT2_CA //Hey, Old Reece still run the barber shop?
 		$intro2_chat[1] = &INT2_CB //Like a raggedy-assed motherfucker!
 		$intro2_chat[2] = &INT2_CC //He popped his membrane years ago - 
-		$intro2_chat[3] = &INT2_CD //no way Iâ€™d let THAT old fool near MY head!
-		$intro2_chat[4] = &INT2_CE //I think Iâ€™ll get myself a cut.
+		$intro2_chat[3] = &INT2_CD //no way I’d let THAT old fool near MY head!
+		$intro2_chat[4] = &INT2_CE //I think I’ll get myself a cut.
 		$intro2_chat[5] = &INT2_CF //Whatever. You got five minutes.
-		$intro2_chat[6] = &INT2_CG //Iâ€™m wired like a kung fu master!	
+		$intro2_chat[6] = &INT2_CG //I’m wired like a kung fu master!	
 		$intro2_chat[7] = &INT2_BA //So when you running off again?
-		$intro2_chat[8] = &INT2_BB //Iâ€™m not, Iâ€™m  thinkinâ€™ of staying.
+		$intro2_chat[8] = &INT2_BB //I’m not, I’m  thinkin’ of staying.
 		$intro2_chat[9] = &INT2_BC //Why?
 		$intro2_chat[10] = &INT2_BD	//My homies are here.
 		$intro2_chat[11] = &INT2_BE	//We always were, fool!
-		$intro2_chat[12] = &INT2_BF	//Yeah, but, now Iâ€™m back, I know what Iâ€™ve been missing.
-		$intro2_chat[13] = &INT2_BG	//Donâ€™t expect me to kiss you or nothing. 
+		$intro2_chat[12] = &INT2_BF	//Yeah, but, now I’m back, I know what I’ve been missing.
+		$intro2_chat[13] = &INT2_BG	//Don’t expect me to kiss you or nothing. 
 		$intro2_chat[14] = &INT2_BH	//You still a buster to me.
 		$intro2_chat[15] = &INT2_BJ	//Wow, thanks, homie.
-		$intro2_chat[16] = &INT2_BK	//Donâ€™t mention it.
+		$intro2_chat[16] = &INT2_BK	//Don’t mention it.
 	
 		intro2_audio_chat[0] = SOUND_INT2_CA //Hey, Old Reece still run the barber shop?	
 		intro2_audio_chat[1] = SOUND_INT2_CB //Like a raggedy-assed motherfucker!
 		intro2_audio_chat[2] = SOUND_INT2_CC //He popped his membrane years ago - 
-		intro2_audio_chat[3] = SOUND_INT2_CD //no way Iâ€™d let THAT old fool near MY head!
-		intro2_audio_chat[4] = SOUND_INT2_CE //I think Iâ€™ll get myself a cut.
+		intro2_audio_chat[3] = SOUND_INT2_CD //no way I’d let THAT old fool near MY head!
+		intro2_audio_chat[4] = SOUND_INT2_CE //I think I’ll get myself a cut.
 		intro2_audio_chat[5] = SOUND_INT2_CF //Whatever. You got five minutes.	
-		intro2_audio_chat[6] = SOUND_INT2_CG //Iâ€™m wired like a kung fu master!		
+		intro2_audio_chat[6] = SOUND_INT2_CG //I’m wired like a kung fu master!		
 		intro2_audio_chat[7] = SOUND_INT2_BA //So when you running off again?
-		intro2_audio_chat[8] = SOUND_INT2_BB //Iâ€™m not, Iâ€™m  thinkinâ€™ of staying.
+		intro2_audio_chat[8] = SOUND_INT2_BB //I’m not, I’m  thinkin’ of staying.
 		intro2_audio_chat[9] = SOUND_INT2_BC //Why?
 		intro2_audio_chat[10] = SOUND_INT2_BD //My homies are here.
 		intro2_audio_chat[11] = SOUND_INT2_BE //We always were, fool!
-		intro2_audio_chat[12] = SOUND_INT2_BF //Yeah, but, now Iâ€™m back, I know what Iâ€™ve been missing.
-		intro2_audio_chat[13] = SOUND_INT2_BG //Donâ€™t expect me to kiss you or nothing. 
+		intro2_audio_chat[12] = SOUND_INT2_BF //Yeah, but, now I’m back, I know what I’ve been missing.
+		intro2_audio_chat[13] = SOUND_INT2_BG //Don’t expect me to kiss you or nothing. 
 		intro2_audio_chat[14] = SOUND_INT2_BH //You still a buster to me.
 		intro2_audio_chat[15] = SOUND_INT2_BJ //Wow, thanks, homie.
-		intro2_audio_chat[16] = SOUND_INT2_BK //Donâ€™t mention it.
+		intro2_audio_chat[16] = SOUND_INT2_BK //Don’t mention it.
 		
 
 		intro2_cell_index_end = 16
@@ -95,13 +97,13 @@ SWITCH intro2_chat_switch
 
 		$intro2_chat[0] = &INT2_FA //Shit, looks ridiculous.
 		$intro2_chat[1] = &INT2_FB //No respect for the neighborhood, all clean and shit.
-		$intro2_chat[2] = &INT2_FC //Youâ€™re looking too skinny, CJ.
-		$intro2_chat[3] = &INT2_FD //Go in and get some food â€“ Iâ€™m going to finish this.
+		$intro2_chat[2] = &INT2_FC //You’re looking too skinny, CJ.
+		$intro2_chat[3] = &INT2_FD //Go in and get some food – I’m going to finish this.
 
 		intro2_audio_chat[0] = SOUND_INT2_FA //Shit, looks ridiculous.
 		intro2_audio_chat[1] = SOUND_INT2_FB //No respect for the neighborhood, all clean and shit.
-		intro2_audio_chat[2] = SOUND_INT2_FC //Youâ€™re looking too skinny, CJ.
-		intro2_audio_chat[3] = SOUND_INT2_FD //Go in and get some food â€“ Iâ€™m going to finish this.
+		intro2_audio_chat[2] = SOUND_INT2_FC //You’re looking too skinny, CJ.
+		intro2_audio_chat[3] = SOUND_INT2_FD //Go in and get some food – I’m going to finish this.
 
 		intro2_cell_index_end = 3
 	BREAK
@@ -110,31 +112,31 @@ SWITCH intro2_chat_switch
 		
 		$intro2_chat[0] = &INT2_GA //Give us the money! This is a raid!
 		$intro2_chat[1] = &INT2_GB //Ryder! Not this again!
-		$intro2_chat[2] = &INT2_GC //It ainâ€™t me, fool!
+		$intro2_chat[2] = &INT2_GC //It ain’t me, fool!
 		$intro2_chat[3] = &INT2_GD //No one else that small! I feel sorry for your dad!
-		$intro2_chat[4] = &INT2_GE //Shit, man, youâ€™re rumbled! Letâ€™s get out of here!
+		$intro2_chat[4] = &INT2_GE //Shit, man, you’re rumbled! Let’s get out of here!
 		$intro2_chat[5] = &INT2_GF //Same old CJ, Buster! Buster!	
 		$intro2_chat[6] = &INT2_HB //Motherfucker! RUN!
 	
 		intro2_audio_chat[0] = SOUND_INT2_GA //Give us the money! This is a raid!
 		intro2_audio_chat[1] = SOUND_INT2_GB //Ryder! Not this again!
-		intro2_audio_chat[2] = SOUND_INT2_GC //It ainâ€™t me, fool!
+		intro2_audio_chat[2] = SOUND_INT2_GC //It ain’t me, fool!
 		intro2_audio_chat[3] = SOUND_INT2_GD //No one else that small! I feel sorry for your dad!
-		intro2_audio_chat[4] = SOUND_INT2_GE //Shit, man, youâ€™re rumbled! Letâ€™s get out of here!
+		intro2_audio_chat[4] = SOUND_INT2_GE //Shit, man, you’re rumbled! Let’s get out of here!
 		intro2_audio_chat[5] = SOUND_INT2_GF //Same old CJ, Buster! Buster!	
 		intro2_audio_chat[6] = SOUND_INT2_HB //Motherfucker! RUN!
 
-		intro2_cell_index_end = 7
+		intro2_cell_index_end = 6
 	BREAK
 
 	CASE INTRO2_CHAT4
 	
 		$intro2_chat[0] = &INT2_NB //You better drop by and see Sweet.
-		$intro2_chat[1] = &INT2_NC //Heâ€™s been rapping on about that grafitti.
+		$intro2_chat[1] = &INT2_NC //He’s been rapping on about that grafitti.
 		$intro2_chat[2] = &INT2_ND //Later, dude.
 
 		intro2_audio_chat[0] = SOUND_INT2_NB //You better drop by and see Sweet.
-		intro2_audio_chat[1] = SOUND_INT2_NC //Heâ€™s been rapping on about that grafitti.
+		intro2_audio_chat[1] = SOUND_INT2_NC //He’s been rapping on about that grafitti.
 		intro2_audio_chat[2] = SOUND_INT2_ND //Later, dude.
 	
 		intro2_cell_index_end = 2
@@ -151,25 +153,25 @@ SWITCH intro2_chat_switch
 		intro2_cell_index_end = 1
 	BREAK
 			
-	//On the street â€“ Player must get a car variations}		
+	//On the street – Player must get a car variations}		
 	//INT2_IA	//CJ, we need some wheels!
 	//INT2_IB	//We need a ride, super fast!
 			
-	//Player gets shot variationsâ€“ mission failed}		
+	//Player gets shot variations– mission failed}		
 	//INT2_KA	//CJ! Damned lead magnet!
 	//INT2_KB	//What you take a bullet for?
 			
-	//Player dies (other) variations â€“ mission failed}		
+	//Player dies (other) variations – mission failed}		
 	//INT2_LA	//CJ, quit bluffing and get up!
 	//INT2_LB	//Typical CJ!
-	//INT2_LC	//You ainâ€™t long for these streets, CJ.
+	//INT2_LC	//You ain’t long for these streets, CJ.
 			
-	//Ryder gets shot â€“ mission failed }		
+	//Ryder gets shot – mission failed }		
 	//INT2_MA	//Oh shit, RYDER!
 	//INT2_MB	//This is NOT dope!
 			
-	//Get back to Grove â€“ mission passed }		
-	//INT2_NA	//We did good! Hereâ€™s your cut.
+	//Get back to Grove – mission passed }		
+	//INT2_NA	//We did good! Here’s your cut.
 
 ENDSWITCH
 
@@ -206,6 +208,15 @@ get_in_counter_intro2 = 0
 intr2_vomitX = 0.05
 intr2_vomitY = 0.12 //1.000
 intr2_vomitZ = 0.0
+
+	// FIXEDGROVE: START - store original strength for restoring later
+	GET_ZONE_GANG_STRENGTH IWD1 GANG_FLAT iwd_stored_str[0]
+	GET_ZONE_GANG_STRENGTH IWD2 GANG_FLAT iwd_stored_str[1]
+	GET_ZONE_GANG_STRENGTH IWD3a GANG_FLAT iwd_stored_str[2]
+	GET_ZONE_GANG_STRENGTH IWD3b GANG_FLAT iwd_stored_str[3]
+	GET_ZONE_GANG_STRENGTH IWD4 GANG_FLAT iwd_stored_str[4]
+	GET_ZONE_GANG_STRENGTH IWD5 GANG_FLAT iwd_stored_str[5]
+	// FIXEDGROVE: END
 
 	SET_ZONE_GANG_STRENGTH IWD1 GANG_FLAT 5 
 	SET_ZONE_GANG_STRENGTH IWD2 GANG_FLAT 5
@@ -949,33 +960,25 @@ WHILE NOT TIMERA > 1000
 ENDWHILE
 
 IF NOT IS_CHAR_DEAD ryder
-	STOP_CHAR_FACIAL_TALK ryder
-ENDIF
-
-IF NOT IS_CHAR_DEAD ryder
 	CLEAR_LOOK_AT ryder
 	TASK_LOOK_AT_COORD ryder 2102.0 -1806.0 14.0 3000
-	//START_CHAR_FACIAL_TALK ryder 2000
 ENDIF
+
 intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 1 //Shit looks ridiculous.
+intro2_temp_int = 0
+WHILE intro2_index <= intro2_cell_index_end
 	WAIT 0
 
-		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-		GOSUB smoke_a_blunt
+use_text_commands true
+DISPLAY_TEXT_WITH_NUMBER 490.0 20.0 NUMBER intro2_index
+DISPLAY_TEXT_WITH_NUMBER 490.0 30.0 NUMBER intro2_cutscene_flag
+DISPLAY_TEXT_WITH_NUMBER 490.0 40.0 NUMBER intro2_audio_is_playing
+DISPLAY_TEXT_WITH_NUMBER 490.0 50.0 NUMBER intro2_temp_int
+use_text_commands false
 
-ENDWHILE
-//IF NOT IS_CHAR_DEAD ryder
-	//STOP_CHAR_FACIAL_TALK ryder
-//ENDIF
-
-
+IF intro2_temp_int = 1
+AND NOT intro2_audio_is_playing = 2
+	IF intro2_index = 1
 CLEAR_LOOK_AT scplayer
 TASK_LOOK_AT_COORD scplayer 2102.0 -1806.0 14.0 3000
 
@@ -987,65 +990,31 @@ TASK_LOOK_AT_COORD scplayer 2102.0 -1806.0 14.0 3000
     CAMERA_PERSIST_POS TRUE                       
     CAMERA_SET_VECTOR_MOVE 2074.2297 -1795.0304 14.4282 2074.9827 -1798.6713 14.4451 12000 TRUE
     CAMERA_SET_VECTOR_TRACK 2077.1672 -1795.7289 14.1884 2075.9734 -1798.7341 14.5649 12000 TRUE
-
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 2 //No respect for the neighbourhood, all clean and shit.
-	WAIT 0
-
-		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD ryder
-					//START_CHAR_FACIAL_TALK ryder 2000
-				ENDIF
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-		GOSUB smoke_a_blunt
-
-ENDWHILE
-//IF NOT IS_CHAR_DEAD ryder
-	//STOP_CHAR_FACIAL_TALK ryder
-//ENDIF
-
+intro2_temp_int = 0
+	ENDIF
+	IF intro2_index = 2
 TIMERB = 0
+intro2_temp_int = 0
+	ENDIF
 
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 3 //You're looking too skinny, CJ.
-	WAIT 0
+ENDIF
+
+		IF intro2_cutscene_flag = 0
+		AND intro2_audio_is_playing = 2
+SWITCH intro2_index
+CASE 0 //Shit looks ridiculous.
+CASE 1 //No respect for the neighbourhood, all clean and shit.
+intro2_temp_int = 1
+BREAK
+CASE 2 //You're looking too skinny, CJ.
+CASE 3 //Go in and get some food - I'm going to finish this.
+BREAK
+ENDSWITCH
+			intro2_cutscene_flag = 1
+		ENDIF
 
 		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD ryder
-					//START_CHAR_FACIAL_TALK ryder 2000
-				ENDIF
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
 		GOSUB smoke_a_blunt
-
-ENDWHILE
-//IF NOT IS_CHAR_DEAD ryder
-	//STOP_CHAR_FACIAL_TALK ryder
-//ENDIF
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 4 //Go in and get some food - I'm going to finish this.
-	WAIT 0
-
-		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-				IF NOT IS_CHAR_DEAD ryder
-					//START_CHAR_FACIAL_TALK ryder 2000
-				ENDIF
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-		GOSUB smoke_a_blunt
-
 ENDWHILE
 
 WHILE NOT TIMERB > 18000
@@ -1424,141 +1393,28 @@ ENDIF
 iSetPizzaPanic = 1
 
 intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 1 //Give us the money! This is a raid!
+intro2_temp_int = 0
+WHILE intro2_index <= intro2_cell_index_end
 	WAIT 0
 
-	GOSUB load_and_play_audio_intro2
-	IF intro2_cutscene_flag = 0
-		IF intro2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD ryder
-				CLEAR_LOOK_AT scplayer
-				TASK_LOOK_AT_CHAR scplayer ryder 6000
-			ENDIF
-			intro2_cutscene_flag = 1
-		ENDIF
-	ENDIF
+use_text_commands true
+DISPLAY_TEXT_WITH_NUMBER 490.0 20.0 NUMBER intro2_index
+DISPLAY_TEXT_WITH_NUMBER 490.0 30.0 NUMBER intro2_cutscene_flag
+DISPLAY_TEXT_WITH_NUMBER 490.0 40.0 NUMBER intro2_audio_is_playing
+DISPLAY_TEXT_WITH_NUMBER 490.0 50.0 NUMBER intro2_temp_int
+use_text_commands false
 
-ENDWHILE
-
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 2 //Ryder! Not this again!
-	WAIT 0
-
-	GOSUB load_and_play_audio_intro2
-	IF intro2_cutscene_flag = 0
-		IF intro2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD ryder
-				TASK_PLAY_ANIM ryder ROB_Loop SHOP 4.0 TRUE FALSE FALSE FALSE -1 //IDLE
-			ENDIF
-			IF NOT IS_CHAR_DEAD hood_shop_keeper
-				CLEAR_LOOK_AT scplayer
-				TASK_LOOK_AT_CHAR scplayer hood_shop_keeper 6000
-			ENDIF
-			intro2_cutscene_flag = 1
-		ENDIF
-	ENDIF
-
-ENDWHILE
-
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 3 //It ain't me, fool!
-	WAIT 0
-
-	GOSUB load_and_play_audio_intro2
-	IF intro2_cutscene_flag = 0
-		IF intro2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD ryder
-				TASK_PLAY_ANIM ryder ROB_Loop_Threat SHOP 4.0 TRUE FALSE FALSE FALSE -1 //THREAT
-			ENDIF
-			IF NOT IS_CHAR_DEAD ryder
-				CLEAR_LOOK_AT scplayer
-				TASK_LOOK_AT_CHAR scplayer ryder 6000
-			ENDIF
-			CAMERA_RESET_NEW_SCRIPTABLES
-			SET_FIXED_CAMERA_POSITION 374.9156 -121.7312 1002.5003 0.0 0.0 0.0 
-			POINT_CAMERA_AT_POINT 374.7307 -120.7778 1002.2621 JUMP_CUT
-			intro2_cutscene_flag = 1
-		ENDIF
-	ENDIF
-
-ENDWHILE
-
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 4 //No one else that small! I feel sorry for your dad!
-	WAIT 0
-
-	GOSUB load_and_play_audio_intro2
-	IF intro2_cutscene_flag = 0
-		IF intro2_audio_is_playing = 2
-			IF NOT IS_CHAR_DEAD hood_shop_keeper
-				CLEAR_LOOK_AT scplayer
-				TASK_LOOK_AT_CHAR scplayer hood_shop_keeper 6000
-			ENDIF
-
-			IF NOT IS_CHAR_DEAD ryder
-				TASK_PLAY_ANIM ryder ROB_Loop SHOP 4.0 TRUE FALSE FALSE FALSE -1 //IDLE
-			ENDIF
-			intro2_cutscene_flag = 1
-		ENDIF
-	ENDIF
-
-ENDWHILE
-
+IF intro2_temp_int = 1
+AND NOT intro2_audio_is_playing = 2
+	IF intro2_index = 4
 OPEN_SEQUENCE_TASK intro2_sequence_4
 	TASK_TURN_CHAR_TO_FACE_CHAR -1 scplayer
 	TASK_PLAY_ANIM -1 ROB_2Idle SHOP 4.0 FALSE FALSE FALSE TRUE -1
 	TASK_PLAY_ANIM -1 prtial_gngtlkH GANGS 4.0 FALSE FALSE FALSE FALSE -1
 CLOSE_SEQUENCE_TASK intro2_sequence_4
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 5 //Shit, man, you're rumbled! Let's get out of here!
-	WAIT 0
-
-	GOSUB load_and_play_audio_intro2
-	IF intro2_cutscene_flag = 0
-		IF intro2_audio_is_playing = 2
-			SET_FIXED_CAMERA_POSITION 371.5620 -120.1569 1002.4044 0.0 0.0 0.0 //behind CJ
-			POINT_CAMERA_AT_POINT 372.4125 -119.6767 1002.1899 JUMP_CUT
-
-			IF NOT IS_CHAR_DEAD ryder
-				CLEAR_CHAR_TASKS scplayer
-				CLEAR_LOOK_AT scplayer
-				TASK_LOOK_AT_CHAR scplayer ryder 10000
-				CLEAR_CHAR_TASKS ryder
-				CLEAR_LOOK_AT ryder
-				TASK_LOOK_AT_CHAR ryder scplayer 10000
-				TASK_TURN_CHAR_TO_FACE_CHAR scplayer ryder
-				TASK_PLAY_ANIM scplayer prtial_gngtlkA GANGS 4.0 FALSE FALSE FALSE FALSE -1
-			ENDIF
-			intro2_cutscene_flag = 1
-		ENDIF
+intro2_temp_int = 0
 	ENDIF
-
-ENDWHILE
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 6 //Same old CJ, Buster! Buster!
-	WAIT 0
-
-	GOSUB load_and_play_audio_intro2
-	IF intro2_cutscene_flag = 0
-		IF intro2_audio_is_playing = 2
-			SET_FIXED_CAMERA_POSITION 374.6357 -121.6844 1001.6368 0.0 0.0 0.0 //All 3 wide
-			POINT_CAMERA_AT_POINT 374.5972 -120.6883 1001.7162 JUMP_CUT
-
-			IF NOT IS_CHAR_DEAD ryder
-				PERFORM_SEQUENCE_TASK ryder intro2_sequence_4
-				CLEAR_SEQUENCE_TASK	intro2_sequence_4
-			ENDIF
-			intro2_cutscene_flag = 1
-		ENDIF
-	ENDIF
-
-ENDWHILE
-
+	IF intro2_index = 6
 //CLEAR_AREA_OF_CHARS 369.5132 -133.5416 999.0 372.1891 -118.8091 1005.0
 //CLEAR_AREA_OF_CHARS 375.4585 -133.4865 999.0 378.1646 -119.0236 1005.0
 
@@ -1591,14 +1447,82 @@ WAIT 300
 IF NOT IS_CHAR_DEAD hood_shop_keeper
 	TASK_SHOOT_AT_COORD hood_shop_keeper 374.2905 -125.6810 1001.3077 2000
 ENDIF
+intro2_temp_int = 0
+	ENDIF
 
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 7 //Motherfucker! RUN!
-	WAIT 0
+ENDIF
 
-	GOSUB load_and_play_audio_intro2
 	IF intro2_cutscene_flag = 0
+	AND intro2_audio_is_playing = 2
+
+SWITCH intro2_index
+CASE 0 //Give us the money! This is a raid!
+			IF NOT IS_CHAR_DEAD ryder
+				CLEAR_LOOK_AT scplayer
+				TASK_LOOK_AT_CHAR scplayer ryder 6000
+			ENDIF
+BREAK
+CASE 1 //Ryder! Not this again!
+			IF NOT IS_CHAR_DEAD ryder
+				TASK_PLAY_ANIM ryder ROB_Loop SHOP 4.0 TRUE FALSE FALSE FALSE -1 //IDLE
+			ENDIF
+			IF NOT IS_CHAR_DEAD hood_shop_keeper
+				CLEAR_LOOK_AT scplayer
+				TASK_LOOK_AT_CHAR scplayer hood_shop_keeper 6000
+			ENDIF
+BREAK
+CASE 2 //It ain't me, fool!
+			IF NOT IS_CHAR_DEAD ryder
+				TASK_PLAY_ANIM ryder ROB_Loop_Threat SHOP 4.0 TRUE FALSE FALSE FALSE -1 //THREAT
+			ENDIF
+			IF NOT IS_CHAR_DEAD ryder
+				CLEAR_LOOK_AT scplayer
+				TASK_LOOK_AT_CHAR scplayer ryder 6000
+			ENDIF
+			CAMERA_RESET_NEW_SCRIPTABLES
+			SET_FIXED_CAMERA_POSITION 374.9156 -121.7312 1002.5003 0.0 0.0 0.0 
+			POINT_CAMERA_AT_POINT 374.7307 -120.7778 1002.2621 JUMP_CUT
+			intro2_cutscene_flag = 1
+BREAK
+CASE 3 //No one else that small! I feel sorry for your dad!
 		IF intro2_audio_is_playing = 2
+			IF NOT IS_CHAR_DEAD hood_shop_keeper
+				CLEAR_LOOK_AT scplayer
+				TASK_LOOK_AT_CHAR scplayer hood_shop_keeper 6000
+			ENDIF
+
+			IF NOT IS_CHAR_DEAD ryder
+				TASK_PLAY_ANIM ryder ROB_Loop SHOP 4.0 TRUE FALSE FALSE FALSE -1 //IDLE
+			ENDIF
+			intro2_temp_int = 1
+		ENDIF
+BREAK
+CASE 4 //Shit, man, you're rumbled! Let's get out of here!
+			SET_FIXED_CAMERA_POSITION 371.5620 -120.1569 1002.4044 0.0 0.0 0.0 //behind CJ
+			POINT_CAMERA_AT_POINT 372.4125 -119.6767 1002.1899 JUMP_CUT
+
+			IF NOT IS_CHAR_DEAD ryder
+				CLEAR_CHAR_TASKS scplayer
+				CLEAR_LOOK_AT scplayer
+				TASK_LOOK_AT_CHAR scplayer ryder 10000
+				CLEAR_CHAR_TASKS ryder
+				CLEAR_LOOK_AT ryder
+				TASK_LOOK_AT_CHAR ryder scplayer 10000
+				TASK_TURN_CHAR_TO_FACE_CHAR scplayer ryder
+				TASK_PLAY_ANIM scplayer prtial_gngtlkA GANGS 4.0 FALSE FALSE FALSE FALSE -1
+			ENDIF
+BREAK
+CASE 5 //Same old CJ, Buster! Buster!
+			SET_FIXED_CAMERA_POSITION 374.6357 -121.6844 1001.6368 0.0 0.0 0.0 //All 3 wide
+			POINT_CAMERA_AT_POINT 374.5972 -120.6883 1001.7162 JUMP_CUT
+
+			IF NOT IS_CHAR_DEAD ryder
+				PERFORM_SEQUENCE_TASK ryder intro2_sequence_4
+				CLEAR_SEQUENCE_TASK	intro2_sequence_4
+			ENDIF
+			intro2_temp_int = 1
+BREAK
+CASE 6 //Motherfucker! RUN!
 			 
 			FLUSH_ROUTE
 			EXTEND_ROUTE 372.0 -120.1 1000.5					  
@@ -1623,10 +1547,12 @@ WHILE NOT intro2_index = 7 //Motherfucker! RUN!
 			IF NOT IS_CHAR_DEAD hood_shop_keeper
 				TASK_SHOOT_AT_COORD hood_shop_keeper 374.2905 -125.6810 1001.3077 1500
 			ENDIF
+BREAK
+ENDSWITCH
 			intro2_cutscene_flag = 1
-		ENDIF
 	ENDIF
 
+	GOSUB load_and_play_audio_intro2
 ENDWHILE
 
 skipped_cutscene = 1 // was skipped_pizza_cutscene
@@ -1636,23 +1562,17 @@ IF skipped_cutscene = 0 // was skipped_pizza_cutscene
 
 	DO_FADE 0 FADE_OUT //End cutscene
 
-	CLEAR_PRINTS
-
-	WHILE GET_FADING_STATUS
-		WAIT 0
-	ENDWHILE
-
 ELSE
 
 	DO_FADE 500 FADE_OUT //End cutscene
 
+ENDIF
+
 	CLEAR_PRINTS
 
 	WHILE GET_FADING_STATUS
 		WAIT 0
 	ENDWHILE
-
-ENDIF
 
 CAMERA_RESET_NEW_SCRIPTABLES
 
@@ -1963,52 +1883,46 @@ ENDWHILE
 	POINT_CAMERA_AT_POINT 2465.7505 -1687.6754 14.1833 JUMP_CUT
 	
 intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 1 // You better drop by and see Sweet.
+intro2_temp_int = 0
+WHILE intro2_index <= intro2_cell_index_end
 	WAIT 0
 
-		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
+use_text_commands true
+DISPLAY_TEXT_WITH_NUMBER 490.0 20.0 NUMBER intro2_index
+DISPLAY_TEXT_WITH_NUMBER 490.0 30.0 NUMBER intro2_cutscene_flag
+DISPLAY_TEXT_WITH_NUMBER 490.0 40.0 NUMBER intro2_audio_is_playing
+DISPLAY_TEXT_WITH_NUMBER 490.0 50.0 NUMBER intro2_temp_int
+use_text_commands false
 
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
-ENDWHILE
-
+IF intro2_temp_int = 1
+AND NOT intro2_audio_is_playing = 2
+IF intro2_index = 1
 // FIXEDGROVE: START - add ability to skip ending cutscene
 skipped_cutscene = 0
 SKIP_CUTSCENE_START
 // FIXEDGROVE: END
+intro2_temp_int = 0
+ENDIF
+ENDIF
 
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 2 // He's been rapping on about that grafitti.
-	WAIT 0
-
-		GOSUB load_and_play_audio_intro2
 		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
-
-				intro2_cutscene_flag = 1
-			ENDIF
-		ENDIF
-
-ENDWHILE
-
-intro2_cutscene_flag = 0
-WHILE NOT intro2_index = 3 // Later, dude.
-	WAIT 0
-
-		GOSUB load_and_play_audio_intro2
-		IF intro2_cutscene_flag = 0
-			IF intro2_audio_is_playing = 2
+		AND intro2_audio_is_playing = 2
+SWITCH intro2_index
+CASE 0 // You better drop by and see Sweet.
+				intro2_temp_int = 1
+BREAK
+CASE 1 // He's been rapping on about that grafitti.
+BREAK
+CASE 2 // Later, dude.
 					IF NOT IS_CHAR_DEAD	ryder
 						TASK_GO_STRAIGHT_TO_COORD ryder 2459.79 -1688.18 12.56 PEDMOVE_WALK 3000
 					ENDIF
+BREAK
+ENDSWITCH
 				intro2_cutscene_flag = 1
-			ENDIF
 		ENDIF
 
+		GOSUB load_and_play_audio_intro2
 ENDWHILE
 	
 	TASK_GO_STRAIGHT_TO_COORD scplayer 2471.58 -1685.73 12.51 PEDMOVE_WALK 3000
@@ -2174,12 +2088,13 @@ mission_cleanup_intro2:
 	UNLOAD_SPECIAL_CHARACTER 1
 	UNLOAD_SPECIAL_CHARACTER 2
 	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2067.4 -1831.2 13.5 RADAR_SPRITE_SPRAY spray_shop1
-	SET_ZONE_GANG_STRENGTH IWD1 GANG_FLAT 20 
-	SET_ZONE_GANG_STRENGTH IWD2 GANG_FLAT 20
-	SET_ZONE_GANG_STRENGTH IWD3a GANG_FLAT 20
-	SET_ZONE_GANG_STRENGTH IWD3b GANG_FLAT 20
-	SET_ZONE_GANG_STRENGTH IWD4 GANG_FLAT 20
-	SET_ZONE_GANG_STRENGTH IWD5 GANG_FLAT 20
+	// FIXEDGROVE: use stored strength rather than literals
+	SET_ZONE_GANG_STRENGTH IWD1 GANG_FLAT iwd_stored_str[0]
+	SET_ZONE_GANG_STRENGTH IWD2 GANG_FLAT iwd_stored_str[0]
+	SET_ZONE_GANG_STRENGTH IWD3a GANG_FLAT iwd_stored_str[0]
+	SET_ZONE_GANG_STRENGTH IWD3b GANG_FLAT iwd_stored_str[0]
+	SET_ZONE_GANG_STRENGTH IWD4 GANG_FLAT iwd_stored_str[0] // FIXEDGROVE: this was '20' but on initial.sc it's '10', with the '20' version commented out
+	SET_ZONE_GANG_STRENGTH IWD5 GANG_FLAT iwd_stored_str[0]
 	flag_player_on_menace_mission = 0
 	//REMOVE_PRICE_MODIFIER afro haircuts
 	//REMOVE_PRICE_MODIFIER afroblond haircuts

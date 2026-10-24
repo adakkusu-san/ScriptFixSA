@@ -157,6 +157,8 @@ LVAR_INT hst4_convo_underway hst4_convo_counter hst4_random //hst4_leftcar_count
 
 LVAR_INT sfx_tyres
 
+LVAR_INT collision_toggle[9] // FIXEDGROVE
+
 
 // ---- Dialogue Flags
 	hst4_audio_slot = 1
@@ -2123,173 +2125,82 @@ ENDIF
 
 
 
-
-IF NOT IS_CHAR_DEAD hst4_hospitalcop //1
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hospitalcop 120.0 120.0 120.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hospitalcop FALSE
+temp_float = 120.0
+temp_int = 0
+WHILE temp_int < 9
+SWITCH temp_int
+CASE 0
+	hst4_char_name = hst4_hospitalcop
+BREAK
+CASE 1
+	hst4_char_name = hst4_hotelcop
+BREAK
+CASE 2
+	hst4_char_name = hst4_staircop
+BREAK
+CASE 3
+	hst4_char_name = hst4_larrycop
+BREAK
+CASE 4
+	hst4_char_name = hst4_pizzacop
+BREAK
+CASE 5
+	hst4_char_name = hst4_pizzadrunk
+BREAK
+CASE 6
+	hst4_char_name = hst4_hotelthug1
+	hst4_car_name = hst4_hotelbike1
+BREAK
+CASE 7
+	hst4_char_name = hst4_hotelthug2
+	hst4_car_name = hst4_hotelbike2
+BREAK
+CASE 8
+	hst4_char_name = hst4_hotelthug3
+	hst4_car_name = hst4_hotelbike3
+BREAK
+ENDSWITCH
+IF temp_int >= 6
+	IF hst4_hotelthugsleave = 0
+		temp_float = 150.0
+		GOSUB hst4_collision_check
 	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hospitalcop TRUE
+		GOSUB hst4_mark_no_need
 	ENDIF
-
+ELSE
+	GOSUB hst4_collision_check
 ENDIF
-
-IF NOT IS_CHAR_DEAD hst4_hotelcop  //2
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelcop 120.0 120.0 120.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelcop FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelcop TRUE
-	ENDIF
-
-ENDIF
-
-//IF NOT IS_CHAR_DEAD hst4_hospitalpilot //3
-//	
-//	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hospitalpilot 70.0 70.0 70.0 FALSE
-//		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hospitalpilot FALSE
-//	ELSE
-//		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hospitalpilot TRUE
-//	ENDIF
-//
-//ENDIF
-
-
-
-IF hst4_hotelthugsleave = 0
-
-IF NOT IS_CHAR_DEAD hst4_hotelthug1	 //4
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelthug1 150.0 150.0 150.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelthug1 FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelthug1 TRUE
-	ENDIF
-
-ENDIF
-
-
-
-
-
-IF NOT IS_CHAR_DEAD hst4_hotelthug2	  //5
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelthug2 150.0 150.0 150.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelthug2 FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelthug2 TRUE
-	ENDIF
-
-ENDIF
-
-IF NOT IS_CHAR_DEAD hst4_hotelthug3	//6
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelthug3 150.0 150.0 150.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelthug3 FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_hotelthug3 TRUE
-	ENDIF
-
-ENDIF
-
-
-ENDIF
-
-
-IF hst4_hotelthugsleave = 1
-
-IF NOT IS_CHAR_DEAD hst4_hotelthug1	 //4
-	
-	IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelthug1 120.0 120.0 150.0 FALSE
-  		MARK_CHAR_AS_NO_LONGER_NEEDED hst4_hotelthug1
-		MARK_CAR_AS_NO_LONGER_NEEDED hst4_hotelbike1
-	  //	write_debug ht1
-  	ENDIF
-
-ENDIF
-IF NOT IS_CHAR_DEAD hst4_hotelthug2	  //5
-	
-	IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelthug2 120.0 120.0 150.0 FALSE
-		MARK_CHAR_AS_NO_LONGER_NEEDED hst4_hotelthug2
-		MARK_CAR_AS_NO_LONGER_NEEDED hst4_hotelbike2
-
-	   //	write_debug ht2
-	ENDIF
-
-ENDIF
-
-IF NOT IS_CHAR_DEAD hst4_hotelthug3	//6
-	
-	IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_hotelthug3 120.0 120.0 150.0 FALSE
-  		MARK_CHAR_AS_NO_LONGER_NEEDED hst4_hotelthug3
-		MARK_CAR_AS_NO_LONGER_NEEDED hst4_hotelbike3
-
-	   //	write_debug ht3
-	ENDIF
-
-ENDIF
-
-
-ENDIF
-
-
-
-
-
-IF NOT IS_CHAR_DEAD hst4_staircop	//7
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_staircop 120.0 120.0 120.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_staircop FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_staircop TRUE
-	ENDIF
-
-ENDIF
-
-IF NOT IS_CHAR_DEAD hst4_larrycop	 //8
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_larrycop 120.0 120.0 120.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_larrycop FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_larrycop TRUE
-	ENDIF
-
-ENDIF
-
-IF NOT IS_CHAR_DEAD hst4_pizzacop	 //9
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_pizzacop 120.0 120.0 120.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_pizzacop FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_pizzacop TRUE
-	ENDIF
-
-ENDIF
-
-IF NOT IS_CHAR_DEAD hst4_pizzadrunk	   //10
-	
-	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_pizzadrunk 120.0 120.0 120.0 FALSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_pizzadrunk FALSE
-	ELSE
-		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_pizzadrunk TRUE
-	ENDIF
-
-ENDIF
-
-//IF NOT IS_CHAR_DEAD truck_driver	   //11	
-//	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer truck_driver 70.0 70.0 70.0 FALSE
-//		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION truck_driver FALSE
-//	ELSE
-//		FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION truck_driver TRUE
-//	ENDIF
-//
-//ENDIF
-
-
-
-
+temp_int++
+ENDWHILE
 
 GOTO mission_hst4_loop
+
+// FIXEDGROVE: START
+hst4_collision_check:
+IF NOT IS_CHAR_DEAD hst4_char_name 
+	IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_char_name temp_float temp_float temp_float FALSE
+		IF collision_toggle[temp_int] = FALSE
+			FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_char_name FALSE
+			collision_toggle[temp_int] = TRUE
+		ENDIF
+	ELSE
+		IF collision_toggle[temp_int] = TRUE
+			FREEZE_CHAR_POSITION_AND_DONT_LOAD_COLLISION hst4_char_name TRUE
+			collision_toggle[temp_int] = FALSE
+		ENDIF
+	ENDIF
+ENDIF
+RETURN
+
+hst4_mark_no_need:
+IF NOT IS_CHAR_DEAD hst4_char_name
+	IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer hst4_char_name 120.0 120.0 150.0 FALSE
+  		MARK_CHAR_AS_NO_LONGER_NEEDED hst4_char_name
+		MARK_CAR_AS_NO_LONGER_NEEDED hst4_car_name
+  	ENDIF
+ENDIF
+RETURN
+// FIXEDGROVE: END
 
 hst4_onwhichbike_check:
 	

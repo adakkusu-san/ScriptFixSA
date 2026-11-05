@@ -825,14 +825,16 @@ go_to_mechanic1_garag1:
 	WHILE NOT flag_cutscene_garage1 = 10
 		WAIT 0
 
-		IF flag_cutscene_garage1 = 0
-			SKIP_CUTSCENE_START
-			
-
-			GOSUB load_and_play_audio_garage1 
+		IF flag_cutscene_garage1 <= 7
+	   	    GOSUB load_and_play_audio_garage1
 		ENDIF
 
-		IF flag_cutscene_garage1 = 1
+		SWITCH flag_cutscene_garage1
+		CASE 0
+			SKIP_CUTSCENE_START
+		BREAK
+
+		CASE 1
 			IF NOT IS_CHAR_DEAD char_truth_garag1
 				OPEN_SEQUENCE_TASK seq_truth_talking_to_mech1_garag1	// truth speaking to the mechanics
 					TASK_PLAY_ANIM -1 prtial_gngtlkH GANGS 4.0 FALSE FALSE FALSE FALSE -1
@@ -847,19 +849,11 @@ go_to_mechanic1_garag1:
 
 			ENDIF
 
-			GOSUB load_and_play_audio_garage1
 			TIMERA = 0
-		ENDIF
+		BREAK
 
 					
-		IF flag_cutscene_garage1 >= 2
-		AND flag_cutscene_garage1 <= 3
-			
-			GOSUB load_and_play_audio_garage1
-	   	ENDIF
-
-
-		IF flag_cutscene_garage1 = 4
+		CASE 4
 
 
 			CAMERA_RESET_NEW_SCRIPTABLES // do another of these once your camera pan has finished.
@@ -871,19 +865,13 @@ go_to_mechanic1_garag1:
 		  //ENDIF
 
 
-			GOSUB load_and_play_audio_garage1
-	   	ENDIF
+	   	BREAK
 
-		IF flag_cutscene_garage1 >= 5
-	   	OR flag_cutscene_garage1 <= 6
 
-	 		GOSUB load_and_play_audio_garage1
-		ENDIF
-
-		IF flag_cutscene_garage1 = 7
-	   	    GOSUB load_and_play_audio_garage1
+		CASE 7
 			flag_cutscene_garage1 = 10
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 	    IF IS_SKIP_CUTSCENE_BUTTON_PRESSED
 			flag_cutscene_garage1 = 10
@@ -1138,7 +1126,8 @@ go_to_mechanic1_garag1:
 		WAIT 0
 
    
-		IF flag_cutscene_garage1 = 0
+		SWITCH flag_cutscene_garage1
+		CASE 0
 			// ///////////////////////////////////////
 			// STOP CAR
 			// ///////////////////////////////////////
@@ -1175,11 +1164,11 @@ go_to_mechanic1_garag1:
 				RETURN
 			ENDIF
  
-		ENDIF
+		BREAK
    
 
 
-		IF flag_cutscene_garage1 = 1
+		CASE 1
 			IF TIMERA > 2000
 
 
@@ -1230,10 +1219,10 @@ go_to_mechanic1_garag1:
 					ENDIF								  
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 		// Make guys enter car
-		IF flag_cutscene_garage1 = 2
+		CASE 2
 	//		REPORT_MISSION_AUDIO_EVENT_AT_POSITION -1672.6583 431.5702 7.2947 SOUND_BANK_MECHANIC
 			 
 			IF TIMERA > 2000
@@ -1273,19 +1262,19 @@ go_to_mechanic1_garag1:
 
 				TIMERA = 0
 			ENDIF
-		ENDIF
+		BREAK
 
 
 		// Make guys enter car
-		IF flag_cutscene_garage1 = 3
-			GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?
-		ENDIF
+		CASE 3
+		CASE 4
 
-		IF flag_cutscene_garage1 = 4
-			GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?
-		ENDIF					 
+		CASE 7
+		CASE 8
+			GOSUB cutscene_audio
+		BREAK
 
-		IF flag_cutscene_garage1 = 5
+		CASE 5
 			IF TIMERA > 1500
 	
 				IF NOT IS_CHAR_DEAD char_truth_garag1
@@ -1294,13 +1283,13 @@ go_to_mechanic1_garag1:
 
 				
 
-				GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?	
+				GOSUB cutscene_audio
 
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 6
+		CASE 6
 				
 				IF NOT IS_CAR_DEAD car_player_garag1
 					SET_FIXED_CAMERA_POSITION -1670.6049 442.2138 7.3642 0.0 0.0 0.0
@@ -1310,41 +1299,29 @@ go_to_mechanic1_garag1:
 
 			
 
-				GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?
+				GOSUB cutscene_audio
 
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 7
-				GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?				TIMERA = 0
-		ENDIF
-
-		IF flag_cutscene_garage1 = 8
-			GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?			ENDIF
-		ENDIF
-
-		IF flag_cutscene_garage1 = 9
+		CASE 9
 			IF TIMERA > 1500
 				SET_FIXED_CAMERA_POSITION -1648.6838 411.5628 18.7936 0.0 0.0 0.0
 				POINT_CAMERA_AT_POINT  -1649.0903 412.4462 18.5605  JUMP_CUT
 
 				
 
-				GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?
+				GOSUB cutscene_audio
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 10
+		CASE 10
+		CASE 11
 			IF TIMERA > 1500
-				GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?
+				GOSUB cutscene_audio
 
 			ENDIF
-		ENDIF
-
-		IF flag_cutscene_garage1 = 11
-			IF TIMERA > 1500
-				GOSUB cutscene_audio //	PRINT_NOW GAR1_DC 1500 1		 // JETHRO Do i owe you?
-			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 	 	IF IS_SKIP_CUTSCENE_BUTTON_PRESSED
 			flag_cutscene_garage1 = 20
@@ -1409,15 +1386,11 @@ go_to_mechanic1_garag1:
 
 		IF NOT IS_CHAR_DEAD char_truth_garag1		 
 			IF NOT IS_CHAR_IN_CAR char_truth_garag1 car_player_garag1
-				IF IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 0
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_truth_garag1 car_player_garag1 0
-
-				ELSE
-
+				IF NOT IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 0
 					GET_CHAR_IN_CAR_PASSENGER_SEAT car_player_garag1 0 temp_passenger_to_be_deleted_garage1
 					DELETE_CHAR temp_passenger_to_be_deleted_garage1
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_truth_garag1 car_player_garag1 0
 				ENDIF
+					WARP_CHAR_INTO_CAR_AS_PASSENGER char_truth_garag1 car_player_garag1 0
 			ENDIF
 		
 		ENDIF
@@ -1426,15 +1399,11 @@ go_to_mechanic1_garag1:
 			IF NOT IS_CHAR_IN_CAR char_mech_garag1[index_garag1] car_player_garag1
 
 
-				IF IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 2
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_mech_garag1[index_garag1] car_player_garag1 2
-
-				ELSE
-
+				IF NOT IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 2
 					GET_CHAR_IN_CAR_PASSENGER_SEAT car_player_garag1 2 temp_passenger_to_be_deleted_garage1
 					DELETE_CHAR temp_passenger_to_be_deleted_garage1
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_mech_garag1[index_garag1] car_player_garag1 2
 		   		ENDIF 	   
+					WARP_CHAR_INTO_CAR_AS_PASSENGER char_mech_garag1[index_garag1] car_player_garag1 2
 		   	ENDIF	
 	   	ENDIF
 
@@ -1466,8 +1435,6 @@ go_to_hospital_garag1:
 
 
 	CREATE_CAR pony -2607.11 623.91 14.66 car_zombietech_garage1
-
-	MARK_MODEL_AS_NO_LONGER_NEEDED pony
 
 	SET_CAR_HEADING car_zombietech_garage1 277.0
 	DELETE_CAR car_zombietech_garage1 
@@ -1504,14 +1471,6 @@ go_to_hospital_garag1:
 
 
 	REMOVE_BLIP blip_hospital
-
-	REQUEST_MODEL pony 
-				 
-
-	WHILE NOT HAS_MODEL_LOADED pony
-		WAIT 0
-	ENDWHILE
-
 
 	REQUEST_ANIMATION CAR_CHAT
 
@@ -1638,7 +1597,8 @@ go_to_hospital_garag1:
 
 
 
-		IF flag_cutscene_garage1 = 0
+		SWITCH flag_cutscene_garage1
+		CASE 0
 			IF TIMERA > 1500
 				SKIP_CUTSCENE_START
 				IF NOT IS_CHAR_DEAD char_mech_garag1[0]
@@ -1665,19 +1625,19 @@ go_to_hospital_garag1:
 				GOSUB cutscene_audio
 				TIMERA = 0
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 1
+		CASE 1
 			IF TIMERA > 1500
 				GOSUB cutscene_audio
 				IF NOT IS_CAR_DEAD car_zombietech_garage1 
 					CREATE_CHAR_INSIDE_CAR car_zombietech_garage1 PEDTYPE_CIVMALE male01 pony_driver_garage1
 				ENDIF
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 2
+		CASE 2
 			IF TIMERA > 1500
 				GOSUB cutscene_audio	
 				CAMERA_RESET_NEW_SCRIPTABLES
@@ -1689,17 +1649,22 @@ go_to_hospital_garag1:
 			ENDIF
 
 			
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 3
+		CASE 3
+		CASE 7
+		CASE 8
 			IF TIMERA > 1500
 				GOSUB cutscene_audio
+			IF flag_cutscene_garage1 = 8
+				flag_cutscene_garage1 = 10
 			ENDIF
-		ENDIF
+			ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 4
+		CASE 4
 			IF TIMERA > 1500
 
 				IF NOT IS_CAR_DEAD car_zombietech_garage1 
@@ -1720,10 +1685,10 @@ go_to_hospital_garag1:
 				ENDIF	
 				GOSUB cutscene_audio
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 5
+		CASE 5
 			IF TIMERA > 1500
 				GOSUB cutscene_audio	 ///sheeeeesh
 
@@ -1734,10 +1699,10 @@ go_to_hospital_garag1:
 
 
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 6
+		CASE 6
 			IF TIMERA > 2500
 				GOSUB cutscene_audio
 
@@ -1774,22 +1739,10 @@ go_to_hospital_garag1:
 
 
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 7
-			IF TIMERA > 1500
-  				GOSUB cutscene_audio
-  			ENDIF
-		ENDIF
-
-
-		IF flag_cutscene_garage1 = 8
-			IF TIMERA > 1500
-				GOSUB cutscene_audio
-				flag_cutscene_garage1 = 10
-			ENDIF
-		ENDIF
+		ENDSWITCH
 
 		IF IS_SKIP_CUTSCENE_BUTTON_PRESSED
 			flag_cutscene_garage1 = 10
@@ -1856,27 +1809,15 @@ RETURN
 go_to_mechanic2_garag1:
 
 	REQUEST_MODEL HOTDOG
+  	REQUEST_ANIMATION SMOKING
+	LOAD_SPECIAL_CHARACTER 4 Dwayne
+	REQUEST_MODEL cigar
  
 
 	WHILE NOT HAS_MODEL_LOADED HOTDOG
-		WAIT 0
-	ENDWHILE
-
-  	REQUEST_ANIMATION SMOKING
-
-  	WHILE NOT HAS_ANIMATION_LOADED SMOKING
-		WAIT 0
-	ENDWHILE
-	
-	LOAD_SPECIAL_CHARACTER 4 Dwayne
-
-	WHILE NOT HAS_SPECIAL_CHARACTER_LOADED 4
-		WAIT 0
-	ENDWHILE  	 
-
-	REQUEST_MODEL cigar
-
-	WHILE NOT HAS_MODEL_LOADED cigar
+	OR NOT HAS_ANIMATION_LOADED SMOKING
+	OR NOT HAS_SPECIAL_CHARACTER_LOADED 4
+	OR NOT HAS_MODEL_LOADED cigar
 		WAIT 0
 	ENDWHILE
 	  
@@ -1892,16 +1833,16 @@ go_to_mechanic2_garag1:
    //	SET_BLIP_AS_FRIENDLY blip_mech_garag1[index_garag1] TRUE
 	//PRINT_NOW (GAR1_02) 5000 1 //lets go pick up mech 1
 
-	IF flag_mission_garag1_failed = 14			// to fool the compiler
+	GOTO fool_compiler_garag1 //IF flag_mission_garag1_failed = 14			// to fool the compiler
 	 	CREATE_CHAR PEDTYPE_CIVMALE SPECIAL04 coord_mech_garage1_x[index_garag1] coord_mech_garage1_y[index_garag1] coord_mech_garage1_z[index_garag1] char_mech_garag1[index_garag1]
 		CREATE_CAR HOTDOG -2238.8884 541.5267 34.3750 car_mech2_garag1 
 	 	CREATE_OBJECT cigar coord_mech_garage1_x[index_garag1] coord_mech_garage1_y[index_garag1] coord_mech_garage1_z[index_garag1] dwaynes_blunt
 
 		
-		DELETE_CAR car_mech2_garag1
-		DELETE_CHAR char_mech_garag1[index_garag1]
-		DELETE_OBJECT dwaynes_blunt
-	ENDIF
+		// DELETE_CAR car_mech2_garag1
+		// DELETE_CHAR char_mech_garag1[index_garag1]
+		// DELETE_OBJECT dwaynes_blunt
+	fool_compiler_garag1:
 
 
 
@@ -2063,7 +2004,8 @@ go_to_mechanic2_garag1:
 
 
 
-		IF flag_cutscene_garage1 = 0
+		SWITCH flag_cutscene_garage1
+		CASE 0
 			SKIP_CUTSCENE_START
 			IF TIMERA > 2000			
 	   		   //	PRINT_NOW GAR1_JB 2000 1
@@ -2117,9 +2059,9 @@ go_to_mechanic2_garag1:
 
 			ENDIF
 
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 1
+		CASE 1
 			IF TIMERA > 2000
 
 				IF NOT IS_CAR_DEAD car_mech2_garag1
@@ -2181,13 +2123,13 @@ go_to_mechanic2_garag1:
 					RETURN
 				ENDIF
  			ENDIF
-		ENDIF
+		BREAK
 
 
 
 
-		IF TIMERA > 1500
-			IF flag_cutscene_garage1 = 2 
+		CASE 2 
+			IF TIMERA > 1500
 			   GOSUB cutscene_audio
 				IF NOT IS_CHAR_DEAD char_mech_garag1[index_garag1]
 				 //	SET_CHAR_COORDINATES char_mech_garag1[index_garag1] -2232.84 543.99 34.1
@@ -2229,32 +2171,20 @@ go_to_mechanic2_garag1:
 
 
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 3 
+		CASE 3 
+		CASE 4 
+		CASE 5 
 			GOSUB cutscene_audio
-		ENDIF
-		
-
-		IF flag_cutscene_garage1 = 4 
-			GOSUB cutscene_audio
-		ENDIF
-		
-
-		IF flag_cutscene_garage1 = 5 
-			GOSUB cutscene_audio
- 
-
-
-  
-		ENDIF
+		BREAK
 		
 
 
 
 
 
-		IF flag_cutscene_garage1 = 6
+		CASE 6
 		   GOSUB cutscene_audio
 			TIMERA = 0
 			IF NOT IS_CAR_DEAD car_mech2_garag1
@@ -2284,11 +2214,11 @@ go_to_mechanic2_garag1:
 				ENDIF
 			ENDIF
 
-		ENDIF
+		BREAK
 		
 
 
-		IF flag_cutscene_garage1 = 7
+		CASE 7
 			GOSUB cutscene_audio
 
 			SET_FIXED_CAMERA_POSITION -2229.1545 533.4247 41.4992 0.0 0.0 0.0
@@ -2314,11 +2244,11 @@ go_to_mechanic2_garag1:
 					ENDIF
 				ENDIF
 
-		ENDIF
+		BREAK
 		
 
-		IF TIMERA > 4000
-			IF flag_cutscene_garage1 = 8
+		CASE 8
+			IF TIMERA > 4000
 				GOSUB cutscene_audio
 				IF NOT IS_CAR_DEAD car_player_garag1
 				  /*	GET_OFFSET_FROM_CAR_IN_WORLD_COORDS car_player_garag1 0.5 1.5 0.8 offset_players_car_x offset_players_car_y offset_players_car_z
@@ -2367,32 +2297,20 @@ go_to_mechanic2_garag1:
 				ENDIF
 
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF TIMERA > 1500
-			IF flag_cutscene_garage1 = 9
+		CASE 9
+		CASE 10
+		CASE 11
+		CASE 12
+			IF TIMERA > 1500
 				GOSUB cutscene_audio
-			ENDIF
-		ENDIF
-
-		IF TIMERA > 1500
-			IF flag_cutscene_garage1 = 10
-				GOSUB cutscene_audio
-			ENDIF
-		ENDIF
-
-		IF TIMERA > 1500
-			IF flag_cutscene_garage1 = 11
-				GOSUB cutscene_audio
-			ENDIF
-		ENDIF
-
-		IF TIMERA > 1500
 			IF flag_cutscene_garage1 = 12
-				GOSUB cutscene_audio
 				flag_cutscene_garage1 = 20
 			ENDIF
-		ENDIF
+			ENDIF
+		BREAK
+		ENDSWITCH
 					
 		IF IS_SKIP_CUTSCENE_BUTTON_PRESSED
 			flag_cutscene_garage1 = 20
@@ -2455,13 +2373,11 @@ go_to_mechanic2_garag1:
 
 		IF NOT IS_CHAR_DEAD char_truth_garag1		 
 			IF NOT IS_CHAR_IN_CAR char_truth_garag1 car_player_garag1
-				IF IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 0
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_truth_garag1 car_player_garag1 0
-				ELSE
+				IF NOT IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 0
 					GET_CHAR_IN_CAR_PASSENGER_SEAT car_player_garag1 0 temp_passenger_to_be_deleted_garage1
 					DELETE_CHAR temp_passenger_to_be_deleted_garage1
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_truth_garag1 car_player_garag1 0
 		   		ENDIF 	 
+					WARP_CHAR_INTO_CAR_AS_PASSENGER char_truth_garag1 car_player_garag1 0
 			ENDIF
 		ENDIF
 
@@ -2653,7 +2569,8 @@ go_to_police_station_garag1:
 
 
 
-   		IF flag_cutscene_garage1 = 0
+   		SWITCH flag_cutscene_garage1
+   		CASE 0
    			SKIP_CUTSCENE_START
    			IF TIMERA > 1500
    			
@@ -2663,9 +2580,9 @@ go_to_police_station_garag1:
 			
    				GOSUB cutscene_audio
    			ENDIF
-   		ENDIF
+   		BREAK
 
-   		IF flag_cutscene_garage1 = 1
+   		CASE 1
    			IF TIMERA > 2000			
    				GOSUB cutscene_audio 
 
@@ -2692,9 +2609,9 @@ go_to_police_station_garag1:
 				  
    				TIMERA = 0
    			ENDIF
-   		ENDIF
+   		BREAK
 
-   		IF flag_cutscene_garage1 = 2
+   		CASE 2
    		   	IF TIMERA > 2000			
    			   //	PRINT_NOW GAR1_LC 2000 1  //	Picture a pink golfball in your mind.
 
@@ -2702,9 +2619,9 @@ go_to_police_station_garag1:
 
    				GOSUB cutscene_audio 
    		  	ENDIF
-   		ENDIF
+   		BREAK
 
-   		IF flag_cutscene_garage1 = 3
+   		CASE 3
    			IF TIMERA > 6000
    			//	SET_FIXED_CAMERA_POSITION -1615.4164 722.5748 13.7408 0.0 0.0 0.0
    			 //	POINT_CAMERA_AT_POINT -1616.2449 723.0778 13.9868  JUMP_CUT 
@@ -2738,21 +2655,27 @@ go_to_police_station_garag1:
 
 
    			ENDIF
-   		ENDIF
+   		BREAK
 
 
 
 
 
 
-   		IF flag_cutscene_garage1 >= 4
-   		AND flag_cutscene_garage1 <= 7
+   		CASE 4
+   		CASE 5
+   		CASE 6
+   		CASE 7
+
+   		CASE 9
+   		CASE 10
+   		CASE 11
    			GOSUB cutscene_audio 
-   		ENDIF
+   		BREAK
 
     
 
-   		IF flag_cutscene_garage1 = 8
+   		CASE 8
    			IF TIMERA > 2000
    			
    				SET_FIXED_CAMERA_POSITION -1628.7999 727.3613 14.7421 0.0 0.0 0.0
@@ -2768,18 +2691,12 @@ go_to_police_station_garag1:
 
    				TIMERA = 0
    			ENDIF
-   		ENDIF
+   		BREAK
 
-   		IF flag_cutscene_garage1 >= 9
-   		AND flag_cutscene_garage1 <= 11
-   			GOSUB cutscene_audio
-   		ENDIF
-
-   		IF flag_cutscene_garage1 >= 12
+   		CASE 12
    				flag_cutscene_garage1 = 20
-   		ENDIF
-
-   		//	IF flag_cutscene_garage1 > 1
+   		BREAK
+   		ENDSWITCH
 
    		IF IS_SKIP_CUTSCENE_BUTTON_PRESSED
    			flag_cutscene_garage1 = 20
@@ -3031,16 +2948,17 @@ go_to_mechanic3_garag1:
 			RETURN
 		ENDIF  */
 
-		IF flag_cutscene_garage1 = 0
+		SWITCH flag_cutscene_garage1
+		CASE 0
 			IF TIMERA > 1500	
 				SKIP_CUTSCENE_START
 
 
 				GOSUB cutscene_audio
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 1
+		CASE 1
 			IF TIMERA > 2000	
 				GOSUB cutscene_audio
 
@@ -3060,9 +2978,9 @@ go_to_mechanic3_garag1:
 
 
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 2
+		CASE 2
 			IF TIMERA > 3000	
 				GOSUB cutscene_audio
 
@@ -3111,9 +3029,9 @@ go_to_mechanic3_garag1:
 				ENDIF
 
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 3
+		CASE 3
 			IF TIMERA > 3000	
 
 				SET_FIXED_CAMERA_POSITION -2253.4512 139.6341 38.4909 0.0 0.0 0.0	  //4th
@@ -3123,24 +3041,25 @@ go_to_mechanic3_garag1:
 
 				GOSUB cutscene_audio
 			ENDIF
-		ENDIF
+		BREAK
 
-		IF flag_cutscene_garage1 = 4
+		CASE 4
 			IF TIMERA > 3000	
 				GOSUB cutscene_audio
 				flag_cutscene_garage1 = 5
 				TIMERA = 0
 			ENDIF
-		ENDIF
+		BREAK
 
 
-		IF flag_cutscene_garage1 = 5
+		CASE 5
 			IF TIMERA > 2000	
 			  //	GOSUB cutscene_audio
 				flag_cutscene_garage1 = 10
 				
 			ENDIF
-		ENDIF
+		BREAK
+		ENDSWITCH
 
 
 		IF IS_SKIP_CUTSCENE_BUTTON_PRESSED
@@ -3164,18 +3083,11 @@ go_to_mechanic3_garag1:
 			IF NOT IS_CHAR_IN_CAR char_mech_garag1[2] car_player_garag1
 
 
-				IF IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 1
-
-
-
-	
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_mech_garag1[2] car_player_garag1 1
-				ELSE
-
+				IF NOT IS_CAR_PASSENGER_SEAT_FREE car_player_garag1 1
 					GET_CHAR_IN_CAR_PASSENGER_SEAT car_player_garag1 1 temp_passenger_to_be_deleted_garage1
 					DELETE_CHAR temp_passenger_to_be_deleted_garage1
-					WARP_CHAR_INTO_CAR_AS_PASSENGER char_mech_garag1[index_garag1] car_player_garag1 1
 		   		ENDIF 
+					WARP_CHAR_INTO_CAR_AS_PASSENGER char_mech_garag1[2] car_player_garag1 1
 
 
 				SET_CURRENT_CHAR_WEAPON char_mech_garag1[2] WEAPONTYPE_UNARMED
@@ -3457,9 +3369,9 @@ go_to_hub_garag1:
 	MARK_MODEL_AS_NO_LONGER_NEEDED rcraider
 	MARK_MODEL_AS_NO_LONGER_NEEDED towtruck
 
-	UNLOAD_SPECIAL_CHARACTER 1 // unloading zero
-	UNLOAD_SPECIAL_CHARACTER 2 // unloading zero
-	UNLOAD_SPECIAL_CHARACTER 3 // unloading zero
+	UNLOAD_SPECIAL_CHARACTER 1
+	UNLOAD_SPECIAL_CHARACTER 2
+	UNLOAD_SPECIAL_CHARACTER 3
 
 
 
@@ -4206,14 +4118,7 @@ checking_buddies_garage1:
 		IF flag_lod_close_to_desstination = 1
 
 			IF IS_CAR_DEAD car_mech1_garag1
-				GOSUB reset_vars_fail_garage1
-				PRINT_NOW GAR1_14 5000 1 // jethros dead
-
-				RETURN
-			ENDIF
-
-
-			IF IS_CHAR_DEAD char_mech_garag1[0]
+			OR IS_CHAR_DEAD char_mech_garag1[0]
 				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_14 5000 1 // jethros dead
 				RETURN
@@ -4236,12 +4141,7 @@ checking_buddies_garage1:
 
 		IF flag_lod_close_to_desstination = 1
 			IF IS_CHAR_DEAD char_mech_garag1[1]
-				GOSUB reset_vars_fail_garage1
-				PRINT_NOW GAR1_15 5000 1 // dwaign dead
-				RETURN
-			ENDIF
-
-			IF IS_CAR_DEAD car_mech2_garag1
+			OR IS_CAR_DEAD car_mech2_garag1
 				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_15 5000 1 // dwaign dead
 				RETURN
@@ -4520,7 +4420,9 @@ mission_cleanup_garag1:
 	CLEAR_HELP
 	index_garag1 = 0
 	WHILE index_garag1 < 5
+	IF DOES_BLIP_EXIST blip_mech_garag1[index_garag1]
 		REMOVE_BLIP blip_mech_garag1[index_garag1]
+	ENDIF
 		index_garag1++
 	ENDWHILE
 

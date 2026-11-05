@@ -961,12 +961,7 @@ go_to_mechanic1_garag1:
 			WAIT 0 
 
 			IF IS_PS2_KEYBOARD_KEY_PRESSED PS2_KEY_S
-				flag_go_to_mechanic1_garag1 = 0
-				flag_go_to_mechanic2_garag1 = 0
-				flag_go_to_mechanic3_garag1 = 0
-				flag_go_to_hospital_garag1 = 0
-				flag_go_to_police_station_garag1 = 0
-				flag_go_to_hub_garag1 = 0
+				GOSUB reset_vars_garage1
 				flag_mission_garag1_passed = 1
 				flag_mission_garag1_failed = 0
 				RETURN
@@ -974,27 +969,13 @@ go_to_mechanic1_garag1:
 
 			IF IS_CAR_DEAD car_player_garag1
 				PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
-				flag_go_to_mechanic1_garag1 = 0
-				flag_go_to_mechanic2_garag1 = 0
-				flag_go_to_mechanic3_garag1 = 0
-				flag_go_to_hospital_garag1 = 0
-				flag_go_to_police_station_garag1 = 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_passed = 0
-				flag_mission_garag1_failed = 1
+				GOSUB reset_vars_fail_garage1
 				RETURN
 			ENDIF
 
 			IF IS_CHAR_DEAD char_truth_garag1
 				PRINT_NOW (GAR1_17) 5000 1 //TRUTH DIED
-				flag_go_to_mechanic1_garag1 = 0
-				flag_go_to_mechanic2_garag1 = 0
-				flag_go_to_mechanic3_garag1 = 0
-				flag_go_to_hospital_garag1 = 0
-				flag_go_to_police_station_garag1 = 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_passed = 0
-				flag_mission_garag1_failed = 1
+				GOSUB reset_vars_fail_garage1
 				RETURN
 			ENDIF
 
@@ -1003,15 +984,7 @@ go_to_mechanic1_garag1:
 
 				PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
 
-				flag_go_to_mechanic1_garag1 = 0
-				flag_go_to_mechanic2_garag1 = 0
-				flag_go_to_mechanic3_garag1 = 0
-				flag_go_to_mechanic4_garag1 = 0
-				flag_go_to_hub_garag1 = 0
-
-
-
-				flag_mission_garag1_failed = 1
+				GOSUB reset_vars_fail_garage1
 				RETURN
 
 
@@ -1037,8 +1010,7 @@ go_to_mechanic1_garag1:
 	ELSE
 
 		PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
-		flag_go_to_mechanic1_garag1 = 0
-		flag_mission_garag1_failed = 1
+		GOSUB reset_vars_fail_garage1
 		RETURN
 
 	ENDIF
@@ -1192,16 +1164,14 @@ go_to_mechanic1_garag1:
 
 
 				ELSE
-					flag_go_to_mechanic1_garag1 = 0
-					flag_mission_garag1_failed = 1
+					GOSUB reset_vars_fail_garage1
 					RETURN
 
 				ENDIF
 
 			ELSE
 				PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
-				flag_go_to_mechanic1_garag1 = 0
-				flag_mission_garag1_failed = 1
+				GOSUB reset_vars_fail_garage1
 				RETURN
 			ENDIF
  
@@ -1472,7 +1442,7 @@ go_to_mechanic1_garag1:
 	///////////////////////////////////////////////////////////////////////
 
 	index_garag1 = 1
-	flag_go_to_mechanic1_garag1 = 0
+	GOSUB reset_vars_garage1
 	flag_go_to_hospital_garag1 = 1
 
 RETURN
@@ -1868,7 +1838,7 @@ go_to_hospital_garag1:
 
 	DELETE_CAR car_zombietech_garage1 
 
-	flag_go_to_hospital_garag1 = 0
+	GOSUB reset_vars_garage1
 	flag_go_to_mechanic2_garag1 = 1
 RETURN
 
@@ -2188,8 +2158,7 @@ go_to_mechanic2_garag1:
 					ELSE
 						PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
 
-						flag_go_to_mechanic2_garag1 = 0
-						flag_mission_garag1_failed = 1
+						GOSUB reset_vars_fail_garage1
 						RETURN
 
 					ENDIF
@@ -2201,16 +2170,14 @@ go_to_mechanic2_garag1:
 					  //	TASK_ENTER_CAR_AS_DRIVER char_mech_garag1[index_garag1] car_mech2_garag1 5000
 						GOSUB cutscene_audio						
 					ELSE
-						flag_go_to_mechanic2_garag1 = 0
-						flag_mission_garag1_failed = 1
+						GOSUB reset_vars_fail_garage1
 						RETURN
 					ENDIF
 
 				ELSE
 					PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
 
-					flag_go_to_mechanic2_garag1 = 0
-					flag_mission_garag1_failed = 1
+					GOSUB reset_vars_fail_garage1
 					RETURN
 				ENDIF
  			ENDIF
@@ -2530,7 +2497,7 @@ go_to_mechanic2_garag1:
 
 	index_garag1 = 2
 
-	flag_go_to_mechanic2_garag1 = 0
+	GOSUB reset_vars_garage1
 	flag_go_to_police_station_garag1 = 1
 
 RETURN
@@ -2870,7 +2837,7 @@ go_to_police_station_garag1:
 	DELETE_CHAR pony_driver_garage1
 	DELETE_CAR car_zombietech_garage1 
 
-	flag_go_to_police_station_garag1 = 0
+	GOSUB reset_vars_garage1
 	flag_go_to_mechanic3_garag1 = 1
 	REMOVE_ANIMATION CAR_CHAT
 RETURN
@@ -3131,8 +3098,7 @@ go_to_mechanic3_garag1:
 
 					ELSE
 						PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
-						flag_go_to_mechanic3_garag1 = 0
-						flag_mission_garag1_failed = 1
+						GOSUB reset_vars_fail_garage1
 						RETURN										
 																	
 					ENDIF
@@ -3275,7 +3241,7 @@ go_to_mechanic3_garag1:
 	ENDIF		  */
 
 	index_garag1 = 3
-	flag_go_to_mechanic3_garag1 = 0
+	GOSUB reset_vars_garage1
 
   	flag_go_to_hub_garag1 = 1
 
@@ -3551,12 +3517,23 @@ go_to_hub_garag1:
 
 	play_audio_flag_garage1 = 0
 
-	flag_go_to_hub_garag1 = 0
+	GOSUB reset_vars_garage1
 	flag_mission_garag1_passed = 1
 
 RETURN
 
 ///////////////////////////////////// GOSUBS /////////////////////////////////////
+
+reset_vars_fail_garage1:
+	flag_mission_garag1_failed = 1 
+
+reset_vars_garage1:
+	flag_go_to_mechanic1_garag1	= 0
+	flag_go_to_mechanic2_garag1	= 0
+	flag_go_to_mechanic3_garag1	= 0
+ 	flag_go_to_mechanic4_garag1	= 0
+	flag_go_to_hub_garag1 = 0
+RETURN
 
 ////////////////////////////////////////////////
 //        going_to_destinations_garage1:
@@ -3988,20 +3965,10 @@ going_to_destinations_garage1:
 									flag_player_out_of_car_garag1 = 1
 								ENDIF
 
-								IF NOT IS_CAR_DEAD car_player_garag1
-
-								ELSE 
+								IF IS_CAR_DEAD car_player_garag1
 									PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
 
-									flag_go_to_mechanic1_garag1 = 0
-									flag_go_to_mechanic2_garag1 = 0
-									flag_go_to_mechanic3_garag1 = 0
-									flag_go_to_mechanic4_garag1 = 0
-									flag_go_to_hub_garag1 = 0
-
-
-
-									flag_mission_garag1_failed = 1
+									GOSUB reset_vars_fail_garage1
 									RETURN
 								ENDIF
 
@@ -4011,15 +3978,7 @@ going_to_destinations_garage1:
 
 									PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
 
-									flag_go_to_mechanic1_garag1 = 0
-									flag_go_to_mechanic2_garag1 = 0
-									flag_go_to_mechanic3_garag1 = 0
-									flag_go_to_mechanic4_garag1 = 0
-									flag_go_to_hub_garag1 = 0
-
-
-
-									flag_mission_garag1_failed = 1
+									GOSUB reset_vars_fail_garage1
 									RETURN
 
 
@@ -4076,14 +4035,7 @@ going_to_destinations_garage1:
 
 			ELSE
 				PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
-				flag_go_to_mechanic1_garag1 = 0
-				flag_go_to_mechanic2_garag1 = 0
-				flag_go_to_mechanic3_garag1 = 0
-				flag_go_to_mechanic4_garag1 = 0
-				flag_go_to_hub_garag1 = 0 
-
-
-				flag_mission_garag1_failed = 1
+				GOSUB reset_vars_fail_garage1
 				RETURN
 			ENDIF
 
@@ -4092,12 +4044,7 @@ going_to_destinations_garage1:
 	ELSE 
 		PRINT_NOW (GAR1_07) 5000 1 //the cars blown up!
 
-		flag_go_to_mechanic1_garag1 = 0
-		flag_go_to_mechanic2_garag1 = 0
-		flag_go_to_mechanic3_garag1 = 0
-		flag_go_to_mechanic4_garag1 = 0
-
-		flag_mission_garag1_failed = 1
+		GOSUB reset_vars_fail_garage1
 		RETURN
 
 
@@ -4128,13 +4075,7 @@ checking_buddies_garage1:
 
 		IF NOT LOCATE_CHAR_ANY_MEANS_CAR_3D scplayer car_player_garag1 300.0 300.0 300.0 FALSE
 
-			flag_go_to_hub_garag1 = 0
-			flag_go_to_mechanic1_garag1	= 0
-			flag_go_to_mechanic2_garag1	= 0
-			flag_go_to_mechanic3_garag1	= 0
-			flag_go_to_mechanic4_garag1	= 0
-			flag_go_to_hub_garag1 = 0
-			flag_mission_garag1_failed = 1 
+			GOSUB reset_vars_fail_garage1
 			PRINT_NOW GAR1_18 5000 1 // You	 abandoned the car
 		ENDIF
 
@@ -4153,13 +4094,7 @@ checking_buddies_garage1:
 				IF flag_is_truth_in_car = 1
 					IF NOT LOCATE_CHAR_ON_FOOT_CHAR_3D char_truth_garag1 scplayer 150.0 150.0 150.0 FALSE
 
-						flag_go_to_hub_garag1 = 0
-						flag_go_to_mechanic1_garag1	= 0
-						flag_go_to_mechanic2_garag1	= 0
-						flag_go_to_mechanic3_garag1	= 0
-					 	flag_go_to_mechanic4_garag1	= 0
-						flag_go_to_hub_garag1 = 0
-						flag_mission_garag1_failed = 1 
+						GOSUB reset_vars_fail_garage1
 						PRINT_NOW GAR1_19 5000 1 // You	 abandoned truth
 					ENDIF
 				ENDIF
@@ -4189,13 +4124,7 @@ checking_buddies_garage1:
 					IF flag_is_mechanic1_in_car = 1
 						IF NOT LOCATE_CHAR_ON_FOOT_CHAR_3D char_mech_garag1[0] scplayer 300.0 300.0 300.0 FALSE
 
-							flag_go_to_hub_garag1 = 0
-							flag_go_to_mechanic1_garag1	= 0
-							flag_go_to_mechanic2_garag1	= 0
-							flag_go_to_mechanic3_garag1	= 0
-						 	flag_go_to_mechanic4_garag1	= 0
-							flag_go_to_hub_garag1 = 0
-							flag_mission_garag1_failed = 1 
+							GOSUB reset_vars_fail_garage1
 							PRINT_NOW GAR1_20 5000 1 // You	 abandoned jethro
 						ENDIF
 					ENDIF
@@ -4230,13 +4159,7 @@ checking_buddies_garage1:
 					IF NOT flag_is_mechanic2_in_car = 1
 						IF NOT LOCATE_CHAR_ON_FOOT_CHAR_3D char_mech_garag1[1] scplayer 300.0 300.0 300.0 FALSE
 
-							flag_go_to_hub_garag1 = 0
-							flag_go_to_mechanic1_garag1	= 0
-							flag_go_to_mechanic2_garag1	= 0
-							flag_go_to_mechanic3_garag1	= 0
-						 	flag_go_to_mechanic4_garag1	= 0
-							flag_go_to_hub_garag1 = 0
-							flag_mission_garag1_failed = 1 
+							GOSUB reset_vars_fail_garage1
 							PRINT_NOW GAR1_21 5000 1 // You	 abandoned Dwayne
 						ENDIF
 					ENDIF
@@ -4271,13 +4194,7 @@ checking_buddies_garage1:
 
 
 	IF IS_CHAR_DEAD char_truth_garag1	 
-		flag_go_to_hub_garag1 = 0
-		flag_go_to_mechanic1_garag1	= 0
-		flag_go_to_mechanic2_garag1	= 0
-		flag_go_to_mechanic3_garag1	= 0
-	 	flag_go_to_mechanic4_garag1	= 0
-		flag_go_to_hub_garag1 = 0
-		flag_mission_garag1_failed = 1 
+		GOSUB reset_vars_fail_garage1
 		PRINT_NOW GAR1_17 5000 1 // Truth died
 		RETURN
 	ENDIF
@@ -4289,13 +4206,7 @@ checking_buddies_garage1:
 		IF flag_lod_close_to_desstination = 1
 
 			IF IS_CAR_DEAD car_mech1_garag1
-				flag_go_to_hub_garag1 = 0
-				flag_go_to_mechanic1_garag1	= 0
-				flag_go_to_mechanic2_garag1	= 0
-				flag_go_to_mechanic3_garag1	= 0
-			 	flag_go_to_mechanic4_garag1	= 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_failed = 1 
+				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_14 5000 1 // jethros dead
 
 				RETURN
@@ -4303,13 +4214,7 @@ checking_buddies_garage1:
 
 
 			IF IS_CHAR_DEAD char_mech_garag1[0]
-				flag_go_to_hub_garag1 = 0
-				flag_go_to_mechanic1_garag1	= 0
-				flag_go_to_mechanic2_garag1	= 0
-				flag_go_to_mechanic3_garag1	= 0
-			 	flag_go_to_mechanic4_garag1	= 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_failed = 1 
+				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_14 5000 1 // jethros dead
 				RETURN
 			ENDIF
@@ -4322,13 +4227,7 @@ checking_buddies_garage1:
   //	OR flag_go_to_police_station_garag1 = 1
 
 		IF IS_CHAR_DEAD char_mech_garag1[0]
-			flag_go_to_hub_garag1 = 0
-			flag_go_to_mechanic1_garag1	= 0
-			flag_go_to_mechanic2_garag1	= 0
-			flag_go_to_mechanic3_garag1	= 0
-		 	flag_go_to_mechanic4_garag1	= 0
-			flag_go_to_hub_garag1 = 0
-			flag_mission_garag1_failed = 1 
+			GOSUB reset_vars_fail_garage1
 			PRINT_NOW GAR1_14 5000 1 // jethros dead
 			RETURN
 		ENDIF
@@ -4337,25 +4236,13 @@ checking_buddies_garage1:
 
 		IF flag_lod_close_to_desstination = 1
 			IF IS_CHAR_DEAD char_mech_garag1[1]
-				flag_go_to_hub_garag1 = 0
-				flag_go_to_mechanic1_garag1	= 0
-				flag_go_to_mechanic2_garag1	= 0
-				flag_go_to_mechanic3_garag1	= 0
-			 	flag_go_to_mechanic4_garag1	= 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_failed = 1 
+				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_15 5000 1 // dwaign dead
 				RETURN
 			ENDIF
 
 			IF IS_CAR_DEAD car_mech2_garag1
-				flag_go_to_hub_garag1 = 0
-				flag_go_to_mechanic1_garag1	= 0
-				flag_go_to_mechanic2_garag1	= 0
-				flag_go_to_mechanic3_garag1	= 0
-			 	flag_go_to_mechanic4_garag1	= 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_failed = 1 
+				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_15 5000 1 // dwaign dead
 				RETURN
 			ENDIF
@@ -4368,26 +4255,14 @@ checking_buddies_garage1:
 
 	IF flag_go_to_mechanic3_garag1 = 1
 		IF IS_CHAR_DEAD char_mech_garag1[0]
-			flag_go_to_hub_garag1 = 0
-			flag_go_to_mechanic1_garag1	= 0
-			flag_go_to_mechanic2_garag1	= 0
-			flag_go_to_mechanic3_garag1	= 0
-		 	flag_go_to_mechanic4_garag1	= 0
-			flag_go_to_hub_garag1 = 0
-			flag_mission_garag1_failed = 1 
+			GOSUB reset_vars_fail_garage1
 			PRINT_NOW GAR1_14 5000 1 // jethros dead
 			RETURN
 		ENDIF
 
 		IF flag_lod_close_to_desstination = 1
 			IF IS_CHAR_DEAD char_mech_garag1[2]
-				flag_go_to_hub_garag1 = 0
-				flag_go_to_mechanic1_garag1	= 0
-				flag_go_to_mechanic2_garag1	= 0
-				flag_go_to_mechanic3_garag1	= 0
-			 	flag_go_to_mechanic4_garag1	= 0
-				flag_go_to_hub_garag1 = 0
-				flag_mission_garag1_failed = 1
+				GOSUB reset_vars_fail_garage1
 				PRINT_NOW GAR1_16 5000 1 // zeros dead
 				RETURN
 			ENDIF
@@ -4432,25 +4307,13 @@ checking_buddies_garage1:
 	IF flag_go_to_hub_garag1 = 1
 
 		IF IS_CHAR_DEAD char_mech_garag1[0]
-			flag_go_to_hub_garag1 = 0
-			flag_go_to_mechanic1_garag1	= 0
-			flag_go_to_mechanic2_garag1	= 0
-			flag_go_to_mechanic3_garag1	= 0
-		 	flag_go_to_mechanic4_garag1	= 0
-			flag_go_to_hub_garag1 = 0
-			flag_mission_garag1_failed = 1 
+			GOSUB reset_vars_fail_garage1
 			PRINT_NOW GAR1_14 5000 1 // jethros dead
 			RETURN
 		ENDIF
 
 		IF IS_CHAR_DEAD char_mech_garag1[2]
-			flag_go_to_hub_garag1 = 0
-			flag_go_to_mechanic1_garag1	= 0
-			flag_go_to_mechanic2_garag1	= 0
-			flag_go_to_mechanic3_garag1	= 0
-		 	flag_go_to_mechanic4_garag1	= 0
-			flag_go_to_hub_garag1 = 0
-			flag_mission_garag1_failed = 1
+			GOSUB reset_vars_fail_garage1
 			PRINT_NOW GAR1_16 5000 1 // zeros dead
 			RETURN
 		ENDIF
@@ -4463,13 +4326,7 @@ checking_buddies_garage1:
   	IF flag_go_to_hospital_garag1 = 1
 	OR flag_go_to_police_station_garag1 = 1
 		IF IS_CHAR_DEAD char_mech_garag1[0]
-			flag_go_to_hub_garag1 = 0
-			flag_go_to_mechanic1_garag1	= 0
-			flag_go_to_mechanic2_garag1	= 0
-			flag_go_to_mechanic3_garag1	= 0
-		 	flag_go_to_mechanic4_garag1	= 0
-			flag_go_to_hub_garag1 = 0
-			flag_mission_garag1_failed = 1 
+			GOSUB reset_vars_fail_garage1
 			PRINT_NOW GAR1_14 5000 1 // jethros dead
 			RETURN
 		ENDIF

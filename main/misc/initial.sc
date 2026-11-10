@@ -143,71 +143,12 @@ VAR_INT zeros_property_bought prop_save_house_blip[32]
 VAR_INT save_houseprice[32] save_housepickup[32] save_house_blip[18]
 VAR_INT buying_property_switch
 
-already_bought_house[0] = 0
-already_bought_house[1] = 0
-already_bought_house[2] = 0
-already_bought_house[3] = 0
-already_bought_house[4] = 0
-already_bought_house[5] = 0
-already_bought_house[6] = 0
-already_bought_house[7] = 0
-already_bought_house[8] = 0
-already_bought_house[9] = 0
-already_bought_house[10] = 0
-already_bought_house[11] = 0
-already_bought_house[12] = 0
-already_bought_house[13] = 0
-already_bought_house[14] = 0
-already_bought_house[15] = 0
-already_bought_house[16] = 0
-already_bought_house[17] = 0
-already_bought_house[18] = 0
-already_bought_house[19] = 0
-already_bought_house[20] = 0
-already_bought_house[21] = 0
-already_bought_house[22] = 0
-already_bought_house[23] = 0
-already_bought_house[24] = 0
-already_bought_house[25] = 0
-already_bought_house[26] = 0
-already_bought_house[27] = 0
-already_bought_house[28] = 0
-already_bought_house[29] = 0
-already_bought_house[30] = 0
-already_bought_house[31] = 0
-
-prorerty_switch[0] = PROP_BUY0
-prorerty_switch[1] = PROP_BUY1
-prorerty_switch[2] = PROP_BUY2
-prorerty_switch[3] = PROP_BUY3
-prorerty_switch[4] = PROP_BUY4
-prorerty_switch[5] = PROP_BUY5
-prorerty_switch[6] = PROP_BUY6
-prorerty_switch[7] = PROP_BUY7
-prorerty_switch[8] = PROP_BUY8
-prorerty_switch[9] = PROP_BUY9
-prorerty_switch[10] = PROP_BUY10
-prorerty_switch[11] = PROP_BUY11
-prorerty_switch[12] = PROP_BUY12
-prorerty_switch[13] = PROP_BUY13
-prorerty_switch[14] = PROP_BUY14
-prorerty_switch[15] = PROP_BUY15
-prorerty_switch[16] = PROP_BUY16
-prorerty_switch[17] = PROP_BUY17
-prorerty_switch[18] = PROP_BUY18
-prorerty_switch[19] = PROP_BUY19
-prorerty_switch[20] = PROP_BUY20
-prorerty_switch[21] = PROP_BUY21
-prorerty_switch[22] = PROP_BUY22
-prorerty_switch[23] = PROP_BUY23
-prorerty_switch[24] = PROP_BUY24
-prorerty_switch[25] = PROP_BUY25
-prorerty_switch[26] = PROP_BUY26
-prorerty_switch[27] = PROP_BUY27
-prorerty_switch[28] = PROP_BUY28
-prorerty_switch[29] = PROP_BUY29
-prorerty_switch[30] = PROP_BUY30
-prorerty_switch[31] = PROP_BUY31
+i = 0
+WHILE i < 32
+already_bought_house[i] = 0
+prorerty_switch[i] = i
+i++
+ENDWHILE
 
 zeros_property_bought = 0
 
@@ -709,8 +650,6 @@ save_playerY[0] = -1707.45
 save_playerZ[0] = 1013.26
 save_playerH[0]	= 0.0
 
-remove_grove_pickup[0] = 0
-
 //MANSION ON THE HILLS********************************
 save_pickupX[1] = 1263.05  
 save_pickupY[1]	= -773.67  
@@ -721,9 +660,6 @@ save_playerY[1] = -776.59
 save_playerZ[1] = 1090.89 
 save_playerH[1]	= 183.23
  
-remove_grove_pickup[1] = 0	
-
-
 //AIRPORT GRAVEYARD ********************************
 save_pickupX[2] = 416.9548          
 save_pickupY[2]	= 2538.8127         
@@ -734,9 +670,6 @@ save_playerY[2] = 2536.7712
 save_playerZ[2] = 9.0077        
 save_playerH[2]	= 269.2893
  
-remove_grove_pickup[2] = 0
-
-
 //SAVE PICKUPS
 save_pickupX[3] = 2367.1924 //CHANGED          
 save_pickupY[3]	= -1121.5184           
@@ -746,7 +679,6 @@ save_playerX[3] = 2367.0718
 save_playerY[3] = -1123.7151            
 save_playerZ[3] = 1049.8750           
 save_playerH[3]	= 183.2590
-remove_grove_pickup[3] = 0
 
 
 save_pickupX[4] = 2320.1033 //CHANGED          
@@ -757,7 +689,6 @@ save_playerX[4] = 2320.1033
 save_playerY[4] = -1013.3750           
 save_playerZ[4] = 1049.2109          
 save_playerH[4]	= 181.7957
-remove_grove_pickup[4] = 0
 
 
 save_pickupX[5] = 2342.8728  //CHANGED        
@@ -779,7 +710,6 @@ save_playerX[6] = 2189.8184
 save_playerY[6] = -1203.8297           
 save_playerZ[6] = 1048.0308          
 save_playerH[6] = 268.6874
-remove_grove_pickup[6] = 0
 
 
 save_pickupX[7] = 2313.3687 //CHANGED         
@@ -790,7 +720,6 @@ save_playerX[7] = 2310.8530
 save_playerY[7] = -1210.9749          
 save_playerZ[7] = 1048.0234         
 save_playerH[7] = 130.1776
-remove_grove_pickup[7] = 0
 
 
 save_pickupX[8] = 2249.3970 //CHANGED          
@@ -801,7 +730,6 @@ save_playerX[8] = 2252.6997
 save_playerY[8] = -1209.3879           
 save_playerZ[8] = 1048.0234          
 save_playerH[8] = 270.3929 
-remove_grove_pickup[8] = 0
 
 
 save_pickupX[9] = 2244.5334 //CHANGED         
@@ -812,7 +740,6 @@ save_playerX[9] = 2241.0688
 save_playerY[9] = -1077.7365           
 save_playerZ[9] = 1048.0309          
 save_playerH[9] = 88.0268
-remove_grove_pickup[9] = 0
 
 
 save_pickupX[10] = 2205.3823 //CHANGED        
@@ -823,7 +750,6 @@ save_playerX[10] = 2207.8516
 save_playerY[10] = -1075.3242          
 save_playerZ[10] = 1049.4766      
 save_playerH[10] = 261.7253
-remove_grove_pickup[10] = 0
 
 
 save_pickupX[11] = 2233.0237 //CHANGED         
@@ -834,7 +760,6 @@ save_playerX[11] = 2233.2307
 save_playerY[11] = -1107.8516          
 save_playerZ[11] = 1049.8901         
 save_playerH[11] = 182.2496 
-remove_grove_pickup[11] = 0
 
 
 save_pickupX[12] = 2278.1389 //CHANGED          
@@ -845,7 +770,6 @@ save_playerX[12] = 2281.5242
 save_playerY[12] = -1139.3701           
 save_playerZ[12] = 1049.8984          
 save_playerH[12] = 273.5033 
-remove_grove_pickup[12] = 0
 
 
 //BADLANDS TRAILOR********************************
@@ -858,8 +782,6 @@ save_playerY[13] = -2529.10
 save_playerZ[13] = 29.63   
 save_playerH[13] = 21.23
  
-remove_grove_pickup[13] = 0
-
 //CATS LODGE********************************
 save_pickupX[14] = 877.81   
 save_pickupY[14] = -26.91   
@@ -870,8 +792,6 @@ save_playerY[14] = -30.16
 save_playerZ[14] = 62.19  
 save_playerH[14] = 66.85
  
-remove_grove_pickup[14] = 0
-
 //SAN FRAN GARAGE********************************
 save_pickupX[15] = -2026.4814        
 save_pickupY[15] = 156.8028        
@@ -882,8 +802,6 @@ save_playerY[15] = 156.0674
 save_playerZ[15] = 27.6521      
 save_playerH[15] = 272.5815
  
-remove_grove_pickup[15] = 0
-
 //TORENOS RANCH ********************************
 save_pickupX[16] = -693.3776         
 save_pickupY[16] = 957.8240        
@@ -894,7 +812,6 @@ save_playerY[16] = 966.0852
 save_playerZ[16] = 11.3575      
 save_playerH[16] = 90.0
  
-remove_grove_pickup[16] = 0
 
 //TRIAD CASINO ********************************
 save_pickupX[17] = 2024.5645            
@@ -906,9 +823,13 @@ save_playerY[17] = 996.0585
 save_playerZ[17] = 9.9203           
 save_playerH[17] = 275.5160
  
-remove_grove_pickup[17] = 0
+i = 0
+WHILE i < 18
+remove_grove_pickup[i] = 0
+i++
+ENDWHILE
 
-
+/*
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[0] save_pickupY[0] save_pickupZ[0] grove_save_pickup[0]
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[1] save_pickupY[1] save_pickupZ[1] grove_save_pickup[1]																 
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[2] save_pickupY[2] save_pickupZ[2] grove_save_pickup[2]
@@ -923,6 +844,7 @@ CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[9] save_pickupY[9] save_pickup
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[10] save_pickupY[10] save_pickupZ[10] grove_save_pickup[10]
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[11] save_pickupY[11] save_pickupZ[11] grove_save_pickup[11]
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[12] save_pickupY[12] save_pickupZ[12] grove_save_pickup[12]																	 
+*/
 
 //ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT save_pickupX[8] save_pickupY[8] save_pickupZ[8] RADAR_SPRITE_SAVEHOUSE save_house_blip[8]
 //CHANGE_BLIP_DISPLAY save_house_blip[8] BLIP_ONLY
@@ -954,7 +876,7 @@ bloodz = 34.5312
 VAR_FLOAT hotringX hotringY	hotringZ
 
 hotringX = 2695.6243 
-hotringY = -1704.6885 
+hotringY = -1705.1885 // FIXEDGROVE: was -1704.6885
 hotringZ = 10.8437
 
 
@@ -983,15 +905,17 @@ VAR_INT tag_target[10]
 
 
 //////////// Dave B Globals
+// FIXEDGROVE: START - these are unused
 VAR_INT fire_la_levels_completed[6]
-VAR_INT fire_sf_levels_completed[6] 
+VAR_INT fire_sf_levels_completed[6]
 VAR_INT fire_vg_levels_completed[6]
-VAR_INT fire_total_la_completed		
-VAR_INT fire_total_sf_completed		
-VAR_INT fire_total_vg_completed		
+VAR_INT fire_total_la_completed
+VAR_INT fire_total_sf_completed
+VAR_INT fire_total_vg_completed
 VAR_INT fire_total_levels_completed
 VAR_INT fire_temp_counter
 VAR_INT	fire_people_created
+// FIXEDGROVE: END
 VAR_INT pros_active
 VAR_INT player_in_otb_flag
 VAR_INT burglary_total_made	burglary_total_items
@@ -1000,6 +924,7 @@ VAR_FLOAT burglary_noise
 
 VAR_INT burglary_player_spotted
 
+/*
 IF fire_temp_counter < 6
 	fire_la_levels_completed[fire_temp_counter] = 0
 	fire_sf_levels_completed[fire_temp_counter] = 0
@@ -1010,6 +935,7 @@ fire_total_la_completed = 0
 fire_total_sf_completed	= 0	
 fire_total_vg_completed	= 0
 fire_total_levels_completed = 0
+*/
 
 fire_people_created = 0
 
@@ -1383,16 +1309,11 @@ blood_passed_once = 0
 // jude's pilot school stuff
 VAR_INT d5_best_scores[10]
 VAR_INT d5_total_missions_open d5_last_played
-d5_best_scores[0] = 0
-d5_best_scores[1] = 0
-d5_best_scores[2] = 0
-d5_best_scores[3] = 0
-d5_best_scores[4] = 0
-d5_best_scores[5] = 0
-d5_best_scores[6] = 0
-d5_best_scores[7] = 0
-d5_best_scores[8] = 0
-d5_best_scores[9] = 0
+i = 0
+WHILE i < 10
+d5_best_scores[i] = 0
+i++
+ENDWHILE
 d5_total_missions_open = 1
 d5_last_played = 1
 
@@ -1678,132 +1599,18 @@ var_int menu_mode
 menu_mode = 0
 
 VAR_INT cprace_best_position[30] 
-cprace_best_position[0] = 999999999 
-cprace_best_position[1] = 999999999
-cprace_best_position[2] = 999999999
-cprace_best_position[3] = 999999999
-cprace_best_position[4] = 999999999
-cprace_best_position[5] = 999999999
-cprace_best_position[6] = 999999999
-cprace_best_position[7] = 999999999
-cprace_best_position[8] = 999999999
-cprace_best_position[9] = 999999999
-cprace_best_position[10] = 999999999
-cprace_best_position[11] = 999999999
-cprace_best_position[12] = 999999999
-cprace_best_position[13] = 999999999
-cprace_best_position[14] = 999999999
-cprace_best_position[15] = 999999999
-cprace_best_position[16] = 999999999
-cprace_best_position[17] = 999999999
-cprace_best_position[18] = 999999999
-cprace_best_position[19] = 999999999
-cprace_best_position[20] = 999999999
-cprace_best_position[21] = 999999999
-cprace_best_position[22] = 999999999
-cprace_best_position[23] = 999999999
-cprace_best_position[24] = 999999999
-cprace_best_position[25] = 999999999
-cprace_best_position[26] = 999999999
-cprace_best_position[27] = 999999999
-cprace_best_position[28] = 999999999
-cprace_best_position[29] = 999999999
-
 VAR_INT cprace_best_times[30]
-cprace_best_times[0] = 999999999
-cprace_best_times[1] = 999999999
-cprace_best_times[2] = 999999999
-cprace_best_times[3] = 999999999
-cprace_best_times[4] = 999999999
-cprace_best_times[5] = 999999999
-cprace_best_times[6] = 999999999
-cprace_best_times[7] = 999999999
-cprace_best_times[8] = 999999999
-cprace_best_times[9] = 999999999
-cprace_best_times[10] = 999999999
-cprace_best_times[11] = 999999999
-cprace_best_times[12] = 999999999
-cprace_best_times[13] = 999999999
-cprace_best_times[14] = 999999999
-cprace_best_times[15] = 999999999
-cprace_best_times[16] = 999999999
-cprace_best_times[17] = 999999999
-cprace_best_times[18] = 999999999
-cprace_best_times[19] = 999999999
-cprace_best_times[20] = 999999999
-cprace_best_times[21] = 999999999
-cprace_best_times[22] = 999999999
-cprace_best_times[23] = 999999999
-cprace_best_times[24] = 999999999
-cprace_best_times[25] = 999999999
-cprace_best_times[26] = 999999999
-cprace_best_times[27] = 999999999
-cprace_best_times[28] = 999999999
-cprace_best_times[29] = 999999999
-
 VAR_INT cprace_best_lap_times[30]
-cprace_best_lap_times[0] = 999999999
-cprace_best_lap_times[1] = 999999999
-cprace_best_lap_times[2] = 999999999
-cprace_best_lap_times[3] = 999999999
-cprace_best_lap_times[4] = 999999999
-cprace_best_lap_times[5] = 999999999
-cprace_best_lap_times[6] = 999999999
-cprace_best_lap_times[7] = 999999999
-cprace_best_lap_times[8] = 999999999
-cprace_best_lap_times[9] = 999999999
-cprace_best_lap_times[10] = 999999999
-cprace_best_lap_times[11] = 999999999
-cprace_best_lap_times[12] = 999999999
-cprace_best_lap_times[13] = 999999999
-cprace_best_lap_times[14] = 999999999
-cprace_best_lap_times[15] = 999999999
-cprace_best_lap_times[16] = 999999999
-cprace_best_lap_times[17] = 999999999
-cprace_best_lap_times[18] = 999999999
-cprace_best_lap_times[19] = 999999999
-cprace_best_lap_times[20] = 999999999
-cprace_best_lap_times[21] = 999999999
-cprace_best_lap_times[22] = 999999999
-cprace_best_lap_times[23] = 999999999
-cprace_best_lap_times[24] = 999999999
-cprace_best_lap_times[25] = 999999999
-cprace_best_lap_times[26] = 999999999
-cprace_best_lap_times[27] = 999999999
-cprace_best_lap_times[28] = 999999999
-cprace_best_lap_times[29] = 999999999
-
 VAR_INT got_race_made_progress[30]
-got_race_made_progress[0] = 0	
-got_race_made_progress[1] = 0	
-got_race_made_progress[2] = 0	
-got_race_made_progress[3] = 0	
-got_race_made_progress[4] = 0	
-got_race_made_progress[5] = 0	
-got_race_made_progress[6] = 0	
-got_race_made_progress[7] = 0	
-got_race_made_progress[8] = 0	
-got_race_made_progress[9] = 0	
-got_race_made_progress[10] = 0
-got_race_made_progress[11] = 0
-got_race_made_progress[12] = 0
-got_race_made_progress[13] = 0
-got_race_made_progress[14] = 0
-got_race_made_progress[15] = 0
-got_race_made_progress[16] = 0
-got_race_made_progress[17] = 0
-got_race_made_progress[18] = 0
-got_race_made_progress[19] = 0
-got_race_made_progress[20] = 0
-got_race_made_progress[21] = 0
-got_race_made_progress[22] = 0
-got_race_made_progress[23] = 0
-got_race_made_progress[24] = 0
-got_race_made_progress[25] = 0
-got_race_made_progress[26] = 0
-got_race_made_progress[27] = 0
-got_race_made_progress[28] = 0
-got_race_made_progress[29] = 0
+
+i = 0
+WHILE i < 30
+cprace_best_position[i] = 999999999
+cprace_best_times[i] = 999999999
+cprace_best_lap_times[i] = 999999999
+got_race_made_progress[i] = 0
+i++
+ENDWHILE
 
 var_int total_races_completed
 total_races_completed = 0
@@ -2773,19 +2580,18 @@ DONT_REMOVE_OBJECT advert_f1
 // small town bank doors - palomino creek
 VAR_INT pc_door[4]
 CREATE_OBJECT_NO_OFFSET CR_DOOR_01 2322.845 8.304 25.483 pc_door[0]
-set_object_collision_damage_effect pc_door[0] FALSE
-FREEZE_OBJECT_POSITION pc_door[0] TRUE 
 CREATE_OBJECT_NO_OFFSET CR_DOOR_01 2316.233 0.712 25.742 pc_door[1]
 SET_OBJECT_HEADING pc_door[1] 270.0
-FREEZE_OBJECT_POSITION pc_door[1] TRUE 
-set_object_collision_damage_effect pc_door[1] FALSE
 CREATE_OBJECT_NO_OFFSET CR_DOOR_03 2304.257 -17.744 25.742 pc_door[2]
-FREEZE_OBJECT_POSITION pc_door[2] TRUE 
-set_object_collision_damage_effect pc_door[2] FALSE
 CREATE_OBJECT_NO_OFFSET CR_DOOR_03 2304.257 -14.583 25.742 pc_door[3]
-FREEZE_OBJECT_POSITION pc_door[3] TRUE 
 SET_OBJECT_HEADING pc_door[3] 180.0
-set_object_collision_damage_effect pc_door[3] FALSE
+
+i = 0
+WHILE i < 4
+set_object_collision_damage_effect pc_door[i] FALSE
+FREEZE_OBJECT_POSITION pc_door[i] TRUE 
+i++
+ENDWHILE
 
 
 //Door for casino3.sc	
@@ -2813,38 +2619,36 @@ DONT_REMOVE_OBJECT g_BD_DOOR
 
 // Front Downstairs Right Window
 CREATE_OBJECT_NO_OFFSET bd_window 2345.914 -1188.633 28.969 g_BD_WINDOW[0]
-DONT_REMOVE_OBJECT g_BD_WINDOW[0]
 
 // Front Downstairs Left Window
 CREATE_OBJECT_NO_OFFSET bd_window 2336.023 -1188.633 28.969 g_BD_WINDOW[1]
-DONT_REMOVE_OBJECT g_BD_WINDOW[1]
 
 // Front Downstairs Far Left Window
 CREATE_OBJECT_NO_OFFSET bd_window 2326.164 -1188.633 28.969 g_BD_WINDOW[2]
-DONT_REMOVE_OBJECT g_BD_WINDOW[2]
 
 // Window by Front Door
 CREATE_OBJECT_NO_OFFSET bd_window 2345.977 -1170.977 28.969 g_BD_WINDOW[3]
 SET_OBJECT_HEADING g_BD_WINDOW[3] 180.0
-DONT_REMOVE_OBJECT g_BD_WINDOW[3]
 
 // Kitchen Window
 CREATE_OBJECT_NO_OFFSET bd_window 2326.57 -1170.984 28.953 g_BD_WINDOW[4]
 SET_OBJECT_HEADING g_BD_WINDOW[4] 180.0
-DONT_REMOVE_OBJECT g_BD_WINDOW[4]
 
 // Girls Window
 CREATE_OBJECT_NO_OFFSET bd_window_shatter 2345.977 -1170.977 32.953 g_BD_WINDOW[5]
 SET_OBJECT_HEADING g_BD_WINDOW[5] 180.0
-DONT_REMOVE_OBJECT g_BD_WINDOW[5]
 
 // Front Upstairs Left Window
 CREATE_OBJECT_NO_OFFSET bd_window 2336.023 -1188.633 32.961 g_BD_WINDOW[6]
-DONT_REMOVE_OBJECT g_BD_WINDOW[6]
 
 // Front Upstairs Right Window
 CREATE_OBJECT_NO_OFFSET bd_window 2345.914 -1188.633 32.961 g_BD_WINDOW[7]
-DONT_REMOVE_OBJECT g_BD_WINDOW[7]
+
+i = 0
+WHILE i < 8
+DONT_REMOVE_OBJECT g_BD_WINDOW[i]
+i++
+ENDWHILE
 // FIXEDGROVE: END
 
 // china town gate
@@ -2880,7 +2684,7 @@ CHANGE_GARAGE_TYPE Ghostdr GARAGE_FOR_SCRIPT_TO_OPEN_AND_CLOSE
 // portakabins for construction site - removed after GARAGE2.sc (Demolition Mission)  
 VAR_INT init_portakabin[6]
 VAR_FLOAT init_portakabin_x[6] init_portakabin_y[6] init_portakabin_z[6] init_portakabin_h[6]
-VAR_INT portakabin_num
+VAR_INT button_to_press // FIXEDGROVE: was portakabin_num
 
 init_portakabin_x[0] = -2108.0000 
 init_portakabin_y[0] = 155.0000 
@@ -2912,13 +2716,13 @@ init_portakabin_y[5] = 306.0000
 init_portakabin_z[5] = 33.7245 
 init_portakabin_h[5] = 0.0000
 
-portakabin_num = 0
-WHILE portakabin_num < 6
-	CREATE_OBJECT portakabin init_portakabin_x[portakabin_num] init_portakabin_y[portakabin_num] init_portakabin_z[portakabin_num] init_portakabin[portakabin_num]
-	SET_OBJECT_HEADING init_portakabin[portakabin_num] init_portakabin_h[portakabin_num]
-	SET_OBJECT_DYNAMIC init_portakabin[portakabin_num] FALSE
-	DONT_REMOVE_OBJECT init_portakabin[portakabin_num]
-portakabin_num++
+i = 0
+WHILE i < 6
+	CREATE_OBJECT portakabin init_portakabin_x[i] init_portakabin_y[i] init_portakabin_z[i] init_portakabin[i]
+	SET_OBJECT_HEADING init_portakabin[i] init_portakabin_h[i]
+	SET_OBJECT_DYNAMIC init_portakabin[i] FALSE
+	DONT_REMOVE_OBJECT init_portakabin[i]
+	i++
 ENDWHILE
 
 //////DOOR FOR STORM FREIGHTER MISSION
@@ -2946,76 +2750,64 @@ VAR_INT riot2_door[15]
 //lookouts house 0 - no rotation
 CREATE_OBJECT ad_flatdoor 1833.36 -1995.45 12.5 riot2_door[0]
 SET_OBJECT_HEADING riot2_door[0] 90.0
-DONT_REMOVE_OBJECT riot2_door[0]  
 
 //lookouts house 1 - no rotation 
 CREATE_OBJECT ad_flatdoor 1819.81 -1994.66 12.5 riot2_door[1]
-DONT_REMOVE_OBJECT riot2_door[1]  
 
 //lookouts house 2
 CREATE_OBJECT ad_flatdoor 1827.68 -1980.0 12.5 riot2_door[2]
 SET_OBJECT_HEADING riot2_door[2] 270.0 
-DONT_REMOVE_OBJECT riot2_door[2]  
 
 //NW house 0 - no rotation 
 CREATE_OBJECT ad_flatdoor 1851.84 -1990.67 12.5 riot2_door[3]
-DONT_REMOVE_OBJECT riot2_door[3]  
 
 //NW house 1     
 CREATE_OBJECT ad_flatdoor 1867.29 -1984.96 12.5 riot2_door[4]
 SET_OBJECT_HEADING riot2_door[4] 270.0 
-DONT_REMOVE_OBJECT riot2_door[4]  
 
 //NW house 2 - no rotation 
 CREATE_OBJECT ad_flatdoor 1866.52 -1998.53 12.5 riot2_door[5]
 SET_OBJECT_HEADING riot2_door[5] 90.0 
-DONT_REMOVE_OBJECT riot2_door[5]  
 
 //NE house 0
 CREATE_OBJECT ad_flatdoor 1899.75 -1984.95 12.5 riot2_door[6]
 SET_OBJECT_HEADING riot2_door[6] 270.0 
-DONT_REMOVE_OBJECT riot2_door[6]  
 
 //NE house 1  - no rotation  
 CREATE_OBJECT ad_flatdoor 1914.39 -1992.82 12.5 riot2_door[7]
 SET_OBJECT_HEADING riot2_door[7] 180.0 
-DONT_REMOVE_OBJECT riot2_door[7]  
 
 //NE house 2 - no rotation  
 CREATE_OBJECT ad_flatdoor 1899.01 -1998.5 12.5 riot2_door[8]
 SET_OBJECT_HEADING riot2_door[8] 90.0 
-DONT_REMOVE_OBJECT riot2_door[8]  
 
 //SE house 0 - no rotation 
 CREATE_OBJECT ad_flatdoor 1900.89 -2020.11 12.5 riot2_door[9]
-DONT_REMOVE_OBJECT riot2_door[9]  
 
 //SE house 1 - no rotation 
 CREATE_OBJECT ad_flatdoor 1914.4 -2020.91 12.5 riot2_door[10]
 SET_OBJECT_HEADING riot2_door[10] 180.0 
-DONT_REMOVE_OBJECT riot2_door[10]  
 
 //SE house 2 - no rotation 
 CREATE_OBJECT ad_flatdoor 1906.54 -2035.52 12.5 riot2_door[11]
 SET_OBJECT_HEADING riot2_door[11] 90.0 
-DONT_REMOVE_OBJECT riot2_door[11]  
 
 //SW house 0 - no rotation 
 CREATE_OBJECT ad_flatdoor 1851.86 -2020.14 12.5 riot2_door[12]
-DONT_REMOVE_OBJECT riot2_door[12]  
 
 //SW house 1 - no rotation
 CREATE_OBJECT ad_flatdoor 1865.42 -2020.89 12.5 riot2_door[13]
 SET_OBJECT_HEADING riot2_door[13] 180.0 
-DONT_REMOVE_OBJECT riot2_door[13]  
 
 //SW house 2 - no rotation 
 CREATE_OBJECT ad_flatdoor 1857.55 -2035.52 12.5 riot2_door[14]
 SET_OBJECT_HEADING riot2_door[14] 90.0 
-DONT_REMOVE_OBJECT riot2_door[14]  
 
-
-
+i = 0
+WHILE i < 15
+	DONT_REMOVE_OBJECT riot2_door[i]
+	i++
+ENDWHILE
 
 
 // BRICK WALL FOR FINALE
@@ -3775,27 +3567,15 @@ CREATE_CAR_GENERATOR_WITH_PLATE -1399.7174 2628.5898 55.7823 271.7941 COPCARRU -
 CREATE_CAR_GENERATOR_WITH_PLATE -379.5 -1443.1154 25.7266 88.9244 BANDITO -1 -1 TRUE 0 0 0 10000 FULLAUTO iGFUnlockedCarGenerator[KYLIE]  
 CREATE_CAR_GENERATOR_WITH_PLATE -2572.0398 1148.5645 55.7333 337.8434 ROMERO 1 1 TRUE 0 0 0 10000 &_TRAUMA_ iGFUnlockedCarGenerator[SUZIE]  
 CREATE_CAR_GENERATOR_WITH_PLATE 2028.4459 2731.1021 10.53 268.9940 CLUB 126 1 TRUE 0 0 0 10000 &_SPANK__ iGFUnlockedCarGenerator[MILLIE]  
+i = 0
+WHILE i < 6
 //--- Set this to avoid a wanted level if player 'borrows' the unlocked version of the car
-SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[COOCHIE] TRUE
-SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[MICHELLE] TRUE
-SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[BARBARA] TRUE
-SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[KYLIE] TRUE
-SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[SUZIE] TRUE
-SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[MILLIE] TRUE   
+SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[i] TRUE
 //--- At start-up all generators are off
-SWITCH_CAR_GENERATOR iGFLockedCarGenerator[COOCHIE] 0
-SWITCH_CAR_GENERATOR iGFLockedCarGenerator[MICHELLE] 0
-SWITCH_CAR_GENERATOR iGFLockedCarGenerator[BARBARA] 0
-SWITCH_CAR_GENERATOR iGFLockedCarGenerator[KYLIE] 0
-SWITCH_CAR_GENERATOR iGFLockedCarGenerator[SUZIE] 0
-SWITCH_CAR_GENERATOR iGFLockedCarGenerator[MILLIE] 0	   
-SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[COOCHIE] 0
-SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[MICHELLE] 0
-SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[BARBARA] 0
-SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[KYLIE] 0
-SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[SUZIE] 0
-SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[MILLIE] 0	
-
+SWITCH_CAR_GENERATOR iGFLockedCarGenerator[i] 0
+SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[i] 0
+i++
+ENDWHILE
 
 // --------------------- CAR IMPORT / EXPORT CAR GENERATORS -----------------------------
 VAR_INT impexp_car_gen[30]
@@ -3830,36 +3610,11 @@ CREATE_CAR_GENERATOR -2406.25	-2180.84	33.39	180.0 MESA 		-1 -1 FALSE 70 10 0 10
 CREATE_CAR_GENERATOR 2163.79	1810.23		10.58	180.0 ZR350 	-1 -1 FALSE 80 10 0 10000 impexp_car_gen[28]
 CREATE_CAR_GENERATOR 2207.43	1286.13		10.57	180.0 EUROS 	-1 -1 FALSE 50 10 0 10000 impexp_car_gen[29]
 // all import export car gens are switched off at first, then switched on when the relevant board is unlocked
-SWITCH_CAR_GENERATOR impexp_car_gen[0] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[1] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[2] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[3] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[4] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[5] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[6] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[7] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[8] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[9] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[10] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[11] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[12] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[13] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[14] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[15] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[16] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[17] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[18] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[19] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[20] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[21] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[22] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[23] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[24] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[25] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[26] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[27] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[28] 0
-SWITCH_CAR_GENERATOR impexp_car_gen[29] 0
+i = 0
+WHILE i < 30
+SWITCH_CAR_GENERATOR impexp_car_gen[i] 0
+i++
+ENDWHILE
 
 //--- COUNTRYSIDE CAR GENRATORS FOR TRACTORS AND COMBINE HARVESTERS
 VAR_INT iFieldTractor[5] iFieldHarvester[8] 
@@ -3881,20 +3636,15 @@ CREATE_CAR_GENERATOR -15.2986 -84.6533 3.0 0.0 COMBINE -1 -1 FALSE 0 100 0 10000
 CREATE_CAR_GENERATOR 81.0533 3.3234 1.5 0.0 TRACTOR -1 -1 FALSE 0 100 0 10000 iFieldTractor[4] 
 
 // The COMBINE HARVESTERS are initialised as OFF - will be switched on after the Truth mission
-SWITCH_CAR_GENERATOR iFieldHarvester[0] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[1] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[2] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[3] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[4] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[5] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[6] 0
-SWITCH_CAR_GENERATOR iFieldHarvester[7] 0
+i = 0
+WHILE i < 8
+SWITCH_CAR_GENERATOR iFieldHarvester[i] 0
+IF i < 5
 // The TRACTORS are initialised as ON
-SWITCH_CAR_GENERATOR iFieldTractor[0] 101
-SWITCH_CAR_GENERATOR iFieldTractor[1] 101
-SWITCH_CAR_GENERATOR iFieldTractor[2] 101
-SWITCH_CAR_GENERATOR iFieldTractor[3] 101
-SWITCH_CAR_GENERATOR iFieldTractor[4] 101
+SWITCH_CAR_GENERATOR iFieldTractor[i] 101
+ENDIF
+i++
+ENDWHILE
 
 // ***************************************************PICKUPS********************************************************
 /*

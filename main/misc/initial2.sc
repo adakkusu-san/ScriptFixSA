@@ -2309,45 +2309,14 @@ SWITCH_CAR_GENERATOR area51_gen[2] 0
 SWITCH_CAR_GENERATOR area51_gen[3] 0
 
 
+i = 0
+WHILE i < 28
+SWITCH_CAR_GENERATOR gen_car_flying[i]	0
+i++
+ENDWHILE
 
-
-SWITCH_CAR_GENERATOR gen_car_flying[0] 0
-SWITCH_CAR_GENERATOR gen_car_flying[1] 0
-SWITCH_CAR_GENERATOR gen_car_flying[2] 0
-SWITCH_CAR_GENERATOR gen_car_flying[3] 0
-SWITCH_CAR_GENERATOR gen_car_flying[4] 0
-SWITCH_CAR_GENERATOR gen_car_flying[5] 0
-SWITCH_CAR_GENERATOR gen_car_flying[6] 0
-SWITCH_CAR_GENERATOR gen_car_flying[7] 0
-SWITCH_CAR_GENERATOR gen_car_flying[8] 0
-SWITCH_CAR_GENERATOR gen_car_flying[9] 0
-SWITCH_CAR_GENERATOR gen_car_flying[10] 0
-SWITCH_CAR_GENERATOR gen_car_flying[11] 0
-SWITCH_CAR_GENERATOR gen_car_flying[12] 0
-SWITCH_CAR_GENERATOR gen_car_flying[13] 0 // need jude to add this one
-
-
-
-// Car gens for SF AIRPORT
-SWITCH_CAR_GENERATOR gen_car_flying[14]	0
-SWITCH_CAR_GENERATOR gen_car_flying[15]	0
-SWITCH_CAR_GENERATOR gen_car_flying[16] 0
-SWITCH_CAR_GENERATOR gen_car_flying[17]	0
-SWITCH_CAR_GENERATOR gen_car_flying[18]	0
-SWITCH_CAR_GENERATOR gen_car_flying[19]	0
-SWITCH_CAR_GENERATOR gen_car_flying[20]	0
-SWITCH_CAR_GENERATOR gen_car_flying[21]	0
-SWITCH_CAR_GENERATOR gen_car_flying[22]	0
-SWITCH_CAR_GENERATOR gen_car_flying[23]	0
-SWITCH_CAR_GENERATOR gen_car_flying[24]	0
-// end car gens for san fran
-
-
-// HUNTER on plane carrier on SF
-SWITCH_CAR_GENERATOR gen_car_flying[25]	0
 SWITCH_CAR_GENERATOR gen_car_flying[26]	101
 
-SWITCH_CAR_GENERATOR gen_car_flying[27]	0
 
 
 
@@ -2374,29 +2343,14 @@ CREATE_CAR_GENERATOR -1629.28 -236.14 13.9 129.0015  BEAGLE -1 -1 FALSE 0 100 0 
 
 
 
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[0] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[1] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[2] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[3] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[4] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[5] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[6] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[7] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[8] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[9] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[10] 101
-SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[11] 101
+i = 0
+WHILE i < 12
+SWITCH_CAR_GENERATOR car_gen_locked_sf_planes[i] 101
+i++
+ENDWHILE
 
 
 
-
-
-
-
-
-
-
-//SWITCH_CAR_GENERATOR gen_car_flying[0] 101
 
 
 // *************************************CAR GENERATORS AND PICKUPS FOR INTERGLOBAL FILM STUDIOS***************************
@@ -2416,14 +2370,11 @@ CREATE_CAR_GENERATOR 736.9623 -1343.9069 13.5197 273.7721 JOURNEY -1 -1 FALSE 0 
 
 
 
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[0] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[1] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[2] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[3] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[4] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[5] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[6] 101
-SWITCH_CAR_GENERATOR gen_car_film_studio_LA[7] 101
+i = 0
+WHILE i < 8
+SWITCH_CAR_GENERATOR gen_car_film_studio_LA[i] 101
+i++
+ENDWHILE
 
 
 
@@ -2468,21 +2419,11 @@ CREATE_CAR_GENERATOR 1074.9640 1395.4177 5.303 36.7673 		KART -1 -1 FALSE 0 0 0 
 CREATE_CAR_GENERATOR 2615.2388 -1731.2253 5.9486 140.8213	KART -1 -1 FALSE 0 0 0 10000 car_gen_go_kart[13] 	 // storm drain in LA
 CREATE_CAR_GENERATOR 1305.1758 -796.6955 83.9477 185.99114 	KART -1 -1 FALSE 0 0 0 10000 car_gen_go_kart[14] 	 /// behind mad dogs mansion
 
-SWITCH_CAR_GENERATOR car_gen_go_kart[0] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[1] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[2] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[3] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[4] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[5] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[6] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[7] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[8] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[9] 	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[10]	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[11]	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[12]	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[13]	0
-SWITCH_CAR_GENERATOR car_gen_go_kart[14]	0
+i = 0
+WHILE i < 15
+SWITCH_CAR_GENERATOR car_gen_go_kart[i]	0
+i++
+ENDWHILE
 
 
 // CAR GEN FOR HOVER CRAFTS (OPEN AFTER SIMONS MISSIONS)
@@ -2495,12 +2436,11 @@ CREATE_CAR_GENERATOR 1971.9197 1560.6653 10.9635 262.6150 	VORTEX	-1 -1 FALSE 0 
 CREATE_CAR_GENERATOR -535.4126 -60.8884 63.5922 276.9756   	VORTEX	-1 -1 FALSE 0 0 0 10000 car_gen_hover[4]  // tucked away in a secet barn near river 
 CREATE_CAR_GENERATOR -910.27 2699.06 42.8 110.8738 	VORTEX	-1 -1 FALSE 0 0 0 10000 car_gen_hover[5] 	// by boardwalk in desert
  
-SWITCH_CAR_GENERATOR car_gen_hover[0] 	0
-SWITCH_CAR_GENERATOR car_gen_hover[1] 	0
-SWITCH_CAR_GENERATOR car_gen_hover[2] 	0
-SWITCH_CAR_GENERATOR car_gen_hover[3] 	0
-SWITCH_CAR_GENERATOR car_gen_hover[4] 	0
-SWITCH_CAR_GENERATOR car_gen_hover[5] 	0
+i = 0
+WHILE i < 6
+SWITCH_CAR_GENERATOR car_gen_hover[i] 	0
+i++
+ENDWHILE
  
 // CAR GEN FOR SPARROW ON ROOF OF MADD DOGGS MANSION AFTER HOME IN THE HILLS
 VAR_INT car_gen_sparrow
@@ -2543,18 +2483,17 @@ VAR_INT car_gen_pine[6]
 CREATE_CAR_GENERATOR -2151.303 -2440.136 29.822 324.7583 -1 -1 -1 FALSE 0 0 0 10000 car_gen_pine[0]
 CREATE_CAR_GENERATOR -2147.038 -2443.752 29.822 324.7583 -1 -1 -1 FALSE 0 0 0 10000 car_gen_pine[1]
 CREATE_CAR_GENERATOR -2140.979 -2448.733 29.822 144.7583 -1 -1 -1 FALSE 0 0 0 10000 car_gen_pine[2]
-SWITCH_CAR_GENERATOR car_gen_pine[0] 101
-SWITCH_CAR_GENERATOR car_gen_pine[1] 101
-SWITCH_CAR_GENERATOR car_gen_pine[2] 101
 
 // need to switch these off for farlie5
 CREATE_CAR_GENERATOR -2000.242 -2415.509 29.767 -132.0 RDTRAIN -1 -1 FALSE 0 0 0 10000 car_gen_pine[3]
 CREATE_CAR_GENERATOR -1969.806 -2437.939 29.767 -82.5  DFT30 -1 -1 FALSE 0 0 0 10000 car_gen_pine[4]
 CREATE_CAR_GENERATOR -1969.806 -2443.908 29.767 -19.0  FORKLIFT -1 -1 FALSE 0 0 0 10000 car_gen_pine[5]
-SWITCH_CAR_GENERATOR car_gen_pine[3] 101
-SWITCH_CAR_GENERATOR car_gen_pine[4] 101
-SWITCH_CAR_GENERATOR car_gen_pine[5] 101
 
+i = 0
+WHILE i < 6
+SWITCH_CAR_GENERATOR car_gen_pine[i] 101
+i++
+ENDWHILE
 
 
 

@@ -3810,36 +3810,14 @@ R3missions_loop_inner:
 											ENDIF
 											
 											IF NOT controlmode = 3
-												IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-													WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-													
-														WAIT 0
-														IF flag_player_on_mission = 1
-															GOTO R3missions_loop_inner	
-														ENDIF
-														IF NOT IS_PLAYER_PLAYING player1
-														OR NOT IS_CHAR_IN_TAXI scplayer
-															GOTO R3missions_loop_inner
-														ENDIF
-														IF IS_MINIGAME_IN_PROGRESS
-															GOTO R3missions_loop_inner
-														ENDIF
-														IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-															GOTO R3missions_loop_inner
-														ENDIF
-													ENDWHILE
-
-													PRINT_BIG ( TAXI_M ) 6000 5
-													WAIT 0
-													LOAD_AND_LAUNCH_MISSION taxiodd.sc	
-													flag_taxiodd_mission_launched = 1
-													GOTO R3missions_loop_inner
-												ENDIF
+												button_to_press = RIGHTSHOCK
 											ELSE
-												IF IS_BUTTON_PRESSED PAD1 SQUARE
+												button_to_press = SQUARE
+											ENDIF
 
-													WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+												IF IS_BUTTON_PRESSED PAD1 button_to_press
+
+													WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 													
 														WAIT 0
 														IF flag_player_on_mission = 1
@@ -3863,7 +3841,6 @@ R3missions_loop_inner:
 													flag_taxiodd_mission_launched = 1
 													GOTO R3missions_loop_inner
 												ENDIF
-											ENDIF
 											
 										ENDIF
 									ENDIF //IS_PLAYER_IN_SHORTCUT_TAXI Player1F
@@ -3881,36 +3858,14 @@ R3missions_loop_inner:
 										ENDIF
 
 										IF NOT controlmode = 3
-											IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-											
-												WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-													WAIT 0
-													IF flag_player_on_mission = 1
-															GOTO R3missions_loop_inner	
-														ENDIF
-													IF NOT IS_PLAYER_PLAYING player1
-													OR NOT IS_CHAR_IN_MODEL scplayer ambulan
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF IS_MINIGAME_IN_PROGRESS
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-														GOTO R3missions_loop_inner
-													ENDIF
-												ENDWHILE
-
-												PRINT_BIG ( AMBUL_M ) 6000 5
-												WAIT 0
-												LOAD_AND_LAUNCH_MISSION ambulance.sc	
-												//been_in_ambulance_before = 1
-												GOTO R3missions_loop_inner
-											ENDIF
+											button_to_press = RIGHTSHOCK
 										ELSE
-											IF IS_BUTTON_PRESSED PAD1 SQUARE
+											button_to_press = SQUARE
+										ENDIF
+
+											IF IS_BUTTON_PRESSED PAD1 button_to_press
 											
-												WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+												WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 
 													WAIT 0
 													IF flag_player_on_mission = 1
@@ -3934,7 +3889,6 @@ R3missions_loop_inner:
 												//been_in_ambulance_before = 1
 												GOTO R3missions_loop_inner
 											ENDIF
-										ENDIF
 										
 									ENDIF
 								ENDIF	//	IF IS_CHAR_IN_MODEL scplayer ambula
@@ -3951,36 +3905,14 @@ R3missions_loop_inner:
 										ENDIF
 
 										IF NOT controlmode = 3
-											IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-												WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-													WAIT 0
-													IF flag_player_on_mission = 1
-														GOTO R3missions_loop_inner	
-													ENDIF
-													IF NOT IS_PLAYER_PLAYING player1
-													OR NOT IS_CHAR_IN_MODEL scplayer firetruk
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF IS_MINIGAME_IN_PROGRESS
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-														GOTO R3missions_loop_inner
-													ENDIF
-												ENDWHILE
-
-												PRINT_BIG ( FIRE_M ) 6000 5
-												WAIT 0
-												LOAD_AND_LAUNCH_MISSION firetruck.sc	
-												//been_in_a_firetruk_before = 1
-												GOTO R3missions_loop_inner
-											ENDIF
+											button_to_press = RIGHTSHOCK
 										ELSE
-											IF IS_BUTTON_PRESSED PAD1 SQUARE
+											button_to_press = SQUARE
+										ENDIF
 
-												WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+											IF IS_BUTTON_PRESSED PAD1 button_to_press
+
+												WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 
 													WAIT 0
 													IF flag_player_on_mission = 1
@@ -4004,7 +3936,6 @@ R3missions_loop_inner:
 												//been_in_a_firetruk_before = 1
 												GOTO R3missions_loop_inner
 											ENDIF
-										ENDIF
 									ENDIF
 								ENDIF	//	IF IS_CHAR_IN_MODEL scplayer firetruk
 
@@ -4018,49 +3949,16 @@ R3missions_loop_inner:
 											R3_mission_help = 1
 										ENDIF
 									ENDIF
+
 									IF NOT controlmode = 3
-										IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-											
-											WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-												WAIT 0
-												IF flag_player_on_mission = 1
-													GOTO R3missions_loop_inner	
-												ENDIF
-												IF NOT IS_PLAYER_PLAYING player1
-													GOTO R3missions_loop_inner
-												ENDIF
-												IF NOT IS_CHAR_IN_ANY_POLICE_VEHICLE scplayer
-												AND NOT IS_CHAR_IN_MODEL scplayer HUNTER
-													GOTO R3missions_loop_inner
-												ENDIF
-												IF IS_MINIGAME_IN_PROGRESS
-													GOTO R3missions_loop_inner
-												ENDIF
-												IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-													GOTO R3missions_loop_inner
-												ENDIF
-											ENDWHILE
-
-											IF IS_CHAR_IN_MODEL scplayer HUNTER
-												PRINT_BIG COP_M3 6000 5
-											ELSE
-												IF IS_CHAR_IN_MODEL scplayer CHEETAH
-													PRINT_BIG COP_M2 6000 5
-												ELSE
-													PRINT_BIG COP_M 6000 5
-												ENDIF
-											ENDIF
-
-											WAIT 0
-											LOAD_AND_LAUNCH_MISSION copcar.sc//CHRIS R
-											//been_in_a_copcar_before = 1
-											GOTO R3missions_loop_inner
-										ENDIF
+										button_to_press = RIGHTSHOCK
 									ELSE
-										IF IS_BUTTON_PRESSED PAD1 SQUARE
+										button_to_press = SQUARE
+									ENDIF
+
+										IF IS_BUTTON_PRESSED PAD1 button_to_press
 											
-											WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+											WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 
 												WAIT 0
 												IF flag_player_on_mission = 1
@@ -4096,7 +3994,6 @@ R3missions_loop_inner:
 											//been_in_a_copcar_before = 1
 											GOTO R3missions_loop_inner
 										ENDIF
-									ENDIF
 									
 								ENDIF // If in some kind of cop car
 
@@ -4115,47 +4012,18 @@ R3missions_loop_inner:
 										ENDIF
 
 										IF NOT controlmode = 3
-											IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-												GET_TIME_OF_DAY hours minutes
-												IF hours >= 20
-												OR hours < 6
-													
-													WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-														WAIT 0
-														IF flag_player_on_mission = 1
-															GOTO R3missions_loop_inner	
-														ENDIF
-														IF NOT IS_PLAYER_PLAYING player1
-														OR NOT IS_CHAR_IN_MODEL scplayer BOXBURG
-															GOTO R3missions_loop_inner
-														ENDIF
-														IF IS_MINIGAME_IN_PROGRESS
-															GOTO R3missions_loop_inner
-														ENDIF
-														IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-															GOTO R3missions_loop_inner
-														ENDIF
-													ENDWHILE
-													DRAW_ODDJOB_TITLE_BEFORE_FADE FALSE
-													PRINT_BIG ( BURGLAR ) 6000 5
-													WAIT 0
-													LOAD_AND_LAUNCH_MISSION burglary.sc                                                                               
-													flag_player_on_burglary_mission = 1
-													GOTO R3missions_loop_inner
-												ELSE
-													PRINT_NOW BURGHEL 1000 1 // ~s~You can only trigger the burglary missions between 20:00 and 6:00.
-												ENDIF
-											ENDIF
+											button_to_press = RIGHTSHOCK
 										ELSE
-											IF IS_BUTTON_PRESSED PAD1 SQUARE
+											button_to_press = SQUARE
+										ENDIF
+
+											IF IS_BUTTON_PRESSED PAD1 button_to_press
 
 												GET_TIME_OF_DAY hours minutes
 												IF hours >= 20
 												OR hours < 6
 													
-													WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+													WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 
 														WAIT 0
 														IF flag_player_on_mission = 1
@@ -4182,7 +4050,6 @@ R3missions_loop_inner:
 													PRINT_NOW BURGHEL 1000 1 // ~s~You can only trigger the burglary missions between 20:00 and 6:00.
 												ENDIF
 											ENDIF
-										ENDIF
 										
 									ENDIF
 								ENDIF   // IF IS_CHAR_IN_MODEL scplayer boxville
@@ -4206,39 +4073,14 @@ R3missions_loop_inner:
 										ENDIF
 
 										IF NOT controlmode = 3
-											IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-												WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-													WAIT 0
-													IF flag_player_on_mission = 1
-															GOTO R3missions_loop_inner	
-														ENDIF
-													IF NOT IS_PLAYER_PLAYING player1
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF NOT IS_CHAR_IN_MODEL scplayer freight
-													AND NOT IS_CHAR_IN_MODEL scplayer streak
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF IS_MINIGAME_IN_PROGRESS
-														GOTO R3missions_loop_inner
-													ENDIF
-													IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-														GOTO R3missions_loop_inner
-													ENDIF
-												ENDWHILE
-
-												//PRINT_BIG ( FREIGH ) 6000 5
-												WAIT 0
-												LOAD_AND_LAUNCH_MISSION freight.sc	
-												been_in_freight_before = 1
-												GOTO R3missions_loop_inner
-											ENDIF
+											button_to_press = RIGHTSHOCK
 										ELSE
-											IF IS_BUTTON_PRESSED PAD1 SQUARE
+											button_to_press = SQUARE
+										ENDIF
 
-												WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+											IF IS_BUTTON_PRESSED PAD1 button_to_press
+
+												WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 
 													WAIT 0
 													IF flag_player_on_mission = 1
@@ -4265,7 +4107,6 @@ R3missions_loop_inner:
 												been_in_freight_before = 1
 												GOTO R3missions_loop_inner
 											ENDIF
-										ENDIF
 									ENDIF
 								ENDIF
 							ENDIF // IF IS_CHAR_IN_MODEL scplayer freight train
@@ -4283,39 +4124,16 @@ R3missions_loop_inner:
 											R3_mission_help = 1
 										ENDIF
 									ENDIF
+
 									IF NOT controlmode = 3
-										IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-											WHILE IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-
-												WAIT 0
-												IF flag_player_on_mission = 1
-													GOTO R3missions_loop_inner	
-												ENDIF
-												IF NOT IS_PLAYER_PLAYING player1
-													GOTO R3missions_loop_inner
-												ENDIF
-												IF NOT IS_CHAR_IN_MODEL scplayer BROADWAY
-													GOTO R3missions_loop_inner
-												ENDIF
-												IF IS_MINIGAME_IN_PROGRESS
-													GOTO R3missions_loop_inner
-												ENDIF
-												IF IS_BIT_SET iDateReport DATE_IN_PROGRESS
-													GOTO R3missions_loop_inner
-												ENDIF
-											ENDWHILE
-
-											PRINT_BIG ( PIMP ) 6000 5
-											WAIT 0
-											LOAD_AND_LAUNCH_MISSION pimp.sc	
-											flag_pimping_trigger = 1
-											GOTO R3missions_loop_inner
-										ENDIF
+										button_to_press = RIGHTSHOCK
 									ELSE
-										IF IS_BUTTON_PRESSED PAD1 SQUARE
+										button_to_press = SQUARE
+									ENDIF
 
-											WHILE IS_BUTTON_PRESSED PAD1 SQUARE
+										IF IS_BUTTON_PRESSED PAD1 button_to_press
+
+											WHILE IS_BUTTON_PRESSED PAD1 button_to_press
 
 												WAIT 0
 												IF flag_player_on_mission = 1
@@ -4341,7 +4159,6 @@ R3missions_loop_inner:
 											flag_pimping_trigger = 1
 											GOTO R3missions_loop_inner
 										ENDIF
-									ENDIF
 								ENDIF
 							ENDIF					
 						ENDIF // IF IS_CHAR_IN_MODEL scplayer freight train
@@ -4645,23 +4462,11 @@ IF IS_PLAYER_PLAYING player1
 			        flag_courier_trigger = 1
 				ENDIF
 			ENDIF
-	        IF IS_CHAR_IN_MODEL scplayer BMX
-			    IF flag_courier_trigger = 0
-			        PRINT_BIG ( COUR1 ) 1000 2 //COURIER MISSION LA
-					LOAD_AND_LAUNCH_MISSION courier.sc  
-					flag_courier_trigger = 1          
-				ENDIF
-			ENDIF
-			IF IS_CHAR_IN_MODEL scplayer FREEWAY
-				IF flag_courier_trigger = 0
-			        PRINT_BIG ( COUR1 ) 1000 2 //COURIER MISSION SF
-					LOAD_AND_LAUNCH_MISSION courier.sc 
-					flag_courier_trigger = 1           
-				ENDIF
-			ENDIF
-			IF IS_CHAR_IN_MODEL scplayer FAGGIO   
-				IF flag_courier_trigger = 0
-			        PRINT_BIG ( COUR1 ) 1000 2 //COURIER MISSION LV
+			IF flag_courier_trigger = 0
+			        IF IS_CHAR_IN_MODEL scplayer BMX
+				OR IS_CHAR_IN_MODEL scplayer FREEWAY
+				OR IS_CHAR_IN_MODEL scplayer FAGGIO   
+			        	PRINT_BIG ( COUR1 ) 1000 2
 					LOAD_AND_LAUNCH_MISSION courier.sc 
 					flag_courier_trigger = 1               
 				ENDIF
@@ -4703,10 +4508,11 @@ IF IS_PLAYER_PLAYING player1
 
 			// *********************************BMX*************************************************************************
 			IF IS_CHAR_IN_MODEL scplayer BMX
-		        IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer stunt_bmx1_x stunt_bmx1_y stunt_bmx1_z 4.0 4.0 3.0 FALSE //
-		        	flag_bmx_trigger = 1
+		        	IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer stunt_bmx1_x stunt_bmx1_y stunt_bmx1_z 4.0 4.0 3.0 FALSE //
+		        		flag_bmx_trigger = 1
 				ENDIF
-	        ENDIF
+		        ENDIF
+
 	        IF IS_CHAR_IN_MODEL scplayer BMX
 	        AND flag_bmx_trigger = 0
 	        	GET_INT_STAT CYCLE_SKILL stat_read_skill_temp
@@ -4932,88 +4738,49 @@ impound_loop_inner:
 	WAIT 100
 
 	IF IS_PLAYER_PLAYING player1						
+		GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
+		IF number_of_instances_of_streamed_script = 0
+			LVAR_INT impound_current_zone
+			impound_current_zone = 0
 		
-		IF im_players_city = LEVEL_LOSANGELES
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer 1579.4248 -1636.4630 14.5812 120.0 120.0 80.0 FALSE
-					impound_area = 1
+			SWITCH im_players_city
+				CASE LEVEL_LOSANGELES
+					player_x = 1579.4248
+					player_y = -1636.4630
+					player_z = 14.5812
+				BREAK
+				CASE LEVEL_SANFRANCISCO
+					player_x = -1624.7710
+					player_y = 679.6637
+					player_z = 8.5690
+				BREAK
+				CASE LEVEL_LASVEGAS
+					player_x = 2284.5920
+					player_y = 2466.8379
+					player_z = 12.2306
+				BREAK
+			ENDSWITCH
 
+			IF LOCATE_CHAR_ANY_MEANS_3D scplayer player_x player_y player_z 120.0 120.0 80.0 FALSE
+				impound_current_zone = im_players_city
+			ENDIF
+
+			IF impound_current_zone > 0
+				IF tlf_underway = 0
+					impound_area = impound_current_zone
 					STREAM_SCRIPT impound.sc
-
 					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
 						START_NEW_STREAMED_SCRIPT impound.sc
-					ENDIF												
-				ELSE
-					IF impound_Area = 1
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
 					ENDIF
 				ENDIF
-			ENDIF
-		ENDIF
-			
-		IF im_players_city = LEVEL_SANFRANCISCO
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -1624.7710 679.6637 8.5690 120.0 120.0 80.0 FALSE
-					IF tlf_underway = 0
-						impound_area = 2
-
-						STREAM_SCRIPT impound.sc
-
-						IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-							START_NEW_STREAMED_SCRIPT impound.sc
-						ENDIF                                                                                                                                       
-					ENDIF
-				ELSE
-					IF tlf_underway = 2 //set in Steve’s mission cleanup
-						tlf_underway = 0
-					ENDIF
-					IF impound_Area = 2
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
-					ENDIF
+			ELSE
+				IF tlf_underway = 2 //set in Steve�s mission cleanup
+					tlf_underway = 0
 				ENDIF
-			ENDIF
-		ENDIF
-
-		IF im_players_city = LEVEL_SANFRANCISCO
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer -1624.7710 679.6637 8.5690 120.0 120.0 80.0 FALSE
-					impound_area = 2
-
-					STREAM_SCRIPT impound.sc
-
-					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-						START_NEW_STREAMED_SCRIPT impound.sc
-					ENDIF												
-				ELSE
-					IF impound_Area = 2
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
-					ENDIF
-				ENDIF
-			ENDIF
-		ENDIF
-		
-		IF im_players_city = LEVEL_LASVEGAS
-			GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
-			IF number_of_instances_of_streamed_script = 0
-				IF LOCATE_CHAR_ANY_MEANS_3D scplayer 2284.5920 2466.8379 12.2306 120.0 120.0 80.0 FALSE
-					impound_area = 3
-
-					STREAM_SCRIPT impound.sc
-
-					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-						START_NEW_STREAMED_SCRIPT impound.sc
-					ENDIF												
-				ELSE
-					IF impound_Area = 3
-						MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
-						impound_Area = 0
-					ENDIF
+				IF impound_area > 0
+					// Player is not in any valid zone, clean up if needed
+					MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED impound.sc
+					impound_Area = 0
 				ENDIF
 			ENDIF
 		ENDIF
@@ -5151,16 +4918,34 @@ planes_loop_inner:
 	IF IS_PLAYER_PLAYING player1
 		IF flag_player_on_mission = 0
 
-			IF im_players_city = LEVEL_LOSANGELES
-				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS 
+			i = im_players_city - 1
+			IF im_players_city > 0
+				SWITCH im_players_city
+					CASE LEVEL_LOSANGELES
+						player_x = 1685.7
+						player_y = -2238.9
+						player_z = 14.0
+					BREAK
+					CASE LEVEL_SANFRANCISCO
+						player_x = -1421.5
+						player_y = -287.2
+						player_z = 14.6
+					BREAK
+					CASE LEVEL_LASVEGAS
+						player_x = 1663.0 
+						player_y = 1423.6
+						player_z = 11.2
+					BREAK
+				ENDSWITCH
+				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS
 					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
 					IF number_of_instances_of_streamed_script = 0
-						IF created_marker[0] = 0
-							CREATE_USER_3D_MARKER 1685.7 -2238.9 14.0 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[0] //LEVEL_LOSANGELES
-							created_marker[0] = 1
+						IF created_marker[i] = 0
+							CREATE_USER_3D_MARKER player_x player_y player_z HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[i] //LEVEL_LOSANGELES
+							created_marker[i] = 1
 						ENDIF
 						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer 1685.7 -2238.9 12.5 1.2 1.2 1.2 FALSE
+							IF LOCATE_CHAR_ON_FOOT_3D scplayer player_x player_y player_z 1.2 1.2 1.2 FALSE
 								SET_PLAYER_CONTROL player1 Off
 								GOSUB mini_fade
 								STREAM_SCRIPT planes.sc
@@ -5174,94 +4959,18 @@ planes_loop_inner:
 								START_NEW_STREAMED_SCRIPT planes.sc
 								flag_dozer_passed_1stime = 0
 							ENDIF
-						ENDIF												
-					ENDIF
-				ELSE
-					IF created_marker[0] = 1
-						REMOVE_USER_3D_MARKER airport_marker[0]
-						created_marker[0] = 0
-					ENDIF
-				ENDIF
-			ELSE
-				IF created_marker[0] = 1
-					REMOVE_USER_3D_MARKER airport_marker[0]
-					created_marker[0] = 0
-				ENDIF
-			ENDIF
-
-			IF im_players_city = LEVEL_SANFRANCISCO
-				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS 
-					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
-					IF number_of_instances_of_streamed_script = 0
-						IF created_marker[1] = 0
-							CREATE_USER_3D_MARKER -1421.5 -287.2 14.6 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[1] //LEVEL_SANFRANCISCO
-							created_marker[1] = 1
-						ENDIF
-						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer -1421.5 -287.2 14.6 1.2 1.2 1.2 FALSE
-								SET_PLAYER_CONTROL player1 Off
-								GOSUB mini_fade
-								STREAM_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 1
-							//ELSE
-								//MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED planes.sc
-							ENDIF
-
-							IF HAS_STREAMED_SCRIPT_LOADED planes.sc
-							AND flag_dozer_passed_1stime = 1
-								START_NEW_STREAMED_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 0
-							ENDIF
-						ENDIF												
-					ENDIF
-				ELSE
-					IF created_marker[1] = 1
-						REMOVE_USER_3D_MARKER airport_marker[1]
-						created_marker[1] = 0
-					ENDIF
-				ENDIF
-			ELSE
-				IF created_marker[1] = 1
-					REMOVE_USER_3D_MARKER airport_marker[1]
-					created_marker[1] = 0
-				ENDIF
-			ENDIF
-
-			IF im_players_city = LEVEL_LASVEGAS
-				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS 
-					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
-					IF number_of_instances_of_streamed_script = 0
-						IF created_marker[2] = 0
-							CREATE_USER_3D_MARKER 1663.0 1423.6 11.2 HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[2] //LEVEL_LASVEGAS
-							created_marker[2] = 1
-						ENDIF
-						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer 1663.0 1423.6 11.2 1.2 1.2 1.2 FALSE
-								SET_PLAYER_CONTROL player1 Off
-								GOSUB mini_fade
-								STREAM_SCRIPT planes.sc	
-								flag_dozer_passed_1stime = 1								
-							//ELSE
-								//MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED planes.sc
-							ENDIF
-
-							IF HAS_STREAMED_SCRIPT_LOADED planes.sc
-							AND flag_dozer_passed_1stime = 1
-								START_NEW_STREAMED_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 0
-							ENDIF
 						ENDIF
 					ENDIF
 				ELSE
-					IF created_marker[2] = 1
-						REMOVE_USER_3D_MARKER airport_marker[2]
-						created_marker[2] = 0
+					IF created_marker[i] = 1
+						REMOVE_USER_3D_MARKER airport_marker[i]
+						created_marker[i] = 0
 					ENDIF
 				ENDIF
 			ELSE
-				IF created_marker[2] = 1
-					REMOVE_USER_3D_MARKER airport_marker[2]
-					created_marker[2] = 0
+				IF created_marker[i] = 1
+					REMOVE_USER_3D_MARKER airport_marker[i]
+					created_marker[i] = 0
 				ENDIF
 			ENDIF
 
@@ -5847,34 +5556,11 @@ grove_save_loop_inner:
 				IF created_save_blips = 0
 					
 					GOSUB remove_all_save_pickups
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[0] save_pickupY[0] save_pickupZ[0] grove_save_pickup[0]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[1] save_pickupY[1] save_pickupZ[1] grove_save_pickup[1]											 
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[2] save_pickupY[2] save_pickupZ[2] grove_save_pickup[2]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[3] save_pickupY[3] save_pickupZ[3] grove_save_pickup[3]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[4] save_pickupY[4] save_pickupZ[4] grove_save_pickup[4]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[5] save_pickupY[5] save_pickupZ[5] grove_save_pickup[5]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[6] save_pickupY[6] save_pickupZ[6] grove_save_pickup[6]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[7] save_pickupY[7] save_pickupZ[7] grove_save_pickup[7]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[8] save_pickupY[8] save_pickupZ[8] grove_save_pickup[8]																	 
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[9] save_pickupY[9] save_pickupZ[9] grove_save_pickup[9]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[10] save_pickupY[10] save_pickupZ[10] grove_save_pickup[10]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[11] save_pickupY[11] save_pickupZ[11] grove_save_pickup[11]
-					CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[12] save_pickupY[12] save_pickupZ[12] grove_save_pickup[12]
-					IF number_of_save_icons >= 14
-						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[13] save_pickupY[13] save_pickupZ[13] grove_save_pickup[13] //BADLANDS TRAILOR//remove
-					ENDIF
-					IF number_of_save_icons >= 15
-						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[14] save_pickupY[14] save_pickupZ[14] grove_save_pickup[14] //CATS LODGE//remove
-					ENDIF
-					IF number_of_save_icons >= 16
-						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[15] save_pickupY[15] save_pickupZ[15] grove_save_pickup[15] //SAN FRAN GARAGE//remove
-					ENDIF
-					IF number_of_save_icons >= 17
-						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[16] save_pickupY[16] save_pickupZ[16] grove_save_pickup[16] //TORENOS RANCH//remove
-					ENDIF
-					IF number_of_save_icons >= 18
-						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[17] save_pickupY[17] save_pickupZ[17] grove_save_pickup[17] //TRIAD CASINO//remove					
-					ENDIF
+					i = 0
+					WHILE i < number_of_save_icons
+						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[i] save_pickupY[i] save_pickupZ[i] grove_save_pickup[i]
+						i++
+					ENDWHILE
 																						 
 					created_save_blips = 1
 				ENDIF
@@ -5922,24 +5608,11 @@ GOTO grove_save_loop_inner
 
 remove_all_save_pickups:
 
-	REMOVE_PICKUP grove_save_pickup[0]
-	REMOVE_PICKUP grove_save_pickup[1]
-	REMOVE_PICKUP grove_save_pickup[2]
-	REMOVE_PICKUP grove_save_pickup[3]
-	REMOVE_PICKUP grove_save_pickup[4]
-	REMOVE_PICKUP grove_save_pickup[5]
-	REMOVE_PICKUP grove_save_pickup[6]
-	REMOVE_PICKUP grove_save_pickup[7]
-	REMOVE_PICKUP grove_save_pickup[8]
-	REMOVE_PICKUP grove_save_pickup[9]
-	REMOVE_PICKUP grove_save_pickup[10]
-	REMOVE_PICKUP grove_save_pickup[11]
-	REMOVE_PICKUP grove_save_pickup[12]
-	REMOVE_PICKUP grove_save_pickup[13]
-	REMOVE_PICKUP grove_save_pickup[14]
-	REMOVE_PICKUP grove_save_pickup[15]
-	REMOVE_PICKUP grove_save_pickup[16]
-	REMOVE_PICKUP grove_save_pickup[17]
+i = 0
+WHILE i < 18
+	REMOVE_PICKUP grove_save_pickup[i]
+	i++
+ENDWHILE
 
 RETURN
 
@@ -6528,72 +6201,46 @@ game_help_loop_inner:
 			ENDIF
 
 			IF swimming_help < 7
-				IF swimming_help = 0
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
+				IF IS_PLAYER_PLAYING player1
+					IF IS_CHAR_SWIMMING scplayer
+						SWITCH swimming_help
+						CASE 0
 							PRINT_HELP WZI2_A0 //Use the ~h~left analog stick ~w~to move around in the water.
 							swimming_help = 1
 							WAIT 5000
-						ENDIF
-					ENDIF
-				ENDIF
-				IF swimming_help = 1
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
+						BREAK
+						CASE 1
 							PRINT_HELP WZI2_A5  
 							swimming_help = 2
 							WAIT 5000
-						ENDIF
-					ENDIF
-				ENDIF
-				IF swimming_help = 2
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
-														
+						BREAK
+						CASE 2
 							PRINT_HELP WZI2_A6  
-
 							swimming_help = 3
 							WAIT 5000
-						ENDIF
-					ENDIF
-				ENDIF
-				IF swimming_help = 3
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
-							
+						BREAK
+						CASE 3
 							PRINT_HELP WZI2_A1  
-
 							swimming_help = 4
 							WAIT 5000
-						ENDIF
-					ENDIF
-				ENDIF
-				IF swimming_help = 4
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
+						BREAK
+						CASE 4
 							PRINT_HELP WZI2_A2 //The blue bar at the top right of the screen is your ~h~breath meter ~h~this represents how long you can stay underwater.
 							FLASH_HUD_OBJECT HUD_FLASH_BREATH
 							WAIT 5000
 							swimming_help = 5
 							FLASH_HUD_OBJECT -1
-						ENDIF
-					ENDIF
-				ENDIF
-				IF swimming_help = 5
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
+						BREAK
+						CASE 5
 							PRINT_HELP WZI2_A3 //Your breath will decrease while you're underwater. Once your breath reaches zero, your health will start to decrease.
 							swimming_help = 6
 							WAIT 5000
-						ENDIF
-					ENDIF
-				ENDIF
-				IF swimming_help = 6
-					IF IS_PLAYER_PLAYING player1
-						IF IS_CHAR_SWIMMING scplayer
+						BREAK
+						CASE 6
 							PRINT_HELP WZI2_A7 //Swim back up to the surface to get your breath back. The breath meter will slowly increase back to its maximum.
 							swimming_help = 7
-						ENDIF
+						BREAK
+						ENDSWITCH
 					ENDIF
 				ENDIF
 			ENDIF
@@ -7061,195 +6708,138 @@ SCRIPT_NAME DOORS
 	////////////////////////////////////////////////////////////////////////////
 	// DOORS FOR RIOT2///////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////
-	//NW house 0
-	ROTATE_OBJECT riot2_door[3] 0.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1852.0 -1990.7 1849.8 -1989.6 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1854.0 -1990.0 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
+	ROTATE_OBJECT riot2_door[3] 0.0 360.0 FALSE	//NW house 0
+	ROTATE_OBJECT riot2_door[4] 270.0 360.0 FALSE	//NW house 1
+	ROTATE_OBJECT riot2_door[5] 90.0 360.0 FALSE	//NW house 2
+	ROTATE_OBJECT riot2_door[6] 270.0 360.0 FALSE	//NE house 0
+	ROTATE_OBJECT riot2_door[7] 180.0 360.0 FALSE	//NE house 1
+	ROTATE_OBJECT riot2_door[8] 90.0 360.0 FALSE	//NE house 2
+	ROTATE_OBJECT riot2_door[9] 0.0 360.0 FALSE	//SE house 0
+	ROTATE_OBJECT riot2_door[10] 180.0 360.0 FALSE	//SE house 1
+	ROTATE_OBJECT riot2_door[11] 90.0 360.0 FALSE	//SE house 2
+	ROTATE_OBJECT riot2_door[12] 0.0 360.0 FALSE	//SW house 0
+	ROTATE_OBJECT riot2_door[13] 180.0 360.0 FALSE	//SW house 1
+	ROTATE_OBJECT riot2_door[14] 90.0 360.0 FALSE	//SW house 2
 
-	//NW house 1
-	ROTATE_OBJECT riot2_door[4] 270.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1867.3 -1985.2 1868.2 -1982.7 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1867.4 -1987.1 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF            
-	//NW house 2
-	ROTATE_OBJECT riot2_door[5] 90.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1866.5 -1998.3 1865.4 -2000.4 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1866.0 -1996.7 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
-	//NE house 0
-	ROTATE_OBJECT riot2_door[6] 270.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1899.6 -1985.2 1900.9 -1982.7 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1899.8 -1986.7 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
+	LVAR_FLOAT inside_x1 inside_y1 inside_x2 inside_y2 outside_x outside_y
 
-	//NE house 1
-	ROTATE_OBJECT riot2_door[7] 180.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1914.1 -1992.7 1916.8 -1994.2 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1912.3 -1993.2 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
+	i = 3
+	WHILE i < 15
 
-	//NE house 2
-	ROTATE_OBJECT riot2_door[8] 90.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1899.0 -1998.1 1897.9 -2000.4 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1898.7 -1996.1 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
+SWITCH i
+CASE 3
+	inside_x1 = 1852.0
+	inside_y1 = -1990.7
+	inside_x2 = 1849.8
+	inside_y2 = -1989.6
+	outside_x = 1854.0
+	outside_y = -1990.0
+BREAK
+CASE 4
+	inside_x1 = 1867.3
+	inside_y1 = -1985.2
+	inside_x2 = 1868.2
+	inside_y2 = -1982.7
+	outside_x = 1867.4
+	outside_y = -1987.1
+BREAK
+CASE 5
+	inside_x1 = 1866.5
+	inside_y1 = -1998.3
+	inside_x2 = 1865.4
+	inside_y2 = -2000.4
+	outside_x = 1866.0
+	outside_y = -1996.7
+BREAK
+CASE 6
+	inside_x1 = 1899.6
+	inside_y1 = -1985.2
+	inside_x2 = 1900.9
+	inside_y2 = -1982.7
+	outside_x = 1899.8
+	outside_y = -1986.7
+BREAK
+CASE 7
+	inside_x1 = 1914.1
+	inside_y1 = -1992.7
+	inside_x2 = 1916.8
+	inside_y2 = -1994.2
+	outside_x = 1912.3
+	outside_y = -1993.2
+BREAK
+CASE 8
+	inside_x1 = 1899.0
+	inside_y1 = -1998.1
+	inside_x2 = 1897.9
+	inside_y2 = -2000.4
+	outside_x = 1898.7
+	outside_y = -1996.1
+BREAK
+CASE 9
+	inside_x1 = 1901.0
+	inside_y1 = -2020.1
+	inside_x2 = 1899.1
+	inside_y2 = -2019.1
+	outside_x = 1902.7
+	outside_y = -2019.6
+BREAK
+CASE 10
+	inside_x1 = 1914.1
+	inside_y1 = -2020.8
+	inside_x2 = 1916.2
+	inside_y2 = -2021.8
+	outside_x = 1912.4
+	outside_y = -2021.3
+BREAK
+CASE 11
+	inside_x1 = 1906.5
+	inside_y1 = -2035.3
+	inside_x2 = 1905.5
+	inside_y2 = -2037.2
+	outside_x = 1905.8
+	outside_y = -2033.4
+BREAK
+CASE 12
+	inside_x1 = 1852.0
+	inside_y1 = -2020.1
+	inside_x2 = 1850.1
+	inside_y2 = -2019.2
+	outside_x = 1853.7
+	outside_y = -2019.4
+BREAK
+CASE 13
+	inside_x1 = 1865.0
+	inside_y1 = -2020.7
+	inside_x2 = 1867.1
+	inside_y2 = -2021.8
+	outside_x = 1863.0
+	outside_y = -2021.3
+BREAK
+CASE 14
+	inside_x1 = 1857.6
+	inside_y1 = -2035.2
+	inside_x2 = 1856.5
+	inside_y2 = -2037.2
+	outside_x = 1857.1
+	outside_y = -2033.3
+BREAK
+ENDSWITCH
 
-	//SE house 0
-	ROTATE_OBJECT riot2_door[9] 0.0 360.0 FALSE
+IF IS_CHAR_IN_AREA_2D scplayer inside_x1 inside_y1 inside_x2 inside_y2 FALSE
+	GOSUB mini_fade
 	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1901.0 -2020.1 1899.1 -2019.1 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1902.7 -2019.6 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
+		CLEAR_CHAR_TASKS_IMMEDIATELY scplayer
+		SET_CHAR_COORDINATES scplayer outside_x outside_y 12.5
 	ENDIF
+	DO_FADE 500 FADE_IN
+	WHILE GET_FADING_STATUS
+		WAIT 0
+	ENDWHILE
+	i = 15
+ENDIF
 
-	//SE house 1
-	ROTATE_OBJECT riot2_door[10] 180.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1914.1 -2020.8 1916.2 -2021.8 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1912.4 -2021.3 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
-
-	//SE house 2
-	ROTATE_OBJECT riot2_door[11] 90.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1906.5 -2035.3 1905.5 -2037.2 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1905.8 -2033.4 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
-
-	//SW house 0
-	ROTATE_OBJECT riot2_door[12] 0.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1852.0 -2020.1 1850.1 -2019.2 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1853.7 -2019.4 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
-
-	//SW house 1
-	ROTATE_OBJECT riot2_door[13] 180.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1865.0 -2020.7 1867.1 -2021.8 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1863.0 -2021.3 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
-
-	//SW house 2
-	ROTATE_OBJECT riot2_door[14] 90.0 360.0 FALSE
-	IF IS_PLAYER_PLAYING player1
-		IF IS_CHAR_IN_AREA_2D scplayer 1857.6 -2035.2 1856.5 -2037.2 FALSE
-		    GOSUB mini_fade 
-		    IF IS_PLAYER_PLAYING player1
-			    CLEAR_CHAR_TASKS_IMMEDIATELY scplayer 
-			    SET_CHAR_COORDINATES scplayer 1857.1 -2033.3 12.5
-			ENDIF
-		    DO_FADE 500 FADE_IN
-		    WHILE GET_FADING_STATUS
-		        WAIT 0
-		    ENDWHILE 
-		ENDIF
-	ENDIF
+	i++
+	ENDWHILE
 
 TERMINATE_THIS_SCRIPT
 }
@@ -7306,29 +6896,24 @@ display_win_text_loop:
 		IF cash_win > 0
 			GOSUB setup_win_text
 			
-			SWITCH racetour_flag
-				CASE 45
+			IF racetour_flag = 45
 					DISPLAY_TEXT_WITH_NUMBER 320.0 155.333 ALLRACE cash_win
-				BREAK
-				CASE 80
+			ELSE
+				IF racetour_flag = 80
 					DISPLAY_TEXT_WITH_NUMBER 320.0 155.333 PL_07 cash_win
-				BREAK
-				DEFAULT
+				ELSE
 					DISPLAY_TEXT_WITH_NUMBER 320.0 155.333 WINNER cash_win
-				BREAK
-			ENDSWITCH
+				ENDIF
+			ENDIF
 
 		ELSE
 			temp_integer_1 = cash_win * -1
 			GOSUB setup_win_text
-			SWITCH racetour_flag
-				CASE 80
+			IF racetour_flag = 80
 					DISPLAY_TEXT_WITH_NUMBER 320.0 155.333 PL_10 temp_integer_1
-				BREAK
-				DEFAULT
+			ELSE
 					DISPLAY_TEXT_WITH_NUMBER 320.0 155.333 LOSER temp_integer_1
-				BREAK
-			ENDSWITCH
+			ENDIF
 		ENDIF
 	ENDIF
 

@@ -56,7 +56,7 @@ homeless_ambience_brain:
 	GENERATE_RANDOM_INT_IN_RANGE 0 4 homeless_number
 	homeless_number = 3	
 	
-	IF NOT fire_people_created = 0
+	IF NOT homeless_flag = 0
 	//OR flag_player_on_mission = 1
 		homeless_terminate = 1		
 		TERMINATE_THIS_SCRIPT
@@ -72,7 +72,7 @@ homeless_ambience_brain:
 				ENDIF
 			ENDIF
 		ENDIF
-		fire_people_created = 1
+		homeless_flag = 1
 	ENDIF
 	
 				     
@@ -331,7 +331,7 @@ homeless_ambience_brain_loop:
 							//PRINT (HMLS_02) 2000 1 //C'mon you must have something you can give me?
 							SET_CHAR_SAY_CONTEXT homeless_ped CONTEXT_GLOBAL_SOLICIT_UNREASONABLE  home_dummy
 							TASK_KILL_CHAR_ON_FOOT homeless_ped scplayer
-							fire_people_created = 0
+							homeless_flag = 0
 							homeless_terminate = 1
 						ELSE
 							SET_CHAR_SAY_CONTEXT homeless_ped CONTEXT_GLOBAL_SOLICIT  home_dummy						
@@ -460,7 +460,7 @@ homeless_ambience_brain_loop:
 					ELSE
 						STOP_FX_SYSTEM homeless_vomit
 						KILL_FX_SYSTEM homeless_vomit
-						fire_people_created = 0
+						homeless_flag = 0
 						homeless_terminate = 1
 					ENDIF
 					
@@ -480,7 +480,7 @@ homeless_ambience_brain_loop:
 								KILL_FX_SYSTEM homeless_vomit
 								homeless_temp_int = 2
 							ENDIF
-							fire_people_created = 0
+							homeless_flag = 0
 							homeless_terminate = 1
 						ELSE
 							IF homeless_task_status = PERFORMING_TASK
@@ -544,7 +544,7 @@ homeless_ambience_brain_loop:
 		   /////////////////////////////////////////////////////////////
 
 		   IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer homeless_ped 30.0 30.0 20.0 FALSE
-				fire_people_created = 0
+				homeless_flag = 0
 				homeless_terminate = 1	
 		   ENDIF
 		
@@ -552,13 +552,13 @@ homeless_ambience_brain_loop:
 				
 	
 	ELSE
-		fire_people_created = 0
+		homeless_flag = 0
 		homeless_terminate = 1
     ENDIF
 
 	 IF IS_CHAR_DEAD homeless_ped
+		homeless_flag = 0
 		homeless_terminate = 1
-		fire_people_created = 0
 	 ENDIF
 
 	 IF homeless_terminate = 1

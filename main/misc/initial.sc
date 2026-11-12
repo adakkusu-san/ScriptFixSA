@@ -901,21 +901,47 @@ lowrideY = 	-2012.5581
 lowrideZ = 	12.5469
 
 
-VAR_INT tag_target[10]
+VAR_INT tag_target[5] unused_tag_target[5]
 
 
-//////////// Dave B Globals
-// FIXEDGROVE: START - these are unused
-VAR_INT fire_la_levels_completed[6]
-VAR_INT fire_sf_levels_completed[6]
-VAR_INT fire_vg_levels_completed[6]
-VAR_INT fire_total_la_completed
-VAR_INT fire_total_sf_completed
-VAR_INT fire_total_vg_completed
-VAR_INT fire_total_levels_completed
-VAR_INT fire_temp_counter
-VAR_INT	fire_people_created
+// FIXEDGROVE: START - repurposed variables
+VAR_FLOAT valet_area_x1[3] valet_area_y1[3] valet_area_x2[3] valet_area_y2[3]
+VAR_INT unused_fire_vars[12]
+
+impound_radius_x[0] = 1579.4248
+impound_radius_y[0] = -1636.4630
+impound_radius_z[0] = 14.5812
+impound_radius_x[1] = -1624.7710
+impound_radius_y[1] = 679.6637
+impound_radius_z[1] = 8.5690
+impound_radius_x[2] = 2284.5920
+impound_radius_y[2] = 2466.8379
+impound_radius_z[2] = 12.2306
+
+valet_area_x1[0] = 215.3643
+valet_area_y1[0] = -1651.7264
+valet_area_x2[0] = 440.7311
+valet_area_y2[0] = -1369.3921
+valet_area_x1[1] = -1893.4186
+valet_area_y1[1] = 1119.2267
+valet_area_x2[1] = -1617.9149
+valet_area_y2[1] = 828.850
+valet_area_x1[2] = 2205.5503
+valet_area_y1[2] = 1710.5160
+valet_area_x2[2] = 1830.5140
+valet_area_y2[2] = 2086.0610
+
+planes_radius_x[0] = 1685.7
+planes_radius_y[0] = -2238.9
+planes_radius_z[0] = 14.0
+planes_radius_x[1] = -1421.5
+planes_radius_y[1] = -287.2
+planes_radius_z[1] = 14.6
+planes_radius_x[2] = 1663.0 
+planes_radius_y[2] = 1423.6
+planes_radius_z[2] = 11.2
 // FIXEDGROVE: END
+
 VAR_INT pros_active
 VAR_INT player_in_otb_flag
 VAR_INT burglary_total_made	burglary_total_items
@@ -924,20 +950,6 @@ VAR_FLOAT burglary_noise
 
 VAR_INT burglary_player_spotted
 
-/*
-IF fire_temp_counter < 6
-	fire_la_levels_completed[fire_temp_counter] = 0
-	fire_sf_levels_completed[fire_temp_counter] = 0
-	fire_vg_levels_completed[fire_temp_counter] = 0
-ENDIF
-
-fire_total_la_completed = 0		
-fire_total_sf_completed	= 0	
-fire_total_vg_completed	= 0
-fire_total_levels_completed = 0
-*/
-
-fire_people_created = 0
 
 burglary_total_made	= 0
 burglary_total_items= 0
@@ -961,7 +973,7 @@ VAR_INT mtbikerace_selection
 VAR_INT flag_is_farlie3_running
 
 VAR_INT flag_mtbike_passed_1stime
-VAR_INT flag_dozer_passed_1stime
+VAR_INT flag_planes_script
 VAR_INT flag_dumper_passed_1stime
 
 VAR_INT current_highest_score_kickstart //kickstart highest score
@@ -984,7 +996,7 @@ flag_cycling_skill_help = 0
 
 
 flag_mtbike_passed_1stime = 0
-flag_dozer_passed_1stime = 0
+flag_planes_script = 0
 flag_dumper_passed_1stime =	0
 
 current_highest_score_kickstart = 25
@@ -1247,27 +1259,7 @@ stop_gargae_for_neil = 1
 bmx_1_x = -425.0
 bmx_1_y = 1410.0
 bmx_1_z = 10.0
-//heli1_checkpoint_best_time = 99999999
 
-// airrace stuff
-race1_best_position_airrace = 99999999
-race1_best_time_airrace = 99999999
-race2_best_position_airrace = 99999999
-race2_best_time_airrace = 99999999
-race3_best_position_airrace = 99999999
-race3_best_time_airrace = 99999999
-race4_best_position_airrace = 99999999
-race4_best_time_airrace = 99999999
-race5_best_position_airrace = 99999999
-race5_best_time_airrace = 99999999
-race6_best_position_airrace = 99999999
-race6_best_time_airrace = 99999999
-done_race1_progress_airrace = 0
-done_race2_progress_airrace = 0
-done_race3_progress_airrace = 0
-done_race4_progress_airrace = 0
-done_race5_progress_airrace = 0
-done_race6_progress_airrace = 0
 //first_cat_fade[0] = 0
 //first_cat_fade[1] = 0
 //first_cat_fade[2] = 0
@@ -2536,12 +2528,7 @@ ADD_STUNT_JUMP (-2213.7732 -311.0786 38.5339) (1.1500 3.0400 2.5900) (-2213.7732
 //A/DD_STUNT_JUMP (1960.6704 -1622.8293 17.1587) (2.4400 2.8600 2.1500) (1996.8063 -1622.8293 19.6087) (2.4400 9.8400 7.2500) (1984.0558 -1625.8560 18.6816) 500
 
 
-// **************************************GLOBAL ZONES********************************************************
-
-// these are using old Washington values
-	VAR_INT init_ped_density
-
-	init_ped_density = 50
+	VAR_INT homeless_flag
 
 
 // ****************************************OBJECTS***********************************************

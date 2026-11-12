@@ -136,6 +136,7 @@ SET_CHAR_HEADING scplayer 262.0
 LOAD_AND_LAUNCH_MISSION initial.sc
 wait 0
 LOAD_AND_LAUNCH_MISSION initial2.sc
+wait 0
 
 // *************************************CONSTANTS*******************************************
 //--- GF CONSTANTS
@@ -486,22 +487,13 @@ VAR_INT camera_position_int
 // *******************************************RACES variables******************************************************
 
 // AIR RACE VARIABLES
-VAR_INT	race1_best_position_airrace
-VAR_INT	race1_best_time_airrace
-VAR_INT	race2_best_position_airrace
-VAR_INT	race2_best_time_airrace
-VAR_INT	race3_best_position_airrace
-VAR_INT	race3_best_time_airrace
-VAR_INT	race4_best_position_airrace
-VAR_INT	race4_best_time_airrace
-VAR_INT	race5_best_position_airrace
-VAR_INT	race5_best_time_airrace
-VAR_INT	race6_best_position_airrace
-VAR_INT	race6_best_time_airrace
-VAR_INT done_race1_progress_airrace	done_race2_progress_airrace done_race3_progress_airrace
-VAR_INT done_race4_progress_airrace done_race5_progress_airrace done_race6_progress_airrace
-VAR_INT race_selection
+// FIXEDGROVE: START - repurposed previously unused variables
+// was VAR_INT race_best_position_airrace[6] race_best_time_airrace[6] done_race_progress_airrace[6]
+VAR_FLOAT impound_radius_x[3] impound_radius_y[3] impound_radius_z[3]
+VAR_FLOAT planes_radius_x[3] planes_radius_y[3] planes_radius_z[3]
+// FIXEDGROVE: END
 
+VAR_INT race_selection
 race_selection = 0
 
 // *******************************************GIRLS variables******************************************************
@@ -4743,26 +4735,11 @@ impound_loop_inner:
 			LVAR_INT impound_current_zone
 			impound_current_zone = 0
 		
-			SWITCH im_players_city
-				CASE LEVEL_LOSANGELES
-					player_x = 1579.4248
-					player_y = -1636.4630
-					player_z = 14.5812
-				BREAK
-				CASE LEVEL_SANFRANCISCO
-					player_x = -1624.7710
-					player_y = 679.6637
-					player_z = 8.5690
-				BREAK
-				CASE LEVEL_LASVEGAS
-					player_x = 2284.5920
-					player_y = 2466.8379
-					player_z = 12.2306
-				BREAK
-			ENDSWITCH
-
-			IF LOCATE_CHAR_ANY_MEANS_3D scplayer player_x player_y player_z 120.0 120.0 80.0 FALSE
-				impound_current_zone = im_players_city
+			IF im_players_city > 0
+				i = im_players_city - 1
+				IF LOCATE_CHAR_ANY_MEANS_3D scplayer impound_radius_x[i] impound_radius_y[i] impound_radius_z[i] 120.0 120.0 80.0 FALSE
+					impound_current_zone = im_players_city
+				ENDIF
 			ENDIF
 
 			IF impound_current_zone > 0
@@ -4774,7 +4751,7 @@ impound_loop_inner:
 					ENDIF
 				ENDIF
 			ELSE
-				IF tlf_underway = 2 //set in Steve�s mission cleanup
+				IF tlf_underway = 2 //set in Steve’s mission cleanup
 					tlf_underway = 0
 				ENDIF
 				IF impound_area > 0
@@ -4819,25 +4796,12 @@ valet_loop_inner:
 			LVAR_INT valet_current_zone
 			valet_current_zone = 0
 
-			SWITCH im_players_city
-				CASE LEVEL_LOSANGELES
-					IF IS_CHAR_IN_AREA_2D scplayer 215.3643 -1651.7264 440.7311 -1369.3921 FALSE
-						valet_current_zone = im_players_city
-					ENDIF
-				BREAK
-
-				CASE LEVEL_SANFRANCISCO
-					IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
-						valet_current_zone = im_players_city
-					ENDIF
-				BREAK
-
-				CASE LEVEL_LASVEGAS
-					IF IS_CHAR_IN_AREA_2D scplayer 2205.5503 1710.5160 1830.5140 2086.0610 FALSE
-						valet_current_zone = im_players_city
-					ENDIF
-				BREAK
-			ENDSWITCH
+			IF im_players_city > 0
+				i = im_players_city - 1
+				IF IS_CHAR_IN_AREA_2D scplayer valet_area_x1[i] valet_area_y1[i] valet_area_x2[i] valet_area_y2[i] FALSE
+					valet_current_zone = im_players_city
+				ENDIF
+			ENDIF
 
 			IF valet_current_zone > 0
 
@@ -4920,44 +4884,27 @@ planes_loop_inner:
 
 			i = im_players_city - 1
 			IF im_players_city > 0
-				SWITCH im_players_city
-					CASE LEVEL_LOSANGELES
-						player_x = 1685.7
-						player_y = -2238.9
-						player_z = 14.0
-					BREAK
-					CASE LEVEL_SANFRANCISCO
-						player_x = -1421.5
-						player_y = -287.2
-						player_z = 14.6
-					BREAK
-					CASE LEVEL_LASVEGAS
-						player_x = 1663.0 
-						player_y = 1423.6
-						player_z = 11.2
-					BREAK
-				ENDSWITCH
 				IF NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS
 					GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT planes.sc number_of_instances_of_streamed_script
 					IF number_of_instances_of_streamed_script = 0
 						IF created_marker[i] = 0
-							CREATE_USER_3D_MARKER player_x player_y player_z HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[i] //LEVEL_LOSANGELES
+							CREATE_USER_3D_MARKER planes_radius_x[i] planes_radius_y[i] planes_radius_z[i] HUD_COLOUR_ENTRYEXIT_YELLOW airport_marker[i]
 							created_marker[i] = 1
 						ENDIF
 						IF CAN_PLAYER_START_MISSION player1
-							IF LOCATE_CHAR_ON_FOOT_3D scplayer player_x player_y player_z 1.2 1.2 1.2 FALSE
+							IF LOCATE_CHAR_ON_FOOT_3D scplayer planes_radius_x[i] planes_radius_y[i] planes_radius_z[i] 1.2 1.2 1.2 FALSE
 								SET_PLAYER_CONTROL player1 Off
 								GOSUB mini_fade
 								STREAM_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 1
+								flag_planes_script = 1
 							//ELSE
 								//MARK_STREAMED_SCRIPT_AS_NO_LONGER_NEEDED planes.sc
 							ENDIF
 							
 							IF HAS_STREAMED_SCRIPT_LOADED planes.sc
-							AND flag_dozer_passed_1stime = 1
+							AND flag_planes_script = 1
 								START_NEW_STREAMED_SCRIPT planes.sc
-								flag_dozer_passed_1stime = 0
+								flag_planes_script = 0
 							ENDIF
 						ENDIF
 					ENDIF
@@ -5014,34 +4961,23 @@ collectibes_loop_inner:
             PLAY_MISSION_PASSED_TUNE 2
             PLAYER_MADE_PROGRESS 1
             SET_INT_STAT UNDERWATER_BREATH_STAMINA 1000
+		i = 1
+		WHILE i < 5
             //--- Girlfriends bonus: all dead or dumped girls come back on the map 
-            IF iGFLikesPlayer[SUZIE] <= 0
-            	iGFLikesPlayer[SUZIE] = 45
+            IF iGFLikesPlayer[i] <= 0
+            	iGFLikesPlayer[i] = 45
             ENDIF
-            IF iGFLikesPlayer[MICHELLE] <= 0
-            	iGFLikesPlayer[MICHELLE] = 45
-            ENDIF
-            IF iGFLikesPlayer[BARBARA] <= 0
-            	iGFLikesPlayer[BARBARA] = 45
-            ENDIF
-            IF iGFLikesPlayer[KYLIE] <= 0
-            	iGFLikesPlayer[KYLIE] = 45
-            ENDIF
+		i++
+		ENDWHILE
 
+		i = 0
+		WHILE i < 6
             //--- All girls love the player even if he smells   
-            iGFDesiredSexAppeal[COOCHIE] = -100
-            iGFDesiredSexAppeal[MICHELLE] = -100
-            iGFDesiredSexAppeal[BARBARA] = -100
-            iGFDesiredSexAppeal[KYLIE] = -100
-            iGFDesiredSexAppeal[SUZIE] = -100
-            iGFDesiredSexAppeal[MILLIE] = -100
+            iGFDesiredSexAppeal[i] = -100
             //---  All girls are his bitches now
-            iGFSelfRespect[COOCHIE] = 1
-            iGFSelfRespect[MICHELLE] = 1
-            iGFSelfRespect[BARBARA] = 1
-            iGFSelfRespect[KYLIE] = 1
-            iGFSelfRespect[SUZIE] = 1
-            iGFSelfRespect[MILLIE] = 1
+            iGFSelfRespect[i] = 1
+		i++
+		ENDWHILE
             CLEAR_HELP
             PRINT_HELP OYST100
             returned_oysters_flag = 1

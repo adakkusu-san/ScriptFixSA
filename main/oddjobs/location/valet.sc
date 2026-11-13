@@ -294,6 +294,30 @@ valet_spawn_y2[3] = 1965.5731
 valet_spawn_z2[3] = 9.9974 
 valet_spawn_h2[3] = 117.4401      
 
+i = 0
+WHILE i < 3
+SWITCH val_area
+CASE 1
+	valet_ped_x[i] = valet_la_x[i]
+	valet_ped_y[i] = valet_la_y[i]
+	valet_ped_z[i] = valet_la_z[i]
+	valet_ped_h[i] = valet_la_h[i]
+BREAK
+CASE 2
+	valet_ped_x[i] = valet_sf_x[i]
+	valet_ped_y[i] = valet_sf_y[i]
+	valet_ped_z[i] = valet_sf_z[i]
+	valet_ped_h[i] = valet_sf_h[i]
+BREAK
+CASE 3
+	valet_ped_x[i] = valet_vg_x[i]
+	valet_ped_y[i] = valet_vg_y[i]
+	valet_ped_z[i] = valet_vg_z[i]
+	valet_ped_h[i] = valet_vg_h[i]
+BREAK
+ENDSWITCH
+i++
+ENDWHILE
 
    // valet 1
    // valet 2
@@ -1385,18 +1409,8 @@ valets:
 				IF valet_can_be_created[valet_i] = 1
 					REQUEST_MODEL wmyva
 					IF HAS_MODEL_LOADED wmyva
-						IF val_Area = 1
-							CREATE_CHAR PEDTYPE_MISSION1 wmyva valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] valet[valet_i]
-							SET_CHAR_HEADING valet[valet_i] valet_la_h[valet_i]
-						ENDIF
-						IF val_Area = 2
-							CREATE_CHAR PEDTYPE_MISSION1 wmyva valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] valet[valet_i]
-							SET_CHAR_HEADING valet[valet_i] valet_sf_h[valet_i]
-						ENDIF
-						IF val_Area = 3
-							CREATE_CHAR PEDTYPE_MISSION1 wmyva valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] valet[valet_i]
-							SET_CHAR_HEADING valet[valet_i] valet_vg_h[valet_i]
-						ENDIF
+							CREATE_CHAR PEDTYPE_MISSION1 wmyva valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] valet[valet_i]
+							SET_CHAR_HEADING valet[valet_i] valet_ped_h[valet_i]
 
 						SET_CHAR_DECISION_MAKER valet[valet_i] valet_empty_dec
 						SET_CHAR_ONLY_DAMAGED_BY_PLAYER valet[valet_i] TRUE
@@ -1411,22 +1425,10 @@ valets:
 			CASE WAITING_FOR_CAR
 				IF TIMERA > checks_time_A
 					IF NOT IS_CHAR_DEAD valet[valet_i]
-						IF val_Area = 1
-							IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] 2.0 2.0 2.0 FALSE
+							IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] 2.0 2.0 2.0 FALSE
 								OPEN_SEQUENCE_TASK valet_seq
-									TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] PEDMOVE_RUN -2
-									TASK_ACHIEVE_HEADING -1 valet_la_h[valet_i]
-								CLOSE_SEQUENCE_TASK valet_seq
-								PERFORM_SEQUENCE_TASK valet[valet_i] valet_seq
-								CLEAR_SEQUENCE_TASK valet_seq
-								valet_task[valet_i] = RETURNING_TO_CARPORT
-							ENDIF
-						ENDIF
-						IF val_Area = 2
-							IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] 2.0 2.0 2.0 FALSE
-								OPEN_SEQUENCE_TASK valet_seq
-									TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] PEDMOVE_RUN -2
-									TASK_ACHIEVE_HEADING -1 valet_sf_h[valet_i]
+									TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] PEDMOVE_RUN -2
+									TASK_ACHIEVE_HEADING -1 valet_ped_h[valet_i]
 								CLOSE_SEQUENCE_TASK valet_seq
 								PERFORM_SEQUENCE_TASK valet[valet_i] valet_seq
 								CLEAR_SEQUENCE_TASK valet_seq
@@ -1436,26 +1438,13 @@ valets:
 								GET_SCRIPT_TASK_STATUS valet[valet_i] TASK_ACHIEVE_HEADING valet_Task_status
 								IF valet_task_Status = FINISHED_TASK
 									GET_CHAR_HEADING valet[valet_i] val_h
-									val_h -= valet_sf_h[valet_i]
+									val_h -= valet_ped_h[valet_i]
 									ABS val_h
 									IF NOT val_h < 10.0
-										TASK_ACHIEVE_HEADING valet[valet_i] valet_sf_h[valet_i]
+										TASK_ACHIEVE_HEADING valet[valet_i] valet_ped_h[valet_i]
 									ENDIF
 								ENDIF
 							ENDIF
-						ENDIF
-						IF val_Area = 3
-							IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] 2.0 2.0 2.0 FALSE
-								OPEN_SEQUENCE_TASK valet_seq
-									TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] PEDMOVE_RUN -2
-									TASK_ACHIEVE_HEADING -1 valet_vg_h[valet_i]
-								CLOSE_SEQUENCE_TASK valet_seq
-								PERFORM_SEQUENCE_TASK valet[valet_i] valet_seq
-								CLEAR_SEQUENCE_TASK valet_seq
-
-								valet_task[valet_i] = RETURNING_TO_CARPORT
-							ENDIF
-						ENDIF
 					ENDIF
 				ENDIF
 			BREAK
@@ -1465,11 +1454,10 @@ valets:
 					IF NOT IS_CHAR_DEAD valet[valet_i]
 						GET_SCRIPT_TASK_STATUS valet[valet_i] PERFORM_SEQUENCE_TASK valet_task_status
 						IF valet_task_status = FINISHED_TASK
-							IF val_Area = 1
-								IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] 3.0 3.0 3.0 FALSE
+								IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] 3.0 3.0 3.0 FALSE
 									OPEN_SEQUENCE_TASK valet_seq
-										TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] PEDMOVE_RUN -2
-										TASK_ACHIEVE_HEADING -1 valet_la_h[valet_i]
+										TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] PEDMOVE_RUN -2
+										TASK_ACHIEVE_HEADING -1 valet_ped_h[valet_i]
 									CLOSE_SEQUENCE_TASK valet_seq
 									PERFORM_SEQUENCE_TASK valet[valet_i] valet_seq
 									CLEAR_SEQUENCE_TASK valet_seq
@@ -1477,33 +1465,6 @@ valets:
 //									CLEAR_CHAR_TASKS valet[valet_i]
 									valet_task[valet_i] = WAITING_FOR_CAR
 								ENDIF
-							ENDIF
-							IF val_Area = 2
-								IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] 3.0 3.0 3.0 FALSE
-									OPEN_SEQUENCE_TASK valet_seq
-										TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] PEDMOVE_RUN -2
-										TASK_ACHIEVE_HEADING -1 valet_sf_h[valet_i]
-									CLOSE_SEQUENCE_TASK valet_seq
-									PERFORM_SEQUENCE_TASK valet[valet_i] valet_seq
-									CLEAR_SEQUENCE_TASK valet_seq
-								ELSE
-//									CLEAR_CHAR_TASKS valet[valet_i]
-									valet_task[valet_i] = WAITING_FOR_CAR
-								ENDIF
-							ENDIF
-							IF val_Area = 3
-								IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] 3.0 3.0 3.0 FALSE
-									OPEN_SEQUENCE_TASK valet_seq
-										TASK_FOLLOW_PATH_NODES_TO_COORD -1 valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] PEDMOVE_RUN -2
-										TASK_ACHIEVE_HEADING -1 valet_vg_h[valet_i]
-									CLOSE_SEQUENCE_TASK valet_seq
-									PERFORM_SEQUENCE_TASK valet[valet_i] valet_seq
-									CLEAR_SEQUENCE_TASK valet_seq
-								ELSE
-//									CLEAR_CHAR_TASKS valet[valet_i]
-									valet_task[valet_i] = WAITING_FOR_CAR
-								ENDIF
-							ENDIF
 						ENDIF					
 					ENDIF
 				ENDIF
@@ -1542,31 +1503,12 @@ valets:
 					ENDIF
 					IF TIMERA > checks_time_B 
 						IF NOT IS_CHAR_DEAD scplayer
-							IF val_Area = 1
 								IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D valet[valet_i] scplayer 15.0 15.0 15.0 FALSE
-								OR NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] 10.0 10.0 10.0 FALSE
+								OR NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] 10.0 10.0 10.0 FALSE
 									CLEAR_CHAR_TASKS valet[valet_i]
 									
 									valet_task[valet_i] = valet_last_task[valet_i]
 								ENDIF
-							ENDIF
-							IF val_Area = 2
-								IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D valet[valet_i] scplayer 15.0 15.0 15.0 FALSE
-								OR NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] 10.0 10.0 10.0 FALSE
-									CLEAR_CHAR_TASKS valet[valet_i]
-									
-									valet_task[valet_i] = valet_last_task[valet_i]
-								ENDIF
-							ENDIF
-							IF val_Area = 3
-								IF NOT LOCATE_CHAR_ANY_MEANS_CHAR_3D valet[valet_i] scplayer 15.0 15.0 15.0 FALSE
-								OR NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] 10.0 10.0 10.0 FALSE
-									CLEAR_CHAR_TASKS valet[valet_i]
-									
-									valet_task[valet_i] = valet_last_task[valet_i]
-								ENDIF
-							ENDIF
-
 						ENDIF
 					ENDIF
 				ENDIF				
@@ -1575,27 +1517,11 @@ valets:
 			CASE PICKING_UP_CAR
 				IF NOT IS_CHAR_DEAD valet[valet_i]
 
-					IF val_Area = 1
-						IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] 23.0 23.0 8.0 FALSE
+						IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] 23.0 23.0 8.0 FALSE
 							valet_task[valet_i] = WAITING_FOR_CAR
 							valet_last_task[valet_i] = WAITING_FOR_CAR
 							valet_car[valet_i] = 0
 						ENDIF
-					ENDIF
-					IF val_Area = 2
-						IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_sf_x[valet_i] valet_sf_y[valet_i] valet_sf_z[valet_i] 23.0 23.0 8.0 FALSE
-							valet_task[valet_i] = WAITING_FOR_CAR
-							valet_last_task[valet_i] = WAITING_FOR_CAR
-							valet_car[valet_i] = 0
-						ENDIF
-					ENDIF
-					IF val_Area = 3
-						IF NOT LOCATE_CHAR_ANY_MEANS_3D valet[valet_i] valet_vg_x[valet_i] valet_vg_y[valet_i] valet_vg_z[valet_i] 23.0 23.0 8.0 FALSE
-							valet_task[valet_i] = WAITING_FOR_CAR
-							valet_last_task[valet_i] = WAITING_FOR_CAR
-							valet_car[valet_i] = 0
-						ENDIF
-					ENDIF
 
 					IF NOT valet_task[valet_i] = WAITING_FOR_CAR
 						GET_SCRIPT_TASK_STATUS valet[valet_i] PERFORM_SEQUENCE_TASK valet_task_status
@@ -1803,9 +1729,49 @@ valets:
 
 RETURN
 
-car_control:
+get_random_car_for_valet:
+	GET_RANDOM_CAR_OF_TYPE_IN_AREA_NO_SAVE valet_temp_float[1] valet_temp_float[2] valet_temp_float[3] valet_temp_float[4] -1 a_car
+	IF NOT a_car = -1
+		IF NOT IS_CAR_DEAD a_car
+			GET_CAR_HEADING a_car a_Heading
+			a_float = a_heading - valet_temp_float[0]
+			ABS a_float
+			IF a_float < 45.0
+				GET_VEHICLE_CLASS a_car a_class
+				IF a_class	= NORMAL_CAR
+				OR a_class	= POOR_FAMILY_CAR
+				OR a_class	= RICH_FAMILY_CAR
+				OR a_class	= EXECUTIVE_CAR
+					GET_CAR_MODEL a_car a_class
+					IF NOT a_class = copcarla						
+					OR NOT a_class = TAXI
+						GET_DRIVER_OF_CAR a_car a_driver
+						IF NOT a_driver = -1
+							IF NOT IS_CHAR_DEAD a_driver
+								GET_SCRIPT_TASK_STATUS a_driver TASK_CAR_DRIVE_WANDER valet_task_status
+								IF valet_task_status = FINISHED_TASK
+									drop_off_car = a_car
+									SET_CAR_CAN_GO_AGAINST_TRAFFIC drop_off_car FALSE
+								ENDIF
+							ENDIF
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+RETURN
 
-	
+make_the_drop_off_valet_car:
+	CLEAR_AREA valet_temp_float[1] valet_temp_float[2] valet_temp_float[3] 5.0 FALSE
+	CREATE_CAR valet_model valet_temp_float[1] valet_temp_float[2] valet_temp_float[3] drop_off_car
+	SET_CAR_HEADING drop_off_car valet_temp_float[4]
+	CREATE_RANDOM_CHAR_AS_DRIVER drop_off_car a_driver
+	SET_CAR_CAN_GO_AGAINST_TRAFFIC drop_off_car FALSE
+//	MARK_CAR_AS_NO_LONGER_NEEDED drop_off_car
+RETURN
+
+car_control:
 	
 	IF freeze_creating_drop_off_cars = 0
 	OR force_a_one_off_car > 0
@@ -2027,75 +1993,20 @@ car_control:
 		IF TIMERA > checks_time_C
 			debug_this = 3
 			drop_off_car = 0
-			GET_RANDOM_CAR_OF_TYPE_IN_AREA_NO_SAVE find_drop_off_car_x1[val_area] find_drop_off_car_y1[val_area] find_drop_off_car_x2[val_area] find_drop_off_car_y2[val_area] -1 a_car
-			IF NOT a_car = -1
-				IF NOT IS_CAR_DEAD a_car
-					GET_CAR_HEADING a_car a_Heading
-					a_float = a_heading - find_drop_off_car_h1[val_area]
-					ABS a_float
-					IF a_float < 45.0
-						GET_VEHICLE_CLASS a_car a_class
-
-						IF a_class	= NORMAL_CAR
-						OR a_class	= POOR_FAMILY_CAR
-						OR a_class	= RICH_FAMILY_CAR
-						OR a_class	= EXECUTIVE_CAR
-
-							GET_CAR_MODEL a_car a_class
-
-							IF NOT a_class = copcarla						
-							OR NOT a_class = TAXI
-								GET_DRIVER_OF_CAR a_car a_driver
-								IF NOT a_driver = -1
-									IF NOT IS_CHAR_DEAD a_driver
-										GET_SCRIPT_TASK_STATUS a_driver TASK_CAR_DRIVE_WANDER valet_task_status
-										IF valet_task_status = FINISHED_TASK
-											drop_off_car = a_car
-											SET_CAR_CAN_GO_AGAINST_TRAFFIC drop_off_car FALSE
-										ENDIF
-									ENDIF
-								ENDIF
-							ENDIF
-						ENDIF
-					ENDIF
-				ENDIF
-			ENDIF
+			valet_temp_float[1] = find_drop_off_car_x1[val_area]
+			valet_temp_float[2] = find_drop_off_car_y1[val_area]
+			valet_temp_float[3] = find_drop_off_car_x2[val_area]
+			valet_temp_float[4] = find_drop_off_car_y2[val_area]
+			valet_temp_float[0] = find_drop_off_car_h1[val_area]
+			GOSUB get_random_car_for_valet
 
 			IF drop_off_car = 0
-
-				GET_RANDOM_CAR_OF_TYPE_IN_AREA_NO_SAVE find_drop_off_car_x3[val_area] find_drop_off_car_y3[val_area] find_drop_off_car_x4[val_area] find_drop_off_car_y4[val_area] -1 a_car
-				IF NOT a_car = -1
-					IF NOT IS_CAR_DEAD a_car
-						GET_CAR_HEADING a_car a_Heading
-						a_float = a_heading - find_drop_off_car_h2[val_area]
-						ABS a_float
-						IF a_float < 45.0
-							GET_VEHICLE_CLASS a_car a_class
-
-							IF a_class	= NORMAL_CAR
-							OR a_class	= POOR_FAMILY_CAR
-							OR a_class	= RICH_FAMILY_CAR
-							OR a_class	= EXECUTIVE_CAR
-
-								GET_CAR_MODEL a_car a_class
-
-								IF NOT a_class = copcarla						
-								OR NOT a_class = TAXI
-									GET_DRIVER_OF_CAR a_car a_driver
-									IF NOT a_driver = -1
-										IF NOT IS_CHAR_DEAD a_driver
-											GET_SCRIPT_TASK_STATUS a_driver TASK_CAR_DRIVE_WANDER valet_task_status
-											IF valet_task_status = FINISHED_TASK
-												drop_off_car = a_car
-												SET_CAR_CAN_GO_AGAINST_TRAFFIC drop_off_car FALSE
-											ENDIF
-										ENDIF
-									ENDIF																
-								ENDIF
-							ENDIF							
-						ENDIF
-					ENDIF
-				ENDIF				
+				valet_temp_float[1] = find_drop_off_car_x3[val_area]
+				valet_temp_float[2] = find_drop_off_car_y3[val_area]
+				valet_temp_float[3] = find_drop_off_car_x4[val_area]
+				valet_temp_float[4] = find_drop_off_car_y4[val_area]
+				valet_temp_float[0] = find_drop_off_car_h2[val_area]
+				GOSUB get_random_car_for_valet
 			ENDIF
 
 
@@ -2122,21 +2033,19 @@ car_control:
 					IF check_car_counter >= 6
 						IF NOT valet_model = 0
 							IF HAS_MODEL_LOADED valet_model
-								IF NOT IS_POINT_ON_SCREEN valet_spawn_x[val_area] valet_spawn_y[val_area] valet_spawn_z[val_area] 5.0
-									CLEAR_AREA valet_spawn_x[val_area] valet_spawn_y[val_area] valet_spawn_z[val_area] 5.0 FALSE
-									CREATE_CAR valet_model valet_spawn_x[val_area] valet_spawn_y[val_area] valet_spawn_z[val_area] drop_off_car
-									SET_CAR_HEADING drop_off_car valet_spawn_h[val_area]
-									CREATE_RANDOM_CHAR_AS_DRIVER drop_off_car a_driver
-									SET_CAR_CAN_GO_AGAINST_TRAFFIC drop_off_car FALSE
-//									MARK_CAR_AS_NO_LONGER_NEEDED drop_off_car
+								valet_temp_float[1] = valet_spawn_x[val_area]
+								valet_temp_float[2] = valet_spawn_y[val_area]
+								valet_temp_float[3] = valet_spawn_z[val_area]
+								valet_temp_float[4] = valet_spawn_h[val_area]
+								IF NOT IS_POINT_ON_SCREEN valet_temp_float[1] valet_temp_float[2] valet_temp_float[3] 5.0
+									GOSUB make_the_drop_off_valet_car
 								ELSE
-									IF NOT IS_POINT_ON_SCREEN valet_spawn_x2[val_area] valet_spawn_y2[val_area] valet_spawn_z2[val_area] 5.0
-										CLEAR_AREA valet_spawn_x2[val_area] valet_spawn_y2[val_area] valet_spawn_z2[val_area] 5.0 FALSE
-										CREATE_CAR valet_model valet_spawn_x2[val_area] valet_spawn_y2[val_area] valet_spawn_z2[val_area] drop_off_car
-										SET_CAR_HEADING drop_off_car valet_spawn_h2[val_area]
-										CREATE_RANDOM_CHAR_AS_DRIVER drop_off_car a_driver
-										SET_CAR_CAN_GO_AGAINST_TRAFFIC drop_off_car FALSE
-//										MARK_CAR_AS_NO_LONGER_NEEDED drop_off_car
+									valet_temp_float[1] = valet_spawn_x2[val_area]
+									valet_temp_float[2] = valet_spawn_y2[val_area]
+									valet_temp_float[3] = valet_spawn_z2[val_area]
+									valet_temp_float[4] = valet_spawn_h2[val_area]
+									IF NOT IS_POINT_ON_SCREEN valet_temp_float[1] valet_temp_float[2] valet_temp_float[3] 5.0
+										GOSUB make_the_drop_off_valet_car
 									ENDIF
 								ENDIF
 							ENDIF

@@ -2890,7 +2890,7 @@ cell_phone_LA1_inner:
 
 								IF IS_PLAYER_PLAYING player1
 									SET_PLAYER_CONTROL player1 OFF
-						    		GET_CHAR_COORDINATES scplayer player_X player_Y player_Z
+						    		GET_CHAR_COORDINATES scplayer X_temp Y_temp Z_temp
 									SET_CHAR_COORDINATES scplayer 2228.8914 -1737.1276 12.3906
 								ENDIF
 						    	CLEAR_PRINTS
@@ -2921,11 +2921,12 @@ cell_phone_LA1_inner:
 						    	ENDWHILE
 
 								IF IS_PLAYER_PLAYING player1
-									SET_CHAR_COORDINATES_NO_OFFSET scplayer player_X player_Y player_Z // FIXEDGROVE: changed from SET_CHAR_COORDS, since the original coords dont have an offset
-									LOAD_SCENE player_X player_Y player_Z
+									SET_CHAR_COORDINATES_NO_OFFSET scplayer X_temp Y_temp Z_temp // FIXEDGROVE: changed from SET_CHAR_COORDS, since the original coords dont have an offset
+									LOAD_SCENE X_temp Y_temp Z_temp
 									RESTORE_CAMERA_JUMPCUT
 									SET_PLAYER_CONTROL player1 ON
 								ENDIF
+							ENDIF // FIXEDGROVE: enable the gym if the player is in an interior, the tutorial help box plays while freeroaming instead
 								SWITCH_ENTRY_EXIT gym1 TRUE
 								SWITCH_ENTRY_EXIT gym2 TRUE
 								SWITCH_ENTRY_EXIT gym3 TRUE
@@ -2937,19 +2938,9 @@ cell_phone_LA1_inner:
 								ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT 1968.6, 2292.1, 16.4 RADAR_SPRITE_GYM gym_blips[1] //GYM3
 								CHANGE_BLIP_DISPLAY gym_blips[1] BLIP_ONLY
 
+							IF main_visible_area = 0
 								WAIT 500
 								DO_FADE 1000 FADE_IN
-							ELSE // FIXEDGROVE: enable the gym if the player is in an interior, the tutorial help box plays while freeroaming instead
-								SWITCH_ENTRY_EXIT gym1 TRUE
-								SWITCH_ENTRY_EXIT gym2 TRUE
-								SWITCH_ENTRY_EXIT gym3 TRUE
-								REMOVE_BLIP gym_contact_blip
-								ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT 2228.0002 -1722.8113 12.5543 RADAR_SPRITE_GYM gym_contact_blip
-								CHANGE_BLIP_DISPLAY gym_contact_blip BLIP_ONLY
-								ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT -2269.4, -155.6, 35.3 RADAR_SPRITE_GYM gym_blips[0] //GYM2
-								CHANGE_BLIP_DISPLAY gym_blips[0] BLIP_ONLY
-								ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT 1968.6, 2292.1, 16.4 RADAR_SPRITE_GYM gym_blips[1] //GYM3
-								CHANGE_BLIP_DISPLAY gym_blips[1] BLIP_ONLY
 							ENDIF
 
 						ENDIF

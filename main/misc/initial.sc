@@ -901,12 +901,12 @@ lowrideY = 	-2012.5581
 lowrideZ = 	12.5469
 
 
-VAR_INT tag_target[5] unused_tag_target[5]
-
+VAR_INT tag_target[5] // FIXEDGROVE: was [10]
 
 // FIXEDGROVE: START - repurposed variables
+VAR_FLOAT valet_temp_float[5]
 VAR_FLOAT valet_area_x1[3] valet_area_y1[3] valet_area_x2[3] valet_area_y2[3]
-VAR_INT unused_fire_vars[12]
+VAR_FLOAT valet_ped_x[3] valet_ped_y[3] valet_ped_z[3] valet_ped_h[3]
 
 impound_radius_x[0] = 1579.4248
 impound_radius_y[0] = -1636.4630

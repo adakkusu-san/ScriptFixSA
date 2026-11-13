@@ -7052,26 +7052,21 @@ open_the_map_inner:
 	IF Return_cities_passed > 0
 		IF opened_badlands_up = 0
 			//BADLANDS
-			GOSUB remove_prop_blips1
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[8] propertyY[8] propertyZ[8] save_houseprice[8] PROP_3 save_housepickup[8] //Small town suburban house with lawn and porch
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[8] propertyY[8] propertyZ[8] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[8]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[8] BLIP_ONLY
 
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[19] propertyY[19] propertyZ[19] save_houseprice[19] PROP_3 save_housepickup[19] //Farm
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[19] propertyY[19] propertyZ[19] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[19]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[19] BLIP_ONLY
+			i = 8 //Small town suburban house with lawn and porch
+			GOSUB create_prop_main
 
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[22] propertyY[22] propertyZ[22] save_houseprice[22] PROP_3 save_housepickup[22] //just off main Angel Pine town, behind Sawmill   
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[22] propertyY[22] propertyZ[22] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[22]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[22] BLIP_ONLY
+			i = 19 //Farm
+			GOSUB create_prop_main
 
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[25] propertyY[25] propertyZ[25] save_houseprice[25] PROP_3 save_housepickup[25] //Las Barrancas (southern town)
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[25] propertyY[25] propertyZ[25] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[25]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[25] BLIP_ONLY
+			i = 22 //just off main Angel Pine town, behind Sawmill   
+			GOSUB create_prop_main
 
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[31] propertyY[31] propertyZ[31] save_houseprice[31] PROP_3 save_housepickup[31] //North Badlands
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[31] propertyY[31] propertyZ[31] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[31]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[31] BLIP_ONLY
+			i = 25 //Las Barrancas (southern town)
+			GOSUB create_prop_main
+
+			i = 31 //North Badlands
+			GOSUB create_prop_main
 
 			opened_badlands_up = 1
 		ENDIF
@@ -7082,30 +7077,24 @@ open_the_map_inner:
 		OR launch_shit_for_debug_build = 1 //TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			IF opened_sanfran_up = 0
 				//SAN FRAN
-				GOSUB remove_prop_blips2
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[11] propertyY[11] propertyZ[11] save_houseprice[11] PROP_3 save_housepickup[11] //big swanky SF savehouse at the top of lombard street
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[11] propertyY[11] propertyZ[11] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[11]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[11] BLIP_ONLY
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[13] propertyY[13] propertyZ[13] save_houseprice[13] PROP_3 save_housepickup[13] //small flat near hospital
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[13] propertyY[13] propertyZ[13] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[13]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[13] BLIP_ONLY
+				i = 11 //big swanky SF savehouse at the top of lombard street
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[14] propertyY[14] propertyZ[14] save_houseprice[14] PROP_3 save_housepickup[14] //large garage in alley behind apartments in Hashbury
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[14] propertyY[14] propertyZ[14] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[14]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[14] BLIP_ONLY
+				i = 13 //small flat near hospital
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[18] propertyY[18] propertyZ[18] save_houseprice[18] PROP_3 save_housepickup[18] //small chinatown pad
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[18] propertyY[18] propertyZ[18] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[18]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[18] BLIP_ONLY
+				i = 14 //large garage in alley behind apartments in Hashbury
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[20] propertyY[20] propertyZ[20] save_houseprice[20] PROP_3 save_housepickup[20] //large pad next to driving school   
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[20] propertyY[20] propertyZ[20] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[20]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[20] BLIP_ONLY
+				i = 18 //small chinatown pad
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[21] propertyY[21] propertyZ[21] save_houseprice[21] PROP_3 save_housepickup[21] //Vank Hoff In The Park Hotel Room    
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[21] propertyY[21] propertyZ[21] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[21]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[21] BLIP_ONLY
+				i = 20 //large pad next to driving school   
+				GOSUB create_prop_main
+
+				i = 21 //Vank Hoff In The Park Hotel Room    
+				GOSUB create_prop_main
 
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 1458.7, -1140.0, 24.2 RADAR_SPRITE_TSHIRT clothes_blips[0] //CLOTHGP //SAN FRAN
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD -1886.1, 862.4, 35.2 RADAR_SPRITE_TSHIRT clothes_blips[1] //CLOTHGP //SAN FRAN
@@ -7121,18 +7110,15 @@ open_the_map_inner:
 	IF Return_cities_passed > 1
 		IF opened_desert_up = 0
 			//DESERT
-			GOSUB remove_prop_blips3
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[5] propertyY[5] propertyZ[5] save_houseprice[5] PROP_3 save_housepickup[5] //Fort Carson old house savehouse near river BADLANDS
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[5] propertyY[5] propertyZ[5] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[5]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[5] BLIP_ONLY
 
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[23] propertyY[23] propertyZ[23] save_houseprice[23] PROP_3 save_housepickup[23] //In El Quebrados (most northerly town)
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[23] propertyY[23] propertyZ[23] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[23]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[23] BLIP_ONLY
+			i = 5 //Fort Carson old house savehouse near river BADLANDS
+			GOSUB create_prop_main
 
-			CREATE_FORSALE_PROPERTY_PICKUP propertyX[24] propertyY[24] propertyZ[24] save_houseprice[24] PROP_3 save_housepickup[24] //Las Barrancas (southern town)
-			ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[24] propertyY[24] propertyZ[24] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[24]
-			CHANGE_BLIP_DISPLAY prop_save_house_blip[24] BLIP_ONLY
+			i = 23 //In El Quebrados (most northerly town)
+			GOSUB create_prop_main
+
+			i = 24 //Las Barrancas (southern town)
+			GOSUB create_prop_main
 
 			opened_desert_up = 1
 		ENDIF
@@ -7143,42 +7129,33 @@ open_the_map_inner:
 		OR launch_shit_for_debug_build = 1 //TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			IF opened_vegas_up = 0
 				//VEGAS
-				GOSUB remove_prop_blips4
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[4] propertyY[4] propertyZ[4] save_houseprice[4] PROP_3 save_housepickup[4] //Shabbyhouse in Vegas East
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[4] propertyY[4] propertyZ[4] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[4]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[4] BLIP_ONLY
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[6] propertyY[6] propertyZ[6] save_houseprice[6] PROP_3 save_housepickup[6] //Medium house in nice suburb of Venturas
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[6] propertyY[6] propertyZ[6] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[6]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[6] BLIP_ONLY
+				i = 4 //Shabbyhouse in Vegas East
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[7] propertyY[7] propertyZ[7] save_houseprice[7] PROP_3 save_housepickup[7] //shabby house in rundown residential area
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[7] propertyY[7] propertyZ[7] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[7]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[7] BLIP_ONLY
+				i = 6 //Medium house in nice suburb of Venturas
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[9] propertyY[9] propertyZ[9] save_houseprice[9] PROP_3 save_housepickup[9] //shabby house in rundown residential area
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[9] propertyY[9] propertyZ[9] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[9]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[9] BLIP_ONLY
+				i = 7 //shabby house in rundown residential area
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[16] propertyY[16] propertyZ[16] save_houseprice[16] PROP_3 save_housepickup[16] //Pirates In Men’s Pants Casino
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[16] propertyY[16] propertyZ[16] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[16]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[16] BLIP_ONLY
+				i = 9 //shabby house in rundown residential area
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[17] propertyY[17] propertyZ[17] save_houseprice[17] PROP_3 save_housepickup[17] //The Camels Toe Casino
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[17] propertyY[17] propertyZ[17] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[17]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[17] BLIP_ONLY
+				i = 16 //Pirates In Men’s Pants Casino
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[27] propertyY[27] propertyZ[27] save_houseprice[27] PROP_3 save_housepickup[27] //CASINO
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[27] propertyY[27] propertyZ[27] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[27]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[27] BLIP_ONLY
+				i = 17 //The Camels Toe Casino
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[28] propertyY[28] propertyZ[28] save_houseprice[28] PROP_3 save_housepickup[28] //Casino
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[28] propertyY[28] propertyZ[28] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[28]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[28] BLIP_ONLY
+				i = 27 //CASINO
+				GOSUB create_prop_main
 
-				CREATE_FORSALE_PROPERTY_PICKUP propertyX[29] propertyY[29] propertyZ[29] save_houseprice[29] PROP_3 save_housepickup[29] //Vegas house
-				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[29] propertyY[29] propertyZ[29] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[29]
-				CHANGE_BLIP_DISPLAY prop_save_house_blip[29] BLIP_ONLY
+				i = 28 //Casino
+				GOSUB create_prop_main
+
+				i = 29 //Vegas house
+				GOSUB create_prop_main
 
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 457.2, -1500.7, 31.3 RADAR_SPRITE_TSHIRT clothes_blips[11] //CSDESGN //VEGAS
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2795.2, 2424.6, 11.0 RADAR_SPRITE_TSHIRT clothes_blips[12] //CSDESGN //VEGAS
@@ -7200,82 +7177,17 @@ open_the_map_inner:
 		ENDIF
 	ENDIF
 
-
 GOTO open_the_map_inner
 
 }
 
-
-remove_prop_blips1:
-
-	REMOVE_BLIP prop_save_house_blip[8]
-	REMOVE_BLIP prop_save_house_blip[19]
-	REMOVE_BLIP prop_save_house_blip[22]
-	REMOVE_BLIP prop_save_house_blip[25]
-	REMOVE_BLIP prop_save_house_blip[31]
-
-	REMOVE_PICKUP save_housepickup[8]
-	REMOVE_PICKUP save_housepickup[19]
-	REMOVE_PICKUP save_housepickup[22]
-	REMOVE_PICKUP save_housepickup[25]
-	REMOVE_PICKUP save_housepickup[31]
-
+create_prop_main:
+	REMOVE_BLIP prop_save_house_blip[i]
+	REMOVE_PICKUP save_housepickup[i]
+	CREATE_FORSALE_PROPERTY_PICKUP propertyX[i] propertyY[i] propertyZ[i] save_houseprice[i] PROP_3 save_housepickup[i]
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[i] propertyY[i] propertyZ[i] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[i]
+	CHANGE_BLIP_DISPLAY prop_save_house_blip[i] BLIP_ONLY
 RETURN
-
-remove_prop_blips2:
-
-	REMOVE_BLIP prop_save_house_blip[11]
-	REMOVE_BLIP prop_save_house_blip[13]
-	REMOVE_BLIP prop_save_house_blip[14]
-	REMOVE_BLIP prop_save_house_blip[18]
-	REMOVE_BLIP prop_save_house_blip[20]
-	REMOVE_BLIP prop_save_house_blip[21]
-
-	REMOVE_PICKUP save_housepickup[11]
-	REMOVE_PICKUP save_housepickup[13]
-	REMOVE_PICKUP save_housepickup[14]
-	REMOVE_PICKUP save_housepickup[18]
-	REMOVE_PICKUP save_housepickup[20]
-	REMOVE_PICKUP save_housepickup[21]
-
-RETURN
-
-remove_prop_blips3:
-
-	REMOVE_BLIP prop_save_house_blip[5]
-	REMOVE_BLIP prop_save_house_blip[23]
-	REMOVE_BLIP prop_save_house_blip[24]
-
-	REMOVE_PICKUP save_housepickup[5]
-	REMOVE_PICKUP save_housepickup[23]
-	REMOVE_PICKUP save_housepickup[24]
-
-RETURN
-
-remove_prop_blips4:
-
-	REMOVE_BLIP prop_save_house_blip[4]
-	REMOVE_BLIP prop_save_house_blip[6]
-	REMOVE_BLIP prop_save_house_blip[7]
-	REMOVE_BLIP prop_save_house_blip[9]
-	REMOVE_BLIP prop_save_house_blip[16]
-	REMOVE_BLIP prop_save_house_blip[17]
-	REMOVE_BLIP prop_save_house_blip[27]
-	REMOVE_BLIP prop_save_house_blip[28]
-	REMOVE_BLIP prop_save_house_blip[29]
-
-	REMOVE_PICKUP save_housepickup[4]
-	REMOVE_PICKUP save_housepickup[6]
-	REMOVE_PICKUP save_housepickup[7]
-	REMOVE_PICKUP save_housepickup[9]
-	REMOVE_PICKUP save_housepickup[16]
-	REMOVE_PICKUP save_housepickup[17]
-	REMOVE_PICKUP save_housepickup[27]
-	REMOVE_PICKUP save_housepickup[28]
-	REMOVE_PICKUP save_housepickup[29]
-
-RETURN
-
 
 little_casino_cut:
 

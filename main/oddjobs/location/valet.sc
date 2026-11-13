@@ -1412,12 +1412,9 @@ valets:
 							CREATE_CHAR PEDTYPE_MISSION1 wmyva valet_ped_x[valet_i] valet_ped_y[valet_i] valet_ped_z[valet_i] valet[valet_i]
 							SET_CHAR_HEADING valet[valet_i] valet_ped_h[valet_i]
 
-						SET_CHAR_DECISION_MAKER valet[valet_i] valet_empty_dec
-						SET_CHAR_ONLY_DAMAGED_BY_PLAYER valet[valet_i] TRUE
-						SET_CHAR_SUFFERS_CRITICAL_HITS valet[valet_i] FALSE					
+						i = valet_i
+						GOSUB valet_setup
 //						SET_FOLLOW_NODE_THRESHOLD_DISTANCE valet[valet_i] 35.0
-						valet_task[valet_i] = WAITING_FOR_CAR
-						valet_last_task[valet_i] = WAITING_FOR_CAR
 					ENDIF
 				ENDIF
 			BREAK

@@ -63,7 +63,7 @@ valet_warnings_given = 0
 
 
 
-IF checks_time_A = 99
+GOTO valet_skip_over_compiler_stuff //IF checks_time_A = 99
 	CREATE_CHAR PEDTYPE_CIVMALE wmyva valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] valet[valet_i]
 	CREATE_CHAR PEDTYPE_CIVMALE wmyva valet_la_x[valet_i] valet_la_y[valet_i] valet_la_z[valet_i] a_thief
 	CREATE_CAR CHEETAH 0.0 0.0 0.0 valet_pickup_car
@@ -76,31 +76,18 @@ IF checks_time_A = 99
 	ADD_BLIP_FOR_CAR valet_pickup_car pickup_car_blip
 	ADD_BLIP_FOR_COORD target_x target_y target_z parking_space_blip
 	COPY_CHAR_DECISION_MAKER DM_PED_EMPTY valet_empty_dec
-//	COPY_CHAR_DECISION_MAKER DM_PED_EMPTY valet_empty_dec
-	ADD_BLIP_FOR_COORD target_x target_y target_z parking_space_blip
-	ADD_BLIP_FOR_COORD target_x target_y target_z parking_space_blip
-	ADD_BLIP_FOR_COORD target_x target_y target_z parking_space_blip
-	ADD_BLIP_FOR_COORD target_x target_y target_z parking_space_blip
-ENDIF
+valet_skip_over_compiler_stuff: //ENDIF
 
 
-IF NOT IS_CHAR_DEAD valet[0]
-	DELETE_CHAR valet[0]
+i = 0
+WHILE i < 3
+IF NOT IS_CHAR_DEAD valet[i]
+	DELETE_CHAR valet[i]
 ENDIF
-valet_task[0] = NOT_CREATED
-valet_can_be_created[0] = 1
-
-IF NOT IS_CHAR_DEAD valet[1]
-	DELETE_CHAR valet[1]
-ENDIF
-valet_task[1] = NOT_CREATED
-valet_can_be_created[1] = 1
-
-IF NOT IS_CHAR_DEAD valet[2]
-	DELETE_CHAR valet[2]
-ENDIF
-valet_task[2] = NOT_CREATED
-valet_can_be_created[2] = 1
+valet_task[i] = NOT_CREATED
+valet_can_be_created[i] = 1
+i++
+ENDWHILE
 
 
 //LA
@@ -547,32 +534,20 @@ check_player_location:
 
 		val_area = 0
 
-		// FIXEDGROVE: START - uncomment
-		IF IS_CHAR_IN_AREA_2D scplayer 215.3643	-1651.7264 440.7311	-1369.3921 FALSE
-
-			val_Area = 1
+	i = 0
+	WHILE i < 3
+		IF IS_CHAR_IN_AREA_2D scplayer valet_area_x1[i] valet_area_y1[i] valet_area_x2[i] valet_area_y2[i] FALSE
+			val_Area = i + 1
 		ENDIF
-		// FIXEDGROVE: END	
-
-		IF IS_CHAR_IN_AREA_2D scplayer -1893.4186 1119.2267 -1617.9149 828.850 FALSE
-
-			val_Area = 2
-
-		ENDIF
+	i++
+	ENDWHILE
 		
-		// FIXEDGROVE: START - uncomment
-		IF IS_CHAR_IN_AREA_2D scplayer 2205.5503 1710.5160 1830.5140 2086.0610 FALSE // FIXEDGROVE: y was '1772.4938'
-
-			val_Area = 3
-		ENDIF
-		// FIXEDGROVE: END
-
 //		val_Area = 0
 		
-//		IF player_x > 215.3643
-//			IF player_x < 440.7311
-//				IF player_y > -1651.7264
-//					IF player_y < -1369.3921
+//		IF player_x > valet_area_x1[0]
+//			IF player_x < valet_area_x2[0]
+//				IF player_y > valet_area_y1[0]
+//					IF player_y < valet_area_y2[0]
 //		IF val_Area = 1
 //						
 //			IF valet_scene_running = 0	
@@ -588,10 +563,10 @@ check_player_location:
 //			valet_scene_running = 1
 //		ENDIF
 //
-////		IF player_x > -1893.4186
-////			IF player_x < -1617.9149
-////				IF player_y < 1119.2267
-////					IF player_y > 828.850
+////		IF player_x > valet_area_x1[1]
+////			IF player_x < valet_area_x2[1]
+////				IF player_y < valet_area_y1[1]
+////					IF player_y > valet_area_y2[1]
 //		IF val_Area = 2
 //			
 //			IF valet_scene_running = 0	
@@ -607,10 +582,10 @@ check_player_location:
 //			valet_scene_running = 1
 //		ENDIF
 //
-////		IF player_x < 2205.5503
-////			IF player_x > 1830.5140
-////				IF player_y > 1772.4938
-////					IF player_y < 2086.0610
+////		IF player_x < valet_area_x1[2]
+////			IF player_x > valet_area_x2[2]
+////				IF player_y > valet_area_y1[2]
+////					IF player_y < valet_area_y2[2]
 //		IF val_Area = 3
 //			IF valet_scene_running = 0	
 //				REMOVE_DECISION_MAKER valet_empty_dec
@@ -646,96 +621,29 @@ check_player_location:
 						ENDIF
 					ELSE
 						frozen_peds = 1
-						IF NOT IS_CHAR_DEAD valet[0]
-							FREEZE_CHAR_POSITION valet[0] TRUE
-							IF IS_CHAR_IN_ANY_CAR valet[0]
-								GET_CAR_CHAR_IS_USING valet[0] car
-								IF NOT IS_CAR_DEAD car
-									FREEZE_CAR_POSITION car TRUE
-								ENDIF
-							ENDIF
-						ENDIF
-						IF NOT IS_CHAR_DEAD valet[1]
-							FREEZE_CHAR_POSITION valet[1] TRUE
-							IF IS_CHAR_IN_ANY_CAR valet[1]
-								GET_CAR_CHAR_IS_USING valet[1] car
-								IF NOT IS_CAR_DEAD car
-									FREEZE_CAR_POSITION car TRUE
-								ENDIF
-							ENDIF
-						ENDIF
-						IF NOT IS_CHAR_DEAD valet[2]
-							FREEZE_CHAR_POSITION valet[2] TRUE
-							IF IS_CHAR_IN_ANY_CAR valet[2]
-								GET_CAR_CHAR_IS_USING valet[2] car
-								IF NOT IS_CAR_DEAD car
-									FREEZE_CAR_POSITION car TRUE
-								ENDIF
-							ENDIF
-						ENDIF						
+						i = 0
+						WHILE i < 3
+							GOSUB freeze_unfreeze_valets
+						i++
+						ENDWHILE
 					ENDIF
 				ENDIF
 			ELSE
-				
 				frozen_peds = 1
-				IF NOT IS_CHAR_DEAD valet[0]
-					FREEZE_CHAR_POSITION valet[0] TRUE
-					IF IS_CHAR_IN_ANY_CAR valet[0]
-						GET_CAR_CHAR_IS_USING valet[0] car
-						IF NOT IS_CAR_DEAD car
-							FREEZE_CAR_POSITION car TRUE
-						ENDIF
-					ENDIF
-				ENDIF
-				IF NOT IS_CHAR_DEAD valet[1]
-					FREEZE_CHAR_POSITION valet[1] TRUE
-					IF IS_CHAR_IN_ANY_CAR valet[1]
-						GET_CAR_CHAR_IS_USING valet[1] car
-						IF NOT IS_CAR_DEAD car
-							FREEZE_CAR_POSITION car TRUE
-						ENDIF
-					ENDIF
-				ENDIF
-				IF NOT IS_CHAR_DEAD valet[2]
-					FREEZE_CHAR_POSITION valet[2] TRUE
-					IF IS_CHAR_IN_ANY_CAR valet[2]
-						GET_CAR_CHAR_IS_USING valet[2] car
-						IF NOT IS_CAR_DEAD car
-							FREEZE_CAR_POSITION car TRUE
-						ENDIF
-					ENDIF
-				ENDIF
+				i = 0
+				WHILE i < 3
+					GOSUB freeze_unfreeze_valets
+				i++
+				ENDWHILE
 			ENDIF				
 		ELSE
 			IF frozen_peds = 1
 				frozen_peds = 0
-				IF NOT IS_CHAR_DEAD valet[0]
-					FREEZE_CHAR_POSITION valet[0] FALSE
-					IF IS_CHAR_IN_ANY_CAR valet[0]
-						GET_CAR_CHAR_IS_USING valet[0] car
-						IF NOT IS_CAR_DEAD car
-							FREEZE_CAR_POSITION car FALSE
-						ENDIF
-					ENDIF
-				ENDIF
-				IF NOT IS_CHAR_DEAD valet[1]
-					FREEZE_CHAR_POSITION valet[1] FALSE
-					IF IS_CHAR_IN_ANY_CAR valet[1]
-						GET_CAR_CHAR_IS_USING valet[1] car
-						IF NOT IS_CAR_DEAD car
-							FREEZE_CAR_POSITION car FALSE
-						ENDIF
-					ENDIF
-				ENDIF
-				IF NOT IS_CHAR_DEAD valet[2]
-					FREEZE_CHAR_POSITION valet[2] FALSE
-					IF IS_CHAR_IN_ANY_CAR valet[2]
-						GET_CAR_CHAR_IS_USING valet[2] car
-						IF NOT IS_CAR_DEAD car
-							FREEZE_CAR_POSITION car FALSE
-						ENDIF
-					ENDIF
-				ENDIF
+				i = 0
+				WHILE i < 3
+					GOSUB freeze_unfreeze_valets
+				i++
+				ENDWHILE
 			ENDIF
 		ENDIF
 
@@ -811,9 +719,27 @@ check_player_location:
 			      				 
 RETURN
 
+freeze_unfreeze_valets:
+	IF NOT IS_CHAR_DEAD valet[i]
+		FREEZE_CHAR_POSITION valet[i] frozen_peds
+		IF IS_CHAR_IN_ANY_CAR valet[i]
+			GET_CAR_CHAR_IS_USING valet[i] car
+			IF NOT IS_CAR_DEAD car
+				FREEZE_CAR_POSITION car frozen_peds
+			ENDIF
+		ENDIF
+	ENDIF
+RETURN
+
+valet_setup:
+	SET_CHAR_DECISION_MAKER valet[i] valet_empty_dec
+	SET_CHAR_ONLY_DAMAGED_BY_PLAYER valet[i] TRUE
+	SET_CHAR_SUFFERS_CRITICAL_HITS valet[i] FALSE
+	valet_task[i] = WAITING_FOR_CAR
+	valet_last_task[i] = WAITING_FOR_CAR
+RETURN
 
 valet_mission_control:
-
 	
 //mission_drop_off_car
 
@@ -864,32 +790,22 @@ valet_mission_control:
 
 		IF valet_mission_flag = 0
 			IF HAS_MODEL_LOADED wmyva
-				IF IS_CHAR_DEAD valet[0]
-
-					CREATE_CHAR PEDTYPE_CIVMALE wmyva -1783.8038 968.6431 23.7343 valet[0]
-					SET_CHAR_DECISION_MAKER valet[0] valet_empty_dec
-					SET_CHAR_ONLY_DAMAGED_BY_PLAYER valet[0] TRUE
-					SET_CHAR_SUFFERS_CRITICAL_HITS valet[0] FALSE					
-					valet_task[0] = WAITING_FOR_CAR
-					valet_last_task[0] = WAITING_FOR_CAR
+				i = 0
+				IF IS_CHAR_DEAD valet[i]
+					CREATE_CHAR PEDTYPE_CIVMALE wmyva -1783.8038 968.6431 23.7343 valet[i]
+					GOSUB valet_setup
 				ENDIF 
 
-				IF IS_CHAR_DEAD valet[1]
-					CREATE_CHAR PEDTYPE_CIVMALE wmyva -1782.6503 965.0251 23.8906 valet[1]
-					SET_CHAR_DECISION_MAKER valet[1] valet_empty_dec
-					SET_CHAR_ONLY_DAMAGED_BY_PLAYER valet[1] TRUE
-					SET_CHAR_SUFFERS_CRITICAL_HITS valet[1] FALSE					
-					valet_task[1] = WAITING_FOR_CAR
-					valet_last_task[1] = WAITING_FOR_CAR
+				i = 1
+				IF IS_CHAR_DEAD valet[i]
+					CREATE_CHAR PEDTYPE_CIVMALE wmyva -1782.6503 965.0251 23.8906 valet[i]
+					GOSUB valet_setup
 				ENDIF
 
-				IF IS_CHAR_DEAD valet[2]
-					CREATE_CHAR PEDTYPE_CIVMALE wmyva -1783.7314 965.4009 23.8961 valet[2]
-					SET_CHAR_DECISION_MAKER valet[2] valet_empty_dec
-					SET_CHAR_ONLY_DAMAGED_BY_PLAYER valet[2] TRUE
-					SET_CHAR_SUFFERS_CRITICAL_HITS valet[2] FALSE					
-					valet_task[2] = WAITING_FOR_CAR
-					valet_last_task[2] = WAITING_FOR_CAR
+				i = 2
+				IF IS_CHAR_DEAD valet[i]
+					CREATE_CHAR PEDTYPE_CIVMALE wmyva -1783.7314 965.4009 23.8961 valet[i]
+					GOSUB valet_setup
 				ENDIF
 
 
@@ -909,15 +825,13 @@ valet_mission_control:
 				total_cars_parked = 0
 				valet_timer = TIMERA + 4000
 				valet_mission_flag = 1
-				IF NOT IS_CHAR_DEAD valet[0]
-					SET_CHAR_CANT_BE_DRAGGED_OUT valet[0] TRUE
+			i = 0
+			WHILE i < 3
+				IF NOT IS_CHAR_DEAD valet[i]
+					SET_CHAR_CANT_BE_DRAGGED_OUT valet[i] TRUE
 				ENDIF
-				IF NOT IS_CHAR_DEAD valet[1]
-					SET_CHAR_CANT_BE_DRAGGED_OUT valet[1] TRUE
-				ENDIF
-				IF NOT IS_CHAR_DEAD valet[2]
-					SET_CHAR_CANT_BE_DRAGGED_OUT valet[2] TRUE
-				ENDIF
+			i++
+			ENDWHILE
 			ELSE
 				REQUEST_MODEL wmyva
 			ENDIF
@@ -947,18 +861,14 @@ valet_mission_control:
 
 				valet_timer = TIMERA + 5000
 				valet_mission_flag = 4
-				IF valet_task[0] = VALET_DEAD
-					valet_task[0] = NOT_CREATED
-					valet_mission_dead[0] = 0
+			i = 0
+			WHILE i < 3
+				IF valet_task[i] = VALET_DEAD
+					valet_task[i] = NOT_CREATED
+					valet_mission_dead[i] = 0
 				ENDIF
-				IF valet_task[1] = VALET_DEAD
-					valet_task[1] = NOT_CREATED
-					valet_mission_dead[1] = 0
-				ENDIF
-				IF valet_task[2] = VALET_DEAD
-					valet_task[2] = NOT_CREATED
-					valet_mission_dead[2] = 0
-				ENDIF
+			i++
+			ENDWHILE
 				IF NOT drop_off_car = 0
 					mission_drop_off_car = drop_off_car
 				ENDIF
@@ -977,39 +887,20 @@ valet_mission_control:
 
 		VAR_INT valet_time_bonus
 
-		IF IS_CHAR_DEAD valet[0]
-		AND valet_mission_dead[0] = 0
-		AND valet_task[0] = VALET_DEAD
-			valet_mission_dead[0] = 1
+	i = 0
+	WHILE i < 3
+		IF IS_CHAR_DEAD valet[i]
+		AND valet_mission_dead[i] = 0
+		AND valet_task[i] = VALET_DEAD
+			valet_mission_dead[i] = 1
 			valet_countdown -= 20000
 			IF valet_countdown < 0
 				valet_countdown = 0
 			ENDIF
 			PRINT VAL_A19 4000 1
 		ENDIF
-
-		IF IS_CHAR_DEAD valet[1]
-		AND valet_mission_dead[1] = 0
-		AND valet_task[1] = VALET_DEAD
-			valet_mission_dead[1] = 1
-			valet_countdown -= 20000
-			IF valet_countdown < 0
-				valet_countdown = 0
-			ENDIF
-			PRINT VAL_A19 4000 1
-		ENDIF
-
-
-		IF IS_CHAR_DEAD valet[2]
-		AND valet_mission_dead[2] = 0
-		AND valet_task[2] = VALET_DEAD
-			valet_mission_dead[2] = 1
-			valet_countdown -= 20000
-			IF valet_countdown < 0
-				valet_countdown = 0
-			ENDIF
-			PRINT VAL_A19 4000 1
-		ENDIF
+	i++
+	ENDWHILE
 
 
 			
@@ -1359,15 +1250,13 @@ valet_mission_control:
 			valet_mission_car = 0
 			play_was_on_valet_oddjob = 1
 			SET_WANTED_MULTIPLIER 1.0
-			IF NOT IS_CHAR_DEAD valet[0]
-				SET_CHAR_CANT_BE_DRAGGED_OUT valet[0] FALSE
+		i = 0
+		WHILE i < 3
+			IF NOT IS_CHAR_DEAD valet[i]
+				SET_CHAR_CANT_BE_DRAGGED_OUT valet[i] FALSE
 			ENDIF
-			IF NOT IS_CHAR_DEAD valet[1]
-				SET_CHAR_CANT_BE_DRAGGED_OUT valet[1] FALSE
-			ENDIF
-			IF NOT IS_CHAR_DEAD valet[2]
-				SET_CHAR_CANT_BE_DRAGGED_OUT valet[2] FALSE
-			ENDIF
+		i++
+		ENDWHILE
 			//register oddjob mission passed
 		ENDIF
 
@@ -1419,21 +1308,15 @@ valets:
 						valet_task[valet_i] = ATTACK_PLAYER
 						this_a ++
 						CLEAR_CHAR_TASKS valet[valet_i]						
-						IF NOT IS_CHAR_DEAD valet[0]
-							IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer valet[0] 15.0 15.0 15.0 FALSE	
-								valet_task[0] = ATTACK_PLAYER
+					i = 0
+					WHILE i < 3
+						IF NOT IS_CHAR_DEAD valet[i]
+							IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer valet[i] 15.0 15.0 15.0 FALSE	
+								valet_task[i] = ATTACK_PLAYER
 							ENDIF
 						ENDIF
-						IF NOT IS_CHAR_DEAD valet[1]
-							IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer valet[1] 15.0 15.0 15.0 FALSE	
-								valet_task[1] = ATTACK_PLAYER
-							ENDIF
-						ENDIF
-						IF NOT IS_CHAR_DEAD valet[2]
-							IF LOCATE_CHAR_ANY_MEANS_CHAR_3D scplayer valet[2] 15.0 15.0 15.0 FALSE	
-								valet_task[2] = ATTACK_PLAYER
-							ENDIF
-						ENDIF
+					i++
+					ENDWHILE
 					ELSE
 						valet_task[valet_i] = valet_last_task[valet_i]
 					ENDIF
@@ -1786,7 +1669,6 @@ valets:
 											valet_car[valet_i] = 0
 									ENDIF
 								ENDIF
-							ELSE
 							ENDIF
 						ENDIF
 					ENDIF
@@ -1797,13 +1679,13 @@ valets:
 				IF NOT IS_CHAR_DEAD valet[valet_i]				
 					GET_SCRIPT_TASK_STATUS valet[valet_i] TASK_CAR_DRIVE_TO_COORD valet_task_status
 					IF valet_task_status = FINISHED_TASK
-						IF IS_CHAR_IN_AREA_3D valet[valet_i] car_park_area_x1[val_area] car_park_area_y1[val_area] car_park_area_z1[val_area] car_park_area_x2[val_area] car_park_area_y2[val_area] car_park_area_z2[val_area] FALSE
+//						IF IS_CHAR_IN_AREA_3D valet[valet_i] car_park_area_x1[val_area] car_park_area_y1[val_area] car_park_area_z1[val_area] car_park_area_x2[val_area] car_park_area_y2[val_area] car_park_area_z2[val_area] FALSE
+//							valet_task[valet_i] = RETURNING_TO_CARPORT
+//							valet_last_task[valet_i] = RETURNING_TO_CARPORT
+//						ELSE
 							valet_task[valet_i] = RETURNING_TO_CARPORT
 							valet_last_task[valet_i] = RETURNING_TO_CARPORT
-						ELSE
-							valet_task[valet_i] = RETURNING_TO_CARPORT
-							valet_last_task[valet_i] = RETURNING_TO_CARPORT
-						ENDIF 										
+//						ENDIF 										
 					ELSE
 						IF flag_player_on_mission = 0
 						OR player_on_valet_mission = 1
@@ -1849,10 +1731,11 @@ valets:
 						IF NOT a_char = -1
 							GET_CAR_CHAR_IS_USING scplayer a_car
 							IF a_car = valet_car[valet_i]					
-								IF IS_PLAYER_WEARING Player1 CLOTHES_TEX_EXTRA1 valet
+//								IF IS_PLAYER_WEARING Player1 CLOTHES_TEX_EXTRA1 valet
+								IF NOT IS_PLAYER_WEARING Player1 CLOTHES_TEX_EXTRA1 valet
 //									valet_task[valet_i] = WAITING_FOR_CAR
 //									valet_car[valet_i] = 0
-								ELSE
+//								ELSE
 									valet_task[valet_i] = WAITING_FOR_CAR
 								ENDIF
 							ELSE
@@ -2514,9 +2397,9 @@ valet_mission_passed:
 				SWITCH_WIDESCREEN OFF
 				SET_PLAYER_CONTROL player1 ON
 
+			ENDIF
 				DO_FADE 500 FADE_IN
-//			ENDIF
-		ENDIF
+//		ENDIF
 
 	ENDIF
 	PRINT_BIG VAL_A33 5000 1
@@ -2527,9 +2410,6 @@ RETURN
 valet_cleanup:
 
 	MARK_MODEL_AS_NO_LONGER_NEEDED wmyva	
-	MARK_CHAR_AS_NO_LONGER_NEEDED valet[0]
-	MARK_CHAR_AS_NO_LONGER_NEEDED valet[1]
-	MARK_CHAR_AS_NO_LONGER_NEEDED valet[2]
 
 	CLEAR_ONSCREEN_COUNTER valet_time_bonus
 	CLEAR_ONSCREEN_TIMER valet_countdown
@@ -2537,27 +2417,12 @@ valet_cleanup:
 
 	REMOVE_DECISION_MAKER valet_empty_dec
 
-	IF NOT IS_CHAR_DEAD valet[0]
-		DELETE_CHAR valet[0]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD valet[1]
-		DELETE_CHAR valet[1]
-	ENDIF
-
-	IF NOT IS_CHAR_DEAD valet[2]
-		DELETE_CHAR valet[2]
-	ENDIF
-
 	IF player_on_valet_mission = 1
 		SET_PED_DENSITY_MULTIPLIER 1.0
 		SWITCH_EMERGENCY_SERVICES ON
 		
 	ENDIF
 
-	valet_task[0] = NOT_CREATED
-	valet_task[1] = NOT_CREATED
-	valet_task[2] = NOT_CREATED
 	valet_warnings_given = 0
 
 	dont_clear_valets = 0
@@ -2571,28 +2436,29 @@ valet_cleanup:
 			ENDIF
 		ENDIF
 
-		IF NOT IS_CAR_DEAD valet_car[0]
+		i = 0
+		WHILE i < 3
+
+	MARK_CHAR_AS_NO_LONGER_NEEDED valet[i]
+	IF NOT IS_CHAR_DEAD valet[i]
+		DELETE_CHAR valet[i]
+	ENDIF
+	valet_task[i] = NOT_CREATED
+
+		IF NOT IS_CAR_DEAD valet_car[i]
 			IF NOT IS_CHAR_DEAD scplayer
-				IF NOT IS_CHAR_IN_CAR scplayer valet_car[0]
-					DELETE_CAR valet_car[0]
+				IF NOT IS_CHAR_IN_CAR scplayer valet_car[i]
+					DELETE_CAR valet_car[i]
 				ENDIF
 			ENDIF
 		ENDIF
 
-		IF NOT IS_CAR_DEAD valet_car[1]
-			IF NOT IS_CHAR_DEAD scplayer
-				IF NOT IS_CHAR_IN_CAR scplayer valet_car[1]
-					DELETE_CAR valet_car[1]
-				ENDIF
-			ENDIF
-		ENDIF
-		IF NOT IS_CAR_DEAD valet_car[2]
-			IF NOT IS_CHAR_DEAD scplayer
-				IF NOT IS_CHAR_IN_CAR scplayer valet_car[2]
-					DELETE_CAR valet_car[2]
-				ENDIF
-			ENDIF
-		ENDIF
+		valet_mission_dead[i] = 0
+		valet_car[i] = 0
+
+		i++
+		ENDWHILE
+
 		IF NOT IS_CAR_DEAD valet_pickup_car
 			IF NOT IS_CHAR_DEAD scplayer
 				IF NOT IS_CHAR_IN_CAR scplayer valet_pickup_car
@@ -2609,14 +2475,7 @@ valet_cleanup:
 			ENDIF
 		ENDIF
 
-		valet_mission_dead[0] = 0
-		valet_mission_dead[1] = 0
-		valet_mission_dead[2] = 0
-
 		valet_mission_car = 0
-		valet_car[0] = 0
-		valet_car[1] = 0
-		valet_car[2] = 0
 		valet_pickup_car = 0
 		debug_this = 4
 		drop_off_car = 0

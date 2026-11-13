@@ -166,12 +166,12 @@ VAR_FLOAT cop_x[10] cop_y[10] cop_z[10] cop_h[10]
 //VIEW_INTEGER_VARIABLE cop_event_flag[0]	  cop_event_flag[0]
 //VIEW_INTEGER_VARIABLE last_command last_command
 
-IF edit_i = 90
+GOTO imp_skip_over_compiler_stuff //IF edit_i = 90
 	CREATE_OBJECT police_barrier 0.0 0.0 0.0 imp_barrier[0]
 	CREATE_OBJECT kmb_shutter 0.0 0.0 0.0 imp_shutter[0]
 	CREATE_RANDOM_CHAR 0.0 0.0 0.0 a_victim
 	CREATE_RANDOM_CHAR 0.0 0.0 0.0 cop_to_speak
-ENDIF
+imp_skip_over_compiler_stuff: //ENDIF
 
 //LVAR_INT pswdig
 //CREATE_OBJECT bb_pickup 2151.7854 2456.4775 9.6719 pswdig
@@ -433,10 +433,7 @@ IF IS_PLAYER_PLAYING player1
 //				ADD_CHAR_DECISION_MAKER_EVENT_RESPONSE im_cop_dec EVENT_GUN_AIMED_AT TASK_COMPLEX_KILL_PED_ON_FOOT 0.0 0.0 100.0 0.0 0 1
 
 				IF impound_area = 1
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model 1544.3827 -1631.8492 12.3905 imp_cop[0] // barrier cop	
-					SET_CHAR_HEADING imp_cop[0] 45.0
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model 1578.9567 -1634.1268 12.5547 imp_cop[2] // barrier cop	
-					SET_CHAR_HEADING imp_cop[2] 0.0
+/*
 					cop_x[0] = 1544.3827
 					cop_y[0] = -1631.8492
 					cop_z[0] = 12.3905
@@ -445,18 +442,18 @@ IF IS_PLAYER_PLAYING player1
 					cop_y[2] = 1578.9567 
 					cop_z[2] = -1634.1268
 					cop_h[2] = 12.554
+*/
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model 1544.3827 -1631.8492 12.3905 imp_cop[0] // barrier cop	
+					SET_CHAR_HEADING imp_cop[0] 45.0
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model 1578.9567 -1634.1268 12.5547 imp_cop[2] // barrier cop	
+					SET_CHAR_HEADING imp_cop[2] 0.0
 
 					door_rotation[0] = -90.0
 					door_rotation[2] = 0.0
 				ENDIF
 
 				IF impound_area = 2
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model -1700.8392 688.9841 23.9032 imp_cop[1] // barrier cop	
-					SET_CHAR_HEADING imp_cop[1] 134.0
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model -1572.7050 657.5745 6.2446 imp_cop[0] // barrier cop	
-					SET_CHAR_HEADING imp_cop[0] 304.0
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model -1616.8218 679.9485 6.1901 imp_cop[2] // shutter cop	
-					SET_CHAR_HEADING imp_cop[2] 188.0
+/*
 					cop_x[0] = -1572.7050
 					cop_y[0] = 657.5745 
 					cop_z[0] = 6.2446
@@ -469,6 +466,13 @@ IF IS_PLAYER_PLAYING player1
 					cop_y[2] = 679.9485
 					cop_z[2] = 6.1901
 					cop_h[2] = 188.0
+*/
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model -1700.8392 688.9841 23.9032 imp_cop[1] // barrier cop	
+					SET_CHAR_HEADING imp_cop[1] 134.0
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model -1572.7050 657.5745 6.2446 imp_cop[0] // barrier cop	
+					SET_CHAR_HEADING imp_cop[0] 304.0
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model -1616.8218 679.9485 6.1901 imp_cop[2] // shutter cop	
+					SET_CHAR_HEADING imp_cop[2] 188.0
 
 					door_rotation[0] = -90.0
 					door_rotation[1] = -90.0
@@ -476,10 +480,7 @@ IF IS_PLAYER_PLAYING player1
 				ENDIF
 
 				IF impound_area = 3
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model 2238.5693 2449.4170 10.0372 imp_cop[0] // barrier cop	
-					SET_CHAR_HEADING imp_cop[0] 90.0
-					CREATE_CHAR PEDTYPE_MISSION1 cop_model 2250.2769 2489.3328 9.8203 imp_cop[2] // barrier cop	
-					SET_CHAR_HEADING imp_cop[2] 90.0
+/*
 					cop_x[0] = 2238.5693
 					cop_y[0] = 2449.4170
 					cop_z[0] = 10.0372
@@ -488,6 +489,11 @@ IF IS_PLAYER_PLAYING player1
 					cop_y[2] = 2489.3328
 					cop_z[2] = 9.8203 
 					cop_h[2] = 90.0
+*/
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model 2238.5693 2449.4170 10.0372 imp_cop[0] // barrier cop	
+					SET_CHAR_HEADING imp_cop[0] 90.0
+					CREATE_CHAR PEDTYPE_MISSION1 cop_model 2250.2769 2489.3328 9.8203 imp_cop[2] // barrier cop	
+					SET_CHAR_HEADING imp_cop[2] 90.0
 
 
 				ENDIF
@@ -740,20 +746,13 @@ IF IS_PLAYER_PLAYING player1
 		ENDIF
 
 
-		IF im_players_city = LEVEL_LOSANGELES
-			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 1579.4248 -1636.4630 14.5812 120.0 120.0 80.0 FALSE
-				GOSUB impound_cleanup	
-			ENDIF
-		ENDIF
-		IF im_players_city = LEVEL_SANFRANCISCO
-			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer -1624.7710 679.6637 8.5690 120.0 120.0 80.0 FALSE
+		IF im_players_city > 0
+			i = im_players_city - 1
+			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer impound_radius_x[i] impound_radius_y[i] impound_radius_z[i] 120.0 120.0 80.0 FALSE
 				GOSUB impound_cleanup
 			ENDIF
-		ENDIF
-		IF im_players_city = LEVEL_LASVEGAS
-			IF NOT LOCATE_CHAR_ANY_MEANS_3D scplayer 2284.5920 2466.8379 12.2306 120.0 120.0 80.0 FALSE
-				GOSUB impound_cleanup
-			ENDIF
+		ELSE
+			GOSUB impound_cleanup
 		ENDIF
 
 			
@@ -1964,7 +1963,7 @@ do_ambient_stuff:
 					IF NOT IS_CHAR_DEAD	imp_cop[5]		
 						GET_SCRIPT_TASK_STATUS imp_cop[cop_i] -1 imp_task_status
 						IF imp_task_status = FINISHED_TASK
-							IF LOCATE_CHAR_IN_CAR_3D imp_cop[cop_i] 2242.1729 2461.9653 9.8203 4.0 4.0 4.0 FALSE
+							IF LOCATE_CHAR_IN_CAR_3D imp_cop[cop_i] 1549.4426 -1627.9940 12.3905 4.0 4.0 4.0 FALSE
 								MARK_CHAR_AS_NO_LONGER_NEEDED imp_cop[5]
 								MARK_CAR_AS_NO_LONGER_NEEDED cop_car[1]
 								IF door_rotation[0] > -25.0
@@ -2071,7 +2070,7 @@ do_ambient_stuff:
 					IF NOT IS_CHAR_DEAD	imp_cop[5]		
 						GET_SCRIPT_TASK_STATUS imp_cop[cop_i] -1 imp_task_status
 						IF imp_task_status = FINISHED_TASK
-							IF LOCATE_CHAR_IN_CAR_3D imp_cop[cop_i] 2242.1729 2461.9653 9.8203 4.0 4.0 4.0 FALSE
+							IF LOCATE_CHAR_IN_CAR_3D imp_cop[cop_i] -1578.7953 662.8546 6.1874 4.0 4.0 4.0 FALSE
 								MARK_CHAR_AS_NO_LONGER_NEEDED imp_cop[5]
 								MARK_CAR_AS_NO_LONGER_NEEDED cop_car[1]
 								IF door_rotation[0] > -25.0

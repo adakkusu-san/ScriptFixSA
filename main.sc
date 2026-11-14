@@ -4732,22 +4732,17 @@ impound_loop_inner:
 	IF IS_PLAYER_PLAYING player1						
 		GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT impound.sc number_of_instances_of_streamed_script
 		IF number_of_instances_of_streamed_script = 0
-			LVAR_INT impound_current_zone
-			impound_current_zone = 0
-		
+
 			IF im_players_city > 0
 				i = im_players_city - 1
 				IF LOCATE_CHAR_ANY_MEANS_3D scplayer impound_radius_x[i] impound_radius_y[i] impound_radius_z[i] 120.0 120.0 80.0 FALSE
-					impound_current_zone = im_players_city
-				ENDIF
-			ENDIF
+					IF tlf_underway = 0
+						impound_area = im_players_city
 
-			IF impound_current_zone > 0
-				IF tlf_underway = 0
-					impound_area = impound_current_zone
-					STREAM_SCRIPT impound.sc
-					IF HAS_STREAMED_SCRIPT_LOADED impound.sc
-						START_NEW_STREAMED_SCRIPT impound.sc
+						STREAM_SCRIPT impound.sc
+						IF HAS_STREAMED_SCRIPT_LOADED impound.sc
+							START_NEW_STREAMED_SCRIPT impound.sc
+						ENDIF
 					ENDIF
 				ENDIF
 			ELSE
@@ -4793,23 +4788,15 @@ valet_loop_inner:
 		
 		IF number_of_instances_of_streamed_script = 0
 			
-			LVAR_INT valet_current_zone
-			valet_current_zone = 0
-
 			IF im_players_city > 0
 				i = im_players_city - 1
 				IF IS_CHAR_IN_AREA_2D scplayer valet_area_x1[i] valet_area_y1[i] valet_area_x2[i] valet_area_y2[i] FALSE
-					valet_current_zone = im_players_city
-				ENDIF
-			ENDIF
+					val_Area = im_players_city
 
-			IF valet_current_zone > 0
-
-				val_Area = valet_current_zone
-
-				STREAM_SCRIPT valet.sc
-				IF HAS_STREAMED_SCRIPT_LOADED valet.sc
-					START_NEW_STREAMED_SCRIPT valet.sc
+					STREAM_SCRIPT valet.sc
+					IF HAS_STREAMED_SCRIPT_LOADED valet.sc
+						START_NEW_STREAMED_SCRIPT valet.sc
+					ENDIF
 				ENDIF
 			ELSE
 				IF val_Area > 0

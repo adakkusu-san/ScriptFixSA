@@ -187,13 +187,9 @@ propertyX[3] = 316.0696 //beach front malibu house	LA
 propertyY[3] = -1772.5688 
 propertyZ[3] = 4.1893
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[3] propertyY[3] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
  
 save_houseprice[3] = 30000
 
-CREATE_FORSALE_PROPERTY_PICKUP propertyX[3] propertyY[3] propertyZ[3] save_houseprice[3] PROP_3 save_housepickup[3] //beach front malibu house	LA
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[3] propertyY[3] propertyZ[3] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[3]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[3] BLIP_ONLY
 //SWITCH_ENTRY_EXIT beacsv FALSE
 DEACTIVATE_GARAGE beacsv //HIDEOUT_TWO //GARAGE FUCKED
 
@@ -203,14 +199,9 @@ propertyX[4] = 2441.0022 //Shabbyhouse in Vegas East
 propertyY[4] = 695.1089 
 propertyZ[4] = 10.6646
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[4] propertyY[4] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[4] = 20000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[4] propertyY[4] propertyZ[4] PROP_4 save_housepickup[4] //Shabbyhouse in Vegas East ***********************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[4] propertyY[4] propertyZ[4] save_houseprice[4] PROP_3 save_housepickup[4] //Shabbyhouse in Vegas East
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[4] propertyY[4] propertyZ[4] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[4]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[4] BLIP_ONLY
 //SWITCH_ENTRY_EXIT svvgmd FALSE
 DEACTIVATE_GARAGE vEsvgrg //HIDEOUT_THREE	//GARAGE FUCKED
 
@@ -220,14 +211,9 @@ propertyX[5] = -366.1849 //Fort Carson old house savehouse near river BADLANDS
 propertyY[5] = 1166.0305
 propertyZ[5] = 19.2422
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[5] propertyY[5] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[5] = 30000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[5] propertyY[5] propertyZ[5] PROP_4 save_housepickup[5] //Fort Carson old house savehous *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[5] propertyY[5] propertyZ[5] save_houseprice[5] PROP_3 save_housepickup[5] //Fort Carson old house savehouse near river BADLANDS
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[5] propertyY[5] propertyZ[5] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[5]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[5] BLIP_ONLY
 //SWITCH_ENTRY_EXIT svcunt FALSE
 DEACTIVATE_GARAGE cn2gar1 //HIDEOUT_FOUR //GARAGE WORKING
 
@@ -237,14 +223,9 @@ propertyX[6] = 1283.8439  //Medium house in nice suburb of Venturas
 propertyY[6] = 2528.7029   
 propertyZ[6] = 10.3203
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[6] propertyY[6] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[6] = 50000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[6] propertyY[6] propertyZ[6] PROP_4 save_housepickup[6] //Medium house in nice suburb of Venturas *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[6] propertyY[6] propertyZ[6] save_houseprice[6] PROP_3 save_housepickup[6] //Medium house in nice suburb of Venturas
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[6] propertyY[6] propertyZ[6] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[6]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[6] BLIP_ONLY
 //SWITCH_ENTRY_EXIT svvgmd FALSE
 DEACTIVATE_GARAGE blob69 //HIDEOUT_SEVEN //GARAGE FUCKED
 
@@ -254,14 +235,9 @@ propertyX[7] = 922.3647 //shabby house in rundown residential area
 propertyY[7] = 2011.8984 
 propertyZ[7] = 10.7660
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[7] propertyY[7] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
  
 save_houseprice[7] = 30000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[7] propertyY[7] propertyZ[7] PROP_4 save_housepickup[7] //shabby house in rundown residential area *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[7] propertyY[7] propertyZ[7] save_houseprice[7] PROP_3 save_housepickup[7] //shabby house in rundown residential area
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[7] propertyY[7] propertyZ[7] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[7]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[7] BLIP_ONLY
 //SWITCH_ENTRY_EXIT svvgmd FALSE
 DEACTIVATE_GARAGE blob7	//HIDEOUT_EIGHT	//GARAGE FUCKED
 
@@ -271,14 +247,9 @@ propertyX[8] = 2236.9280 //Small town suburban house with lawn and porch
 propertyY[8] = 162.8057 
 propertyZ[8] = 26.8462
  
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[8] propertyY[8] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[8] = 35000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[8] propertyY[8] propertyZ[8] PROP_4 save_housepickup[8] //Small town suburban house with lawn and porch *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[8] propertyY[8] propertyZ[8] save_houseprice[8] PROP_3 save_housepickup[8] //Small town suburban house with lawn and porch
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[8] propertyY[8] propertyZ[8] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[8]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[8] BLIP_ONLY
 //SWITCH_ENTRY_EXIT svcunt FALSE
 DEACTIVATE_GARAGE burbdoo //HIDEOUT_NINE //GARAGE WORKING
 
@@ -288,14 +259,9 @@ propertyX[9] = 1402.3174 //shabby house in rundown residential area
 propertyY[9] = 1901.9783 
 propertyZ[9] = 10.8449
  
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[9] propertyY[9] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[9] = 30000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[9] propertyY[9] propertyZ[9] PROP_4 save_housepickup[9] //shabby house in rundown residential area *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[9] propertyY[9] propertyZ[9] save_houseprice[9] PROP_3 save_housepickup[9] //shabby house in rundown residential area
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[9] propertyY[9] propertyZ[9] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[9]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[9] BLIP_ONLY
 //SWITCH_ENTRY_EXIT svvgmd FALSE
 DEACTIVATE_GARAGE blob6 //HIDEOUT_TEN	//GARAGE FUCKED
 
@@ -307,11 +273,7 @@ propertyZ[10] = 13.3343
  
 save_houseprice[10] = 10000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[10] propertyY[10] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
-CREATE_FORSALE_PROPERTY_PICKUP propertyX[10] propertyY[10] propertyZ[10] save_houseprice[10] PROP_3 save_housepickup[10]  //house in ruff hood next to airport
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[10] propertyY[10] propertyZ[10] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[10]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[10] BLIP_ONLY
 DEACTIVATE_GARAGE carlas1 //HIDEOUT_ELEVEN //GARAGE WORKING
 
 
@@ -320,14 +282,9 @@ propertyX[11] = -2106.6392 //big swanky SF savehouse at the top of lombard stree
 propertyY[11] = 900.5537
 propertyZ[11] = 76.2032
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[11] propertyY[11] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[11] = 100000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[11] propertyY[11] propertyZ[11] PROP_4 save_housepickup[11] //big swanky SF savehouse at the top of lombard street *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[11] propertyY[11] propertyZ[11] save_houseprice[11] PROP_3 save_housepickup[11] //big swanky SF savehouse at the top of lombard street
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[11] propertyY[11] propertyZ[11] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[11]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[11] BLIP_ONLY
 DEACTIVATE_GARAGE CEsafe1 //HIDEOUT_TWELVE //GARAGE WORKING 
 
 
@@ -336,13 +293,9 @@ propertyX[12] = 1331.1855 //ENTRY EXIT DOESN'T WORK
 propertyY[12] = -630.4962
 propertyZ[12] =  108.6349  
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[12] propertyY[12] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
  
 save_houseprice[12] = 120000
 
-CREATE_FORSALE_PROPERTY_PICKUP propertyX[12] propertyY[12] propertyZ[12] save_houseprice[12] PROP_3 save_housepickup[12] //Swanky pad in LA hills with pool and lots of big windows
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[12] propertyY[12] propertyZ[12] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[12]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[12] BLIP_ONLY
 DEACTIVATE_GARAGE sav1sfe //HIDEOUT_THIRTEEN //GARAGE WORKING
 
 
@@ -351,14 +304,9 @@ propertyX[13] = -2695.7451 //Needs WARDROBE
 propertyY[13] = 818.4718 
 propertyZ[13] = 49.4844
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[13] propertyY[13] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[13] = 20000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[13] propertyY[13] propertyZ[13] PROP_4 save_housepickup[13] //small flat near hospital *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[13] propertyY[13] propertyZ[13] save_houseprice[13] PROP_3 save_housepickup[13] //small flat near hospital
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[13] propertyY[13] propertyZ[13] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[13]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[13] BLIP_ONLY
 DEACTIVATE_GARAGE sav1sfw //HIDEOUT_FOURTEEN //GARAGE WORKING
 
 
@@ -367,14 +315,9 @@ propertyX[14] = -2456.9255 //large garage in alley behind apartments in Hashbury
 propertyY[14] = -131.3292  
 propertyZ[14] = 25.5376
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[14] propertyY[14] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
 save_houseprice[14] = 40000
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[14] propertyY[14] propertyZ[14] PROP_4 save_housepickup[14] //large garage in alley behind apartments in Hashbury *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[14] propertyY[14] propertyZ[14] save_houseprice[14] PROP_3 save_housepickup[14] //large garage in alley behind apartments in Hashbury
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[14] propertyY[14] propertyZ[14] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[14]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[14] BLIP_ONLY
 DEACTIVATE_GARAGE svgsfs1 //HIDEOUT_SIXTEEN //GARAGE WORKING
 
 // SAVEHOUSES WITHOUT GARAGE**********************************************************************************************************
@@ -385,11 +328,7 @@ propertyZ[15] = 14.4567
 
 save_houseprice[15] = 10000
  
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[15] propertyY[15] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
-CREATE_FORSALE_PROPERTY_PICKUP propertyX[15] propertyY[15] propertyZ[15] save_houseprice[15] PROP_3 save_housepickup[15] //Medium apartment near Venice canals  
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[15] propertyY[15] propertyZ[15] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[15]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[15] BLIP_ONLY
 
 
 //PIRATES IN MEN’S PANTS CASINO	********************************
@@ -399,12 +338,7 @@ propertyZ[16] = 12.3619
 
 save_houseprice[16] = 6000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[16] propertyY[16] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[16] propertyY[16] propertyZ[16] PROP_4 save_housepickup[16] //large garage in alley behind apartments in Hashbury *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[16] propertyY[16] propertyZ[16] save_houseprice[16] PROP_3 save_housepickup[16] //Pirates In Men’s Pants Casino
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[16] propertyY[16] propertyZ[16] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[16]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[16] BLIP_ONLY
 
 
 //THE CAMELS TOE CASINO ********************************
@@ -414,12 +348,7 @@ propertyZ[17] = 10.3203
 
 save_houseprice[17] = 6000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[17] propertyY[17] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[17] propertyY[17] propertyZ[17] PROP_4 save_housepickup[17] //large garage in alley behind apartments in Hashbury *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[17] propertyY[17] propertyZ[17] save_houseprice[17] PROP_3 save_housepickup[17] //The Camels Toe Casino
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[17] propertyY[17] propertyZ[17] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[17]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[17] BLIP_ONLY
 
 
 //SMALL CHINATOWN PAD ********************************
@@ -429,12 +358,7 @@ propertyZ[18] = 48.9140
  
 save_houseprice[18] = 20000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[18] propertyY[18] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
 
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[18] propertyY[18] propertyZ[18] PROP_4 save_housepickup[18] //small chinatown pad *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[18] propertyY[18] propertyZ[18] save_houseprice[18] PROP_3 save_housepickup[18] //small chinatown pad
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[18] propertyY[18] propertyZ[18] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[18]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[18] BLIP_ONLY
 
 
 //FARM NEAR THE TRUTHS ********************************
@@ -444,12 +368,6 @@ propertyZ[19] = 101.2579
  
 save_houseprice[19] = 100000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[19] propertyY[19] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[19] propertyY[19] propertyZ[19] PROP_4 save_housepickup[19] //Farm *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[19] propertyY[19] propertyZ[19] save_houseprice[19] PROP_3 save_housepickup[19] //Farm
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[19] propertyY[19] propertyZ[19] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[19]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[19] BLIP_ONLY
 
 
 //LARGE PAD NEXT TO DRIVING SCHOOL ********************************
@@ -459,12 +377,6 @@ propertyZ[20] = 38.7692
 
 save_houseprice[20] = 20000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[20] propertyY[20] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[20] propertyY[20] propertyZ[20] PROP_4 save_housepickup[20] //large pad next to driving school *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[20] propertyY[20] propertyZ[20] save_houseprice[20] PROP_3 save_housepickup[20] //large pad next to driving school   
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[20] propertyY[20] propertyZ[20] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[20]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[20] BLIP_ONLY
 
 
 //VANK HOFF IN THE PARK HOTEL ROOM ********************************
@@ -474,12 +386,6 @@ propertyZ[21] = 34.6796
 
 save_houseprice[21] = 50000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[21] propertyY[21] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[21] propertyY[21] propertyZ[21] PROP_4 save_housepickup[21] //Vank Hoff In The Park Hotel Room *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[21] propertyY[21] propertyZ[21] save_houseprice[21] PROP_3 save_housepickup[21] //Vank Hoff In The Park Hotel Room    
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[21] propertyY[21] propertyZ[21] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[21]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[21] BLIP_ONLY
 
 
 //JUST OFF MAIN ANGEL PINE TOWN, BEHIND SAWMILL	********************************
@@ -489,12 +395,6 @@ propertyZ[22] = 30.1172
 
 save_houseprice[22] = 20000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[22] propertyY[22] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[22] propertyY[22] propertyZ[22] PROP_4 save_housepickup[22] //just off main Angel Pine town, behind Sawmil *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[22] propertyY[22] propertyZ[22] save_houseprice[22] PROP_3 save_housepickup[22] //just off main Angel Pine town, behind Sawmill   
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[22] propertyY[22] propertyZ[22] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[22]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[22] BLIP_ONLY
 
 
 //IN EL QUEBRADOS (MOST NORTHERLY TOWN)	********************************
@@ -504,12 +404,6 @@ propertyZ[23] = 55.3437
 
 save_houseprice[23] = 20000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[23] propertyY[23] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[23] propertyY[23] propertyZ[23] PROP_4 save_housepickup[23] //In El Quebrados (most northerly town) *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[23] propertyY[23] propertyZ[23] save_houseprice[23] PROP_3 save_housepickup[23] //In El Quebrados (most northerly town)
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[23] propertyY[23] propertyZ[23] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[23]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[23] BLIP_ONLY
 
 
 //LAS BARRANCAS (SOUTHERN TOWN)	********************************
@@ -519,12 +413,6 @@ propertyZ[24] = 32.7980
 
 save_houseprice[24] = 20000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[24] propertyY[24] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[24] propertyY[24] propertyZ[24] PROP_4 save_housepickup[24] //Las Barrancas (southern town) *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[24] propertyY[24] propertyZ[24] save_houseprice[24] PROP_3 save_housepickup[24] //Las Barrancas (southern town)
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[24] propertyY[24] propertyZ[24] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[24]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[24] BLIP_ONLY
       
       
 //SMALL TOWN SUBURBAN HOUSE WITH LAWN AND PORCH	********************************
@@ -534,12 +422,6 @@ propertyZ[25] = 16.3973
 
 save_houseprice[25] = 40000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[25] propertyY[25] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[25] propertyY[25] propertyZ[25] PROP_4 save_housepickup[25] //Las Barrancas (southern town) *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[25] propertyY[25] propertyZ[25] save_houseprice[25] PROP_3 save_housepickup[25] //Las Barrancas (southern town)
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[25] propertyY[25] propertyZ[25] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[25]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[25] BLIP_ONLY
 DEACTIVATE_GARAGE burbdo2 //HIDEOUT_SIX //GARAGE WORKING
 
    
@@ -551,11 +433,6 @@ propertyZ[26] = 23.8168
 
 save_houseprice[26] = 10000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[26] propertyY[26] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_FORSALE_PROPERTY_PICKUP propertyX[26] propertyY[26] propertyZ[26] save_houseprice[26] PROP_3 save_housepickup[26] //Compton house
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[26] propertyY[26] propertyZ[26] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[26]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[26] BLIP_ONLY
 
 //CASINO
 propertyX[27] = 2370.4773    
@@ -564,12 +441,6 @@ propertyZ[27] = 10.3269
 
 save_houseprice[27] = 6000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[27] propertyY[27] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[27] propertyY[27] propertyZ[27] PROP_4 save_housepickup[27] //CASINO *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[27] propertyY[27] propertyZ[27] save_houseprice[27] PROP_3 save_housepickup[27] //CASINO
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[27] propertyY[27] propertyZ[27] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[27]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[27] BLIP_ONLY        
 
 //CASINO CLOWNS POCKET
 propertyX[28] = 2220.6257     
@@ -578,12 +449,6 @@ propertyZ[28] = 10.3203
 
 save_houseprice[28] = 6000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[28] propertyY[28] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[28] propertyY[28] propertyZ[28] PROP_4 save_housepickup[28] //CASINO *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[28] propertyY[28] propertyZ[28] save_houseprice[28] PROP_3 save_housepickup[28] //Casino
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[28] propertyY[28] propertyZ[28] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[28]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[28] BLIP_ONLY
 
 //VEGAS FLAT
 propertyX[29] = 2819.1255      
@@ -592,12 +457,6 @@ propertyZ[29] = 10.3203
 
 save_houseprice[29] = 10000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[29] propertyY[29] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[29] propertyY[29] propertyZ[29] PROP_4 save_housepickup[29] //CASINO *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[29] propertyY[29] propertyZ[29] save_houseprice[29] PROP_3 save_housepickup[29] //Vegas house
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[29] propertyY[29] propertyZ[29] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[29]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[29] BLIP_ONLY
 
 // Scummy compton house
 propertyX[30] = 2483.0237       
@@ -606,11 +465,6 @@ propertyZ[30] = 13.0540
 
 save_houseprice[30] = 10000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[30] propertyY[30] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_FORSALE_PROPERTY_PICKUP propertyX[30] propertyY[30] propertyZ[30] save_houseprice[30] PROP_3 save_housepickup[30] //Compton house
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[30] propertyY[30] propertyZ[30] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[30]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[30] BLIP_ONLY
 
 				   
 // North Country
@@ -620,13 +474,45 @@ propertyZ[31] = 4.3965
 
 save_houseprice[31] = 10000
 
-SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[31] propertyY[31] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE 
-
-CREATE_LOCKED_PROPERTY_PICKUP propertyX[31] propertyY[31] propertyZ[31] PROP_4 save_housepickup[31] //CASINO *****************
-//CREATE_FORSALE_PROPERTY_PICKUP propertyX[31] propertyY[31] propertyZ[31] save_houseprice[31] PROP_3 save_housepickup[31] //North Badlands
-ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[31] propertyY[31] propertyZ[31] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[31]
-CHANGE_BLIP_DISPLAY prop_save_house_blip[31] BLIP_ONLY
-
+i = 3
+WHILE i < 32
+SWITCH i
+CASE 4
+CASE 5
+CASE 6
+CASE 7
+CASE 8
+CASE 9
+CASE 11
+CASE 13
+CASE 14
+CASE 16
+CASE 17
+CASE 18
+CASE 19
+CASE 20
+CASE 21
+CASE 22
+CASE 23
+CASE 24
+CASE 25
+CASE 27
+CASE 28
+CASE 29
+CASE 31
+	GOSUB create_lock_prop_no_remove_main
+BREAK
+CASE 3
+CASE 10
+CASE 12
+CASE 15
+CASE 26
+CASE 30
+	GOSUB create_sale_prop_no_remove_main
+ENDSWITCH
+SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[i] propertyY[i] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE
+i++
+ENDWHILE
 
 
 // ***************************************BLIPS******************************************************

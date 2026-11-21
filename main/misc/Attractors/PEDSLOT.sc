@@ -86,7 +86,7 @@ PEDSLOT_PedState1:
 		GET_SCRIPT_TASK_STATUS this_ped TASK_PLAY_ANIM iTemp			
 		IF iTemp = FINISHED_TASK
 			//--- first bet
-			TASK_PLAY_ANIM this_ped slot_bet_01 CASINO 4.0 FALSE FALSE FALSE FALSE iTemp
+			TASK_PLAY_ANIM this_ped slot_bet_01 CASINO 4.0 FALSE FALSE FALSE FALSE -1 // FIXEDGROVE: time was iTemp
 			++iSubStateStatus
 		ENDIF
 	BREAK

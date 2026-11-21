@@ -240,8 +240,8 @@ PHOTO_PedState1:
 	BREAK
 
 	CASE 12
-		IF IS_CHAR_PLAYING_ANIM this_ped piccrch_out 
-			GET_CHAR_ANIM_CURRENT_TIME this_ped piccrch_out fAnim_Time
+		IF IS_CHAR_PLAYING_ANIM this_ped camcrch_to_camstnd // FIXEDGROVE: fix wrong anim check
+			GET_CHAR_ANIM_CURRENT_TIME this_ped camcrch_to_camstnd fAnim_Time // FIXEDGROVE: fix wrong anim check
 			IF fAnim_Time >= 1.0
 				//--- Determine if he takes another or leaves
 				GENERATE_RANDOM_INT_IN_RANGE 0 100 iTemp

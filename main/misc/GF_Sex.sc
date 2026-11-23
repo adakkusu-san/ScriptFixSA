@@ -1,10 +1,11 @@
 MISSION_START
 
 //--- Spanking Powerbar Margins
-CONST_INT GF_POWERBAR_CHARGE_HIT_MARGIN 	97 //%
+CONST_INT 	GF_POWERBAR_CHARGE_HIT_MARGIN 	95   //% // FIXEDGROVE: was '97'
+CONST_FLOAT GF_POWERBAR_CHARGE_HIT_MARGIN_F 95.0 //% // FIXEDGROVE: needed for new deltatime code
 //--- Spanking Powerbar Increments
-CONST_INT GF_POWERBAR_DECREMENT_SMALL		3
-CONST_INT GF_POWERBAR_DECREMENT 			7
+CONST_FLOAT GF_POWERBAR_DECREMENT_SMALL		1.8 // FIXEDGROVE: was int '3', scale for new deltatime code
+CONST_FLOAT GF_POWERBAR_DECREMENT 			4.2 // FIXEDGROVE: was int '7', scale for new deltatime code
 CONST_INT GF_EXCITEMENT_SPANK_INCREMENT		10
 CONST_INT GF_EXCITEMENT_SPANK_DECREMENT		10
 CONST_FLOAT POWER_SIN_SCALE_FACTOR 			13.5
@@ -39,6 +40,7 @@ GF_Sex:
 		excitement = 50	// Allowed values: 0, 30, 40, 50, 70, 90
 	ENDIF
 	power = 1
+	fTemp[1] = 1.0 // FIXEDGROVE: now used as the float version of power
 
 	iSexMachineFlags = 0  
 	/* BITS:	1 	// Skip Transitions
@@ -423,6 +425,7 @@ GF_Sex_State3:
 			
 			CLEAR_BIT iSexMachineFlags 1
 						 
+			TIMERB = 0 // FIXEDGROVE
 			++iSubStateStatus	
 		ENDIF
 	BREAK
@@ -431,7 +434,7 @@ GF_Sex_State3:
 		TASK_PLAY_ANIM_NON_INTERRUPTABLE iGF_ped Spanking_IdleW SNM 4.0 TRUE FALSE FALSE FALSE 0
 		TASK_PLAY_ANIM_NON_INTERRUPTABLE scplayer Spanking_IdleP SNM 4.0 TRUE FALSE FALSE FALSE 0				
 	
-		CLEAR_BIT iSexMachineFlags 8
+		//CLEAR_BIT iSexMachineFlags 8 // FIXEDGROVE: removed
 
 		GOSUB GF_Sex_UpdatePowerBar
 
@@ -479,7 +482,7 @@ GF_Sex_State3:
 			iSubStateStatus = 0
 			BREAK
 		ELSE 
-			IF excitement = 100
+			IF excitement >= 100 // FIXEDGROVE: add '>'
 				//--- Move on to the GOOD ending
 				iSexState =	5
 				iSubStateStatus = 0
@@ -749,6 +752,7 @@ GF_Sex_State6:
 			ENDIF
 
 			DO_FADE	500 FADE_IN
+			TIMERB = 0
 			iSubStateStatus = 2 // FIXEDGROVE: since the changing position logic was reworked, this now jumps straight into the loop
 		ENDIF
 	BREAK
@@ -984,6 +988,8 @@ GF_Sex_State9:
 			GOSUB GF_Sex_CameraViewChange
 			SWITCH_WIDESCREEN ON
 			DO_FADE 1000 FADE_IN
+			TASK_PLAY_ANIM_NON_INTERRUPTABLE iGF_ped SEX_1_Cum_W SEX 1000.0 FALSE FALSE FALSE TRUE 0
+			TASK_PLAY_ANIM_NON_INTERRUPTABLE scplayer SEX_1_Cum_P SEX 1000.0 FALSE FALSE FALSE TRUE 0
 			iGFSayContext = CONTEXT_GLOBAL_GFRIEND_CLIMAX_HIGH
 			TIMERB = 0
 			++iSubStateStatus
@@ -991,8 +997,6 @@ GF_Sex_State9:
 	BREAK
 
 	CASE 1
-		TASK_PLAY_ANIM_NON_INTERRUPTABLE iGF_ped SEX_1_Cum_W SEX 1000.0 FALSE FALSE FALSE TRUE 0
-		TASK_PLAY_ANIM_NON_INTERRUPTABLE scplayer SEX_1_Cum_P SEX 1000.0 FALSE FALSE FALSE TRUE 0
 		IF TIMERB > 3200
 			iGFSayContext = CONTEXT_GLOBAL_GFRIEND_SEX_GOOD
 			++iSubStateStatus
@@ -1066,9 +1070,14 @@ GF_Sex_State10:
 
 			GET_TIME_OF_DAY iTemp iTemp2
 			iTemp2 += 30
-			IF iTemp2 > 60
+			IF iTemp2 >= 60 // FIXEDGROVE: was > 60
 				iTemp2 -= 60
 				++iTemp
+				// FIXEDGROVE: START - wrap around midnight
+				IF iTemp >= 24
+					iTemp -= 24
+				ENDIF
+				// FIXEDGROVE: END
 			ENDIF
 			SET_TIME_OF_DAY iTemp iTemp2
 
@@ -1558,6 +1567,7 @@ ENDIF
 
 		CASE 9 // Woooow keep it hard...
 			fTemp[0] = 0.09	
+			CLEAR_BIT iSexMachineFlags 6 // FIXEDGROVE: clear X 2 flag so X 3 flag actually works
 			SET_BIT iSexMachineFlags 7 // Increase Excitement X 3
 		BREAK
 
@@ -1609,10 +1619,16 @@ GF_Sex_LoopSexAtGivenSpeed:
 	ENDSWITCH
 
 	//--- Calculate the Next frame
+
+	// FIXEDGROVE: START - scale for 30 FPS
+	fTemp[1] = fTemp[0]
+	fTemp[1] *= 0.6
+	// FIXEDGROVE: END
+
 	IF IS_BIT_SET iSexMachineFlags 5  // End Reached
-		GF_anim_time -= fTemp[0] // Decrease according to step
+		GF_anim_time -=@ fTemp[1] // Decrease according to step // FIXEDGROVE: added @ and use fTemp[1]
 	ELSE 
-   		GF_anim_time += fTemp[0] // Increase according to step
+   		GF_anim_time +=@ fTemp[1] // Increase according to step // FIXEDGROVE: added @ and use fTemp[1]
 	ENDIF
 
 	IF GF_anim_time <= 0.0
@@ -1702,7 +1718,8 @@ GF_Sex_DecrementExcitement:
 		IF excitement > 0		   
 		   	IF excitement > 10
 		   	AND NOT IS_BIT_SET iSexMachineFlags 6 // Increase Excitement X 2		   		  			
-			   	excitement = excitement - 5				
+			AND NOT IS_BIT_SET iSexMachineFlags 7 // FIXEDGROVE: Increase Excitement X 3
+			   	excitement -= 5				
 		   	ELSE
 		   		-- excitement 
 		   	ENDIF		   
@@ -1722,29 +1739,48 @@ GF_Sex_IncrementPowerBar:
 
 	SIN fAngle fSin
 	fSin *= POWER_SIN_SCALE_FACTOR
-	iTemp =# fSin
+
+	// FIXEDGROVE: PS2 
+	/*iTemp =# fSin
 	iTemp += power
 	IF iTemp >= 100
 		power = 100
 	ELSE		
 		power = iTemp
 	ENDIF 
- 	fAngle += 1.0
+ 	fAngle += 1.0*/
+
+	// FIXEDGROVE: made framerate independent
+	iTemp =# fSin
+	fSin =# iTemp
+	fSin *= 0.6
+
+	fTemp[1] +=@ fSin
+	IF fTemp[1] >= 100.0
+		fTemp[1] = 100.0
+	ENDIF
+
+ 	fAngle +=@ 0.6
+	power =# fTemp[1]
 RETURN
 /*******************************************
 			DECREMENT POWER BAR
 ********************************************/
 GF_Sex_DecrementPowerBar:
+// FIXEDGROVE: use fTemp to make use of @
 	fAngle = 0.0
-	IF power >= GF_POWERBAR_CHARGE_HIT_MARGIN
-		power -= GF_POWERBAR_DECREMENT_SMALL
+	IF fTemp[1] >= GF_POWERBAR_CHARGE_HIT_MARGIN_F
+		fTemp[1] -=@ GF_POWERBAR_DECREMENT_SMALL
 	ELSE
-		IF power <= GF_POWERBAR_DECREMENT
-			power = 0
-		ELSE
-			power -= GF_POWERBAR_DECREMENT
-		ENDIF
+		fTemp[1] -=@ GF_POWERBAR_DECREMENT
 	ENDIF
+
+	IF fTemp[1] <= 0.0
+		fTemp[1] = 0.0
+	ENDIF
+
+	power =# fTemp[1] // FIXEDGROVE: cast into the original variable
+
 RETURN
 /*******************************************
 		REGISTER POWER BAR SCORE UP
@@ -1785,8 +1821,13 @@ GF_Sex_SpankAtGivenSpeed:
 
 	//--- Calculate 
 
+	// FIXEDGROVE: START - scale for 30 FPS
+	fSin = fTemp[0]
+	fSin *= 0.6
+	// FIXEDGROVE: END
+
 	IF NOT IS_BIT_SET iSexMachineFlags 5  // End Reached
-   		GF_anim_time += fTemp[0] // Increase according to step
+   		GF_anim_time +=@ fSin // Increase according to step // FIXEDGROVE: added @ and use fSin
 	ENDIF
 
 	IF GF_anim_time >= 1.0
@@ -1823,32 +1864,26 @@ RETURN
 			UPDATE POWER BAR
 ********************************************/
 GF_Sex_UpdatePowerBar:
-	IF power < 100
-	AND power > 0
-	AND IS_BIT_SET iSexMachineFlags 14  // POWER_BAR_TOP_REACHED
-		GOSUB GF_Sex_DecrementPowerBar
-		RETURN
-	ENDIF
-
-	IF power < 100
-	AND power > 0
-	AND NOT IS_BIT_SET iSexMachineFlags 14  // POWER_BAR_TOP_REACHED
-		GOSUB GF_Sex_IncrementPowerBar
-		RETURN
-	ENDIF
-
-	IF power >= 100	// Reached the top
+	IF fTemp[1] >= 100.0 // Reached the top // FIXEDGROVE: use float version of power
+		fTemp[1] = 100.0 // FIXEDGROVE: clamp float version
 		power = 100
 		SET_BIT iSexMachineFlags 14  // POWER_BAR_TOP_REACHED
 		GOSUB GF_Sex_DecrementPowerBar
 		RETURN
 	ENDIF
 
-	IF power <= 0 // Reached the bottom
+	IF fTemp[1] <= 0.0 // Reached the bottom // FIXEDGROVE: use float version of power
+		fTemp[1] = 0.0 // FIXEDGROVE: clamp float version
 		power = 0
 		CLEAR_BIT iSexMachineFlags 14  // POWER_BAR_TOP_REACHED
 		GOSUB GF_Sex_IncrementPowerBar
 		RETURN
+	ENDIF
+
+	IF IS_BIT_SET iSexMachineFlags 14  // POWER_BAR_TOP_REACHED
+		GOSUB GF_Sex_DecrementPowerBar
+	ELSE
+		GOSUB GF_Sex_IncrementPowerBar
 	ENDIF
 RETURN				 
 /********************************************
@@ -2062,9 +2097,12 @@ GF_Sex_Cleanup:
 		SET_PLAYER_CONTROL player1 ON
 	ENDIF
 
+	HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE scplayer FALSE // FIXEDGROVE
 	SET_CHAR_VISIBLE scplayer TRUE
 	SET_CHAR_PROOFS scplayer FALSE FALSE FALSE FALSE FALSE	
 	SWITCH_WIDESCREEN OFF
+
+	SET_ALL_CARS_CAN_BE_DAMAGED TRUE // FIXEDGROVE
 
 	DISPLAY_RADAR TRUE
 	DISPLAY_HUD TRUE // FIXEDGROVE

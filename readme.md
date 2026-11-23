@@ -479,6 +479,7 @@ Extract the downloaded .zip file and put the `ScriptFixSA` folder into your modl
 - Made dump phonecalls retry if the player couldn't answer
 - Refactored GF phonecalls related code
 - Improved coffee
+  - Fixed to be independent of framerate
   - Fixed "changing position" animation
   - Fixed head speech context not playing if standing up
   - Fixed good performance speech context and the "CLIMAX_HIGH" context conflicting due to being played at almost the same time

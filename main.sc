@@ -5475,9 +5475,11 @@ grove_save_loop_inner:
 				IF created_save_blips = 0
 					
 					GOSUB remove_all_save_pickups
-					REPEAT number_of_save_icons i
+					i = 0
+					WHILE i < number_of_save_icons
 						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[i] save_pickupY[i] save_pickupZ[i] grove_save_pickup[i]
-					ENDREPEAT
+						i++
+					ENDWHILE
 																						 
 					created_save_blips = 1
 				ENDIF

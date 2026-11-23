@@ -1256,7 +1256,7 @@ valet_mission_control:
 			valet_mission_car = 0
 			play_was_on_valet_oddjob = 1
 			SET_WANTED_MULTIPLIER 1.0
-		REPEAT
+		REPEAT 3 i
 			IF NOT IS_CHAR_DEAD valet[i]
 				SET_CHAR_CANT_BE_DRAGGED_OUT valet[i] FALSE
 			ENDIF

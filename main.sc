@@ -4948,23 +4948,19 @@ collectibes_loop_inner:
             PLAY_MISSION_PASSED_TUNE 2
             PLAYER_MADE_PROGRESS 1
             SET_INT_STAT UNDERWATER_BREATH_STAMINA 1000
-		i = 1
-		WHILE i < 5
+		REPEAT 6 i
+		IF i > 0
+		AND i < 5
             //--- Girlfriends bonus: all dead or dumped girls come back on the map 
             IF iGFLikesPlayer[i] <= 0
             	iGFLikesPlayer[i] = 45
             ENDIF
-		i++
-		ENDWHILE
-
-		i = 0
-		WHILE i < 6
+		ENDIF
             //--- All girls love the player even if he smells   
             iGFDesiredSexAppeal[i] = -100
             //---  All girls are his bitches now
             iGFSelfRespect[i] = 1
-		i++
-		ENDWHILE
+		ENDREPEAT
             CLEAR_HELP
             PRINT_HELP OYST100
             returned_oysters_flag = 1
@@ -5479,11 +5475,9 @@ grove_save_loop_inner:
 				IF created_save_blips = 0
 					
 					GOSUB remove_all_save_pickups
-					i = 0
-					WHILE i < number_of_save_icons
+					REPEAT number_of_save_icons i
 						CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[i] save_pickupY[i] save_pickupZ[i] grove_save_pickup[i]
-						i++
-					ENDWHILE
+					ENDREPEAT
 																						 
 					created_save_blips = 1
 				ENDIF
@@ -5531,11 +5525,9 @@ GOTO grove_save_loop_inner
 
 remove_all_save_pickups:
 
-i = 0
-WHILE i < 18
+REPEAT 18 i
 	REMOVE_PICKUP grove_save_pickup[i]
-	i++
-ENDWHILE
+ENDREPEAT
 
 RETURN
 
@@ -6646,11 +6638,10 @@ SCRIPT_NAME DOORS
 
 	LVAR_FLOAT inside_x1 inside_y1 inside_x2 inside_y2 outside_x outside_y
 
-	i = 3
-	WHILE i < 15
+	REPEAT 12 i
 
 SWITCH i
-CASE 3
+CASE 0
 	inside_x1 = 1852.0
 	inside_y1 = -1990.7
 	inside_x2 = 1849.8
@@ -6658,7 +6649,7 @@ CASE 3
 	outside_x = 1854.0
 	outside_y = -1990.0
 BREAK
-CASE 4
+CASE 1
 	inside_x1 = 1867.3
 	inside_y1 = -1985.2
 	inside_x2 = 1868.2
@@ -6666,7 +6657,7 @@ CASE 4
 	outside_x = 1867.4
 	outside_y = -1987.1
 BREAK
-CASE 5
+CASE 2
 	inside_x1 = 1866.5
 	inside_y1 = -1998.3
 	inside_x2 = 1865.4
@@ -6674,7 +6665,7 @@ CASE 5
 	outside_x = 1866.0
 	outside_y = -1996.7
 BREAK
-CASE 6
+CASE 3
 	inside_x1 = 1899.6
 	inside_y1 = -1985.2
 	inside_x2 = 1900.9
@@ -6682,7 +6673,7 @@ CASE 6
 	outside_x = 1899.8
 	outside_y = -1986.7
 BREAK
-CASE 7
+CASE 4
 	inside_x1 = 1914.1
 	inside_y1 = -1992.7
 	inside_x2 = 1916.8
@@ -6690,7 +6681,7 @@ CASE 7
 	outside_x = 1912.3
 	outside_y = -1993.2
 BREAK
-CASE 8
+CASE 5
 	inside_x1 = 1899.0
 	inside_y1 = -1998.1
 	inside_x2 = 1897.9
@@ -6698,7 +6689,7 @@ CASE 8
 	outside_x = 1898.7
 	outside_y = -1996.1
 BREAK
-CASE 9
+CASE 6
 	inside_x1 = 1901.0
 	inside_y1 = -2020.1
 	inside_x2 = 1899.1
@@ -6706,7 +6697,7 @@ CASE 9
 	outside_x = 1902.7
 	outside_y = -2019.6
 BREAK
-CASE 10
+CASE 7
 	inside_x1 = 1914.1
 	inside_y1 = -2020.8
 	inside_x2 = 1916.2
@@ -6714,7 +6705,7 @@ CASE 10
 	outside_x = 1912.4
 	outside_y = -2021.3
 BREAK
-CASE 11
+CASE 8
 	inside_x1 = 1906.5
 	inside_y1 = -2035.3
 	inside_x2 = 1905.5
@@ -6722,7 +6713,7 @@ CASE 11
 	outside_x = 1905.8
 	outside_y = -2033.4
 BREAK
-CASE 12
+CASE 9
 	inside_x1 = 1852.0
 	inside_y1 = -2020.1
 	inside_x2 = 1850.1
@@ -6730,7 +6721,7 @@ CASE 12
 	outside_x = 1853.7
 	outside_y = -2019.4
 BREAK
-CASE 13
+CASE 10
 	inside_x1 = 1865.0
 	inside_y1 = -2020.7
 	inside_x2 = 1867.1
@@ -6738,7 +6729,7 @@ CASE 13
 	outside_x = 1863.0
 	outside_y = -2021.3
 BREAK
-CASE 14
+CASE 11
 	inside_x1 = 1857.6
 	inside_y1 = -2035.2
 	inside_x2 = 1856.5
@@ -6758,11 +6749,10 @@ IF IS_CHAR_IN_AREA_2D scplayer inside_x1 inside_y1 inside_x2 inside_y2 FALSE
 	WHILE GET_FADING_STATUS
 		WAIT 0
 	ENDWHILE
-	i = 15
+	i = 11
 ENDIF
 
-	i++
-	ENDWHILE
+	ENDREPEAT
 
 TERMINATE_THIS_SCRIPT
 }

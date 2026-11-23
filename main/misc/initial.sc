@@ -143,12 +143,10 @@ VAR_INT zeros_property_bought prop_save_house_blip[32]
 VAR_INT save_houseprice[32] save_housepickup[32] save_house_blip[18]
 VAR_INT buying_property_switch
 
-i = 0
-WHILE i < 32
+REPEAT 32 i
 already_bought_house[i] = 0
 prorerty_switch[i] = i
-i++
-ENDWHILE
+ENDREPEAT
 
 zeros_property_bought = 0
 
@@ -474,8 +472,10 @@ propertyZ[31] = 4.3965
 
 save_houseprice[31] = 10000
 
-i = 3
-WHILE i < 32
+REPEAT 32 i
+IF i < 3
+	i = 3
+ENDIF
 SWITCH i
 CASE 4
 CASE 5
@@ -511,8 +511,7 @@ CASE 30
 	GOSUB create_sale_prop_no_remove_main
 ENDSWITCH
 SET_CLOSEST_ENTRY_EXIT_FLAG propertyX[i] propertyY[i] 10.0 ENTRYEXITS_FLAG_ENABLED FALSE
-i++
-ENDWHILE
+ENDREPEAT
 
 
 // ***************************************BLIPS******************************************************
@@ -709,11 +708,9 @@ save_playerY[17] = 996.0585
 save_playerZ[17] = 9.9203           
 save_playerH[17] = 275.5160
  
-i = 0
-WHILE i < 18
+REPEAT 18 i
 remove_grove_pickup[i] = 0
-i++
-ENDWHILE
+ENDREPEAT
 
 /*
 CREATE_PICKUP PICKUPSAVE PICKUP_ONCE save_pickupX[0] save_pickupY[0] save_pickupZ[0] grove_save_pickup[0]
@@ -1187,11 +1184,9 @@ blood_passed_once = 0
 // jude's pilot school stuff
 VAR_INT d5_best_scores[10]
 VAR_INT d5_total_missions_open d5_last_played
-i = 0
-WHILE i < 10
+REPEAT 10 i
 d5_best_scores[i] = 0
-i++
-ENDWHILE
+ENDREPEAT
 d5_total_missions_open = 1
 d5_last_played = 1
 
@@ -1481,14 +1476,12 @@ VAR_INT cprace_best_times[30]
 VAR_INT cprace_best_lap_times[30]
 VAR_INT got_race_made_progress[30]
 
-i = 0
-WHILE i < 30
+REPEAT 30 i
 cprace_best_position[i] = 999999999
 cprace_best_times[i] = 999999999
 cprace_best_lap_times[i] = 999999999
 got_race_made_progress[i] = 0
-i++
-ENDWHILE
+ENDREPEAT
 
 var_int total_races_completed
 total_races_completed = 0
@@ -2459,12 +2452,10 @@ CREATE_OBJECT_NO_OFFSET CR_DOOR_03 2304.257 -17.744 25.742 pc_door[2]
 CREATE_OBJECT_NO_OFFSET CR_DOOR_03 2304.257 -14.583 25.742 pc_door[3]
 SET_OBJECT_HEADING pc_door[3] 180.0
 
-i = 0
-WHILE i < 4
+REPEAT 4 i
 set_object_collision_damage_effect pc_door[i] FALSE
 FREEZE_OBJECT_POSITION pc_door[i] TRUE 
-i++
-ENDWHILE
+ENDREPEAT
 
 
 //Door for casino3.sc	
@@ -2517,11 +2508,9 @@ CREATE_OBJECT_NO_OFFSET bd_window 2336.023 -1188.633 32.961 g_BD_WINDOW[6]
 // Front Upstairs Right Window
 CREATE_OBJECT_NO_OFFSET bd_window 2345.914 -1188.633 32.961 g_BD_WINDOW[7]
 
-i = 0
-WHILE i < 8
+REPEAT 8 i
 DONT_REMOVE_OBJECT g_BD_WINDOW[i]
-i++
-ENDWHILE
+ENDREPEAT
 // FIXEDGROVE: END
 
 // china town gate
@@ -2589,14 +2578,12 @@ init_portakabin_y[5] = 306.0000
 init_portakabin_z[5] = 33.7245 
 init_portakabin_h[5] = 0.0000
 
-i = 0
-WHILE i < 6
+REPEAT 6 i
 	CREATE_OBJECT portakabin init_portakabin_x[i] init_portakabin_y[i] init_portakabin_z[i] init_portakabin[i]
 	SET_OBJECT_HEADING init_portakabin[i] init_portakabin_h[i]
 	SET_OBJECT_DYNAMIC init_portakabin[i] FALSE
 	DONT_REMOVE_OBJECT init_portakabin[i]
-	i++
-ENDWHILE
+ENDREPEAT
 
 //////DOOR FOR STORM FREIGHTER MISSION
 VAR_INT w5_storm_freighter_door
@@ -2676,11 +2663,9 @@ SET_OBJECT_HEADING riot2_door[13] 180.0
 CREATE_OBJECT ad_flatdoor 1857.55 -2035.52 12.5 riot2_door[14]
 SET_OBJECT_HEADING riot2_door[14] 90.0 
 
-i = 0
-WHILE i < 15
+REPEAT 15 i
 	DONT_REMOVE_OBJECT riot2_door[i]
-	i++
-ENDWHILE
+ENDREPEAT
 
 
 // BRICK WALL FOR FINALE
@@ -3440,15 +3425,13 @@ CREATE_CAR_GENERATOR_WITH_PLATE -1399.7174 2628.5898 55.7823 271.7941 COPCARRU -
 CREATE_CAR_GENERATOR_WITH_PLATE -379.5 -1443.1154 25.7266 88.9244 BANDITO -1 -1 TRUE 0 0 0 10000 FULLAUTO iGFUnlockedCarGenerator[KYLIE]  
 CREATE_CAR_GENERATOR_WITH_PLATE -2572.0398 1148.5645 55.7333 337.8434 ROMERO 1 1 TRUE 0 0 0 10000 &_TRAUMA_ iGFUnlockedCarGenerator[SUZIE]  
 CREATE_CAR_GENERATOR_WITH_PLATE 2028.4459 2731.1021 10.53 268.9940 CLUB 126 1 TRUE 0 0 0 10000 &_SPANK__ iGFUnlockedCarGenerator[MILLIE]  
-i = 0
-WHILE i < 6
+REPEAT 6 i
 //--- Set this to avoid a wanted level if player 'borrows' the unlocked version of the car
 SET_HAS_BEEN_OWNED_FOR_CAR_GENERATOR iGFUnlockedCarGenerator[i] TRUE
 //--- At start-up all generators are off
 SWITCH_CAR_GENERATOR iGFLockedCarGenerator[i] 0
 SWITCH_CAR_GENERATOR iGFUnlockedCarGenerator[i] 0
-i++
-ENDWHILE
+ENDREPEAT
 
 // --------------------- CAR IMPORT / EXPORT CAR GENERATORS -----------------------------
 VAR_INT impexp_car_gen[30]
@@ -3483,11 +3466,9 @@ CREATE_CAR_GENERATOR -2406.25	-2180.84	33.39	180.0 MESA 		-1 -1 FALSE 70 10 0 10
 CREATE_CAR_GENERATOR 2163.79	1810.23		10.58	180.0 ZR350 	-1 -1 FALSE 80 10 0 10000 impexp_car_gen[28]
 CREATE_CAR_GENERATOR 2207.43	1286.13		10.57	180.0 EUROS 	-1 -1 FALSE 50 10 0 10000 impexp_car_gen[29]
 // all import export car gens are switched off at first, then switched on when the relevant board is unlocked
-i = 0
-WHILE i < 30
+REPEAT 30 i
 SWITCH_CAR_GENERATOR impexp_car_gen[i] 0
-i++
-ENDWHILE
+ENDREPEAT
 
 //--- COUNTRYSIDE CAR GENRATORS FOR TRACTORS AND COMBINE HARVESTERS
 VAR_INT iFieldTractor[5] iFieldHarvester[8] 
@@ -3509,15 +3490,13 @@ CREATE_CAR_GENERATOR -15.2986 -84.6533 3.0 0.0 COMBINE -1 -1 FALSE 0 100 0 10000
 CREATE_CAR_GENERATOR 81.0533 3.3234 1.5 0.0 TRACTOR -1 -1 FALSE 0 100 0 10000 iFieldTractor[4] 
 
 // The COMBINE HARVESTERS are initialised as OFF - will be switched on after the Truth mission
-i = 0
-WHILE i < 8
+REPEAT 8 i
 SWITCH_CAR_GENERATOR iFieldHarvester[i] 0
 IF i < 5
 // The TRACTORS are initialised as ON
 SWITCH_CAR_GENERATOR iFieldTractor[i] 101
 ENDIF
-i++
-ENDWHILE
+ENDREPEAT
 
 // ***************************************************PICKUPS********************************************************
 /*

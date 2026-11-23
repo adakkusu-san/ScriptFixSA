@@ -7041,19 +7041,19 @@ open_the_map_inner:
 			//BADLANDS
 
 			i = 8 //Small town suburban house with lawn and porch
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			i = 19 //Farm
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			i = 22 //just off main Angel Pine town, behind Sawmill   
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			i = 25 //Las Barrancas (southern town)
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			i = 31 //North Badlands
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			opened_badlands_up = 1
 		ENDIF
@@ -7066,22 +7066,22 @@ open_the_map_inner:
 				//SAN FRAN
 
 				i = 11 //big swanky SF savehouse at the top of lombard street
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 13 //small flat near hospital
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 14 //large garage in alley behind apartments in Hashbury
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 18 //small chinatown pad
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 20 //large pad next to driving school   
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 21 //Vank Hoff In The Park Hotel Room    
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 1458.7, -1140.0, 24.2 RADAR_SPRITE_TSHIRT clothes_blips[0] //CLOTHGP //SAN FRAN
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD -1886.1, 862.4, 35.2 RADAR_SPRITE_TSHIRT clothes_blips[1] //CLOTHGP //SAN FRAN
@@ -7099,13 +7099,13 @@ open_the_map_inner:
 			//DESERT
 
 			i = 5 //Fort Carson old house savehouse near river BADLANDS
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			i = 23 //In El Quebrados (most northerly town)
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			i = 24 //Las Barrancas (southern town)
-			GOSUB create_prop_main
+			GOSUB create_sale_prop_main
 
 			opened_desert_up = 1
 		ENDIF
@@ -7118,31 +7118,31 @@ open_the_map_inner:
 				//VEGAS
 
 				i = 4 //Shabbyhouse in Vegas East
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 6 //Medium house in nice suburb of Venturas
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 7 //shabby house in rundown residential area
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 9 //shabby house in rundown residential area
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 16 //Pirates In Men’s Pants Casino
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 17 //The Camels Toe Casino
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 27 //CASINO
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 28 //Casino
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				i = 29 //Vegas house
-				GOSUB create_prop_main
+				GOSUB create_sale_prop_main
 
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 457.2, -1500.7, 31.3 RADAR_SPRITE_TSHIRT clothes_blips[11] //CSDESGN //VEGAS
 				ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2795.2, 2424.6, 11.0 RADAR_SPRITE_TSHIRT clothes_blips[12] //CSDESGN //VEGAS
@@ -7168,12 +7168,31 @@ GOTO open_the_map_inner
 
 }
 
-create_prop_main:
-	REMOVE_BLIP prop_save_house_blip[i]
-	REMOVE_PICKUP save_housepickup[i]
+create_sale_prop_no_remove_main:
 	CREATE_FORSALE_PROPERTY_PICKUP propertyX[i] propertyY[i] propertyZ[i] save_houseprice[i] PROP_3 save_housepickup[i]
 	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[i] propertyY[i] propertyZ[i] RADAR_SPRITE_PROPERTY_GREEN prop_save_house_blip[i]
 	CHANGE_BLIP_DISPLAY prop_save_house_blip[i] BLIP_ONLY
+RETURN
+
+create_lock_prop_no_remove_main:
+	CREATE_LOCKED_PROPERTY_PICKUP propertyX[i] propertyY[i] propertyZ[i] PROP_4 save_housepickup[i]
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[i] propertyY[i] propertyZ[i] RADAR_SPRITE_PROPERTY_RED prop_save_house_blip[i]
+	CHANGE_BLIP_DISPLAY prop_save_house_blip[i] BLIP_ONLY
+RETURN
+
+create_sale_prop_main:
+	GOSUB remove_prop_main
+	GOSUB create_sale_prop_no_remove_main
+RETURN
+
+create_lock_prop_main:
+	GOSUB remove_prop_main
+	GOSUB create_lock_prop_no_remove_main
+RETURN
+
+remove_prop_main:
+	REMOVE_BLIP prop_save_house_blip[i]
+	REMOVE_PICKUP save_housepickup[i]
 RETURN
 
 little_casino_cut:

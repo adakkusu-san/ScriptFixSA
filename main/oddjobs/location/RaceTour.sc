@@ -700,33 +700,41 @@ case MENU_SCREEN
 	y_hud_pos[2] = y_hud_pos[1]	+ y_hud_pos[7]
 	//5,280 = feet in a mile
 	//1609 = meters in a mile
-	IF ARE_MEASUREMENTS_IN_METRES
-		LVAR_FLOAT km temp_float2
-		km = race_distance[race_selection] / 1000.0
+		LVAR_TEXT_LABEL race_text_to_use
 		LVAR_INT left_dec_pl_digits	right_dec_pl_digits
-		left_dec_pl_digits =# km
-		temp_float =# left_dec_pl_digits
-		temp_float2 = km - temp_float
-		right_dec_pl_digits =# temp_float2
+		LVAR_FLOAT thousandth_distance
+
+	IF ARE_MEASUREMENTS_IN_METRES
+		thousandth_distance = race_distance[race_selection] / 1000.0
+		GOSUB decimal_things_race
 		IF right_dec_pl_digits < 10
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] RACES35 left_dec_pl_digits right_dec_pl_digits//~1~.0~1~ km
+			$race_text_to_use = &RACES35 //~1~.0~1~ km
 		ELSE
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] RACES34 left_dec_pl_digits right_dec_pl_digits//~1~.~1~ km
+			$race_text_to_use = &RACES34 //~1~.~1~ km
 		ENDIF
 	ELSE
-		LVAR_FLOAT miles
-		miles = race_distance[race_selection] /	1609.0
-		left_dec_pl_digits =# miles
-		temp_float =# left_dec_pl_digits
-		temp_float2 = miles - temp_float
-		temp_float2 *= 100.0
-		right_dec_pl_digits =# temp_float2
+		thousandth_distance = race_distance[race_selection] / 1609.0
+		GOSUB decimal_things_race
 		IF right_dec_pl_digits < 10
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] RACES47 left_dec_pl_digits right_dec_pl_digits//~1~.0~1~ miles
+			$race_text_to_use = &RACES47 //~1~.0~1~ miles
 		ELSE
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] RACES46 left_dec_pl_digits right_dec_pl_digits//~1~.~1~ miles
+			$race_text_to_use = &RACES46 //~1~.~1~ miles
 		ENDIF
 	ENDIF
+
+	DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] race_text_to_use left_dec_pl_digits right_dec_pl_digits
+
+	GOTO skip_this_for_now_race
+
+	decimal_things_race:
+		left_dec_pl_digits =# thousandth_distance
+		temp_float =# left_dec_pl_digits
+		temp_float2 = thousandth_distance - temp_float
+		temp_float2 *= 100.0
+		right_dec_pl_digits =# temp_float2
+	RETURN
+
+	skip_this_for_now_race:
 
 	GOSUB setup_text_cprace
 	SET_TEXT_SCALE x_hud_scale[1] y_hud_scale[1]
@@ -905,6 +913,8 @@ case LOAD_MODELS
 	REQUEST_ANIMATION CAR
 	REQUEST_ANIMATION RIOT
 
+	REQUEST_COLLISION checkpoints_x[0] checkpoints_y[0] // FIXEDGROVE: moved these here
+	LOAD_SCENE checkpoints_x[0] checkpoints_y[0] checkpoints_z[0] // FIXEDGROVE: moved these here
 	load_all_models_now
 	
 	lvar_int all_models_loaded
@@ -976,9 +986,9 @@ case LOAD_AREA
 	SET_CHAR_COORDINATES scplayer checkpoints_x[0] checkpoints_y[0] checkpoints_z[0] 
 	SET_CHAR_AREA_VISIBLE scplayer interior_race
 	SET_AREA_VISIBLE interior_race
-	REQUEST_COLLISION checkpoints_x[0] checkpoints_y[0]
+	//REQUEST_COLLISION checkpoints_x[0] checkpoints_y[0] // FIXEDGROVE: moved this in above check
 	RESTORE_CAMERA_JUMPCUT
-	LOAD_SCENE checkpoints_x[0] checkpoints_y[0] checkpoints_z[0]
+	//LOAD_SCENE checkpoints_x[0] checkpoints_y[0] checkpoints_z[0] // FIXEDGROVE: moved this in above check
 	SET_WEATHER_TO_APPROPRIATE_TYPE_NOW
 	race_flag = CREATE_START_LINE
 break
@@ -6842,7 +6852,7 @@ MARK_CHAR_AS_NO_LONGER_NEEDED race_passenger
 MARK_CHAR_AS_NO_LONGER_NEEDED flag_girl
 a = 0
 WHILE a < 11
-	MARK_CHAR_AS_NO_LONGER_NEEDED spectator[10]
+	MARK_CHAR_AS_NO_LONGER_NEEDED spectator[a] // FIXEDGROVE: changed from [10] to [a]
 	++ a
 ENDWHILE
 

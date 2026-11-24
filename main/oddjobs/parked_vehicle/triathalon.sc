@@ -251,6 +251,7 @@ IF triathalon_selection = 2
 	GOTO triathalon2
 ENDIF
 
+/*
 IF triathalon_selection = 100000
 	racer_model_triathalon[0] = wmybe
 	racer_model_triathalon[1] = bmybe
@@ -289,7 +290,7 @@ IF triathalon_selection = 100000
 	WAIT 0 
 	WAIT 0 
 ENDIF
-
+*/
 
 /////////////////////////////////////////////
 
@@ -1447,8 +1448,8 @@ ENDWHILE
 
 LVAR_INT	first_blip_triathalon second_blip_triathalon // FIXEDGROVE: uncomment second_blip_triathalon
 ADD_BLIP_FOR_COORD checkpoints_triathalon_x[0] checkpoints_triathalon_y[0] checkpoints_triathalon_z[0] first_blip_triathalon
-//ADD_BLIP_FOR_COORD checkpoints_triathalon_x[0] checkpoints_triathalon_y[0] checkpoints_triathalon_z[0] second_blip_triathalon
-//REMOVE_BLIP second_blip_triathalon
+ADD_BLIP_FOR_COORD checkpoints_triathalon_x[0] checkpoints_triathalon_y[0] checkpoints_triathalon_z[0] second_blip_triathalon // FIXEDGROVE: uncomment
+REMOVE_BLIP second_blip_triathalon // FIXEDGROVE: uncomment
 
 LVAR_INT race_flag_triathalon
 
@@ -1579,25 +1580,18 @@ IF race_flag_triathalon = 2
 
 		c = a / 2
 		c *= 2
+		e = a
 		IF c = a//IS a AN EVEN NUMBER?
 			x = 1.5
-			
-			e = a * 2
-			temp_float =# e
-			temp_float *= -1.0
-			y = temp_float
-
 		ELSE
 			x = -1.5
+			e -= 1
+		ENDIF
 			
-			e = a - 1
 			e *= 2
 			temp_float =# e
 			temp_float *= -1.0
 			y = temp_float
-
-		ENDIF
-
 
 		GET_OFFSET_FROM_CAR_IN_WORLD_COORDS stored_bike_triathalon x y z x y z
 		GET_CAR_HEADING	stored_bike_triathalon heading_triathalon
@@ -1631,23 +1625,18 @@ IF race_flag_triathalon = 2
 				IF flag_create_bike_and_make_opponent_get_on_it[a] = 0
 					c = a / 2
 					c *= 2
+					e = a
 					IF c = a//IS a AN EVEN NUMBER?
 						x = 3.5
-						e = a * 2
-						temp_float =# e
-						temp_float *= -1.0
-						y = temp_float
-
 					ELSE
 						x = -3.5
-						e = a - 1
+						e -= 1
+					ENDIF
+
 						e *= 2
 						temp_float =# e
 						temp_float *= -1.0
 						y = temp_float
-
-					ENDIF
-
 
 					GET_OFFSET_FROM_CAR_IN_WORLD_COORDS stored_bike_triathalon2 x y z x y z
 					CREATE_CAR racers_car_model_triathalon[a] x y -100.00 racers_mtbike[a]
@@ -2467,11 +2456,11 @@ IF race_flag_triathalon > 6
 									CHANGE_BLIP_SCALE first_blip_triathalon 3
 									// FIXEDGROVE: START - added blip for checkpoint ahead
 									IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] < total_checkpoints_triathalon_triathalon_minus_1
-										temp_int_triathalon = cpcounter_triathalon[stored_checkpoint_when_not_on_bike] + 1
-										ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
+										i = cpcounter_triathalon[stored_checkpoint_when_not_on_bike] + 1
+										ADD_BLIP_FOR_COORD checkpoints_triathalon_x[i] checkpoints_triathalon_y[i] checkpoints_triathalon_z[i] second_blip_triathalon
 										CHANGE_BLIP_COLOUR second_blip_triathalon RED
 										CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
-										CHANGE_BLIP_SCALE second_blip_triathalon 3
+										CHANGE_BLIP_SCALE second_blip_triathalon 1
 									ENDIF
 									// FIXEDGROVE: END
 									IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] = total_checkpoints_triathalon_triathalon_minus_1
@@ -2624,11 +2613,11 @@ IF race_flag_triathalon > 6
 									CHANGE_BLIP_SCALE first_blip_triathalon 3
 									// FIXEDGROVE: START - added blip for checkpoint ahead
 									IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] < total_checkpoints_triathalon_triathalon_minus_1
-										temp_int_triathalon = cpcounter_triathalon[stored_checkpoint_when_not_on_bike] + 1
-										ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
+										i = cpcounter_triathalon[stored_checkpoint_when_not_on_bike] + 1
+										ADD_BLIP_FOR_COORD checkpoints_triathalon_x[i] checkpoints_triathalon_y[i] checkpoints_triathalon_z[i] second_blip_triathalon
 										CHANGE_BLIP_COLOUR second_blip_triathalon RED
 										CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
-										CHANGE_BLIP_SCALE second_blip_triathalon 3
+										CHANGE_BLIP_SCALE second_blip_triathalon 1
 									ENDIF
 									// FIXEDGROVE: END
 									IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] = total_checkpoints_triathalon_triathalon_minus_1
@@ -2893,11 +2882,11 @@ passed_a_checkpoint_triathalon:
 		CHANGE_BLIP_SCALE first_blip_triathalon 3
 		// FIXEDGROVE: START - added blip for checkpoint ahead
 		IF cpcounter_triathalon[a] < total_checkpoints_triathalon_triathalon_minus_1
-			temp_int_triathalon = cpcounter_triathalon[a] + 1
-			ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
+			i = cpcounter_triathalon[a] + 1
+			ADD_BLIP_FOR_COORD checkpoints_triathalon_x[i] checkpoints_triathalon_y[i] checkpoints_triathalon_z[i] second_blip_triathalon
 			CHANGE_BLIP_COLOUR second_blip_triathalon RED
 			CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
-			CHANGE_BLIP_SCALE second_blip_triathalon 3
+			CHANGE_BLIP_SCALE second_blip_triathalon 1
 		ENDIF
 		// FIXEDGROVE: END
 		IF race_flag_triathalon = 1 //MAKE THE SCRIPT COMPILE
@@ -3070,17 +3059,9 @@ passed_a_checkpoint_triathalon:
 		temp_int2_tri =end_bike +2 
 		IF cpcounter_triathalon[a] = temp_int2_tri
 			MARK_CHAR_AS_NO_LONGER_NEEDED flag_girl_triathalon
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[0]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[1]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[2]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[3]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[4]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[5]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[6]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[7]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[8]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[9]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[10]
+		REPEAT 11 i
+			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[i]
+		ENDREPEAT
 		ENDIF
 
 
@@ -3106,17 +3087,9 @@ passed_a_checkpoint_triathalon:
 		temp_int2_tri =start_run +2 
 		IF cpcounter_triathalon[a] = temp_int2_tri
 			MARK_CHAR_AS_NO_LONGER_NEEDED flag_girl_triathalon
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[0]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[1]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[2]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[3]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[4]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[5]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[6]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[7]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[8]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[9]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[10]
+		REPEAT 11 i
+			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[i]
+		ENDREPEAT
 		ENDIF
 
 
@@ -3287,11 +3260,11 @@ triathalon_create_checkpoint:
 		CHANGE_BLIP_SCALE first_blip_triathalon 3
 		// FIXEDGROVE: START - added blip for checkpoint ahead
 		IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] < total_checkpoints_triathalon_triathalon_minus_1
-			temp_int_triathalon = cpcounter_triathalon[stored_checkpoint_when_not_on_bike] + 1
-			ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
+			i = cpcounter_triathalon[stored_checkpoint_when_not_on_bike] + 1
+			ADD_BLIP_FOR_COORD checkpoints_triathalon_x[i] checkpoints_triathalon_y[i] checkpoints_triathalon_z[i] second_blip_triathalon
 			CHANGE_BLIP_COLOUR second_blip_triathalon RED
 			CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
-			CHANGE_BLIP_SCALE second_blip_triathalon 3
+			CHANGE_BLIP_SCALE second_blip_triathalon 1
 		ENDIF
 		// FIXEDGROVE: END
 		IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] = total_checkpoints_triathalon_triathalon_minus_1
@@ -3378,8 +3351,8 @@ RETURN
 mission_cleanup_triathalon:
 
 	// FIXEDGROVE: use loop for cleanup
-	REPEAT 12 temp_integer_1
-		MARK_MODEL_AS_NO_LONGER_NEEDED racer_model_triathalon[temp_integer_1]
+	REPEAT 12 i
+		MARK_MODEL_AS_NO_LONGER_NEEDED racer_model_triathalon[i]
 	ENDREPEAT
 
     MARK_MODEL_AS_NO_LONGER_NEEDED mtbike
@@ -3387,8 +3360,8 @@ mission_cleanup_triathalon:
 	MARK_CHAR_AS_NO_LONGER_NEEDED flag_girl_triathalon
 
 	// FIXEDGROVE: use loop for cleanup
-	REPEAT 11 temp_integer_1
-		MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[temp_integer_1]
+	REPEAT 11 i
+		MARK_CHAR_AS_NO_LONGER_NEEDED spectator_triathalon[i]
 	ENDREPEAT
 
 	//CLEAR_ONSCREEN_TIMER triathalon_timer

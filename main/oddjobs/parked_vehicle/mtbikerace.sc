@@ -760,13 +760,13 @@ WHILE NOT HAS_CAR_RECORDING_BEEN_LOADED 829
 	WAIT 0
 ENDWHILE
 
-CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
-DELETE_CHECKPOINT cp_marker_mtbikerace
-
-
-
 GOTO mtbikerace_start
 
+
+
+
+CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
+DELETE_CHECKPOINT cp_marker_mtbikerace
 
 
 
@@ -840,6 +840,8 @@ ENDWHILE
 
 LVAR_INT	first_blip_mtbikerace second_blip_mtbikerace // FIXEDGROVE: added second_blip_mtbikerace
 ADD_BLIP_FOR_COORD checkpoints_mtbike_x[0] checkpoints_mtbike_y[0] checkpoints_mtbike_z[0] first_blip_mtbikerace
+ADD_BLIP_FOR_COORD checkpoints_mtbike_x[0] checkpoints_mtbike_y[0] checkpoints_mtbike_z[0] second_blip_mtbikerace // FIXEDGROVE
+REMOVE_BLIP second_blip_mtbikerace // FIXEDGROVE
 
 LVAR_INT race_flag_mtbikerace
 LVAR_INT playaz_mtbikerace
@@ -909,24 +911,21 @@ IF race_flag_mtbikerace = 2
 	WHILE a < total_mtbikerace
 		c = a / 2
 		c *= 2
+		e = a
 		IF c = a//IS a AN EVEN NUMBER?
 			x = 2.0
-			
-			e = a * 4
-			temp_float =# e
-			temp_float *= -3.0
-			y = temp_float
-
+			temp_float_2 = -3.0
 		ELSE
 			x = -2.0
-			
-			e = a - 1
-			e *= 4
-			temp_float =# e
-			temp_float *= -1.2
-			y = temp_float
-
+			e -= 1
+			temp_float_2 = -1.2
 		ENDIF
+			
+			e *= 4
+			temp_float_1 =# e
+			temp_float_1 *= temp_float_2
+			y = temp_float_1
+
 		GET_OFFSET_FROM_CAR_IN_WORLD_COORDS stored_bike_mtbikerace x y z x y z
 		GET_CAR_HEADING	stored_bike_mtbikerace heading_mtbikerace
 		z = checkpoints_mtbike_z[0]
@@ -1579,13 +1578,10 @@ IF race_flag_mtbikerace > 6
 								RETURN
 							ENDIF
 							
-							IF seconds = 1
 								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS FALSE
-
+							IF seconds = 1
 								PRINT_WITH_NUMBER_NOW RACE_51 seconds 200 1	//You have ~1~ second to return to your car.
 							ELSE
-								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS FALSE
-
 								PRINT_WITH_NUMBER_NOW RACES50 seconds 200 1	//You have ~1~ seconds to return to your car.
 							ENDIF
 
@@ -1670,11 +1666,11 @@ IF race_flag_mtbikerace > 6
 								CHANGE_BLIP_SCALE first_blip_mtbikerace 3
 								// FIXEDGROVE: START - added blip for checkpoint ahead
 								IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] < total_checkpoints_mtbike_mtbikerace_minus_1
-									temp_int_mtbikerace = cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] + 1
-									ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
+									i = cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] + 1
+									ADD_BLIP_FOR_COORD checkpoints_mtbike_x[i] checkpoints_mtbike_y[i] checkpoints_mtbike_z[i] second_blip_mtbikerace
 									CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
 									CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
-									CHANGE_BLIP_SCALE second_blip_mtbikerace 3
+									CHANGE_BLIP_SCALE second_blip_mtbikerace 1
 								ENDIF
 								// FIXEDGROVE: END
 								IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] = total_checkpoints_mtbike_mtbikerace_minus_1
@@ -2063,11 +2059,11 @@ passed_a_checkpoint_mtbikerace:
 		CHANGE_BLIP_SCALE first_blip_mtbikerace 3
 		// FIXEDGROVE: START - added blip for checkpoint ahead
 		IF cpcounter_mtbikerace[a] < total_checkpoints_mtbike_mtbikerace_minus_1
-			temp_int_mtbikerace = cpcounter_mtbikerace[a] + 1
-			ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
+			i = cpcounter_mtbikerace[a] + 1
+			ADD_BLIP_FOR_COORD checkpoints_mtbike_x[i] checkpoints_mtbike_y[i] checkpoints_mtbike_z[i] second_blip_mtbikerace
 			CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
 			CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
-			CHANGE_BLIP_SCALE second_blip_mtbikerace 3
+			CHANGE_BLIP_SCALE second_blip_mtbikerace 1
 		ENDIF
 		// FIXEDGROVE: END
 		IF race_flag_mtbikerace = 1 //MAKE THE SCRIPT COMPILE
@@ -2085,17 +2081,9 @@ passed_a_checkpoint_mtbikerace:
 	
 		IF cpcounter_mtbikerace[a] = 3
 			MARK_CHAR_AS_NO_LONGER_NEEDED flag_girl_mtbikerace
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[0]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[1]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[2]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[3]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[4]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[5]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[6]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[7]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[8]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[9]
-			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[10]
+		REPEAT 11 i
+			MARK_CHAR_AS_NO_LONGER_NEEDED spectator_mtbikerace[i]
+		ENDREPEAT
 		ENDIF
 	ELSE
 		

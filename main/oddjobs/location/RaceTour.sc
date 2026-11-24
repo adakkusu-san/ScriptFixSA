@@ -94,6 +94,8 @@ IF race_flag = RACE_START_GO
 
 	lvar_int first_blip second_blip // FIXEDGROVE: added second_blip
 	ADD_BLIP_FOR_COORD x y z first_blip
+	ADD_BLIP_FOR_COORD x y z second_blip // FIXEDGROVE
+	REMOVE_BLIP second_blip // FIXEDGROVE
 	CREATE_CHECKPOINT checkpoint_type x y z x y z 6.0 cp_marker
 	
 	create_racers_car:///////////////////////////////////////////////
@@ -706,15 +708,23 @@ case MENU_SCREEN
 
 	IF ARE_MEASUREMENTS_IN_METRES
 		thousandth_distance = race_distance[race_selection] / 1000.0
-		GOSUB decimal_things_race
+	ELSE
+		thousandth_distance = race_distance[race_selection] / 1609.0
+	ENDIF
+
+		left_dec_pl_digits =# thousandth_distance
+		temp_float_1 =# left_dec_pl_digits
+		temp_float_2 = thousandth_distance - temp_float_1
+		temp_float_2 *= 100.0
+		right_dec_pl_digits =# temp_float_2
+
+	IF ARE_MEASUREMENTS_IN_METRES
 		IF right_dec_pl_digits < 10
 			$race_text_to_use = &RACES35 //~1~.0~1~ km
 		ELSE
 			$race_text_to_use = &RACES34 //~1~.~1~ km
 		ENDIF
 	ELSE
-		thousandth_distance = race_distance[race_selection] / 1609.0
-		GOSUB decimal_things_race
 		IF right_dec_pl_digits < 10
 			$race_text_to_use = &RACES47 //~1~.0~1~ miles
 		ELSE
@@ -722,19 +732,7 @@ case MENU_SCREEN
 		ENDIF
 	ENDIF
 
-	DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] race_text_to_use left_dec_pl_digits right_dec_pl_digits
-
-	GOTO skip_this_for_now_race
-
-	decimal_things_race:
-		left_dec_pl_digits =# thousandth_distance
-		temp_float =# left_dec_pl_digits
-		temp_float2 = thousandth_distance - temp_float
-		temp_float2 *= 100.0
-		right_dec_pl_digits =# temp_float2
-	RETURN
-
-	skip_this_for_now_race:
+	DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[2] $race_text_to_use left_dec_pl_digits right_dec_pl_digits
 
 	GOSUB setup_text_cprace
 	SET_TEXT_SCALE x_hud_scale[1] y_hud_scale[1]
@@ -1017,24 +1015,19 @@ case CREATE_START_LINE
 				
 				c = a / 2
 				c *= 2
+				e = a
 				IF c = a//IS a AN EVEN NUMBER?
 					x = car_size_x
-					
-					temp_float =# a
-					temp_float *= car_size_y
-					temp_float *= -1.0
-					y = temp_float
-
 				ELSE
 					x = half_size_x
+					e -= 1
+				ENDIF
 					
-					e = a - 1
 					temp_float =# e
 					temp_float *= car_size_y
 					temp_float *= -1.0
 					y = temp_float
 
-				ENDIF
 				if is_car_dead stored_car
 					if show_race_selection = false
 						if race_selection = CESAR_RACE
@@ -1446,8 +1439,8 @@ case MAIN_RACE_LOOP_B
 									CHANGE_BLIP_SCALE first_blip 3
 									// FIXEDGROVE: START - added blip for checkpoint ahead
 									IF cpcounter[a] < total_checkpoints_minus_1
-										temp_int = cpcounter[a] + 1
-										ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+										i = cpcounter[a] + 1
+										ADD_BLIP_FOR_COORD checkpoints_x[i]	checkpoints_y[i]	checkpoints_z[i] second_blip
 										CHANGE_BLIP_COLOUR second_blip RED
 										CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
 										CHANGE_BLIP_SCALE second_blip 1
@@ -1456,8 +1449,7 @@ case MAIN_RACE_LOOP_B
 									IF cpcounter[a] = total_checkpoints_minus_1
 									AND lap_cpcounter[a] = total_laps_minus_1
 										if checkpoint_type = checkpoint_torus
-											temp_int = cpcounter[a]
-											-- temp_int
+											temp_int = cpcounter[a] - 1
 											IF temp_int < 0
 												temp_int = 0
 											ENDIF
@@ -1466,8 +1458,7 @@ case MAIN_RACE_LOOP_B
 											CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] 0.0 0.0 0.0 6.0 cp_marker
 										endif
 									ELSE
-										temp_int = cpcounter[a]
-										++ temp_int
+										temp_int = cpcounter[a] + 1
 										IF cpcounter[a] = total_checkpoints_minus_1
 											temp_int = 1
 										ENDIF
@@ -1511,11 +1502,10 @@ case MAIN_RACE_LOOP_B
 								endif
 								RETURN
 							ENDIF
-							if seconds = 1
 								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS	FALSE
+							if seconds = 1
 								PRINT_WITH_NUMBER_NOW RACE_21 seconds 200 1	//You have ~1~ second to return to your car.
 							else
-								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS	FALSE
 								PRINT_WITH_NUMBER_NOW RACES21 seconds 200 1	//You have ~1~ seconds to return to your car.
 							endif
 						ENDIF
@@ -1614,10 +1604,8 @@ case MAIN_RACE_LOOP_B
 																TURN_CAR_TO_FACE_COORD racers_car[a] checkpoints_x[temp_int] checkpoints_y[temp_int]
 																set_car_forward_speed racers_car[a] 20.0
 															ENDIF
-															racer_out_car_timer[a] = 0
-														else
-															racer_out_car_timer[a] = 0
 														ENDIF
+															racer_out_car_timer[a] = 0
 													else
 														racer_out_car_timer[a] = 0
 													ENDIF
@@ -1831,8 +1819,8 @@ case MAIN_RACE_LOOP_B
 							DELETE_CHECKPOINT cp_marker
 							// FIXEDGROVE: START - added blip for checkpoint ahead
 							IF cpcounter[a] < total_checkpoints_minus_1
-								temp_int = cpcounter[a] + 1
-								ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+								i = cpcounter[a] + 1
+								ADD_BLIP_FOR_COORD checkpoints_x[i]	checkpoints_y[i]	checkpoints_z[i] second_blip
 								CHANGE_BLIP_COLOUR second_blip RED
 								CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
 								CHANGE_BLIP_SCALE second_blip 1
@@ -1842,8 +1830,7 @@ case MAIN_RACE_LOOP_B
 						IF cpcounter[a] = total_checkpoints_minus_1
 						AND lap_cpcounter[a] = total_laps_minus_1
 							if checkpoint_type = checkpoint_torus
-								temp_int = cpcounter[a]
-								-- temp_int
+								temp_int = cpcounter[a] - 1
 								IF temp_int < 0
 									temp_int = 0
 								ENDIF
@@ -1853,8 +1840,7 @@ case MAIN_RACE_LOOP_B
 							endif
 						ELSE
 							if interior_race = 0
-								temp_int = cpcounter[a]
-								++ temp_int
+								temp_int = cpcounter[a] + 1
 								IF cpcounter[a] = total_checkpoints_minus_1
 									temp_int = 1
 								ENDIF
@@ -6776,6 +6762,7 @@ if race_audio_flag = 1
 endif
 
 return
+/*
 return
 return
 temp_float = 0.0
@@ -6784,7 +6771,7 @@ temp_float = 0.0
 return
 return
 return
-
+*/
 
 mission_cleanup_cprace://////////////////////////////////////////
 

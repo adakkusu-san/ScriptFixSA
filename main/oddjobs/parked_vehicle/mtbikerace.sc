@@ -838,7 +838,7 @@ ENDWHILE
 
 //PRINT_NOW BIK1_1 5000 1 //"~g~Get a fast car and get to the starting grid."
 
-LVAR_INT	first_blip_mtbikerace 
+LVAR_INT	first_blip_mtbikerace second_blip_mtbikerace // FIXEDGROVE: added second_blip_mtbikerace
 ADD_BLIP_FOR_COORD checkpoints_mtbike_x[0] checkpoints_mtbike_y[0] checkpoints_mtbike_z[0] first_blip_mtbikerace
 
 LVAR_INT race_flag_mtbikerace
@@ -1554,6 +1554,7 @@ IF race_flag_mtbikerace > 6
 							IF out_of_car_flag_mtbike = 0
 								DELETE_CHECKPOINT cp_marker_mtbikerace
 								REMOVE_BLIP	first_blip_mtbikerace 
+								REMOVE_BLIP	second_blip_mtbikerace // FIXEDGROVE
 
 								IF NOT IS_CAR_DEAD racers_mtbike[playaz_mtbikerace]
 							  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_mtbikerace] first_blip_mtbikerace
@@ -1659,6 +1660,7 @@ IF race_flag_mtbikerace > 6
 							IF out_of_car_flag_mtbike = 1
 								CLEAR_THIS_PRINT RACES50
 							   	REMOVE_BLIP	first_blip_mtbikerace
+							   	REMOVE_BLIP second_blip_mtbikerace // FIXEDGROVE
 								racer_cp_y_mtbikerace[a] -= 1000.0
 								c = 0
 								temp_int_mtbikerace = total_racers_mtbikerace - 1
@@ -1666,6 +1668,15 @@ IF race_flag_mtbikerace > 6
 								CHANGE_BLIP_COLOUR first_blip_mtbikerace RED
 								CHANGE_BLIP_DISPLAY first_blip_mtbikerace BLIP_ONLY
 								CHANGE_BLIP_SCALE first_blip_mtbikerace 3
+								// FIXEDGROVE: START - added blip for checkpoint ahead
+								IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] < total_checkpoints_mtbike_mtbikerace_minus_1
+									temp_int_mtbikerace = cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] + 1
+									ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
+									CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
+									CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
+									CHANGE_BLIP_SCALE second_blip_mtbikerace 3
+								ENDIF
+								// FIXEDGROVE: END
 								IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] = total_checkpoints_mtbike_mtbikerace_minus_1
 							   //	AND lap_cpcounter[a] = total_laps_minus_1
 									CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_y_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_z_mtbikerace[stored_checkpoint_when_not_on_bike] 0.0 0.0 0.0 6.0 cp_marker_mtbikerace
@@ -1938,6 +1949,7 @@ passed_a_checkpoint_mtbikerace:
 	IF mtbikeracer[a] = scplayer
 		ADD_ONE_OFF_SOUND 0.0 0.0 0.0 SOUND_PART_MISSION_COMPLETE
 		REMOVE_BLIP first_blip_mtbikerace
+		REMOVE_BLIP second_blip_mtbikerace // FIXEDGROVE
 	ENDIF
 		
 	++ cpcounter_mtbikerace[a]
@@ -2049,6 +2061,15 @@ passed_a_checkpoint_mtbikerace:
 		CHANGE_BLIP_COLOUR first_blip_mtbikerace RED
 		CHANGE_BLIP_DISPLAY first_blip_mtbikerace BLIP_ONLY
 		CHANGE_BLIP_SCALE first_blip_mtbikerace 3
+		// FIXEDGROVE: START - added blip for checkpoint ahead
+		IF cpcounter_mtbikerace[a] < total_checkpoints_mtbike_mtbikerace_minus_1
+			temp_int_mtbikerace = cpcounter_mtbikerace[a] + 1
+			ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
+			CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
+			CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
+			CHANGE_BLIP_SCALE second_blip_mtbikerace 3
+		ENDIF
+		// FIXEDGROVE: END
 		IF race_flag_mtbikerace = 1 //MAKE THE SCRIPT COMPILE
 			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 		ENDIF
@@ -2359,6 +2380,7 @@ mission_cleanup_mtbikerace:
 	//CLEAR_ONSCREEN_TIMER mtbike_timer
 
 	REMOVE_BLIP	first_blip_mtbikerace
+	REMOVE_BLIP	second_blip_mtbikerace // FIXEDGROVE
 	/*REMOVE_BLIP	racer_blip_mtbikerace[0]
 	REMOVE_BLIP	racer_blip_mtbikerace[1]
 	REMOVE_BLIP	racer_blip_mtbikerace[2]

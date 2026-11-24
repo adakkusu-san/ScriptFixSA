@@ -92,7 +92,7 @@ ENDIF
 
 IF race_flag = RACE_START_GO
 
-	lvar_int first_blip
+	lvar_int first_blip second_blip // FIXEDGROVE: added second_blip
 	ADD_BLIP_FOR_COORD x y z first_blip
 	CREATE_CHECKPOINT checkpoint_type x y z x y z 6.0 cp_marker
 	
@@ -1428,6 +1428,7 @@ case MAIN_RACE_LOOP_B
 							IF out_of_car_flag = 1
 								CLEAR_THIS_PRINT RACES21
 								REMOVE_BLIP	first_blip
+								REMOVE_BLIP	second_blip // FIXEDGROVE
 								racer_cp_z[a] -= 1000.0
 								if interior_race = 0
 									c = 0
@@ -1443,6 +1444,15 @@ case MAIN_RACE_LOOP_B
 									CHANGE_BLIP_COLOUR first_blip RED
 									CHANGE_BLIP_DISPLAY first_blip BLIP_ONLY
 									CHANGE_BLIP_SCALE first_blip 3
+									// FIXEDGROVE: START - added blip for checkpoint ahead
+									IF cpcounter[a] < total_checkpoints_minus_1
+										temp_int = cpcounter[a] + 1
+										ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+										CHANGE_BLIP_COLOUR second_blip RED
+										CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
+										CHANGE_BLIP_SCALE second_blip 1
+									ENDIF
+									// FIXEDGROVE: END
 									IF cpcounter[a] = total_checkpoints_minus_1
 									AND lap_cpcounter[a] = total_laps_minus_1
 										if checkpoint_type = checkpoint_torus
@@ -1470,6 +1480,7 @@ case MAIN_RACE_LOOP_B
 							IF out_of_car_flag = 0
 								DELETE_CHECKPOINT cp_marker
 								REMOVE_BLIP	first_blip
+								REMOVE_BLIP	second_blip // FIXEDGROVE
 								c = 0
 								temp_int = total_racers - 1
 								WHILE c < temp_int
@@ -1693,6 +1704,7 @@ case MAIN_RACE_LOOP_B
 					if interior_race = 0
 						REPORT_MISSION_AUDIO_EVENT_AT_POSITION 0.0 0.0 0.0 SOUND_PART_MISSION_COMPLETE
 						REMOVE_BLIP first_blip
+						REMOVE_BLIP	second_blip // FIXEDGROVE
 					endif
 				ENDIF
 					
@@ -1725,6 +1737,7 @@ case MAIN_RACE_LOOP_B
 							endif
 							DELETE_CHECKPOINT cp_marker
 							REMOVE_BLIP	first_blip
+							REMOVE_BLIP	second_blip // FIXEDGROVE
 							race_flag = FINISH_RACE
 							if show_race_selection = false
 								if position > 0
@@ -1816,6 +1829,15 @@ case MAIN_RACE_LOOP_B
 							CHANGE_BLIP_DISPLAY first_blip BLIP_ONLY
 							CHANGE_BLIP_SCALE first_blip 3
 							DELETE_CHECKPOINT cp_marker
+							// FIXEDGROVE: START - added blip for checkpoint ahead
+							IF cpcounter[a] < total_checkpoints_minus_1
+								temp_int = cpcounter[a] + 1
+								ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+								CHANGE_BLIP_COLOUR second_blip RED
+								CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
+								CHANGE_BLIP_SCALE second_blip 1
+							ENDIF
+							// FIXEDGROVE: END
 						endif	
 						IF cpcounter[a] = total_checkpoints_minus_1
 						AND lap_cpcounter[a] = total_laps_minus_1
@@ -6864,6 +6886,7 @@ ENDIF
 
 
 REMOVE_BLIP	first_blip
+REMOVE_BLIP	second_blip // FIXEDGROVE
 DELETE_CHECKPOINT cp_marker
 DELETE_OBJECT flag_object
 

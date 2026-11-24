@@ -544,25 +544,13 @@ ENDIF
 index_random_char = 0
 
 
-
+GOTO cat4_skip_compiler_things
 ADD_BLIP_FOR_COORD coord_otb_x_cat4 coord_otb_y_cat4 coord_otb_z_cat4 blip_otb_cat4
-
 ADD_BLIP_FOR_COORD coord_hiding_spot_x_cat4 coord_hiding_spot_y_cat4 coord_hiding_spot_z_cat4 blip_hiding_spot 
 ADD_BLIP_FOR_COORD coord_hiding_spot_x_cat4 coord_hiding_spot_y_cat4 coord_hiding_spot_z_cat4 blip_paint_and_spray_cat4
+ADD_BLIP_FOR_CHAR catalina blip_cat_cat4
+cat4_skip_compiler_things:
 
-IF NOT IS_CHAR_DEAD catalina
-	
-	ADD_BLIP_FOR_CHAR catalina blip_cat_cat4
-	REMOVE_BLIP blip_cat_cat4
-ENDIF
-
-
-
-REMOVE_BLIP blip_otb_cat4 
-REMOVE_BLIP blip_hiding_spot
-REMOVE_BLIP blip_paint_and_spray_cat4
-
-REMOVE_BLIP blip_cat_cat4
 REMOVE_BLIP spray_shop4
 
 
@@ -640,17 +628,10 @@ streaming_otb_clerk:
 									ENDIF 
 
 									IF cat_coment_counter = 2
- 			  							LOAD_MISSION_AUDIO 1 SOUND_CATX_UA
-										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-											WAIT 0
-										ENDWHILE  
 
-										PRINT_NOW ( CATX_UA ) 10000 1		//	Carl, you are a fucking idiota!	
-										PLAY_MISSION_AUDIO 1
-										WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-											WAIT 0
-										ENDWHILE
-										CLEAR_THIS_PRINT CATX_UA 
+										audio_sound_file = SOUND_CATX_UA
+										$audio_string = &CATX_UA	//	Carl, you are a fucking idiota!	
+										GOSUB cat4_load_and_play_audio
 
 										cat_coment_counter++
 									ENDIF
@@ -659,18 +640,9 @@ streaming_otb_clerk:
 
 									IF cat_coment_counter = 1
 
- 			  							LOAD_MISSION_AUDIO 1 SOUND_CATX_UB
-										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-											WAIT 0
-										ENDWHILE  
-
-										PRINT_NOW ( CATX_UB ) 10000 1		//Idiota, Carl, idiota!
-										PLAY_MISSION_AUDIO 1
-										WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-											WAIT 0
-										ENDWHILE
-										CLEAR_THIS_PRINT CATX_UB 
-
+ 			  							audio_sound_file = SOUND_CATX_UB
+										$audio_string = &CATX_UB	//Idiota, Carl, idiota!
+										GOSUB cat4_load_and_play_audio
 
 										cat_coment_counter++
 									ENDIF
@@ -678,18 +650,11 @@ streaming_otb_clerk:
 
 
 									IF cat_coment_counter = 0
-										LOAD_MISSION_AUDIO 1 SOUND_CATX_UF
 
-										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-											WAIT 0
-										ENDWHILE  
+										audio_sound_file = SOUND_CATX_UF
+										$audio_string = &CATX_UF	// Carl Johnson, you are shit!	
+										GOSUB cat4_load_and_play_audio
 
-										PRINT_NOW ( CATX_UF ) 10000 1		// Carl Johnson, you are shit!	
-										PLAY_MISSION_AUDIO 1
-										WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-											WAIT 0
-										ENDWHILE
-										CLEAR_THIS_PRINT CATX_UF 
 										cat_coment_counter++
 									ENDIF
 								ENDIF
@@ -811,18 +776,10 @@ streaming_otb_clerk:
 						CHANGE_BLIP_COLOUR blip_hiding_spot YELLOW
 
 						DISABLE_ALL_ENTRY_EXITS FALSE
-						LOAD_MISSION_AUDIO 1 SOUND_CATX_DE
-						WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-							WAIT 0
-						ENDWHILE  
 
-						PRINT_NOW ( CATX_DE ) 10000 1		//	[]	Get us back to the hideout!
-	
-						PLAY_MISSION_AUDIO 1
-						WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-							WAIT 0
-						ENDWHILE
-						CLEAR_THIS_PRINT CATX_DE 
+						audio_sound_file = SOUND_CATX_DE
+						$audio_string = &CATX_DE	//	[]	Get us back to the hideout!
+						GOSUB cat4_load_and_play_audio
 
 					ENDIF
 
@@ -940,17 +897,9 @@ streaming_otb_clerk:
 
 							  
 
-							LOAD_MISSION_AUDIO 1 SOUND_CATX_JE
-							WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-								WAIT 0
-							ENDWHILE  
-
-							PRINT_NOW ( CATX_JE ) 10000 1		//	Dont try and dump me CARL!	
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CATX_JE 				   
+							audio_sound_file = SOUND_CATX_JE
+							$audio_string = &CATX_JE	//	Dont try and dump me CARL!
+							GOSUB cat4_load_and_play_audio
 
 						ENDIF
 					ENDIF
@@ -1180,17 +1129,10 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 	START_CHAR_FACIAL_TALK scplayer 10000
 
-	LOAD_MISSION_AUDIO 1 SOUND_CAT2_AB
-	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-		WAIT 0
-	ENDWHILE  
+	audio_sound_file = SOUND_CAT2_AB
+	$audio_string = &CAT2_AB	//	yOU wanna rob a betting shop?
+	GOSUB cat4_load_and_play_audio
 
-	PRINT_NOW ( CAT2_AB ) 10000 1		//	yOU wanna rob a betting shop?	
-	PLAY_MISSION_AUDIO 1
-	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-		WAIT 0
-	ENDWHILE
-	CLEAR_THIS_PRINT CAT2_AB
 	STOP_CHAR_FACIAL_TALK scplayer
 
 	flag_cutscene1_cat4 = 0 // FIXEDGROVE: used to flag the cutscene as skipped
@@ -1219,26 +1161,19 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 	SET_FIXED_CAMERA_POSITION 1292.4452 266.8836 19.0157  0.0 0.0 0.0 
 	POINT_CAMERA_AT_POINT 1291.7562 267.5977 19.1396 JUMP_CUT
 	 
-	LOAD_MISSION_AUDIO 1 SOUND_CAT2_AC
-	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-		WAIT 0
-	ENDWHILE 
+	audio_sound_file = SOUND_CAT2_AC
+	$audio_string = &CAT2_AC	//	yOU man enough?
+	GOSUB cat4_load_audio
 	 
 	IF NOT IS_CHAR_DEAD catalina
-		PRINT_NOW ( CAT2_AC ) 10000 1		//	yOU man enough?
-		PLAY_MISSION_AUDIO 1
 		START_CHAR_FACIAL_TALK catalina 10000 // FIXEDGROVE: char was 'scplayer'
 	ENDIF
 
-	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-		WAIT 0
-	ENDWHILE
+	GOSUB cat4_play_audio
 
 	IF NOT IS_CHAR_DEAD catalina
 		STOP_CHAR_FACIAL_TALK catalina
 	ENDIF
-
-	CLEAR_THIS_PRINT CAT2_AC 
 
 	SET_FIXED_CAMERA_POSITION 1300.1182 272.2002 20.6733 0.0 0.0 0.0 
 	POINT_CAMERA_AT_POINT 1299.1564 271.9637 20.5352 JUMP_CUT
@@ -1248,11 +1183,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 		TASK_PLAY_ANIM catalina PASS_Rifle_Ped misc 4.0 FALSE FALSE FALSE FALSE -1
 	ENDIF
 
-	LOAD_MISSION_AUDIO 1 SOUND_CATX_RB	// carl, here
-
-	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-		WAIT 0
-	ENDWHILE  
+	audio_sound_file = SOUND_CAT2_RB
+	$audio_string = &CAT2_RB	// carl, here
+	GOSUB cat4_load_audio
 
 	IF NOT IS_CHAR_DEAD catalina
 		CLEAR_CHAR_TASKS catalina
@@ -1267,16 +1200,10 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 		START_CHAR_FACIAL_TALK catalina 10000
 	ENDIF
 
-	PRINT_NOW ( CATX_RB ) 10000 1		// carl, here
-	PLAY_MISSION_AUDIO 1
-
 	//SET_FIXED_CAMERA_POSITION 1289.3167 268.4893 20.0960  0.0 0.0 0.0 
 	//POINT_CAMERA_AT_POINT 1290.1132 269.0416 19.8500 JUMP_CUT
 
-	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-		WAIT 0
-	ENDWHILE
-	CLEAR_THIS_PRINT CATX_RB 
+	GOSUB cat4_play_audio
 
 	IF NOT IS_CHAR_DEAD catalina
 		STOP_CHAR_FACIAL_TALK catalina
@@ -1288,19 +1215,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 		TASK_GO_STRAIGHT_TO_COORD catalina 1292.81 269.01 18.5469 PEDMOVE_WALK -1
 	ENDIF
 
-	LOAD_MISSION_AUDIO 1 SOUND_CAT2_JA	//Satchel charges?!  Where the hell’d you get them?
-
-	WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-		WAIT 0
-	ENDWHILE  
-
-	PRINT_NOW ( CAT2_JA ) 10000 1		//Satchel charges?!  Where the hell’d you get them?
-	PLAY_MISSION_AUDIO 1
-
-	WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-		WAIT 0
-	ENDWHILE
-	CLEAR_THIS_PRINT CAT2_JA 
+	audio_sound_file = SOUND_CAT2_JA
+	$audio_string = &CAT2_JA	//Satchel charges?!  Where the hell’d you get them?
+	GOSUB cat4_load_and_play_audio
 
 	WHILE TIMERA < 1500
 		WAIT 0
@@ -1393,16 +1310,8 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 	ENDIF	*/
 
 	WHILE NOT HAS_MODEL_LOADED kev_safe
-		WAIT 0
-	ENDWHILE
-
-
-
-	WHILE NOT HAS_MODEL_LOADED man_safenew
-		WAIT 0
-	ENDWHILE
-
-	WHILE NOT HAS_MODEL_LOADED DESERT_EAGLE
+		OR NOT HAS_MODEL_LOADED man_safenew
+		OR NOT HAS_MODEL_LOADED DESERT_EAGLE
 		OR NOT HAS_MODEL_LOADED rider1_door
 		WAIT 0
 	ENDWHILE
@@ -1583,23 +1492,15 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 								iSetOTBPanic = 1
 
-							 	LOAD_MISSION_AUDIO 1 SOUND_CAT2_DA
-
-								WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-									WAIT 0
-								ENDWHILE  
-
-								PRINT_NOW ( CAT2_DA ) 10000 1		// Open the backroom door or I blow your fucking face off!
-								PLAY_MISSION_AUDIO 1
+								audio_sound_file = SOUND_CAT2_DA
+								$audio_string = &CAT2_DA	// Open the backroom door or I blow your fucking face off!
+								GOSUB cat4_load_audio
 
 								IF NOT IS_CHAR_DEAD catalina
 									START_CHAR_FACIAL_TALK catalina	10000
 								ENDIF
 
-								WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-									WAIT 0
-								ENDWHILE
-								CLEAR_THIS_PRINT CAT2_DA 
+								GOSUB cat4_play_audio
 
 								IF NOT IS_CHAR_DEAD catalina
 									STOP_CHAR_FACIAL_TALK catalina
@@ -1637,23 +1538,15 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 
 
-								LOAD_MISSION_AUDIO 1 SOUND_CAT2_DB
-
-								WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-									WAIT 0
-								ENDWHILE  
-
-								PRINT_NOW ( CAT2_DB ) 10000 1		// Leave the panic button or I'll kill your children too!
-								PLAY_MISSION_AUDIO 1
+								audio_sound_file = SOUND_CAT2_DB
+								$audio_string = &CAT2_DB	// Leave the panic button or I'll kill your children too!
+								GOSUB cat4_load_audio
 
 								IF NOT IS_CHAR_DEAD catalina
 									START_CHAR_FACIAL_TALK catalina 10000
 								ENDIF
 
-								WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-									WAIT 0
-								ENDWHILE
-								CLEAR_THIS_PRINT CAT2_DB
+								GOSUB cat4_play_audio
 
 								IF NOT IS_CHAR_DEAD catalina
 									STOP_CHAR_FACIAL_TALK catalina
@@ -1729,22 +1622,15 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							ENDIF
 							CLEAR_THIS_PRINT CAT4_3
 
-							LOAD_MISSION_AUDIO 1 SOUND_CAT2_FA
-							WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-								WAIT 0
-							ENDWHILE  
-
-							PRINT_NOW ( CAT2_FA ) 10000 1		// I warned you, you stupid bitch!								
+							audio_sound_file = SOUND_CAT2_FA
+							$audio_string = &CAT2_FA	// I warned you, you stupid bitch!
+							GOSUB cat4_load_audio
 							
 							IF NOT IS_CHAR_DEAD catalina
 								START_CHAR_FACIAL_TALK catalina 10000
 							ENDIF
 
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CAT2_FA 
+							GOSUB cat4_play_audio
 
 							IF NOT IS_CHAR_DEAD catalina
 								STOP_CHAR_FACIAL_TALK catalina
@@ -1779,20 +1665,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 
 
-								 LOAD_MISSION_AUDIO 1 SOUND_CAT2_FB
-
-								  
-
-								 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-								 	WAIT 0
-								 ENDWHILE  
-
-							   	 PRINT ( CAT2_FB ) 10000 1		// Stupid fucking bitch!
-								 PLAY_MISSION_AUDIO 1
-								 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								 	WAIT 0
-								 ENDWHILE
-							   	 CLEAR_THIS_PRINT CAT2_FB 
+								audio_sound_file = SOUND_CAT2_FB
+								$audio_string = &CAT2_FB	// Stupid fucking bitch!
+								GOSUB cat4_load_and_play_audio
 
 								 
 
@@ -1949,22 +1824,17 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 		        CLEAR_HELP
 
-				LOAD_MISSION_AUDIO 1 SOUND_CAT2_DC
-				WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-					WAIT 0
-				ENDWHILE  
+				audio_sound_file = SOUND_CAT2_DC
+				$audio_string = &CAT2_DC	// CAT carl, get in there
+				GOSUB cat4_load_audio
 				
-				PRINT ( CAT2_DC ) 10000 1		// CAT carl, get in there
-				PLAY_MISSION_AUDIO 1
-
 				IF NOT IS_CHAR_DEAD catalina
 					START_CHAR_FACIAL_TALK catalina	10000
 				ENDIF
 
-				WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-					WAIT 0
-				ENDWHILE
-				CLEAR_THIS_PRINT CAT2_DC
+				PRINT ( CAT2_DC ) 10000 1
+
+				GOSUB cat4_play_audio_no_subtitle
 
 				IF NOT IS_CHAR_DEAD catalina
 					STOP_CHAR_FACIAL_TALK catalina
@@ -2001,17 +1871,12 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 
 					  
-					 LOAD_MISSION_AUDIO 1 SOUND_CAT2_FC
-
-					 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-					 	WAIT 0
-					 ENDWHILE  
+					audio_sound_file = SOUND_CAT2_FC
+					$audio_string = &CAT2_FC
+					GOSUB cat4_load_audio
 
 				   //	PRINT CAT2_FC 10000 1 // cat starts killing people  "now i kill you"
-					PLAY_MISSION_AUDIO 1
-					 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-					 	WAIT 0
-					 ENDWHILE
+					GOSUB cat4_play_audio_no_subtitle
 				   //	 CLEAR_THIS_PRINT CAT2_FC 
 
 
@@ -2047,17 +1912,13 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 				//	LOAD_MISSION_AUDIO 1 SOUND_CATX_TU // you’re all dead, assholes!
 
-				LOAD_MISSION_AUDIO 1 SOUND_CATX_TJ // eat my shit
-				WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-					WAIT 0
-				ENDWHILE  
+				audio_sound_file = SOUND_CATX_TJ
+				$audio_string = &CATX_TJ	// eat my shit
+				GOSUB cat4_load_audio
 
 					 //	PRINT_NOW ( CATX_TU ) 10000 1		
 							 							
-				PLAY_MISSION_AUDIO 1
-				WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-					WAIT 0
-				ENDWHILE
+				GOSUB cat4_play_audio_no_subtitle
 						  //		CLEAR_THIS_PRINT CATX_TU 
 
 
@@ -2076,19 +1937,12 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				 	flag_text_otb = 4
 
 
-					 LOAD_MISSION_AUDIO 1 SOUND_CAT2_EB
+					audio_sound_file = SOUND_CAT2_EB
+					$audio_string = &CAT2_EB	// Stop playing with your balls and hurry up!
+					GOSUB cat4_load_audio
 
-					  
-
-					 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-					 	WAIT 0
-					 ENDWHILE  
-
-				  //	 PRINT ( CAT2_EB ) 10000 1		// Stop playing with your balls and hurry up!
-					 PLAY_MISSION_AUDIO 1
-					 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-					 	WAIT 0
-					 ENDWHILE
+				  //	 PRINT ( CAT2_EB ) 10000 1
+					GOSUB cat4_play_audio_no_subtitle
 				   //	 CLEAR_THIS_PRINT CAT2_EB 
 
 					GET_GAME_TIMER game_timer2_cat4
@@ -2104,19 +1958,12 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				IF game_timer1_cat4 > 10000
 				 	flag_text_otb = 5
 
-					 LOAD_MISSION_AUDIO 1 SOUND_CAT2_EA
-
-					  
-
-					 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-					 	WAIT 0
-					 ENDWHILE  
+					audio_sound_file = SOUND_CAT2_EA
+					$audio_string = &CAT2_EA	// MOVE IT!
+					GOSUB cat4_load_audio
 
 				   //	 PRINT ( CAT2_EA ) 10000 1		// MOVE IT!
-					 PLAY_MISSION_AUDIO 1
-					 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-					 	WAIT 0
-					 ENDWHILE
+					GOSUB cat4_play_audio_no_subtitle
 				   //	 CLEAR_THIS_PRINT CAT2_EA 
 					GET_GAME_TIMER game_timer2_cat4
 				ENDIF
@@ -2159,31 +2006,23 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 									// cats comments
 									IF index_random_char = 2
 
- 			  							LOAD_MISSION_AUDIO 1 SOUND_CATX_TD
-										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-											WAIT 0
-										ENDWHILE  
+										audio_sound_file = SOUND_CATX_TD
+										$audio_string = &CATX_TD	//	BLEED STUPID MOTHER FUCKER
+										GOSUB cat4_load_audio
 
-									 //	PRINT_NOW ( CATX_TD ) 10000 1		//	BLEED STUPID MOTHER FUCKER	
-										PLAY_MISSION_AUDIO 1
-										WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-											WAIT 0
-										ENDWHILE
+									 //	PRINT_NOW ( CATX_TD ) 10000 1
+										GOSUB cat4_play_audio_no_subtitle
 									//	CLEAR_THIS_PRINT CATX_TD 
 									ENDIF
 
 									// cats comments
 									IF index_random_char = 4
-    			  						LOAD_MISSION_AUDIO 1 SOUND_CATX_TJ
-										WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-											WAIT 0
-										ENDWHILE  
+										audio_sound_file = SOUND_CATX_TJ
+										$audio_string = &CATX_TJ	//	EAT MY SHIT	
+										GOSUB cat4_load_audio
 
-										//PRINT_NOW ( CATX_TJ ) 10000 1		//	EAT MY SHIT	
-										PLAY_MISSION_AUDIO 1
-										WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-											WAIT 0
-										ENDWHILE
+										//PRINT_NOW ( CATX_TJ ) 10000 1
+										GOSUB cat4_play_audio_no_subtitle
 									  //	CLEAR_THIS_PRINT CATX_TJ 
 									ENDIF
 
@@ -2310,11 +2149,8 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 				CLEAR_PRINTS // FIXEDGROVE
 				ADD_EXPLOSION 820.5 9.7 1003.2164 EXPLOSION_GRENADE
 
-				index_cat4 = 4
-				WHILE index_cat4 < 6
-					MARK_CHAR_AS_NO_LONGER_NEEDED char_random_ped_cat4[index_cat4]
-					index_cat4++
-				ENDWHILE
+					MARK_CHAR_AS_NO_LONGER_NEEDED char_random_ped_cat4[4]
+					MARK_CHAR_AS_NO_LONGER_NEEDED char_random_ped_cat4[5]
 
 				IF DOES_OBJECT_EXIST object_door_cat4
 					DELETE_OBJECT object_door_cat4
@@ -2488,22 +2324,16 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							CLEAR_SEQUENCE_TASK seq_cat_stealing_car 
 
 
+							audio_sound_file = SOUND_CAT2_GA
+							$audio_string = &CAT2_GA	// player, ok , i got it
+							GOSUB cat4_load_audio
 
 							IF NOT IS_CHAR_DEAD scplayer
 								START_CHAR_FACIAL_TALK scplayer	100000
 							ENDIF
 
-							LOAD_MISSION_AUDIO 1 SOUND_CAT2_GA
-							WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-								WAIT 0
-							ENDWHILE  
+							GOSUB cat4_play_audio
 
-							PRINT_NOW ( CAT2_GA ) 10000 1		// player, ok , i got it
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CAT2_GA
 							IF NOT IS_CHAR_DEAD scplayer
 								STOP_CHAR_FACIAL_TALK scplayer
 							ENDIF
@@ -2517,23 +2347,16 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 
 
 
-	 						LOAD_MISSION_AUDIO 1 SOUND_CAT2_GB
-
-							 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-							 	WAIT 0
-							 ENDWHILE  
+							audio_sound_file = SOUND_CAT2_GB
+							$audio_string = &CAT2_GB	// cat	About fucking time, you’re a fucking sloth!
+							GOSUB cat4_load_audio
 
 
 							IF NOT IS_CHAR_DEAD catalina
 								START_CHAR_FACIAL_TALK catalina	10000
 							ENDIF
 
-							PRINT_NOW CAT2_GB 10000 1 // cat	About fucking time, you’re a fucking sloth!
-							PLAY_MISSION_AUDIO 1
-							 WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-							 	WAIT 0
-							 ENDWHILE
-							 CLEAR_THIS_PRINT CAT2_GB
+							GOSUB cat4_play_audio
 
 							IF NOT IS_CHAR_DEAD catalina
 								STOP_CHAR_FACIAL_TALK catalina
@@ -2560,10 +2383,9 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							SET_FIXED_CAMERA_POSITION 	832.2155 11.3956 1003.3882 0.0 0.0 0.0 
 							POINT_CAMERA_AT_POINT 		831.3511 10.9217 1003.5567   JUMP_CUT
 
-	 						LOAD_MISSION_AUDIO 1 SOUND_CAT2_GC
-  							 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-							 	WAIT 0
-							 ENDWHILE  
+							audio_sound_file = SOUND_CAT2_GB
+							$audio_string = &CAT2_GB	// lets go
+							GOSUB cat4_load_audio
 
 							OPEN_SEQUENCE_TASK seq_cat_stealing_car	
 								TASK_ACHIEVE_HEADING -1 10.0
@@ -2588,11 +2410,7 @@ SET_PED_DENSITY_MULTIPLIER 0.0
 							ENDIF
 
 
-							PRINT_NOW CAT2_GC 10000 1 // lets go
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
+							GOSUB cat4_play_audio
 
 
 							IF NOT IS_CHAR_DEAD scplayer
@@ -2842,50 +2660,22 @@ getaway_cat4:
 		 				   	ADD_BLIP_FOR_CAR players_car_cat4 blip_getaway_car
 						   	SET_BLIP_AS_FRIENDLY blip_getaway_car TRUE
 
-		 					LOAD_MISSION_AUDIO 1 SOUND_CATX_BF
-	  						 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-							 	WAIT 0
-							 ENDWHILE  
-
-							PRINT_NOW CATX_BF 10000 1 // cat	get in the car
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CATX_BF
+							audio_sound_file = SOUND_CATX_BF
+							$audio_string = &CATX_BF	// cat	get in the car
+							GOSUB cat4_load_and_play_audio
 
 						ELSE
 
-		 					LOAD_MISSION_AUDIO 1 SOUND_CATX_NA
-	  						 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-							 	WAIT 0
-							 ENDWHILE  
-
-							PRINT_NOW CATX_NA 10000 1 // Carl, get us some fucking wheels!
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CATX_NA
-	  
+							audio_sound_file = SOUND_CATX_NA
+							$audio_string = &CATX_NA	// Carl, get us some fucking wheels!
+							GOSUB cat4_load_and_play_audio
 
 						ENDIF
 					ELSE
 
-	 					LOAD_MISSION_AUDIO 1 SOUND_CATX_NA
-  						 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-						 	WAIT 0
-						 ENDWHILE  
-
-						PRINT_NOW CATX_NA 10000 1 // Carl, get us some fucking wheels!
-						PLAY_MISSION_AUDIO 1
-						WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-							WAIT 0
-						ENDWHILE
-						CLEAR_THIS_PRINT CATX_NA
-	  
-
-
+						audio_sound_file = SOUND_CATX_NA
+						$audio_string = &CATX_NA	// Carl, get us some fucking wheels!
+						GOSUB cat4_load_and_play_audio
 
 	  				ENDIF
 				ENDIF
@@ -3189,34 +2979,18 @@ getaway_cat4:
 							POINT_CAMERA_AT_POINT 866.7373 -24.0333 64.9955  JUMP_CUT
 							CLEAR_MISSION_AUDIO 1
 
-							LOAD_MISSION_AUDIO 1 SOUND_CAT2_CA
-							WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-								WAIT 0
-							ENDWHILE  
-
-							PRINT_NOW ( CAT2_CA ) 10000 1		// You impress me, Carl Johnson!
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CAT2_CA 
+							audio_sound_file = SOUND_CAT2_CA
+							$audio_string = &CAT2_CA	// You impress me, Carl Johnson!
+							GOSUB cat4_load_and_play_audio
 
 						ENDIF
 
 						IF flag_cutscene1_cat4 = 1
 							flag_cutscene1_cat4 = 2
 
-							LOAD_MISSION_AUDIO 1 SOUND_CATX_RC
-							WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-								WAIT 0
-							ENDWHILE  
-
-							PRINT_NOW ( CATX_RC ) 10000 1		// heres your cut.
-							PLAY_MISSION_AUDIO 1
-							WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-								WAIT 0
-							ENDWHILE
-							CLEAR_THIS_PRINT CATX_RC   
+							audio_sound_file = SOUND_CATX_RC
+							$audio_string = &CATX_RC	// heres your cut.
+							GOSUB cat4_load_and_play_audio
 
 						ENDIF
 
@@ -3300,9 +3074,27 @@ RETURN
 // GOSUB FUNCTIONS
 //////////////////////////////////////////////
 
+cat4_load_audio:
+CLEAR_MISSION_AUDIO 1
+LOAD_MISSION_AUDIO 1 audio_sound_file
+WHILE NOT HAS_MISSION_AUDIO_LOADED 1
+	WAIT 0
+ENDWHILE
+RETURN
 
+cat4_load_and_play_audio:
+GOSUB cat4_load_audio
 
+cat4_play_audio:
+PRINT_NOW $audio_string 10000 1
 
+cat4_play_audio_no_subtitle:
+PLAY_MISSION_AUDIO 1
+WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
+	WAIT 0
+ENDWHILE
+CLEAR_THIS_PRINT $audio_string
+RETURN
 
 	
 
@@ -3523,16 +3315,7 @@ SWITCH flag_text_cat_police_killing_cat4
 		$audio_string = &CATX_TQ
 	BREAK
 ENDSWITCH
-LOAD_MISSION_AUDIO 1 audio_sound_file
-WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-	WAIT 0
-ENDWHILE
-PRINT_NOW $audio_string 10000 1
-PLAY_MISSION_AUDIO 1
-WHILE NOT HAS_MISSION_AUDIO_FINISHED 1
-	WAIT 0
-ENDWHILE
-CLEAR_THIS_PRINT $audio_string
+GOSUB cat4_load_and_play_audio
 
 RETURN
 // FIXEDGROVE: END

@@ -839,9 +839,11 @@ ENDWHILE
 //PRINT_NOW BIK1_1 5000 1 //"~g~Get a fast car and get to the starting grid."
 
 LVAR_INT	first_blip_mtbikerace second_blip_mtbikerace // FIXEDGROVE: added second_blip_mtbikerace
+
+GOTO dont_make_the_blips_mtbike // FIXEDGROVE
 ADD_BLIP_FOR_COORD checkpoints_mtbike_x[0] checkpoints_mtbike_y[0] checkpoints_mtbike_z[0] first_blip_mtbikerace
 ADD_BLIP_FOR_COORD checkpoints_mtbike_x[0] checkpoints_mtbike_y[0] checkpoints_mtbike_z[0] second_blip_mtbikerace // FIXEDGROVE
-REMOVE_BLIP second_blip_mtbikerace // FIXEDGROVE
+dont_make_the_blips_mtbike: // FIXEDGROVE
 
 LVAR_INT race_flag_mtbikerace
 LVAR_INT playaz_mtbikerace
@@ -1676,14 +1678,14 @@ IF race_flag_mtbikerace > 6
 										temp_int_mtbikerace = 1
 									ENDIF
 
+									CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_y_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_z_mtbikerace[stored_checkpoint_when_not_on_bike] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
+
 									// FIXEDGROVE: START - added blip for checkpoint ahead
 									ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
 									CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
 									CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
 									CHANGE_BLIP_SCALE second_blip_mtbikerace 1
 									// FIXEDGROVE: END
-
-									CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_y_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_z_mtbikerace[stored_checkpoint_when_not_on_bike] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 								ENDIF
 								out_of_car_flag_mtbike = 0
 							ENDIF
@@ -2063,15 +2065,15 @@ passed_a_checkpoint_mtbikerace:
 
 		IF cpcounter_mtbikerace[a] < total_checkpoints_mtbike_mtbikerace_minus_1
 
+			LVAR_INT cp_marker_mtbikerace
+			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
+
 			// FIXEDGROVE: START - added blip for checkpoint ahead
 			ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
 			CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
 			CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
 			CHANGE_BLIP_SCALE second_blip_mtbikerace 1
 			// FIXEDGROVE: END
-
-			LVAR_INT cp_marker_mtbikerace
-			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 		ELSE
 			CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 		ENDIF

@@ -95,7 +95,6 @@ GOTO skip_over_this_stuff_race //IF race_flag = RACE_START_GO
 	lvar_int first_blip second_blip // FIXEDGROVE: added second_blip
 	ADD_BLIP_FOR_COORD x y z first_blip
 	ADD_BLIP_FOR_COORD x y z second_blip // FIXEDGROVE
-	REMOVE_BLIP second_blip // FIXEDGROVE
 	CREATE_CHECKPOINT checkpoint_type x y z x y z 6.0 cp_marker
 	
 	create_racers_car:///////////////////////////////////////////////
@@ -1447,14 +1446,14 @@ case MAIN_RACE_LOOP_B
 												temp_int = 0
 											ENDIF
 
+											CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
+
 											// FIXEDGROVE: START - added blip for checkpoint ahead
 											ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
 											CHANGE_BLIP_COLOUR second_blip RED
 											CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
 											CHANGE_BLIP_SCALE second_blip 1
 											// FIXEDGROVE: END
-
-											CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
 										else
 											CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] 0.0 0.0 0.0 6.0 cp_marker
 										endif
@@ -1829,14 +1828,14 @@ case MAIN_RACE_LOOP_B
 									temp_int = 0
 								ENDIF
 
+								CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
+
 								// FIXEDGROVE: START - added blip for checkpoint ahead
 								ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
 								CHANGE_BLIP_COLOUR second_blip RED
 								CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
 								CHANGE_BLIP_SCALE second_blip 1
 								// FIXEDGROVE: END
-
-								CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
 							else
 								CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] 0.0 0.0 0.0 6.0 cp_marker
 							endif

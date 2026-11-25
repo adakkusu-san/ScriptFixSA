@@ -167,7 +167,7 @@ GOTO skip_over_this_stuff_race //IF race_flag = RACE_START_GO
 		ENDIF
 	RETURN
 
-skip_over_this_stuff_race:
+skip_over_this_stuff_race: //ENDIF
 
 VAR_FLOAT x_hud_pos[14] y_hud_pos[14] x_hud_scale[14] y_hud_scale[14]
 
@@ -1471,16 +1471,18 @@ case MAIN_RACE_LOOP_B
 						ELSE
 							IF out_of_car_flag = 0
 								DELETE_CHECKPOINT cp_marker
-								REMOVE_BLIP	first_blip
-								REMOVE_BLIP	second_blip // FIXEDGROVE
+								IF DOES_BLIP_EXIST first_blip
+									CHANGE_BLIP_SCALE first_blip 1
+								ENDIF
+								REMOVE_BLIP	second_blip // FIXEDGROVE: switched from first to second
 								c = 0
 								temp_int = total_racers - 1
 								WHILE c < temp_int
 									REMOVE_BLIP	racer_blip[c]
 									++ c
 								ENDWHILE
-								ADD_BLIP_FOR_CAR racers_car[playaz] first_blip
-								SET_BLIP_AS_FRIENDLY first_blip TRUE
+								ADD_BLIP_FOR_CAR racers_car[playaz] second_blip
+								SET_BLIP_AS_FRIENDLY second_blip TRUE
 								racer_cp_z[a] += 1000.0
 								LVAR_INT out_of_car_timer
 								out_of_car_timer = game_timer + 25400

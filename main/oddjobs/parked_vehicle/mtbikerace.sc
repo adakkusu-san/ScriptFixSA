@@ -1552,12 +1552,14 @@ IF race_flag_mtbikerace > 6
 						IF NOT IS_CHAR_IN_CAR scplayer racers_mtbike[playaz_mtbikerace]
 							IF out_of_car_flag_mtbike = 0
 								DELETE_CHECKPOINT cp_marker_mtbikerace
-								REMOVE_BLIP	first_blip_mtbikerace 
-								REMOVE_BLIP	second_blip_mtbikerace // FIXEDGROVE
+								IF DOES_BLIP_EXIST first_blip_mtbikerace
+									CHANGE_BLIP_SCALE first_blip_mtbikerace 1
+								ENDIF
+								REMOVE_BLIP	second_blip_mtbikerace // FIXEDGROVE: swapped first_blip_mtbikerace
 
 								IF NOT IS_CAR_DEAD racers_mtbike[playaz_mtbikerace]
-							  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_mtbikerace] first_blip_mtbikerace
-									SET_BLIP_AS_FRIENDLY first_blip_mtbikerace TRUE
+							  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_mtbikerace] second_blip_mtbikerace
+									SET_BLIP_AS_FRIENDLY second_blip_mtbikerace TRUE
 								ENDIF
 								stored_checkpoint_when_not_on_bike = a
 
@@ -2054,9 +2056,9 @@ passed_a_checkpoint_mtbikerace:
 		CHANGE_BLIP_COLOUR first_blip_mtbikerace RED
 		CHANGE_BLIP_DISPLAY first_blip_mtbikerace BLIP_ONLY
 		CHANGE_BLIP_SCALE first_blip_mtbikerace 3
-		IF race_flag_mtbikerace = 1 //MAKE THE SCRIPT COMPILE
-			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
-		ENDIF
+		//IF race_flag_mtbikerace = 1 //MAKE THE SCRIPT COMPILE
+		//	CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
+		//ENDIF
 		DELETE_CHECKPOINT cp_marker_mtbikerace
 
 		IF cpcounter_mtbikerace[a] < total_checkpoints_mtbike_mtbikerace_minus_1

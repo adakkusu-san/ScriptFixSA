@@ -1664,25 +1664,22 @@ IF race_flag_mtbikerace > 6
 								CHANGE_BLIP_COLOUR first_blip_mtbikerace RED
 								CHANGE_BLIP_DISPLAY first_blip_mtbikerace BLIP_ONLY
 								CHANGE_BLIP_SCALE first_blip_mtbikerace 3
-								// FIXEDGROVE: START - added blip for checkpoint ahead
-								IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] < total_checkpoints_mtbike_mtbikerace_minus_1
-									i = cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] + 1
-									ADD_BLIP_FOR_COORD checkpoints_mtbike_x[i] checkpoints_mtbike_y[i] checkpoints_mtbike_z[i] second_blip_mtbikerace
-									CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
-									CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
-									CHANGE_BLIP_SCALE second_blip_mtbikerace 1
-								ENDIF
-								// FIXEDGROVE: END
 								IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] = total_checkpoints_mtbike_mtbikerace_minus_1
 							   //	AND lap_cpcounter[a] = total_laps_minus_1
 									CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_y_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_z_mtbikerace[stored_checkpoint_when_not_on_bike] 0.0 0.0 0.0 6.0 cp_marker_mtbikerace
 								ELSE
-									temp_int_mtbikerace = cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike]
-									++ temp_int_mtbikerace
+									temp_int_mtbikerace = cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] + 1
 									
 									IF cpcounter_mtbikerace[stored_checkpoint_when_not_on_bike] = total_checkpoints_mtbike_mtbikerace_minus_1
 										temp_int_mtbikerace = 1
 									ENDIF
+
+									// FIXEDGROVE: START - added blip for checkpoint ahead
+									ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
+									CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
+									CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
+									CHANGE_BLIP_SCALE second_blip_mtbikerace 1
+									// FIXEDGROVE: END
 
 									CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_y_mtbikerace[stored_checkpoint_when_not_on_bike] racer_cp_z_mtbikerace[stored_checkpoint_when_not_on_bike] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 								ENDIF
@@ -2057,21 +2054,20 @@ passed_a_checkpoint_mtbikerace:
 		CHANGE_BLIP_COLOUR first_blip_mtbikerace RED
 		CHANGE_BLIP_DISPLAY first_blip_mtbikerace BLIP_ONLY
 		CHANGE_BLIP_SCALE first_blip_mtbikerace 3
-		// FIXEDGROVE: START - added blip for checkpoint ahead
-		IF cpcounter_mtbikerace[a] < total_checkpoints_mtbike_mtbikerace_minus_1
-			i = cpcounter_mtbikerace[a] + 1
-			ADD_BLIP_FOR_COORD checkpoints_mtbike_x[i] checkpoints_mtbike_y[i] checkpoints_mtbike_z[i] second_blip_mtbikerace
-			CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
-			CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
-			CHANGE_BLIP_SCALE second_blip_mtbikerace 1
-		ENDIF
-		// FIXEDGROVE: END
 		IF race_flag_mtbikerace = 1 //MAKE THE SCRIPT COMPILE
 			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 		ENDIF
 		DELETE_CHECKPOINT cp_marker_mtbikerace
 
 		IF cpcounter_mtbikerace[a] < total_checkpoints_mtbike_mtbikerace_minus_1
+
+			// FIXEDGROVE: START - added blip for checkpoint ahead
+			ADD_BLIP_FOR_COORD checkpoints_mtbike_x[temp_int_mtbikerace] checkpoints_mtbike_y[temp_int_mtbikerace] checkpoints_mtbike_z[temp_int_mtbikerace] second_blip_mtbikerace
+			CHANGE_BLIP_COLOUR second_blip_mtbikerace RED
+			CHANGE_BLIP_DISPLAY second_blip_mtbikerace BLIP_ONLY
+			CHANGE_BLIP_SCALE second_blip_mtbikerace 1
+			// FIXEDGROVE: END
+
 			LVAR_INT cp_marker_mtbikerace
 			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_mtbikerace[a] racer_cp_y_mtbikerace[a] racer_cp_z_mtbikerace[a] second_cp_mtbikeracex second_cp_mtbikeracey second_cp_mtbikeracez 6.0 cp_marker_mtbikerace
 		ELSE

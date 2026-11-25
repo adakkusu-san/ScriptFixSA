@@ -2484,25 +2484,7 @@ IF race_flag_triathalon > 6
 									out_of_car_flag_triathalon = 1
 								ENDIF
 
-								seconds = out_of_car_timer - game_timer
-								seconds /= 1000
-								IF seconds < 1
-									seconds = 0
-								ENDIF
-								IF out_of_car_timer < game_timer
-									PRINT_NOW RACES25 5000 1//~r~You have been disqualified .
-									GOTO mission_triathalon_failed
-									RETURN
-								ENDIF
-
-								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS FALSE
-
-								IF seconds = 1
-									PRINT_WITH_NUMBER_NOW RACE_49 seconds 200 1	//You have ~1~ second to return to your car.
-								ELSE
-									PRINT_WITH_NUMBER_NOW RACES48 seconds 200 1	//You have ~1~ seconds to return to your car.
-								ENDIF
-
+								GOSUB triathalon_out_of_car_or_in
 
 						  /*		IF cpcounter_triathalon[a] = total_checkpoints_triathalon_triathalon
 									IF triathalonr[a] = scplayer
@@ -2549,24 +2531,7 @@ IF race_flag_triathalon > 6
 									out_of_car_flag_triathalon = 1
 								ENDIF
 
-								seconds = out_of_car_timer - game_timer
-								seconds /= 1000
-								IF seconds < 1
-									seconds = 0
-								ENDIF
-								IF out_of_car_timer < game_timer
-									PRINT_NOW RACES25 5000 1//~r~You have been disqualified for leaving your car.
-									GOTO mission_triathalon_failed
-									RETURN
-								ENDIF
-
-								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS FALSE
-
-								IF seconds = 1
-									PRINT_WITH_NUMBER_NOW RACE_49 seconds 200 1	//You have ~1~ second to return to your car.
-								ELSE
-									PRINT_WITH_NUMBER_NOW RACES48 seconds 200 1	//You have ~1~ seconds to return to your car.
-								ENDIF
+								GOSUB triathalon_out_of_car_or_in
 
 							ELSE
 								$race_text_to_use = &RACES48
@@ -2727,6 +2692,27 @@ IF race_flag_triathalon > 6
 ENDIF
 
 GOTO mission_triathalon_loop
+
+triathalon_out_of_car_or_in:
+								seconds = out_of_car_timer - game_timer
+								seconds /= 1000
+								IF seconds < 1
+									seconds = 0
+								ENDIF
+								IF out_of_car_timer < game_timer
+									PRINT_NOW RACES25 5000 1//~r~You have been disqualified for leaving your car.
+									GOTO mission_triathalon_failed
+									RETURN
+								ENDIF
+
+								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS FALSE
+
+								IF seconds = 1
+									PRINT_WITH_NUMBER_NOW RACE_49 seconds 200 1	//You have ~1~ second to return to your car.
+								ELSE
+									PRINT_WITH_NUMBER_NOW RACES48 seconds 200 1	//You have ~1~ seconds to return to your car.
+								ENDIF
+RETURN
 
 triathalon_text:
 

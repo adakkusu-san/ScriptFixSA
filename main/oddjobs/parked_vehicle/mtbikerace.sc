@@ -839,6 +839,7 @@ ENDWHILE
 //PRINT_NOW BIK1_1 5000 1 //"~g~Get a fast car and get to the starting grid."
 
 LVAR_INT	first_blip_mtbikerace second_blip_mtbikerace // FIXEDGROVE: added second_blip_mtbikerace
+LVAR_TEXT_LABEL race_text_to_use // FIXEDGROVE
 
 GOTO dont_make_the_blips_mtbike // FIXEDGROVE
 ADD_BLIP_FOR_COORD checkpoints_mtbike_x[0] checkpoints_mtbike_y[0] checkpoints_mtbike_z[0] first_blip_mtbikerace
@@ -1736,21 +1737,19 @@ IF race_flag_mtbikerace > 6
 	SET_TEXT_SCALE x_scale[1] y_scale[1]
 
 	IF position_mtbikerace = 1 
-		DISPLAY_TEXT x_pos[1] y_pos[1] ST
+		$race_text_to_use = &ST
+	ELSE
+		IF position_mtbikerace = 2 
+			$race_text_to_use = &ND
+		ELSE
+			IF position_mtbikerace = 3 
+				$race_text_to_use = &RD
+			ELSE
+				$race_text_to_use = &TH
+			ENDIF
+		ENDIF
 	ENDIF
-
-	IF position_mtbikerace = 2 
-		DISPLAY_TEXT x_pos[1] y_pos[1] ND
-	ENDIF
-
-	IF position_mtbikerace = 3 
-		DISPLAY_TEXT x_pos[1] y_pos[1] RD
-	ENDIF
-
-	IF position_mtbikerace > 3 
-		DISPLAY_TEXT x_pos[1] y_pos[1] TH
-	ENDIF
-
+		DISPLAY_TEXT x_pos[1] y_pos[1] $race_text_to_use
 
 	IF position_mtbikerace <= 2
 		set_opponents_speed = opponents_speed_fast 	
@@ -1805,10 +1804,11 @@ IF race_flag_mtbikerace > 6
 	SET_TEXT_CENTRE ON 
 	SET_TEXT_SCALE x_scale[4] y_scale[4]
 	IF seconds > 9
-		DISPLAY_TEXT_WITH_2_NUMBERS x_pos[4] y_pos[4] TIME mins seconds
+		$race_text_to_use = &TIME
 	ELSE
-		DISPLAY_TEXT_WITH_2_NUMBERS x_pos[4] y_pos[4] TIME_0 mins seconds
+		$race_text_to_use = &TIME_0
 	ENDIF
+		DISPLAY_TEXT_WITH_2_NUMBERS x_pos[4] y_pos[4] $race_text_to_use mins seconds
 
 ENDIF
 

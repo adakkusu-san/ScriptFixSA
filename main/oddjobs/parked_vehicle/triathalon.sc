@@ -2542,20 +2542,19 @@ IF race_flag_triathalon > 6
 	SET_TEXT_SCALE x_scale[1] y_scale[1]
 
 	IF position_triathalon = 1
-		DISPLAY_TEXT x_pos[1] y_pos[1] ST
+		$race_text_to_use = &ST
+	ELSE
+		IF position_triathalon = 2
+			$race_text_to_use = &ND
+		ELSE
+			IF position_triathalon = 3
+				$race_text_to_use = &RD
+			ELSE
+				$race_text_to_use = &TH
+			ENDIF
+		ENDIF
 	ENDIF
-
-	IF position_triathalon = 2
-		DISPLAY_TEXT x_pos[1] y_pos[1] ND
-	ENDIF
-
-	IF position_triathalon = 3
-		DISPLAY_TEXT x_pos[1] y_pos[1] RD
-	ENDIF
-
-	IF position_triathalon > 3
-		DISPLAY_TEXT x_pos[1] y_pos[1] TH
-	ENDIF
+		DISPLAY_TEXT x_pos[1] y_pos[1] $race_text_to_use
 
     IF position_triathalon <= 7
 		//IF flag_boosting_opponents_speed = 0
@@ -2564,28 +2563,19 @@ IF race_flag_triathalon > 6
 			set_opponents_run_speed = opponents_run_speed_fast  
 
 	   		IF triathalon_selection = 2
-				IF cpcounter_triathalon[a] = 19
-				OR cpcounter_triathalon[a] = 20
-				OR cpcounter_triathalon[a] = 37
-				OR cpcounter_triathalon[a] = 38
+				SWITCH cpcounter_triathalon[a]
+				CASE 19
+				CASE 20
+				CASE 37
+				CASE 38
+				CASE 69
+				CASE 70
+				CASE 71
+				CASE 89
+				CASE 90
+				CASE 91
 					set_opponents_cycle_speed = 20.0 
-				ENDIF
-			ENDIF 
-
-	   		IF triathalon_selection = 2
-				IF cpcounter_triathalon[a] = 69
-				OR cpcounter_triathalon[a] = 70
-				OR cpcounter_triathalon[a] = 71
-					set_opponents_cycle_speed = 20.0 
-				ENDIF
-			ENDIF 
-
-	   		IF triathalon_selection = 2
-				IF cpcounter_triathalon[a] = 89
-				OR cpcounter_triathalon[a] = 90
-				OR cpcounter_triathalon[a] = 91
-					set_opponents_cycle_speed = 20.0 
-				ENDIF
+				ENDSWITCH
 			ENDIF 
 
 		  //	flag_boosting_opponents_speed = 1
@@ -2603,28 +2593,19 @@ IF race_flag_triathalon > 6
 	   //	ENDIF
 
 	   		IF triathalon_selection = 2
-				IF cpcounter_triathalon[a] = 19
-				OR cpcounter_triathalon[a] = 20
-				OR cpcounter_triathalon[a] = 37
-				OR cpcounter_triathalon[a] = 38
+				SWITCH cpcounter_triathalon[a]
+				CASE 19
+				CASE 20
+				CASE 37
+				CASE 38
+				CASE 69
+				CASE 70
+				CASE 71
+				CASE 91
+				CASE 92
+				CASE 93
 					set_opponents_cycle_speed = 20.0 
-				ENDIF
-			ENDIF 
-
-	   		IF triathalon_selection = 2
-				IF cpcounter_triathalon[a] = 69
-				OR cpcounter_triathalon[a] = 70
-				OR cpcounter_triathalon[a] = 71
-					set_opponents_cycle_speed = 20.0 
-				ENDIF
-			ENDIF 
-
-	   		IF triathalon_selection = 2
-				IF cpcounter_triathalon[a] = 91
-				OR cpcounter_triathalon[a] = 92
-				OR cpcounter_triathalon[a] = 93
-					set_opponents_cycle_speed = 20.0 
-				ENDIF
+				ENDSWITCH
 			ENDIF 
 
 
@@ -2665,10 +2646,11 @@ IF race_flag_triathalon > 6
 	SET_TEXT_CENTRE ON
 	SET_TEXT_SCALE x_scale[4] y_scale[4]
 	IF seconds > 9  
-		DISPLAY_TEXT_WITH_2_NUMBERS x_pos[4] y_pos[4] TIME mins seconds 
+		$race_text_to_use = &TIME
 	ELSE
-		DISPLAY_TEXT_WITH_2_NUMBERS x_pos[4] y_pos[4] TIME_0 mins seconds 
+		$race_text_to_use = &TIME_0
 	ENDIF
+		DISPLAY_TEXT_WITH_2_NUMBERS x_pos[4] y_pos[4] $race_text_to_use mins seconds 
 ENDIF
 
 GOTO mission_triathalon_loop
@@ -2688,10 +2670,11 @@ triathalon_out_of_car_or_in:
 								ADD_NEXT_MESSAGE_TO_PREVIOUS_BRIEFS FALSE
 
 								IF seconds = 1
-									PRINT_WITH_NUMBER_NOW RACE_49 seconds 200 1	//You have ~1~ second to return to your car.
+									$race_text_to_use = &RACE_49	//You have ~1~ second to return to your car.
 								ELSE
-									PRINT_WITH_NUMBER_NOW RACES48 seconds 200 1	//You have ~1~ seconds to return to your car.
+									$race_text_to_use = &RACES48	//You have ~1~ seconds to return to your car.
 								ENDIF
+									PRINT_WITH_NUMBER_NOW $race_text_to_use seconds 200 1
 RETURN
 
 triathalon_text:

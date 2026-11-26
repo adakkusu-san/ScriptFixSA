@@ -765,10 +765,11 @@ case MENU_SCREEN
 		seconds = cprace_best_times[race_selection] - temp_int
 		
 		IF seconds < 10
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[4] RACES40 mins seconds //~1~:0~1~
+			$race_text_to_use = &RACES40 //~1~:0~1~
 		ELSE
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[4] RACES39 mins seconds //~1~:~1~
+			$race_text_to_use = &RACES39 //~1~:~1~
 		ENDIF
+			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[0] y_hud_pos[4] $race_text_to_use mins seconds
 	ENDIF
 	
 	if not menu_mode = AIR_RACES
@@ -782,23 +783,24 @@ case MENU_SCREEN
 		SET_TEXT_SCALE x_hud_scale[2] y_hud_scale[2]
 		y_hud_pos[6] = y_hud_pos[5]	+ y_hud_pos[7]
 		IF cprace_best_position[race_selection] = 1
-			DISPLAY_TEXT x_hud_pos[0] y_hud_pos[6] RACES41//1ST
+			$race_text_to_use = &RACES41//1ST
 		ELSE
 			IF cprace_best_position[race_selection] = 2
-				DISPLAY_TEXT x_hud_pos[0] y_hud_pos[6] RACES42//2ND
+				$race_text_to_use = &RACES42//2ND
 			ELSE
 				IF cprace_best_position[race_selection] = 3
-					DISPLAY_TEXT x_hud_pos[0] y_hud_pos[6] RACES43//3RD
+					$race_text_to_use = &RACES43//3RD
 				ELSE
 					IF cprace_best_position[race_selection] > 3
 					AND	cprace_best_position[race_selection] < 100
-						DISPLAY_TEXT_WITH_NUMBER x_hud_pos[0] y_hud_pos[6] RACES44 cprace_best_position[race_selection]//~1~TH
+						$race_text_to_use = &RACES44 //~1~TH
 					ELSE
-						DISPLAY_TEXT x_hud_pos[0] y_hud_pos[6] RACES45//NA
+						$race_text_to_use = &RACES45//NA
 					ENDIF
 				ENDIF
 			ENDIF
 		ENDIF
+			DISPLAY_TEXT_WITH_NUMBER x_hud_pos[0] y_hud_pos[6] $race_text_to_use cprace_best_position[race_selection]
 	ENDIF
 
 	temp_int = race_selection + 1
@@ -2002,17 +2004,19 @@ case MAIN_RACE_LOOP_B
 
 		SET_TEXT_SCALE x_hud_scale[1] y_hud_scale[1]
 		IF display_hud_position = 1
-			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] ST
+			$race_text_to_use = &ST
+		ELSE
+			IF display_hud_position = 2
+				$race_text_to_use = &ND
+			ELSE
+				IF display_hud_position = 3
+					$race_text_to_use = &RD
+				ELSE
+					$race_text_to_use = &TH
+				ENDIF
+			ENDIF
 		ENDIF
-		IF display_hud_position = 2
-			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] ND
-		ENDIF
-		IF display_hud_position = 3
-			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] RD
-		ENDIF
-		IF display_hud_position > 3
-			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] TH
-		ENDIF
+			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] $race_text_to_use
 		
 		GOSUB setup_text_cprace 
 		IF got_a_best_position = 1
@@ -2050,10 +2054,11 @@ case MAIN_RACE_LOOP_B
 		SET_TEXT_SCALE x_hud_scale[4] y_hud_scale[4]
 
 		IF seconds > 9
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[4] y_hud_pos[4] TIME mins seconds
+			$race_text_to_use = &TIME
 		ELSE
-			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[4] y_hud_pos[4] TIME_0 mins seconds
+			$race_text_to_use = &TIME_0
 		ENDIF
+			DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[4] y_hud_pos[4] $race_text_to_use mins seconds
 
 	ENDIF
 	IF race_selection = BADLAND_RACE1
@@ -2146,16 +2151,19 @@ case RACE_ENDED
 		x_hud_scale[1] = x_hud_scale[2]
 	endif
 	
+		y =	y_hud_pos[0]
+
 	if total_racers = 1
-		y =	y_hud_pos[0] + 25.0
-		DRAW_WINDOW x_hud_pos[0] y x_hud_scale[0] y_hud_scale[0] dummy SWIRLS_BOTH  // You Have Won!
+		y += 25.0
+		$race_text_to_use = &dummy  // You Have Won!
 	else
 		IF display_hud_position = 1
-			DRAW_WINDOW x_hud_pos[0] y_hud_pos[0] x_hud_scale[0] y_hud_scale[0] RACES18 SWIRLS_BOTH  // Winner!
+			$race_text_to_use = &RACES18  // Winner!
 		ELSE
-			DRAW_WINDOW x_hud_pos[0] y_hud_pos[0] x_hud_scale[0] y_hud_scale[0] RACES_8 SWIRLS_BOTH  // Loser!
+			$race_text_to_use = &RACES_8  // Loser!
 		ENDIF
 	ENDIF
+		DRAW_WINDOW x_hud_pos[0] y x_hud_scale[0] y_hud_scale[0] $race_text_to_use SWIRLS_BOTH
 	
 	if total_racers > 1
 		GOSUB setup_text_cprace
@@ -2163,10 +2171,11 @@ case RACE_ENDED
 		SET_TEXT_SCALE x_hud_scale[1] y_hud_scale[1]
 		
 		IF got_a_best_position = 1
-			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] TOP_POS 	// New Best Position
+			$race_text_to_use = &TOP_POS 	// New Best Position
 		else
-			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] RACES30	// Position
+			$race_text_to_use = &RACES30	// Position
 		ENDIF
+			DISPLAY_TEXT x_hud_pos[1] y_hud_pos[1] $race_text_to_use
 		
 		GOSUB setup_text_cprace
 		SET_TEXT_RIGHT_JUSTIFY ON
@@ -2174,20 +2183,19 @@ case RACE_ENDED
 		SET_TEXT_COLOUR 180 180 180 255
 		
 		IF display_hud_position = 1
-			DISPLAY_TEXT x_hud_pos[2] y_hud_pos[1] RACES26  // 1ST
+			$race_text_to_use = &RACES26  // 1ST
+		ELSE
+			IF display_hud_position = 2
+				$race_text_to_use = &RACES27  // 2ND
+			ELSE
+				IF display_hud_position = 3
+					$race_text_to_use = &RACES28  // 3RD
+				ELSE
+					$race_text_to_use = &RACES29  // ~1~TH
+				ENDIF
+			ENDIF
 		ENDIF
-		
-		IF display_hud_position = 2
-			DISPLAY_TEXT x_hud_pos[2] y_hud_pos[1] RACES27  // 2ND
-		ENDIF
-		
-		IF display_hud_position = 3
-			DISPLAY_TEXT x_hud_pos[2] y_hud_pos[1] RACES28  // 3RD
-		ENDIF
-		
-		IF display_hud_position > 3
-			DISPLAY_TEXT_WITH_NUMBER x_hud_pos[2] y_hud_pos[1] RACES29 display_hud_position  // ~1~TH
-		ENDIF
+			DISPLAY_TEXT_WITH_NUMBER x_hud_pos[2] y_hud_pos[1] $race_text_to_use display_hud_position
 	ENDIF
 
 	GOSUB setup_text_cprace
@@ -2195,10 +2203,11 @@ case RACE_ENDED
 	SET_TEXT_SCALE x_hud_scale[1] y_hud_scale[1]
 	
 	IF got_a_best_time = 1
-		DISPLAY_TEXT x_hud_pos[1] y_hud_pos[3] TOPTIME	// New Best Time
+		$race_text_to_use = &TOPTIME	// New Best Time
 	else
-		DISPLAY_TEXT x_hud_pos[1] y_hud_pos[3] RACES31	// Time
+		$race_text_to_use = &RACES31	// Time
 	ENDIF
+		DISPLAY_TEXT x_hud_pos[1] y_hud_pos[3] $race_text_to_use
 	
 
 	mins = race_timer_temp / 60
@@ -2210,10 +2219,11 @@ case RACE_ENDED
 	SET_TEXT_COLOUR 180 180 180 255
 	
 	IF seconds > 9
-		DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[2] y_hud_pos[3] TIME mins seconds//  ~1~:~1~
+		$race_text_to_use = &TIME //  ~1~:~1~
 	ELSE
-		DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[2] y_hud_pos[3] TIME_0 mins seconds//  ~1~:0~1~
+		$race_text_to_use = &TIME_0 //  ~1~:0~1~
 	ENDIF
+		DISPLAY_TEXT_WITH_2_NUMBERS x_hud_pos[2] y_hud_pos[3] $race_text_to_use mins seconds
 
 	IF game_timer > races_timer
 		RETURN

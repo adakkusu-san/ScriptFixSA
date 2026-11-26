@@ -1463,6 +1463,13 @@ case MAIN_RACE_LOOP_B
 											temp_int = 1
 										ENDIF
 										CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
+
+										// FIXEDGROVE: START - added blip for checkpoint ahead
+										ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+										CHANGE_BLIP_COLOUR second_blip RED
+										CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
+										CHANGE_BLIP_SCALE second_blip 1
+										// FIXEDGROVE: END
 									ENDIF
 								endif
 								out_of_car_flag = 0
@@ -1848,6 +1855,13 @@ case MAIN_RACE_LOOP_B
 								
 								LVAR_INT cp_marker
 								CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
+
+							// FIXEDGROVE: START - added blip for checkpoint ahead
+							ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+							CHANGE_BLIP_COLOUR second_blip RED
+							CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
+							CHANGE_BLIP_SCALE second_blip 1
+							// FIXEDGROVE: END
 							ENDIF
 						ENDIF
 					ENDIF

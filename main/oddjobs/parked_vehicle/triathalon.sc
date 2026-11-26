@@ -2393,17 +2393,7 @@ IF race_flag_triathalon > 6
 						IF NOT IS_CAR_DEAD racers_mtbike[playaz_triathalon]
 							IF NOT IS_CHAR_IN_CAR scplayer racers_mtbike[playaz_triathalon]
 								IF out_of_car_flag_triathalon = 0
-									DELETE_CHECKPOINT cp_marker_triathalon
-									IF DOES_BLIP_EXIST first_blip_triathalon
-										CHANGE_BLIP_SCALE first_blip_triathalon 1
-									ENDIF
-									REMOVE_BLIP	second_blip_triathalon // FIXEDGROVE: swapped first_blip_triathalon
-
-									IF NOT IS_CAR_DEAD racers_mtbike[playaz_triathalon]
-								  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_triathalon] second_blip_triathalon
-										SET_BLIP_AS_FRIENDLY second_blip_triathalon TRUE
-									ENDIF
-									stored_checkpoint_when_not_on_bike = a
+									GOSUB tri_add_out_of_car_blip // FIXEDGROVE
 
 									racer_cp_y_triathalon[a] += 1000.0
 		  
@@ -2474,17 +2464,7 @@ IF race_flag_triathalon > 6
 							IF IS_CHAR_IN_ANY_CAR scplayer 
 								IF out_of_car_flag_triathalon = 0
 									STORE_CAR_CHAR_IS_IN scplayer racers_mtbike[playaz_triathalon]
-									DELETE_CHECKPOINT cp_marker_triathalon
-									IF DOES_BLIP_EXIST first_blip_triathalon
-										CHANGE_BLIP_SCALE first_blip_triathalon 1
-									ENDIF
-								  	REMOVE_BLIP	second_blip_triathalon // FIXEDGROVE: swapped first_blip_triathalon
-
-									IF NOT IS_CAR_DEAD racers_mtbike[playaz_triathalon]
-								  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_triathalon] second_blip_triathalon
-										SET_BLIP_AS_FRIENDLY second_blip_triathalon TRUE
-									ENDIF
-									stored_checkpoint_when_not_on_bike = a
+									GOSUB tri_add_out_of_car_blip // FIXEDGROVE
 
 									racer_cp_y_triathalon[a] += 1000.0
 
@@ -2523,17 +2503,7 @@ IF race_flag_triathalon > 6
 							IF IS_CHAR_IN_ANY_CAR scplayer 
 								IF out_of_car_flag_triathalon = 0
 									STORE_CAR_CHAR_IS_IN scplayer racers_mtbike[playaz_triathalon]
-									DELETE_CHECKPOINT cp_marker_triathalon
-									IF DOES_BLIP_EXIST first_blip_triathalon
-										CHANGE_BLIP_SCALE first_blip_triathalon 1
-									ENDIF
-								  	REMOVE_BLIP	second_blip_triathalon // FIXEDGROVE: swapped first_blip_triathalon
-
-									IF NOT IS_CAR_DEAD racers_mtbike[playaz_triathalon]
-								  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_triathalon] second_blip_triathalon
-										SET_BLIP_AS_FRIENDLY second_blip_triathalon TRUE
-									ENDIF
-									stored_checkpoint_when_not_on_bike = a
+									GOSUB tri_add_out_of_car_blip // FIXEDGROVE
 
 									racer_cp_y_triathalon[a] += 1000.0
 
@@ -2796,8 +2766,6 @@ passed_a_checkpoint_triathalon:
 
 
 		ADD_ONE_OFF_SOUND 0.0 0.0 0.0 SOUND_PART_MISSION_COMPLETE
-		REMOVE_BLIP first_blip_triathalon
-		REMOVE_BLIP second_blip_triathalon // FIXEDGROVE
 
 
 
@@ -2808,10 +2776,8 @@ passed_a_checkpoint_triathalon:
 		second_cp_triathalony = checkpoints_triathalon_y[temp_int_triathalon]
 		second_cp_triathalonz = checkpoints_triathalon_z[temp_int_triathalon]
 		
-		ADD_BLIP_FOR_COORD racer_cp_x_triathalon[a] racer_cp_y_triathalon[a] racer_cp_z_triathalon[a] first_blip_triathalon
-		CHANGE_BLIP_COLOUR first_blip_triathalon RED
-		CHANGE_BLIP_DISPLAY first_blip_triathalon BLIP_ONLY
-		CHANGE_BLIP_SCALE first_blip_triathalon 3
+		i = a
+		GOSUB tri_add_first_blip
 		//IF race_flag_triathalon = 1 //MAKE THE SCRIPT COMPILE
 		//	CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_triathalon[a] racer_cp_y_triathalon[a] racer_cp_z_triathalon[a] second_cp_triathalonx second_cp_triathalony second_cp_triathalonz 6.0 cp_marker_triathalon
 		//ENDIF
@@ -2822,12 +2788,7 @@ passed_a_checkpoint_triathalon:
 			LVAR_INT cp_marker_triathalon
 			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_triathalon[a] racer_cp_y_triathalon[a] racer_cp_z_triathalon[a] second_cp_triathalonx second_cp_triathalony second_cp_triathalonz 6.0 cp_marker_triathalon
 
-			// FIXEDGROVE: START - added blip for checkpoint ahead
-			ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
-			CHANGE_BLIP_COLOUR second_blip_triathalon RED
-			CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
-			CHANGE_BLIP_SCALE second_blip_triathalon 1
-			// FIXEDGROVE: END
+			GOSUB tri_add_second_blip // FIXEDGROVE: added blip for checkpoint ahead
 		ELSE
 			CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x_triathalon[a] racer_cp_y_triathalon[a] racer_cp_z_triathalon[a] second_cp_triathalonx second_cp_triathalony second_cp_triathalonz 6.0 cp_marker_triathalon
 		ENDIF
@@ -3176,19 +3137,44 @@ passed_a_checkpoint_triathalon:
 //GOTO exit_locate_loop_triathalon
 GOTO exit_locate_loop_triathalon
 
+tri_add_first_blip:
+	REMOVE_BLIP	first_blip_triathalon
+	REMOVE_BLIP	second_blip_triathalon
+	ADD_BLIP_FOR_COORD racer_cp_x_triathalon[i] racer_cp_y_triathalon[i] racer_cp_z_triathalon[i] first_blip_triathalon
+	CHANGE_BLIP_COLOUR first_blip_triathalon RED
+	CHANGE_BLIP_DISPLAY first_blip_triathalon BLIP_ONLY
+	CHANGE_BLIP_SCALE first_blip_triathalon 3
+RETURN
+
+tri_add_second_blip:
+	ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
+	CHANGE_BLIP_COLOUR second_blip_triathalon RED
+	CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
+	CHANGE_BLIP_SCALE second_blip_triathalon 1
+RETURN
+
+tri_add_out_of_car_blip:
+	DELETE_CHECKPOINT cp_marker_triathalon
+	IF DOES_BLIP_EXIST first_blip_triathalon
+		CHANGE_BLIP_SCALE first_blip_triathalon 1
+	ENDIF
+  	REMOVE_BLIP	second_blip_triathalon // FIXEDGROVE: swapped first_blip_triathalon
+	IF NOT IS_CAR_DEAD racers_mtbike[playaz_triathalon]
+  		ADD_BLIP_FOR_CAR racers_mtbike[playaz_triathalon] second_blip_triathalon
+		SET_BLIP_AS_FRIENDLY second_blip_triathalon TRUE
+	ENDIF
+	stored_checkpoint_when_not_on_bike = a
+RETURN
+
 triathalon_create_checkpoint:
 
 	IF out_of_car_flag_triathalon = 1
 		CLEAR_THIS_PRINT $race_text_to_use
-		REMOVE_BLIP	first_blip_triathalon
-		REMOVE_BLIP	second_blip_triathalon // FIXEDGROVE
 		racer_cp_y_triathalon[a] -= 1000.0
 		c = 0
 		temp_int_triathalon = total_racers_mtbike - 1
-		ADD_BLIP_FOR_COORD racer_cp_x_triathalon[stored_checkpoint_when_not_on_bike] racer_cp_y_triathalon[stored_checkpoint_when_not_on_bike] racer_cp_z_triathalon[stored_checkpoint_when_not_on_bike] first_blip_triathalon
-		CHANGE_BLIP_COLOUR first_blip_triathalon RED
-		CHANGE_BLIP_DISPLAY first_blip_triathalon BLIP_ONLY
-		CHANGE_BLIP_SCALE first_blip_triathalon 3
+		i = stored_checkpoint_when_not_on_bike
+		GOSUB tri_add_first_blip // FIXEDGROVE
 		IF cpcounter_triathalon[stored_checkpoint_when_not_on_bike] = total_checkpoints_triathalon_triathalon_minus_1
 		//	AND lap_cpcounter[a] = total_laps_minus_1
 			CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x_triathalon[stored_checkpoint_when_not_on_bike] racer_cp_y_triathalon[stored_checkpoint_when_not_on_bike] racer_cp_z_triathalon[stored_checkpoint_when_not_on_bike] 0.0 0.0 0.0 6.0 cp_marker_triathalon
@@ -3200,12 +3186,7 @@ triathalon_create_checkpoint:
 			ENDIF
 			CREATE_CHECKPOINT CHECKPOINT_TUBE racer_cp_x_triathalon[stored_checkpoint_when_not_on_bike] racer_cp_y_triathalon[stored_checkpoint_when_not_on_bike] racer_cp_z_triathalon[stored_checkpoint_when_not_on_bike] second_cp_triathalonx second_cp_triathalony second_cp_triathalonz 6.0 cp_marker_triathalon
 
-			// FIXEDGROVE: START - added blip for checkpoint ahead
-			ADD_BLIP_FOR_COORD checkpoints_triathalon_x[temp_int_triathalon] checkpoints_triathalon_y[temp_int_triathalon] checkpoints_triathalon_z[temp_int_triathalon] second_blip_triathalon
-			CHANGE_BLIP_COLOUR second_blip_triathalon RED
-			CHANGE_BLIP_DISPLAY second_blip_triathalon BLIP_ONLY
-			CHANGE_BLIP_SCALE second_blip_triathalon 1
-			// FIXEDGROVE: END
+			GOSUB tri_add_second_blip // FIXEDGROVE: added blip for checkpoint ahead
 		ENDIF
 		out_of_car_flag_triathalon = 0
 	ENDIF

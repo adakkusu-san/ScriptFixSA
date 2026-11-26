@@ -1434,10 +1434,7 @@ case MAIN_RACE_LOOP_B
 										ENDIF
 										++ c
 									ENDWHILE
-									ADD_BLIP_FOR_COORD racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] first_blip
-									CHANGE_BLIP_COLOUR first_blip RED
-									CHANGE_BLIP_DISPLAY first_blip BLIP_ONLY
-									CHANGE_BLIP_SCALE first_blip 3
+									GOSUB race_add_first_blip
 									IF cpcounter[a] = total_checkpoints_minus_1
 									AND lap_cpcounter[a] = total_laps_minus_1
 										if checkpoint_type = checkpoint_torus
@@ -1448,12 +1445,7 @@ case MAIN_RACE_LOOP_B
 
 											CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
 
-											// FIXEDGROVE: START - added blip for checkpoint ahead
-											ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
-											CHANGE_BLIP_COLOUR second_blip RED
-											CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
-											CHANGE_BLIP_SCALE second_blip 1
-											// FIXEDGROVE: END
+											GOSUB race_add_second_blip // FIXEDGROVE: added blip for checkpoint ahead
 										else
 											CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] 0.0 0.0 0.0 6.0 cp_marker
 										endif
@@ -1464,12 +1456,7 @@ case MAIN_RACE_LOOP_B
 										ENDIF
 										CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
 
-										// FIXEDGROVE: START - added blip for checkpoint ahead
-										ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
-										CHANGE_BLIP_COLOUR second_blip RED
-										CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
-										CHANGE_BLIP_SCALE second_blip 1
-										// FIXEDGROVE: END
+										GOSUB race_add_second_blip // FIXEDGROVE: added blip for checkpoint ahead
 									ENDIF
 								endif
 								out_of_car_flag = 0
@@ -1701,7 +1688,6 @@ case MAIN_RACE_LOOP_B
 					if interior_race = 0
 						REPORT_MISSION_AUDIO_EVENT_AT_POSITION 0.0 0.0 0.0 SOUND_PART_MISSION_COMPLETE
 						REMOVE_BLIP first_blip
-						REMOVE_BLIP	second_blip // FIXEDGROVE
 					endif
 				ENDIF
 					
@@ -1734,7 +1720,6 @@ case MAIN_RACE_LOOP_B
 							endif
 							DELETE_CHECKPOINT cp_marker
 							REMOVE_BLIP	first_blip
-							REMOVE_BLIP	second_blip // FIXEDGROVE
 							race_flag = FINISH_RACE
 							if show_race_selection = false
 								if position > 0
@@ -1821,10 +1806,7 @@ case MAIN_RACE_LOOP_B
 					IF NOT racer_cp_z[a] = 99999.0
 						//ADD NEXT BLIP AND CHECKPOINT FOR PLAYER
 						if interior_race = 0
-							ADD_BLIP_FOR_COORD racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] first_blip
-							CHANGE_BLIP_COLOUR first_blip RED
-							CHANGE_BLIP_DISPLAY first_blip BLIP_ONLY
-							CHANGE_BLIP_SCALE first_blip 3
+							GOSUB race_add_first_blip
 							DELETE_CHECKPOINT cp_marker
 						endif	
 						IF cpcounter[a] = total_checkpoints_minus_1
@@ -1837,12 +1819,7 @@ case MAIN_RACE_LOOP_B
 
 								CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
 
-								// FIXEDGROVE: START - added blip for checkpoint ahead
-								ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
-								CHANGE_BLIP_COLOUR second_blip RED
-								CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
-								CHANGE_BLIP_SCALE second_blip 1
-								// FIXEDGROVE: END
+								GOSUB race_add_second_blip // FIXEDGROVE: added blip for checkpoint ahead
 							else
 								CREATE_CHECKPOINT CHECKPOINT_ENDTUBE racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] 0.0 0.0 0.0 6.0 cp_marker
 							endif
@@ -1856,12 +1833,7 @@ case MAIN_RACE_LOOP_B
 								LVAR_INT cp_marker
 								CREATE_CHECKPOINT checkpoint_type racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] checkpoint_size cp_marker
 
-							// FIXEDGROVE: START - added blip for checkpoint ahead
-							ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
-							CHANGE_BLIP_COLOUR second_blip RED
-							CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
-							CHANGE_BLIP_SCALE second_blip 1
-							// FIXEDGROVE: END
+								GOSUB race_add_second_blip // FIXEDGROVE: added blip for checkpoint ahead
 							ENDIF
 						ENDIF
 					ENDIF
@@ -2237,6 +2209,21 @@ endswitch
 
 GOTO mission_cprace_loop
 
+race_add_first_blip:
+	REMOVE_BLIP first_blip
+	REMOVE_BLIP second_blip
+	ADD_BLIP_FOR_COORD racer_cp_x[a] racer_cp_y[a] racer_cp_z[a] first_blip
+	CHANGE_BLIP_COLOUR first_blip RED
+	CHANGE_BLIP_DISPLAY first_blip BLIP_ONLY
+	CHANGE_BLIP_SCALE first_blip 3
+RETURN
+
+race_add_second_blip:
+	ADD_BLIP_FOR_COORD checkpoints_x[temp_int]	checkpoints_y[temp_int]	checkpoints_z[temp_int] second_blip
+	CHANGE_BLIP_COLOUR second_blip RED
+	CHANGE_BLIP_DISPLAY second_blip BLIP_ONLY
+	CHANGE_BLIP_SCALE second_blip 1
+RETURN
 
 race_coords:
 

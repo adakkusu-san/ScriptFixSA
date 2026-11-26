@@ -55,23 +55,25 @@ IF show_race_selection = TRUE
 
 	race_flag = MENU_SCREEN
 	exit_mode = 0
-	if menu_mode = LA_RACES
+	switch menu_mode
+	case LA_RACES
 		lvar_int first_race	last_race
 		first_race = 0
 		last_race = 8
-	endif
-	if menu_mode = SF_RACES
+	break
+	case SF_RACES
 		first_race = 9
 		last_race = 14
-	endif
-	if menu_mode = LV_RACES
+	break
+	case LV_RACES
 		first_race = 15
 		last_race =  18
-	endif
-	if menu_mode = AIR_RACES
+	break
+	case AIR_RACES
 		first_race = 19
 		last_race = 24
-	endif
+	break
+	endswitch
 	if race_selection <	first_race
 	or race_selection >	last_race
 		race_selection = first_race
@@ -137,9 +139,11 @@ GOTO skip_over_this_stuff_race //IF race_flag = RACE_START_GO
 		else
 			SET_LOAD_COLLISION_FOR_CAR_FLAG racers_car[a] TRUE
 		endif
-		if not racers_car_colour1[0] = -1
-			CHANGE_CAR_COLOUR racers_car[a] racers_car_colour1[a] racers_car_colour2[a]
-		endif
+		if a < 6 // FIXEDGROVE: only the first 6 because that's the array length
+			if not racers_car_colour1[a] = -1 // FIXEDGROVE: changed from [0] to [a]
+				CHANGE_CAR_COLOUR racers_car[a] racers_car_colour1[a] racers_car_colour2[a]
+			endif
+		endif // FIXEDGROVE
 		IF IS_THIS_MODEL_A_BOAT racers_car_model[a]
 			SET_CAR_STRAIGHT_LINE_DISTANCE racers_car[a] 40
 			SET_BOAT_CRUISE_SPEED racers_car[a] 50.0
@@ -347,7 +351,11 @@ lvar_int total_races
 total_races = 25
 
 lvar_int racers_car_colour1[6] racers_car_colour2[6]
-racers_car_colour1[0] = -1 
+// FIXEDGROVE: initialize all of them
+REPEAT 6 i
+racers_car_colour1[i] = -1
+racers_car_colour2[i] = -1
+ENDREPEAT
 
 LVAR_INT interior_race
 interior_race = 0
@@ -363,6 +371,11 @@ lvar_int race_audio_flag race_audio_timer current_sound
 race_audio_flag = 0
 race_audio_timer = 0
 current_sound =	0
+
+// FIXEDGROVE: set these here
+REPEAT 16 i
+racer_model[i] = MALE01
+ENDREPEAT
 
 ///////////////////////////////////////////////////////////////////////
 //GET RACE COORDS part1 !!!!! /////////////////////////////////////////
@@ -1200,9 +1213,11 @@ case CREATE_START_LINE
 					if race_selection = BADLAND_RACE2
 						ADD_VEHICLE_MOD racers_car[playaz] wheel_or1 temp_int
 					endif
-					if not racers_car_colour1[0] = -1
-						CHANGE_CAR_COLOUR racers_car[playaz] racers_car_colour1[playaz] racers_car_colour2[playaz]
-					endif
+					if a < 6 // FIXEDGROVE: only the first 6 because that's the array length
+						if not racers_car_colour1[a] = -1 // FIXEDGROVE: changed from [0] to [a]
+							CHANGE_CAR_COLOUR racers_car[playaz] racers_car_colour1[playaz] racers_car_colour2[playaz]
+						endif
+					endif // FIXEDGROVE
 					WARP_CHAR_INTO_CAR scplayer	racers_car[playaz]
 				ENDIf
 				SET_VEHICLE_AREA_VISIBLE racers_car[playaz] interior_race
@@ -2289,7 +2304,6 @@ racer_model[1] = WMYCLOT
 racer_model[2] = CWFYHB
 racer_model[3] = BIKERB
 racer_model[4] = SPECIAL01
-racer_model[5] = MALE01
 
 racers_car_model[0] = MAJESTIC
 racers_car_model[1] = REMINGTN
@@ -2359,12 +2373,6 @@ checkpoints_z[10] = checkpoints_z[0]
 total_checkpoints = 11
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = PCJ600
 racers_car_model[1] = FCR900
 racers_car_model[2] = NRG500
@@ -2455,12 +2463,6 @@ checkpoints_z[18] = checkpoints_z[0]
 total_checkpoints = 19
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = PCJ600
 racers_car_model[1] = FCR900
 racers_car_model[2] = NRG500
@@ -2551,12 +2553,6 @@ checkpoints_z[18] = checkpoints_z[0]
 total_checkpoints = 19
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = PCJ600
 racers_car_model[1] = FCR900
 racers_car_model[2] = NRG500
@@ -2654,12 +2650,6 @@ checkpoints_z[20] = checkpoints_z[0]
 total_checkpoints = 21
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = URANUS   ///thiss
 racers_car_model[1] = WINDSOR
 racers_car_model[2] = BLISTAC
@@ -2787,12 +2777,6 @@ total_checkpoints = 23
 
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = BANSHEE
 racers_car_model[1] = BULLET
 racers_car_model[2] = BUFFALO
@@ -2916,18 +2900,12 @@ checkpoints_z[26] = checkpoints_z[0]
 total_checkpoints = 27
 
 total_racers = 4
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = TURISMO
 racers_car_model[1] = BANSHEE
 racers_car_model[2] = CHEETAH
 racers_car_model[3] = BULLET
-racers_car_model[4] = TURISMO
-racers_car_model[5] = INFERNUS
+//racers_car_model[4] = TURISMO
+//racers_car_model[5] = INFERNUS
 gosub get_random_racer_models
 break
 
@@ -3063,7 +3041,6 @@ total_racers = 4
 racer_model[0] = WMYST
 racer_model[1] = WMYBMX
 racer_model[2] = SPECIAL01
-racer_model[3] = MALE01
 racers_car_model[0] = STALLION
 racers_car_model[1] = SABRE
 racers_car_model[2] = FORTUNE
@@ -3218,7 +3195,6 @@ total_racers = 4
 racer_model[0] = WMYST
 racer_model[1] = WMYBMX
 racer_model[2] = special01
-racer_model[3] = MALE01
 racers_car_model[0] = ELEGY // FIXEDGROVE: was ZR350
 racers_car_model[1] = SULTAN
 racers_car_model[2] = ZR350 // FIXEDGROVE: was ELEGY
@@ -3313,18 +3289,9 @@ total_checkpoints = 19
 
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
-racers_car_model[0] = SANCHEZ
-racers_car_model[1] = SANCHEZ
-racers_car_model[2] = SANCHEZ
-racers_car_model[3] = SANCHEZ
-racers_car_model[4] = SANCHEZ
-racers_car_model[5] = SANCHEZ
+REPEAT 6 i
+racers_car_model[i] = SANCHEZ
+ENDREPEAT
 gosub get_random_racer_models
 break
 
@@ -3413,18 +3380,9 @@ checkpoints_z[19] = 11.1951
 total_checkpoints = 20
 
 total_racers = 6
-racer_model[0] = male01
-racer_model[1] = male01
-racer_model[2] = male01
-racer_model[3] = male01
-racer_model[4] = male01
-racer_model[5] = male01
-racers_car_model[0] = bandito 
-racers_car_model[1] = bandito 
-racers_car_model[2] = bandito 
-racers_car_model[3] = bandito 
-racers_car_model[4] = bandito 
-racers_car_model[5] = bandito 
+REPEAT 6 i
+racers_car_model[i] = bandito 
+ENDREPEAT
 gosub get_random_racer_models
 break
 
@@ -3497,18 +3455,9 @@ checkpoints_z[15] = checkpoints_z[0]
 total_checkpoints = 16
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
-racers_car_model[0] = kart
-racers_car_model[1] = kart
-racers_car_model[2] = kart
-racers_car_model[3] = kart
-racers_car_model[4] = kart
-racers_car_model[5] = kart
+REPEAT 6 i
+racers_car_model[i] = kart
+ENDREPEAT
 gosub get_random_racer_models
 break
 
@@ -3657,12 +3606,6 @@ total_checkpoints = 16
 
 total_racers = 6
 lvar_int racer_model[16]
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 lvar_int racers_car_model[16]
 racers_car_model[0] = JESTER
 racers_car_model[1] = CLUB
@@ -3844,12 +3787,6 @@ checkpoints_z[40] = 6.8376
 total_checkpoints = 41
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = BUFFALO
 racers_car_model[1] = SULTAN
 racers_car_model[2] = SUPERGT
@@ -4035,12 +3972,6 @@ total_checkpoints = 42
 
 total_racers = 6
 
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = TURISMO
 racers_car_model[1] = CHEETAH
 racers_car_model[2] = INFERNUS
@@ -4164,12 +4095,6 @@ checkpoints_z[26] = 5.7420
 total_checkpoints = 27
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = TURISMO
 racers_car_model[1] = CHEETAH
 racers_car_model[2] = INFERNUS
@@ -4286,12 +4211,6 @@ checkpoints_z[24] = checkpoints_z[0]
 total_checkpoints = 25
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = PCJ600
 racers_car_model[1] = FCR900
 racers_car_model[2] = NRG500
@@ -4614,12 +4533,6 @@ checkpoints_z[26] = checkpoints_z[0]
 total_checkpoints = 27
 
 total_racers = 6
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
 racers_car_model[0] = PCJ600
 racers_car_model[1] = FCR900
 racers_car_model[2] = NRG500
@@ -4719,12 +4632,6 @@ total_checkpoints = 21
 
 total_racers = 6
 
-racer_model[0] = male01
-racer_model[1] = male01
-racer_model[2] = male01
-racer_model[3] = male01
-racer_model[4] = male01
-racer_model[5] = male01
 
 racers_car_model[0] = TURISMO 
 racers_car_model[1] = ELEGY 
@@ -4882,14 +4789,7 @@ checkpoints_z[34] = 54.6357
 total_checkpoints = 35
 
 total_racers = 1
-racer_model[0] = male01
-racer_model[1] = male01
-racer_model[2] = male01
-racer_model[3] = male01
 racers_car_model[0] = rustler 
-racers_car_model[1] = rustler 
-racers_car_model[2] = rustler 
-racers_car_model[3] = rustler 
 checkpoint_type = CHECKPOINT_TORUS 
 break
 
@@ -5148,14 +5048,7 @@ checkpoints_z[61] = 38.0629
 total_checkpoints = 62
 
 total_racers = 1
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
 racers_car_model[0] = STUNT 
-racers_car_model[1] = STUNT 
-racers_car_model[2] = STUNT 
-racers_car_model[3] = STUNT 
 checkpoint_type = CHECKPOINT_TORUS 
 break
 
@@ -5446,14 +5339,7 @@ checkpoints_z[69] = 51.0040
 total_checkpoints = 70
 
 total_racers = 1
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
 racers_car_model[0] = hydra 
-racers_car_model[1] = hydra 
-racers_car_model[2] = hydra 
-racers_car_model[3] = hydra 
 checkpoint_type = CHECKPOINT_TORUS
 break
 
@@ -5570,14 +5456,7 @@ checkpoints_z[26] = 66.2347
 total_checkpoints = 27
 
 total_racers = 1
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
 racers_car_model[0] = MAVERICK
-racers_car_model[1] = MAVERICK
-racers_car_model[2] = MAVERICK
-racers_car_model[3] = MAVERICK
 checkpoint_type = CHECKPOINT_TORUS 
 break
 
@@ -5693,14 +5572,7 @@ checkpoints_z[26] = 20.7763
 total_checkpoints = 27
 
 total_racers = 1
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
 racers_car_model[0] = vcnmav
-racers_car_model[1] = vcnmav
-racers_car_model[2] = vcnmav
-racers_car_model[3] = vcnmav
 checkpoint_type = CHECKPOINT_TORUS 
 break
 
@@ -5820,14 +5692,7 @@ checkpoints_z[27] = 28.3338
 total_checkpoints = 28
 
 total_racers = 1
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
 racers_car_model[0] = hunter
-racers_car_model[1] = hunter
-racers_car_model[2] = hunter
-racers_car_model[3] = hunter
 checkpoint_type = CHECKPOINT_TORUS 
 break
 
@@ -5918,38 +5783,9 @@ interior_race = 7
 total_laps = 12
 total_racers = 12
 
-racer_model[0] = MALE01
-racer_model[1] = MALE01
-racer_model[2] = MALE01
-racer_model[3] = MALE01
-racer_model[4] = MALE01
-racer_model[5] = MALE01
-racer_model[6] = MALE01
-racer_model[7] = MALE01
-racer_model[8] = MALE01
-racer_model[9] = MALE01
-racer_model[10] = MALE01
-racer_model[11] = MALE01
-racer_model[12] = MALE01
-racer_model[13] = MALE01
-racer_model[14] = MALE01
-racer_model[15] = MALE01
-racers_car_model[0] = HOTRINB
-racers_car_model[1] = HOTRINA
-racers_car_model[2] = HOTRING
-racers_car_model[3] = HOTRINB
-racers_car_model[4] = HOTRINA
-racers_car_model[5] = HOTRING
-racers_car_model[6] = HOTRINA
-racers_car_model[7] = HOTRING
-racers_car_model[8] = HOTRINB
-racers_car_model[9] = HOTRING
-racers_car_model[10] = HOTRINB
-racers_car_model[11] = HOTRINB
-racers_car_model[12] = HOTRING
-racers_car_model[13] = HOTRINA
-racers_car_model[14] = HOTRING
-racers_car_model[15] = HOTRINA
+REPEAT 16 i
+racers_car_model[i] = HOTRINB
+ENDREPEAT
 break
 
 
@@ -6099,28 +5935,10 @@ racer_model[7] = SWMYCR
 racer_model[8] = MALE01
 racer_model[9] = WMYCR
 racer_model[10] = DWMYLC1
-racer_model[11] = MALE01
-racer_model[12] = MALE01
-racer_model[13] = MALE01
-racer_model[14] = MALE01
-racer_model[15] = MALE01
 
-racers_car_model[0] = sanchez
-racers_car_model[1] = sanchez
-racers_car_model[2] = sanchez
-racers_car_model[3] = sanchez
-racers_car_model[4] = sanchez
-racers_car_model[5] = sanchez
-racers_car_model[6] = sanchez
-racers_car_model[7] = sanchez
-racers_car_model[8] = sanchez
-racers_car_model[9] = sanchez
-racers_car_model[10] = sanchez
-racers_car_model[11] = sanchez
-racers_car_model[12] = sanchez
-racers_car_model[13] = sanchez
-racers_car_model[14] = sanchez
-racers_car_model[15] = sanchez
+REPEAT 16 i
+racers_car_model[i] = sanchez
+ENDREPEAT
 break
 endswitch
 return
@@ -6795,27 +6613,20 @@ OR exit_mode = 3
 				heading = 353.1771 
 			endif
 		else
-			if menu_mode = LA_RACES
+			switch menu_mode
+			case LA_RACES
 				x = traceX[menu_mode]
 				y = traceY[menu_mode] + 4.0
 				heading = 180.0
-			endif
-			if menu_mode = SF_RACES
+			break
+			case SF_RACES
+			case LV_RACES
+			case AIR_RACES
 				x = traceX[menu_mode] + 4.0
 				y = traceY[menu_mode]
 				heading = 90.0
-			endif
-			if menu_mode = LV_RACES
-			or menu_mode = AIR_RACES
-				x = traceX[menu_mode] + 4.0
-				y = traceY[menu_mode]
-				heading = 90.0
-			endif
-//			if menu_mode = AIR_RACES
-//				x = traceX[menu_mode] + 4.0
-//				y = traceY[menu_mode]
-//				heading = 90.0
-//			endif
+			break
+			endswitch
 			IF not exit_mode = 1
 				x = traceX[menu_mode]
 				y = traceY[menu_mode]

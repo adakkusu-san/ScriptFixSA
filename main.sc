@@ -2750,38 +2750,16 @@ WAIT 0
 			IF IS_PLAYER_PLAYING player1
 				IF CAN_PLAYER_START_MISSION player1
 					IF flag_mob_sanfran[3] = 1 
-						IF LOCATE_CHAR_ON_FOOT_3D scplayer traceX[0] traceY[0] traceZ[0] 1.2 1.2 2.0 FALSE
+					REPEAT 4 i
+						IF LOCATE_CHAR_ON_FOOT_3D scplayer traceX[i] traceY[i] traceZ[i] 1.2 1.2 2.0 FALSE
 							flag_player_on_mission = 1
 							SET_PLAYER_CONTROL player1 OFF
 							PRINT_BIG TRACE_1 1000 2 //"trace mission 1" //CHRIS R //Race Tournament
 							show_race_selection = TRUE
-							menu_mode = LA_RACES 
+							menu_mode = i 
 							LOAD_AND_LAUNCH_MISSION racetour.sc
 						ENDIF
-						IF LOCATE_CHAR_ON_FOOT_3D scplayer traceX[1] traceY[1] traceZ[1] 1.2 1.2 2.0 FALSE
-							flag_player_on_mission = 1
-							SET_PLAYER_CONTROL player1 OFF
-							PRINT_BIG TRACE_1 1000 2 //"trace mission 1" //CHRIS R //Race Tournament
-							show_race_selection = TRUE 
-							menu_mode = SF_RACES 
-							LOAD_AND_LAUNCH_MISSION racetour.sc
-						ENDIF
-						IF LOCATE_CHAR_ON_FOOT_3D scplayer traceX[2] traceY[2] traceZ[2] 1.2 1.2 2.0 FALSE
-							flag_player_on_mission = 1
-							SET_PLAYER_CONTROL player1 OFF
-							PRINT_BIG TRACE_1 1000 2 //"trace mission 1" //CHRIS R //Race Tournament
-							show_race_selection = TRUE 
-							menu_mode = LV_RACES 
-							LOAD_AND_LAUNCH_MISSION racetour.sc
-						ENDIF
-						IF LOCATE_CHAR_ON_FOOT_3D scplayer traceX[3] traceY[3] traceZ[3] 1.2 1.2 2.0 FALSE
-							flag_player_on_mission = 1
-							SET_PLAYER_CONTROL player1 OFF
-							PRINT_BIG TRACE_1 1000 2 //"trace mission 1" //CHRIS R //Race Tournament
-							show_race_selection = TRUE 
-							menu_mode = AIR_RACES 
-							LOAD_AND_LAUNCH_MISSION racetour.sc
-						ENDIF
+					ENDREPEAT
 					ENDIF
 				ENDIF
 			ENDIF

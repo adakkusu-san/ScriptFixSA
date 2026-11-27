@@ -667,77 +667,55 @@ grove_blip_icon	= RADAR_SPRITE_SWEET //GET NEW BLIP FOR THIS
 
 GOTO dont_run_the_blips
 
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2447.3643 -1974.4963 12.5469 RADAR_SPRITE_EMMETGUN emmets_shop_blip //Clothes
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2070.2703 -1791.0918 17.1484 RADAR_SPRITE_BARBERS barber_shop1 //Barbers
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2107.6243 -1807.5155 21.2114 RADAR_SPRITE_PIZZA food_shop1 //Pizza
- 	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD 2243.8069 -1668.5667 20.0313 RADAR_SPRITE_TSHIRT clothes_shop1 //Clothes
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT introX introY introZ intro_blip_icon intro_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT sweetX sweetY sweetZ sweet_blip_icon sweet_contact_blip	
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT ryderX ryderY ryderZ ryder_blip_icon ryder_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT smokeX smokeY smokeZ smoke_blip_icon smoke_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT strapX strapY strapZ strap_blip_icon strap_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT crashX crashY crashZ crash_blip_icon crash_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT cesarX cesarY cesarZ cesar_blip_icon cesar_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT bcrashX bcrashY bcrashZ crash_blip_icon bcrash_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT catX[0] catY[0] catZ[0] cat_blip_icon cat_contact_blip  //cat lodge
-	//ADD_SPRITE_BLIP_FOR_CONTACT_POINT catX[5] catY[5] catZ[5] cat_blip_icon cat_contact_blip //Cat Truck Stop
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT truthX truthY truthZ truth_blip_icon truth_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT bcesarX bcesarY bcesarZ cesar_blip_icon bcesar_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT garageX garageY garageZ crash_blip_icon scrash_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT wuziX wuziY wuziZ wuzi_blip_icon wuzi_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT zeroX zeroY zeroZ zero_blip_icon zero_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT stealX stealY stealZ steal_blip_icon steal_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT garageX garageY garageZ garage_blip_icon garage_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT syndX syndY syndZ crash_blip_icon synd_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT testsX testsY testsZ trace_blip_icon trace_contact_blip[0]
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT testsX testsY testsZ trace_blip_icon trace_contact_blip2
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT desertX desertY desertZ desert_blip_icon desert_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT desert2X desert2Y desert2Z desert2_blip_icon desert2_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT casinoX casinoY casinoZ casino_blip_icon casino_contact_blip //TRIAD CASINO
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT TheheistX TheheistY TheheistZ Theheist_blip_icon Theheist_contact_blip //ROB MAFIA CASINO
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT docX docY docZ doc_blip_icon doc_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT vcrashX vcrashY vcrashZ crash_blip_icon vcrash_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT heistX heistY heistZ heist_blip_icon heist_contact_blip //MAFIA CASINO
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT mansionX mansionY mansionZ mansion_blip_icon mansion_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT mansionX mansionY mansionZ mansion_blip_icon grove_contact_blip	//REMOVE
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT pilotx piloty pilotz pilot_blip_icon pilot_contact_blip	
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT -2031.2 -118.0 34.3 RADAR_SPRITE_SCHOOL dschool_contact_blip
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT boatsX boatsY boatsZ RADAR_SPRITE_SCHOOL boat_school_blip
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT boatsX boatsY boatsZ RADAR_SPRITE_SCHOOL bike_school_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT 2228.0002 -1722.8113 12.5543 sweet_blip_icon gym_contact_blip
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT save_pickupX[5] save_pickupY[5] save_pickupZ[5] RADAR_SPRITE_SAVEHOUSE save_house_blip[5]
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT quarryX quarryY quarryZ RADAR_SPRITE_BULLDOZER quarry_contact_blip
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD -2728.5, 212.2, 3.4 RADAR_SPRITE_MOD_GARAGE mod_garage_blips[0]
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD -2728.5, 212.2, 3.4 RADAR_SPRITE_MOD_GARAGE mod_garage_blips[1]
-
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[0] propertyY[0] propertyZ[0] RADAR_SPRITE_PROPERTY_GREEN showroom_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[1] propertyY[1] propertyZ[1] RADAR_SPRITE_PROPERTY_GREEN zero_contact_blip
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT propertyX[2] propertyY[2] propertyZ[2] RADAR_SPRITE_PROPERTY_GREEN airstrip_contact_blip
-
-	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD truckX truckY truckZ RADAR_SPRITE_TRUCK tucking_contact_blip
-	CREATE_PROTECTION_PICKUP 2508.359 -1676.538 12.579 10000 territory_cash territory_pickup
-	CREATE_PICKUP KEYCARD PICKUP_ONCE 0.0 0.0 0.0 millies_keycard_pickup
-	ADD_SPRITE_BLIP_FOR_CONTACT_POINT 2035.7241 2727.9604 9.8281 Theheist_blip_icon Thekeycard_contact_blip
-	CREATE_LOCKED_PROPERTY_PICKUP propertyX[0] propertyY[0] propertyZ[0] PROP_4 save_housepickup[0]	//SHOWROM
-	CREATE_LOCKED_PROPERTY_PICKUP propertyX[1] propertyY[1] propertyZ[1] PROP_4 save_housepickup[1]	//ZEROS
-	CREATE_LOCKED_PROPERTY_PICKUP propertyX[2] propertyY[2] propertyZ[2] PROP_4 save_housepickup[2]	//AIRSTRIP															 
-	
-	CREATE_OBJECT ad_flatdoor 1833.36 -1995.45 12.5 riot2_door[0]
-	
-	CREATE_OBJECT ad_flatdoor 1819.81 -1994.66 12.5 riot2_door[1]
-	CREATE_OBJECT ad_flatdoor 1827.68 -1980.0 12.5 riot2_door[2]
-	CREATE_OBJECT ad_flatdoor 1851.84 -1990.67 12.5 riot2_door[3]
-	CREATE_OBJECT ad_flatdoor 1867.29 -1984.96 12.5 riot2_door[4]
-	CREATE_OBJECT ad_flatdoor 1866.52 -1998.53 12.5 riot2_door[5]
-	CREATE_OBJECT ad_flatdoor 1899.75 -1984.95 12.5 riot2_door[6]
-	CREATE_OBJECT ad_flatdoor 1914.39 -1992.82 12.5 riot2_door[7]
-	CREATE_OBJECT ad_flatdoor 1899.01 -1998.5 12.5 riot2_door[8]
-	CREATE_OBJECT ad_flatdoor 1900.89 -2020.11 12.5 riot2_door[9]
-	CREATE_OBJECT ad_flatdoor 1914.4 -2020.91 12.5 riot2_door[10]
-	CREATE_OBJECT ad_flatdoor 1906.54 -2035.52 12.5 riot2_door[11]
-	//CREATE_OBJECT ad_flatdoor 1851.86 -2020.14 12.5 riot2_door[12]
-	//CREATE_OBJECT ad_flatdoor 1865.42 -2020.89 12.5 riot2_door[13]
-	//CREATE_OBJECT ad_flatdoor 1857.55 -2035.52 12.5 riot2_door[14]
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD temp_float_1 temp_float_2 temp_float_3 temp_integer_1 emmets_shop_blip
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD temp_float_1 temp_float_2 temp_float_3 temp_integer_1 barber_shop1
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD temp_float_1 temp_float_2 temp_float_3 temp_integer_1 food_shop1
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD temp_float_1 temp_float_2 temp_float_3 temp_integer_1 clothes_shop1
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 intro_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 sweet_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 ryder_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 smoke_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 strap_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 crash_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 cesar_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 bcrash_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 cat_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 truth_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 bcesar_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 scrash_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 wuzi_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 zero_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 steal_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 garage_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 synd_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 trace_contact_blip[i]
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 trace_contact_blip2
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 desert_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 desert2_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 casino_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 Theheist_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 doc_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 vcrash_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 heist_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 mansion_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 grove_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 pilot_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 dschool_contact_blip
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 boat_school_blip
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 bike_school_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 gym_contact_blip
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 save_house_blip[i]
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 quarry_contact_blip
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD temp_float_1 temp_float_2 temp_float_3 temp_integer_1 mod_garage_blips[i]
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 showroom_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 zero_contact_blip
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 airstrip_contact_blip
+	ADD_SHORT_RANGE_SPRITE_BLIP_FOR_COORD temp_float_1 temp_float_2 temp_float_3 temp_integer_1 tucking_contact_blip
+	CREATE_PROTECTION_PICKUP temp_float_1 temp_float_2 temp_float_3 temp_integer_1 temp_integer_2 territory_pickup
+	CREATE_PICKUP temp_integer_1 temp_integer_2 temp_float_1 temp_float_2 temp_float_3 millies_keycard_pickup
+	ADD_SPRITE_BLIP_FOR_CONTACT_POINT temp_float_1 temp_float_2 temp_float_3 temp_integer_1 Thekeycard_contact_blip
+	CREATE_LOCKED_PROPERTY_PICKUP temp_float_1 temp_float_2 temp_float_3 PROP_4 save_housepickup[i]
+	CREATE_OBJECT temp_integer_1 temp_float_1 temp_float_2 temp_float_3 riot2_door[i]
 
 	WRITE_DEBUG AAAAAAAAA
 

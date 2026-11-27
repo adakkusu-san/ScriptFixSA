@@ -18,9 +18,9 @@ Camera:
 	LVAR_INT iState iPictureTakingState iBePhotographedState iCameraVariableStep iHavePrintedHelp iCode	
 	LVAR_INT iTemp iNumOfFollowers iGangGuy iTaskStatus iTemp2 player_is_completely_safe_for_camera
 	LVAR_FLOAT fAngle[MAX_GANG_IN_PHOTO] fDistance fMinX fMinY fMinZ fMaxX fMaxY fMaxZ
-    IF iState = -100
+    GOTO CAMERA_Fudge //IF iState = -100
         CREATE_CHAR PEDTYPE_CIVMALE 0 0.0 0.0 0.0 iGangGuy
-    ENDIF
+    CAMERA_Fudge: //ENDIF
 	VAR_TEXT_LABEL16 txtArse
 
 	//--- INITLIALISE THE ANGLES TABLE:

@@ -20,10 +20,10 @@ Int_Manager:
 	LVAR_INT iState iStreamedScriptInstances iAmbienceHasTerminated
 
 	iGlobalPedPanicDM = -1
-	IF iGlobalPedPanicDM = 9999	//	fudge to fool the excellent compiler
+	GOTO IntMan_Fudge //IF iGlobalPedPanicDM = 9999	//	fudge to fool the excellent compiler
 		COPY_CHAR_DECISION_MAKER  DM_PED_INDOORS iGlobalPedPanicDM
 		COPY_CHAR_DECISION_MAKER  DM_PED_INDOORS iGlobalShopkeeperDM		
-	ENDIF
+	IntMan_Fudge: //ENDIF
 
 	//---MAIN LOOP---
 Int_Manager_Main_Loop:

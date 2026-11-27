@@ -110,11 +110,11 @@ TIMERB = 0
 
 	flag = 0
 
-	IF flag = 1
+	GOTO gym_tread_fudge //IF flag = 1
 
 	    CREATE_OBJECT_NO_OFFSET beachtowel03 0.0 0.0 0.0 exercise_tread
 
-	ENDIF
+	gym_tread_fudge: //ENDIF
 
 	IF DOES_OBJECT_EXIST exercise_tread
 

@@ -15,9 +15,9 @@ FF_Right_Booth_Brain:
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO FFR_Fudge //IF iTemp = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    FFR_Fudge: //ENDIF
 	
 	//--- Requests
 	REQUEST_ANIMATION FOOD	

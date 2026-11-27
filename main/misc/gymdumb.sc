@@ -90,11 +90,11 @@ TIMERB = 0
 
 	flag = 0
 
-	IF flag = 1
+	GOTO gym_dumbell_fudge //IF flag = 1
 
 	    CREATE_OBJECT_NO_OFFSET beachtowel04 0.0 0.0 0.0 exercise_dumb_bell
 
-	ENDIF
+	gym_dumbell_fudge: //ENDIF
 
 	IF DOES_OBJECT_EXIST exercise_dumb_bell
 

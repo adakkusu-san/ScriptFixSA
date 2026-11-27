@@ -17,11 +17,11 @@ MISSION_START
 
     other_ped = 0
 	
-    IF other_ped = 1
+    GOTO OTB_Staff_Fudge //IF other_ped = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
         //---Other input entities here
 		ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMy_Attractor
-    ENDIF
+    OTB_Staff_Fudge: //ENDIF
 
 	//--- Request animations
 	REQUEST_ANIMATION INT_SHOP

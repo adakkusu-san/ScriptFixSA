@@ -8,11 +8,11 @@ SCRIPT_NAME petrolp
 LVAR_INT petrol_pump
 LVAR_INT flag
 flag = 0
-IF flag = 1
+GOTO pump_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET PETROLPUMP 0.0 0.0 0.0 petrol_pump
 	//PETROLPUMPNEW
 	//WASHGASPUMP
-ENDIF
+pump_fudge: //ENDIF
 
 petrol_pump_script_loop:
 

@@ -9,12 +9,12 @@ LVAR_INT food_stand
 LVAR_INT flag vendor timer
 LVAR_INT food_stand_model vendor_model // FIXEDGROVE
 flag = 0
-IF flag = 1
+GOTO food_vendor_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET icescart_prop   0.0 0.0 0.0 food_stand
   //CREATE_OBJECT_NO_OFFSET chillidogcart	0.0 0.0 0.0 food_stand
   //CREATE_OBJECT_NO_OFFSET noodlecart_prop 0.0 0.0 0.0 food_stand
   //CREATE_OBJECT_NO_OFFSET	CJ_JUICE_CAN x y z drinks_can
-ENDIF
+food_vendor_fudge: //ENDIF
 
 
 food_vendor_loop:

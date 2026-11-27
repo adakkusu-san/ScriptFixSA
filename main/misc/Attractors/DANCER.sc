@@ -20,10 +20,10 @@ DANCER_Brain:
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO DANCER_Fudge //IF iTemp = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    DANCER_Fudge: //ENDIF
 	
 	//--- Request animations & Models
 	REQUEST_ANIMATION DANCING	

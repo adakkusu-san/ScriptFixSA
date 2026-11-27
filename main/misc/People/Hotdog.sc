@@ -9,10 +9,10 @@ LVAR_INT vendor
 LVAR_INT hotdog_van
 LVAR_INT flag timer
 flag = 0
-IF flag = 1
+GOTO hotdog_fudge //IF flag = 1
   CREATE_CHAR pedtype_civmale male01 0.0 0.0 0.0 vendor
   CREATE_CAR hotdog x y z hotdog_van
-ENDIF
+hotdog_fudge: //ENDIF
 
 hotdog_vendor_loop:
 

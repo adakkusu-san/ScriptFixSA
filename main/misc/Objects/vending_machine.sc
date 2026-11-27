@@ -8,10 +8,10 @@ SCRIPT_NAME VENDING
 LVAR_INT vending_machine
 LVAR_INT flag timer
 flag = 0
-IF flag = 1
+GOTO vending_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET vendmachfd 0.0 0.0 0.0 vending_machine
     CREATE_OBJECT_NO_OFFSET KB_BEER 0.0 0.0 0.0 drinks_can
-ENDIF
+vending_fudge: //ENDIF
 
 //VENDMACHFD//drink
 //VENDMACH  //drink

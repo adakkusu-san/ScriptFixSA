@@ -57,11 +57,11 @@ prostitute_brain:
 	pros_cost_f = 0.0
 
 
-	IF pros_brain_flag = 1
+	GOTO pros_fudge //IF pros_brain_flag = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 pros_ped
 		CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 pros_punter_ped
        	//ADD_BLIP_FOR_CHAR pros_ped pros_blip
-    ENDIF
+    pros_fudge: //ENDIF
 
 	
 

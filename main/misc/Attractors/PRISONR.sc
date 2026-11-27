@@ -16,10 +16,10 @@ PRISONR_Brain:
 
     test_brain_flag = 0
 	
-    IF test_brain_flag = 1
+    GOTO PRISONR_Fudge //IF test_brain_flag = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    PRISONR: //ENDIF
 
 	IF NOT IS_CHAR_DEAD this_ped
 		GET_PED_TYPE this_ped iTemp

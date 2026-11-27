@@ -14,9 +14,9 @@ MISSION_START
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO FFPNC_Fudge //IF iTemp = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    FFPNC_Fudge: //ENDIF
 
 	//--- Misc Setups that require an 'alive' check
 	IF NOT IS_CHAR_DEAD this_ped 

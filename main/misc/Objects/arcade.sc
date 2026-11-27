@@ -9,7 +9,7 @@ LVAR_INT arcade_cabinet
 LVAR_INT arcade_help
 
 arcade_help = 0
-IF arcade_help = -1
+GOTO arcade_fudge //IF arcade_help = -1
 	CREATE_OBJECT CJ_COIN_OP_2 0.0 0.0 0.0 arcade_cabinet
 
 //	 dual.sc CJ_COIN_OP_2   // DUALITY
@@ -19,7 +19,7 @@ IF arcade_help = -1
 //	 grav.sc SNESISH
 //	 shtr.sc CJ_COIN_OP     // SPACE MONKEY
 //	 shtr.sc LOW_CONSOLE
-ENDIF
+arcade_fudge: //ENDIF
 
 arcade_script_loop:
 

@@ -43,11 +43,11 @@ GF_Meeting:
 	iMeetingFlags = 0
 
 	//--- Parameter passing Fudge
-	IF iMeetingFlags > 0
+	GOTO GF_Meeting_Fudge //IF iMeetingFlags > 0
 	   CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 iGF_ped
 	   CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 iOther_ped
 	   ADD_BLIP_FOR_CHAR iGF_ped girl_arrow
-	ENDIF
+	GF_Meeting_Fudge: //ENDIF
 	
 	
 	//--- Streaming requests

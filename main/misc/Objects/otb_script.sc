@@ -9,9 +9,9 @@ LVAR_INT otb_object
 LVAR_INT otb_help
 
 otb_help = 0
-IF otb_help = -1
+GOTO otb_fudge //IF otb_help = -1
 	CREATE_OBJECT OTB_machine 0.0 0.0 0.0 otb_object
-ENDIF
+otb_fudge: //ENDIF
 
 otb_script_loop:
 	

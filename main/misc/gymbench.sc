@@ -106,11 +106,11 @@ TIMERA = 0
 
 TIMERB = 0
 
-IF flag = 1
+GOTO gym_bench_fudge //IF flag = 1
 
     CREATE_OBJECT_NO_OFFSET beachtowel01 0.0 0.0 0.0 exercise_bench
 
-ENDIF
+gym_bench_fudge: //ENDIF
 
 	IF DOES_OBJECT_EXIST exercise_bench
 

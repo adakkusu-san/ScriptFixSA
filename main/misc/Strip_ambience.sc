@@ -40,11 +40,11 @@ IF flag_player_on_mission = 0
 ENDIF
 
 iTemp = 0
-IF iTemp = 1
+GOTO STRIP_Fudge //IF iTemp = 1
 	//--- Thestripper returned by the attractor to throw money to
     CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 iStripperPed
 	CREATE_OBJECT 0 0.0 0.0 0.0 iPlayerMoney
-ENDIF
+STRIP_Fudge: //ENDIF
 
 iRand = 1 // this is better set to 1
 iThrowMoneyState = STRIP_NO_PLAYER_MONEY

@@ -52,19 +52,19 @@ ENDIF
 
 // ambient stuff - before game is started
 flag = 0
-pool_script_loop1:
-WAIT 0
 
 	// fake creates
-	IF flag = -1
+	GOTO pool_fudge //IF flag = -1
 		CREATE_OBJECT K_POOLTABLESM 0.0 0.0 0.0 this_table
 		CREATE_CHAR PEDTYPE_CIVMALE MALE01 0.0 0.0 0.0 this_opponent
 		CREATE_OBJECT K_POOLTABLESM 0.0 0.0 0.0 this_cue
 		CREATE_CHAR PEDTYPE_CIVMALE MALE01 0.0 0.0 0.0 active_pool_opponent
 		CREATE_OBJECT K_POOLTABLESM 0.0 0.0 0.0 active_pool_table	
 		CREATE_OBJECT K_POOLTABLESM 0.0 0.0 0.0 active_initial_cue  
-	ENDIF
+	pool_fudge: //ENDIF
 
+pool_script_loop1:
+WAIT 0
 
 	// request stuff
 	IF flag = 0

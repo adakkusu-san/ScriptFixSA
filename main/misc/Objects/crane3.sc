@@ -24,12 +24,12 @@ LVAR_INT crane3_sound_flag2
 
 
 flag = 0
-IF flag = 1
+GOTO crane3_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 base
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 base_stand
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 arm 	
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 flag
-ENDIF
+crane3_fudge: //ENDIF
 
 crane_help3 = 0
 

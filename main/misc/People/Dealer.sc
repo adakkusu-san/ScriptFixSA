@@ -23,10 +23,10 @@ Dealer_Brain:
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO Dealer_Fudge //IF iTemp = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_DEALER 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    Dealer_Fudge: //ENDIF
 
 	//--- Init the vars			
 	iPedState = 0 

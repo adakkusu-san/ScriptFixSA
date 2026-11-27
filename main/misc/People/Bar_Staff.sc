@@ -20,15 +20,15 @@ MISSION_START
 
     other_ped = 0
 	
-    IF other_ped = 1
+    GOTO BAR_Staff_Fudge //IF other_ped = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
 		CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 other_ped
         //---Other input entities here
 		ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[0] // middle of bar
-		ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[1] // end 1 of bar
-		ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[2] // end 2 of bar
-		ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[3] // where the drinks are
-    ENDIF
+		//ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[1] // end 1 of bar
+		//ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[2] // end 2 of bar
+		//ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMyAttractor[3] // where the drinks are
+    BAR_Staff_Fudge: //ENDIF
 
 	//--- Misc Setups that require an 'alive' check
 	IF NOT  IS_CHAR_DEAD this_ped 

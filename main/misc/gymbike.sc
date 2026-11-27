@@ -160,11 +160,11 @@ TIMERA = 0
 
 TIMERB = 0
 
-IF flag = 1
+GOTO gym_bike_fudge //IF flag = 1
 
     CREATE_OBJECT_NO_OFFSET cm_box 0.0 0.0 0.0 exercise_bike
 
-ENDIF
+gym_bike_fudge: //ENDIF
 
 	IF DOES_OBJECT_EXIST exercise_bike
 

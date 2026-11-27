@@ -15,10 +15,10 @@ MISSION_START
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO Bouncer_Fudge //IF iTemp = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    Bouncer_Fudge: //ENDIF
 	
 	//--- Request animations & Models
 	WHILE NOT HAS_MODEL_LOADED COLT45

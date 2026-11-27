@@ -15,10 +15,10 @@ OTBSLP_Brain:
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO OTBSLP_Fudge //IF iTemp = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    OTBSLP_Fudge: //ENDIF
 
 	//--- Request animations & Models
 	REQUEST_ANIMATION OTB	

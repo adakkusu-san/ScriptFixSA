@@ -16,10 +16,10 @@ BARGUY_Brain:
 
     test_brain_flag = 0
 	
-    IF test_brain_flag = 1
+    GOTO BARGUY_Fudge //IF test_brain_flag = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    BARGUY_Fudge: //ENDIF
 	
 	//--- Request animations & Models
 	REQUEST_ANIMATION BAR	

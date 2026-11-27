@@ -45,10 +45,10 @@ homeless_ambience_brain:
 	homeless_temp_int		= 0
 	//PRINT_NOW (HMLS_03) 3000 1 //I saw it first it's mine!
 
-    IF homeless_brain_flag = 1
+    GOTO homeless_fudge //IF homeless_brain_flag = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 homeless_ped
     	//ADD_BLIP_FOR_CHAR homeless_ped homeless_blip
-    ENDIF
+    homeless_fudge: //ENDIF
 
 	
 	

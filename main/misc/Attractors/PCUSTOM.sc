@@ -16,10 +16,10 @@ Pcustom_Brain:
 
     test_brain_flag = 0
 	
-    IF test_brain_flag = 1
+    GOTO Pcustom_Fudge //IF test_brain_flag = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    Pcustom_Fudge: //ENDIF
 	
 	//--- Request animations & Models
 	REQUEST_ANIMATION INT_SHOP	

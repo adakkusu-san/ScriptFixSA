@@ -413,17 +413,12 @@ GF_Dating_Agent:
 	iDay = 1 // there is no day zero!
 
    	//--- Fudge
-	IF iTemp > 0
+	GOTO GF_Dating_Fudge //IF iTemp > 0
 	   CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 iCurrentGF
 	   ADD_BLIP_FOR_COORD 0.0 0.0 0.0 iGFHomeBlips[0]
-	   ADD_BLIP_FOR_COORD 0.0 0.0 0.0 iGFHomeBlips[1]
-	   ADD_BLIP_FOR_COORD 0.0 0.0 0.0 iGFHomeBlips[2]
-	   ADD_BLIP_FOR_COORD 0.0 0.0 0.0 iGFHomeBlips[3]
-	   ADD_BLIP_FOR_COORD 0.0 0.0 0.0 iGFHomeBlips[4]
-	   ADD_BLIP_FOR_COORD 0.0 0.0 0.0 iGFHomeBlips[5]
 	   CREATE_CAR_GENERATOR 0.0 0.0 0.0 0.0 0 0 0 0 0 0 0 0 iGFLockedCarGenerator[0] 
 	   CREATE_CAR_GENERATOR 0.0 0.0 0.0 0.0 0 0 0 0 0 0 0 0 iGFUnlockedCarGenerator[0] 
-	ENDIF
+	GF_Dating_Fudge: //ENDIF
 
 //--- Main Loop
 GF_Dating_Agent_Main:

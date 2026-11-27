@@ -17,12 +17,12 @@ MISSION_START
 
     other_ped = 0
 	
-    IF other_ped = 1
+    GOTO Skeeper_Fudge //IF other_ped = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
         //---Other input entities here
 		ADD_ATTRACTOR 0.0 0.0 0.0 0.0 0.0 -1 iMy_Attractor
 		CREATE_OBJECT 0 0.0 0.0 0.0 iFoodTray
-    ENDIF
+    Skeeper_Fudge: //ENDIF
 	
 	//--- Misc Setups that require an 'alive' check
 	IF NOT IS_CHAR_DEAD this_ped 

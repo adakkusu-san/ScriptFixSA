@@ -44,11 +44,11 @@ VAR_FLOAT dock_crane_travel_vec_x dock_crane_travel_vec_y
 VAR_INT crane2_sound_flag
 
 flag = 0
-IF flag = 1
+GOTO crane2_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 magno_base
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 magno_cabin
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 magno_arm
-ENDIF
+crane2_fudge: //ENDIF
 
 crane_help2 = 0
 

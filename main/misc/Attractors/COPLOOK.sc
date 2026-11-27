@@ -15,10 +15,10 @@ COPLOOK_Brain:
 	
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO COPLOOK_Fudge //IF iTemp = 1
 		//--- The ped running the sript
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    COPLOOK_Fudge: //ENDIF
 	
 	//--- Request animations & Models
 	REQUEST_ANIMATION COP_AMBIENT	

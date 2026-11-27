@@ -39,11 +39,11 @@ LVAR_INT crane1_sound_flag
 LVAR_INT crane1_sound_flag2
 
 flag = 0
-IF flag = 1
+GOTO crane1_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 base
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 arm
 	CREATE_OBJECT_NO_OFFSET WOODENBOX 0.0 0.0 0.0 trolley
-ENDIF
+crane1_fudge: //ENDIF
 
 // check if in san fran
 IF DOES_OBJECT_EXIST base

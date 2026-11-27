@@ -36,10 +36,10 @@ AND NOT IS_BIT_SET iDateReport DATE_IN_PROGRESS
 	iSwitchOffDanceMiniGame = 0
 ENDIF
 
-iTemp = 0
-IF iTemp > 0
+//iTemp = 0
+GOTO BAR_Fudge //IF iTemp > 0
 	CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 iDanceGirlfriend	
-ENDIF
+BAR_Fudge: //ENDIF
 
 //--- Init the interals
 iRand = 1 // this is better set to 1

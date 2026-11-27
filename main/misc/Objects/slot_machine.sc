@@ -44,10 +44,10 @@ if slot_cost = 4
 	slot_cost = 50
 endif
 
-IF flag = 1
+GOTO slot_fudge //IF flag = 1
 	CREATE_OBJECT_NO_OFFSET KB_BANDIT_U 0.0 0.0 0.0 slot_machine 
 	CREATE_OBJECT_NO_OFFSET CJ_Wheel_1 x y z reel[0]
-ENDIF
+slot_fudge: //ENDIF
 
 // FIXEDGROVE: START - enable the attractor and request anim instantly so it works correctly
 IF DOES_OBJECT_EXIST slot_machine

@@ -12,10 +12,10 @@ LVAR_FLOAT gate_oldX gate_oldY gate_oldZ
 LVAR_INT gate_slide_sound
 
 flag = 0
-IF flag = 1
+GOTO gates_script_fudge //IF flag = 1
     CREATE_OBJECT_NO_OFFSET gate_autoL 0.0 0.0 0.0 gate
     CREATE_OBJECT_NO_OFFSET gate_autoR 0.0 0.0 0.0 gate
-ENDIF
+gates_script_fudge: //ENDIF
 
 gate_loop:
 

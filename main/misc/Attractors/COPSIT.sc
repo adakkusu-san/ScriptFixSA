@@ -16,9 +16,9 @@ COPSIT_Brain:
 
     iTemp = 0
 	
-    IF iTemp = 1
+    GOTO COPSIT_Fudge //IF iTemp = 1
         CREATE_CHAR PEDTYPE_CIVFEMALE 0 0.0 0.0 0.0 this_ped
-    ENDIF
+    COPSIT_Fudge: //ENDIF
 	
 	//--- Requests
 

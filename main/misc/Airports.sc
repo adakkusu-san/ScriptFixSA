@@ -353,7 +353,7 @@ Airport_Guard_SpeakIfNeeded:
 					$audio_string = &G_OPEN2
 					audio_sound_file = SOUND_G_OPEN2
 				ENDIF
-				START_NEW_SCRIPT audio_line iAPguard 1 1 2 0 //They’ll give a pilot license to anybody these days!
+				START_NEW_SCRIPT audio_line iAPguard 1 1 2 0 //Theyï¿½ll give a pilot license to anybody these days!
 				iHasSpoken = 1
 				RETURN
 			ENDIF
@@ -416,9 +416,9 @@ Airport_Gate:
 	iTemp = 0
 
 	//--- Parameter Passing Fudge
-	IF iTemp > 0 
+	GOTO Airport_Fudge //IF iTemp > 0 
 		CREATE_OBJECT_NO_OFFSET Ws_apgate 0.0 0.0 0.0 this_gate
-	ENDIF
+	Airport_Fudge: //ENDIF
 	
 
 	//---MAIN LOOP---

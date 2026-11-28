@@ -1214,6 +1214,11 @@ case CREATE_START_LINE
 					//if race_selection = BADLAND_RACE1
 					if race_selection = BADLAND_RACE2
 						ADD_VEHICLE_MOD racers_car[playaz] wheel_or1 temp_int
+						// FIXEDGROVE: START - change the colours to match the cutscene
+						if show_race_selection = FALSE
+							CHANGE_CAR_COLOUR racers_car[playaz] 92 1
+						endif
+						// FIXEDGROVE: END
 					endif
 					if a < 6 // FIXEDGROVE: only the first 6 because that's the array length
 						if not racers_car_colour1[a] = -1 // FIXEDGROVE: changed from [0] to [a]
